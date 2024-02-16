@@ -1,0 +1,15 @@
+{
+    "port": 3001,
+    "host": "wini-social.com",
+    "files": [
+        "./dist/**/*.{html,htm,css,js}"
+    ],
+    "ghostMode": false,
+    "open": true,
+    "server": {
+        "baseDir": "./"
+    },
+    "ui": {
+        "port": 3000
+    }
+}
