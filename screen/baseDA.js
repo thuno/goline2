@@ -78,9 +78,8 @@ const postData = async (url, { data, params }) => {
         headers: params ? { ...headers, params: params } : headers,
         body: data
     })
-    debugger
-    if (response.code === 200) {
-        return response.data
+    if (response.data.code === 200) {
+        return response.data.data
     } else {
         toastr['error'](response.message)
         return null
@@ -92,8 +91,8 @@ const getData = async (url, { params }) => {
     const response = await BaseDA.get(url, {
         headers: params ? { ...headers, params: params } : headers,
     })
-    if (response.code === 200) {
-        return response.data
+    if (response.data.code === 200) {
+        return response.data.data
     } else {
         toastr['error'](response.message)
         return null
@@ -123,7 +122,7 @@ const uploadFile = async ({ listFile, collectionId }) => {
             headers: headers,
             formData: formData
         })
-        listFileResult.push(...result);
+        listFileResult.push(...result.data);
     }
     return listFileResult;
 }
