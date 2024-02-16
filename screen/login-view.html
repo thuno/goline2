@@ -22,7 +22,7 @@
     <script src="../bootstrap-toastr/toastr.js"></script>
     <link href="../bootstrap-toastr/toastr.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/bd12e96ffa.js" crossorigin="anonymous"></script>
-    
+
     <script src="../utils.js"></script>
     <script src="../config/configApi.js"></script>
     <script src="../da/baseDA.js"></script>
@@ -51,86 +51,120 @@
         function googleLogin(element) {
             auth2.attachClickHandler(element, {},
                 async function (googleUser) {
-                    const idToken = await googleUser.getAuthResponse().id_token;
-                    const data = {
-                        "type": "google",
-                        "code": idToken,
-                        "mode": 1
-                    };
-
-                    // await $.post(
-                    //     '/view/login',
-                    //     {
-                    //         body: JSON.stringify({
-                    //             "type": "google",
-                    //             "code": idToken,
-                    //             "mode": 1
-                    //         }),
-                    //     },
-                    //     async function (data) {
-                    //         console.success('login: ', data);
-                    //         await $.get(
-                    //             '/view/get-user-info',
-                    //             {
-                    //                 headers: {
-                    //                     Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    //                 },
-                    //             },
-                    //             function (data) {
-                    //                 console.success('login: ', data)
-                    //             }
-                    //         )
-                    //     }
-                    // )
-
-                    const response = await postData('/view/login', {
-                        data: {
+                        const idToken = await googleUser.getAuthResponse().id_token;
+                        const data = {
                             "type": "google",
                             "code": idToken,
                             "mode": 1
-                        }
-                    })
+                        };
 
-                    await $.ajax({
-                        url: pathUrl + '/Customer/extend-login',
-                        type: 'POST',
-                        contentType: 'application/json',
-                        data: JSON.stringify(),
-                        success: async function (data) {
-                            if (data.Code === 200) {
-                                UserService.setToken(data.Data.token, data.Data.refreshToken);
+                        // await $.post(
+                        //     '/view/login',
+                        //     {
+                        //         body: JSON.stringify({
+                        //             "type": "google",
+                        //             "code": idToken,
+                        //             "mode": 1
+                        //         }),
+                        //     },
+                        //     async function (data) {
+                        //         console.success('login: ', data);
+                        //         await $.get(
+                        //             '/view/get-user-info',
+                        //             {
+                        //                 headers: {
+                        //                     Authorization: `Bearer ${localStorage.getItem("token")}`,
+                        //                 },
+                        //             },
+                        //             function (data) {
+                        //                 console.success('login: ', data)
+                        //             }
+                        //         )
+                        //     }
+                        // )
 
-                                await $.ajax({
-                                    url: pathUrl + '/Customer/get-info',
-                                    type: 'GET',
-                                    contentType: 'application/json',
-                                    headers: {
-                                        Authorization: `Bearer ${localStorage.getItem("token")}`,
-                                    },
-                                    success: async function (data) {
-                                        if (data.Code === 200) {
-                                            localStorage.setItem("customer", JSON.stringify(data.Data));
-                                            window.location.href = '/View/home-screen.html?tab=home';
-                                        } else {
-                                            toastr["error"](data.Message);
-                                        }
-                                    },
-                                    error: function (xhr, status, error) {
-                                        // Handle error cases here
-                                    }
-                                });
-
-                            } else {
-                                toastr["error"](data.Message);
+                        const response = await postData('/view/login', {
+                            data: {
+                                "type": "google",
+                                "code": idToken,
+                                "mode": 1
                             }
-                        },
-                        error: function (xhr, status, error) {
-                            // Handle error cases here
+                        })
+                        if (data.code === 200) {
+                            debugger
+                            UserService.setToken(response.data.token);
+                            UserService.setRefreshToken(response.data.refreshToken);
+                            postData('/view/user-info').then(res => {
+                                if (res.code === 200) {
+                                    localStorage.setItem("customer", JSON.stringify(res.data));
+                                    window.location.href = '/sreen/home-screen.html?tab=home';
+                                } else {
+                                    toastr["error"](res.message);
+                                }
+                            })
+                            // await $.ajax({
+                            //     url: pathUrl + '/Customer/get-info',
+                            //     type: 'GET',
+                            //     contentType: 'application/json',
+                            //     headers: {
+                            //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+                            //     },
+                            //     success: async function (data) {
+                            //         if (data.Code === 200) {
+                            //             localStorage.setItem("customer", JSON.stringify(data.Data));
+                            //             window.location.href = '/sreen/home-screen.html?tab=home';
+                            //         } else {
+                            //             toastr["error"](data.Message);
+                            //         }
+                            //     },
+                            //     error: function (xhr, status, error) {
+                            //         // Handle error cases here
+                            //     }
+                            // });
+                        } else {
+                            toastr["error"](data.Message);
                         }
+
+                        // await $.ajax({
+                        //     url: pathUrl + '/Customer/extend-login',
+                        //     type: 'POST',
+                        //     contentType: 'application/json',
+                        //     data: JSON.stringify(),
+                        //     success: async function (data) {
+                        //         if (data.Code === 200) {
+                        //             UserService.setToken(data.Data.token, data.Data.refreshToken);
+
+                        //             await $.ajax({
+                        //                 url: pathUrl + '/Customer/get-info',
+                        //                 type: 'GET',
+                        //                 contentType: 'application/json',
+                        //                 headers: {
+                        //                     Authorization: `Bearer ${localStorage.getItem("token")}`,
+                        //                 },
+                        //                 success: async function (data) {
+                        //                     if (data.Code === 200) {
+                        //                         localStorage.setItem("customer", JSON.stringify(data.Data));
+                        //                         window.location.href = '/View/home-screen.html?tab=home';
+                        //                     } else {
+                        //                         toastr["error"](data.Message);
+                        //                     }
+                        //                 },
+                        //                 error: function (xhr, status, error) {
+                        //                     // Handle error cases here
+                        //                 }
+                        //             });
+                        //         } else {
+                        //             toastr["error"](data.Message);
+                        //         }
+                        //     },
+                        //     error: function (xhr, status, error) {
+                        //         // Handle error cases here
+                        //     }
+                        // });
+                    },
+                    function (error) {
+                        alert(JSON.stringify(error, undefined, 2));
                     });
-                }, function (error) {
-                    alert(JSON.stringify(error, undefined, 2));
-                });
         }
     </script>
 </head>
@@ -180,7 +214,9 @@
             <span class="login-version center regular11"> ©2021 Wini.vn All Rights Reserved </span>
         </div>
     </div>
-    <script>googleInit();</script>
+    <script>
+        googleInit();
+    </script>
 </body>
 
 </html>

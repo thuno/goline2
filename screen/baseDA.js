@@ -60,16 +60,11 @@ class UserService {
             return {
                 refreshToken: this.refreshToken(),
                 token: this.token(),
-                pid: StyleDA.skinProjectID ?? ProjectDA.obj?.ID ?? 0,
-                pageid: PageDA.obj?.ID,
                 'Content-Type': 'application/json'
             }
         } else {
             return {
                 token: this.token(),
-                refreshToken: '',
-                pid: StyleDA.skinProjectID ?? ProjectDA.obj?.ID,
-                pageid: PageDA.obj?.ID,
                 'Content-Type': 'application/json'
             }
         }
