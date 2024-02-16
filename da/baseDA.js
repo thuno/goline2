@@ -8,7 +8,7 @@ class BaseDA {
             const response = await fetch(url, {
                 method: 'POST',
                 headers: headers,
-                body: JSON.stringify(`${body}`),
+                body: `'${body}'`,
             })
             if (response.status === 200) {
                 const jsonData = await response.json()
