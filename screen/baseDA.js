@@ -78,6 +78,7 @@ const postData = async (url, { data, params }) => {
         headers: params ? { ...headers, params: params } : headers,
         body: data
     })
+    debugger
     if (response.code === 200) {
         return response.data
     } else {
