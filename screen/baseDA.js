@@ -1,4 +1,3 @@
-{/* <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js" integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGWbLtSCSUcewDQPQWZF6pEU8GlT8a5fF32wOl1i8ftdMhssTrF/OhyGWwonTcXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> */ }
 class UserService {
     static token = () => Ultis.getStorage('token')
     static setToken = (txt) => Ultis.setStorage('token', txt)
@@ -7,6 +6,7 @@ class UserService {
     static timeRefresh = () => Ultis.getStorage('time_refresh')
 
     static encryptData = (text) => {
+        const secretPass = "lkjhgndsa123!@#";
         const data = CryptoJS.AES.encrypt(
             JSON.stringify(text),
             secretPass
@@ -15,6 +15,7 @@ class UserService {
     };
 
     static decryptData = (text) => {
+        const secretPass = "lkjhgndsa123!@#";
         if (text) {
             const bytes = CryptoJS.AES.decrypt(text, secretPass);
             const data = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
