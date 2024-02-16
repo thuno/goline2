@@ -31,7 +31,7 @@ class UserService {
     }
 
     static refreshToken = () => this.decryptData(Ultis.getStorage('refreshToken'))
-    static setRefreshToken = (txt) => this.encryptData(txt)
+    static setRefreshToken = (txt) => Ultis.setStorage('refreshToken', this.encryptData(txt))
 
     static refreshNewToken = async () => {
         const response = await BaseDA.post('/view/refresh-token', {
@@ -77,7 +77,7 @@ const postData = async (url, { data, params }) => {
     const headers = await UserService.headers()
     const response = await BaseDA.post(url, {
         headers: params ? { ...headers, params: params } : headers,
-        body: data ?? {}
+        body: data
     })
     if (response.data.code === 200) {
         return response.data.data
