@@ -62,12 +62,13 @@ class UserService {
                 token: this.token(),
                 'Content-Type': 'application/json'
             }
-        } else {
+        } else if (this.token()) {
             return {
                 token: this.token(),
                 'Content-Type': 'application/json'
             }
         }
+        return undefined
     }
 }
 
