@@ -7,7 +7,7 @@ class BaseDA {
         try {
             const response = await fetch(url, {
                 method: 'POST',
-                headers: headers,
+                headers: headers ?? { "Content-Type": "application/json" },
                 body: JSON.stringify(body),
             })
             if (response.status === 200) {
@@ -27,7 +27,7 @@ class BaseDA {
         try {
             const response = await fetch(url, {
                 method: 'POST',
-                headers: headers,
+                headers: headers ?? { "Content-Type": "application/json" },
                 body: formData,
             })
             if (response.status === 200) {
