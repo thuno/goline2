@@ -1,0 +1,69 @@
+#home-header {
+    width: 100%;
+    min-height: 8.6rem;
+    box-sizing: border-box;
+}
+
+#home-header .screen-header {
+    width: 100%;
+    height: 4.8rem;
+    gap: 12px;
+    padding: 0 12px;
+    background-color: #2C2C2C;
+}
+
+#home-header .screen-header * {
+    color: #ffffff;
+}
+
+#home-header .screen-header .header_block1 {
+    height: 100%;
+    width: 26rem;
+    box-sizing: border-box;
+    border-right: 1px solid #5c5c5c;
+    gap: 0.8rem;
+}
+
+#home-header .screen-header .header_block2 {
+    flex: 1;
+}
+
+.screen-header .header_block2 .search-input {
+    width: 38rem;
+    height: 3.2rem;
+    gap: 0.8rem;
+    padding: 0 1.2rem;
+    align-items: center;
+    border-radius: 16px;
+    background-color: #444444;
+}
+
+.screen-header .header_block2 .search-input input::placeholder {
+    color: rgb(255, 255, 255, 0.6);
+}
+
+#home-header .screen-header .header_block3 button {
+    height: 3.2rem;
+    border-radius: 4px;
+}
+
+#home-header .screen-header .header_block3 .join-by-code {
+    padding: 0 1rem;
+    border-radius: 16px;
+    box-sizing: border-box;
+    background-color: var(--primary-color);
+}
+
+.screen-header .header_block3 button:not(.join-by-code):hover {
+    transition: 0.3s;
+    background-color: rgb(25, 25, 25);
+}
+
+#home-header .screen-header .header_block3 button > i {
+    padding: 0.8rem;
+    font-size: 1.6rem;
+}
+
+.show-user-action {
+    padding: 0 1.2rem;
+}

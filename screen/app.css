@@ -661,11 +661,103 @@ body * {
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    font-family: 'Inter', sans-serif !important;
+    font-family: 'Inter', sans-serif;
 }
 
 .window-bar {
     width: 100%;
     height: 3.8rem;
     background-color: #262626;
+}
+
+.title-bar-container {
+    width: 100%;
+    height: 3.8rem;
+    overflow: hidden;
+    background-color: #262626;
+    flex: 1;
+}
+
+.title-bar-container button {
+    width: 3.8rem;
+    height: 3.8rem;
+    color: #BFBFBF;
+    justify-content: center;
+    border-right: 1px inset #444444;
+}
+
+.title-bar-container button>i {
+    font-size: 1.6rem;
+}
+
+.title-bar-container button:hover {
+    color: white;
+    background-color: rgb(25, 25, 25);
+}
+
+.title-bar-container button.active {
+    color: white;
+    background-color: rgb(25, 25, 25);
+}
+
+.tab-container {
+    height: 3.8rem;
+    max-width: calc(100% - 7.6rem);
+    overflow: auto hidden;
+}
+
+.nav-tab>.tab-title {
+    white-space: nowrap;
+    margin: 0 8px;
+    color: #8C8C8C;
+    overflow: hidden;
+}
+
+.nav-tab>.tab-close {
+    color: #8C8C8C;
+}
+
+.nav-tab:hover>.tab-title,
+.nav-tab.active>.tab-title,
+.nav-tab:hover>.tab-close,
+.nav-tab.active>.tab-close {
+    color: white;
+}
+
+.tab-close:hover {
+    background-color: transparent;
+}
+
+.title-bar {
+    background-color: #292929;
+}
+
+.title-bar-win {
+    width: calc(100% - 137px) !important;
+}
+
+.title-bar-mac {
+    width: calc(100% - 70px) !important;
+    margin-left: 70px;
+}
+
+.more-option-tab {
+    width: 180px;
+    padding: 4px 0;
+    position: absolute;
+    box-sizing: border-box;
+    background-color: rgb(14, 14, 14);
+    z-index: 4;
+    top: 0;
+    display: none;
+    border-radius: 2px;
+}
+
+.more-option-tab .option-tile {
+    padding: 8px 12px;
+    box-sizing: border-box;
+}
+
+.more-option-tab .option-tile:hover {
+    background-color: var(--primary-color);
 }

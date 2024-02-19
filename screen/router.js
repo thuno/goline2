@@ -2,9 +2,14 @@ console.log(location.pathname)
 
 const url = location.hash.split('/')
 if (UserService.token()) {
-    if (url.includes('home.html')) {
+    if (url.includes('home')) {
         window.location.hash = '/home'
-        $('body').load('./home/home.html')
+        document.head.querySelector('title').innerHTML = 'Home'
+        let cssTag = document.createElement('link')
+        cssTag.rel = "stylesheet"
+        cssTag.href = "./screen/module/home/home.css"
+        document.head.appendChild(cssTag)
+        $('body').load('./screen/module/home/home.html')
     } else {
         window.location.hash = '/design-view'
         $('body').load('./file/design-view.html')
