@@ -79,9 +79,8 @@ const postData = async (url, { data, params }) => {
         headers: params ? { ...headers, params: params } : headers,
         body: data
     })
-    debugger
     if (response.data.code === 200) {
-        return response.data.data
+        return response.data
     } else {
         toastr['error'](response.message)
         return null
@@ -94,7 +93,7 @@ const getData = async (url, { params }) => {
         headers: params ? { ...headers, params: params } : headers,
     })
     if (response.data.code === 200) {
-        return response.data.data
+        return response.data
     } else {
         toastr['error'](response.message)
         return null
