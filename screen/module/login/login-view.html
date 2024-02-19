@@ -36,7 +36,8 @@
                             postData('/view/user-info', {}).then(res => {
                                 if (res.code === 200) {
                                     UserService.setUser(res.data);
-                                    window.location.assign('/#/home');
+                                    window.location.replace('/#/home');
+                                    window.location.reload()
                                 } else {
                                     toastr["error"](res.message);
                                 }

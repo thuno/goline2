@@ -2,7 +2,7 @@ console.log(location.pathname)
 
 const url = location.hash.split('/')
 if (UserService.token()) {
-    if (url.includes('home')) {
+    if (url.includes('home') || !url.includes('file')) {
         window.location.hash = '/home'
         document.head.querySelector('title').innerHTML = 'Home'
         let cssTag = document.createElement('link')
@@ -11,7 +11,7 @@ if (UserService.token()) {
         document.head.appendChild(cssTag)
         $('body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@93d8f3c/screen/module/home/home.html')
     } else {
-        window.location.hash = '/design-view'
+        window.location.hash = '/file'
         $('body').load('./file/design-view.html')
     }
 } else {
