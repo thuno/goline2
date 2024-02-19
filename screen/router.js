@@ -14,7 +14,7 @@ if (UserService.token()) {
     document.head.querySelector('title').innerHTML = 'Login'
     let cssTag = document.createElement('link')
     cssTag.rel = "stylesheet"
-    cssTag.href = "https://cdn.jsdelivr.net/gh/thuno/goline2@8a82ee8/screen/module/login/login-view.css"
+    cssTag.href = "https://cdn.jsdelivr.net/gh/thuno/goline2@b8644ea/screen/module/login/login-view.css"
     document.head.appendChild(cssTag)
-    $('body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@8a82ee8/screen/module/login/login-view.html')
+    $('body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@b8644ea/screen/module/login/login-view.html')
 }
