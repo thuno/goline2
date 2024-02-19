@@ -73,7 +73,7 @@ class UserService {
     }
 }
 
-const postData = async (url, { data = null, params = null }) => {
+const postData = async (url, { data, params } = {}) => {
     const headers = await UserService.headers()
     const response = await BaseDA.post(url, {
         headers: params ? { ...headers, params: params } : headers,
@@ -87,7 +87,7 @@ const postData = async (url, { data = null, params = null }) => {
     }
 }
 
-const getData = async (url, { params = null }) => {
+const getData = async (url, { params } = {}) => {
     const headers = await UserService.headers()
     const response = await BaseDA.get(url, {
         headers: params ? { ...headers, params: params } : headers,
