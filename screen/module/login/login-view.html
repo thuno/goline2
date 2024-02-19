@@ -34,7 +34,7 @@
                             debugger
                             UserService.setToken(response.data.token);
                             UserService.setRefreshToken(response.data.refreshToken);
-                            postData('/view/user-info').then(res => {
+                            postData('/view/user-info', {}).then(res => {
                                 if (res.code === 200) {
                                     localStorage.setItem("customer", JSON.stringify(res.data));
                                     window.location.href = '/#/home.html';
