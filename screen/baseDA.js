@@ -42,6 +42,7 @@ class UserService {
         })
         if (response.code === 200) {
             this.setToken(response.data)
+            this.setTimeRefresh()
         } else if (response.code === 404) {
             toastr['error']('Phiên đăng nhập cảu bạn đã hết hạn')
             setTimeout(function () {

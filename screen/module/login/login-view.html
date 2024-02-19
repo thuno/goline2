@@ -36,6 +36,7 @@
                         postData('/view/user-info', {}).then(res => {
                             if (res.code === 200) {
                                 UserService.setUser(res.data);
+                                UserService.setTimeRefresh();
                                 window.location.replace('/#/home');
                                 window.location.reload()
                             } else {
