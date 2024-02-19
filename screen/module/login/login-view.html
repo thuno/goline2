@@ -31,13 +31,12 @@
                             }
                         })
                         if (data.code === 200) {
-                            debugger
                             UserService.setToken(response.data.token);
                             UserService.setRefreshToken(response.data.refreshToken);
                             postData('/view/user-info').then(res => {
                                 if (res.code === 200) {
                                     localStorage.setItem("customer", JSON.stringify(res.data));
-                                    window.location.href = '/sreen/home-screen.html?tab=home';
+                                    window.location.href = '/#/home.html';
                                 } else {
                                     toastr["error"](res.message);
                                 }

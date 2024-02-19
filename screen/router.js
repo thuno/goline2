@@ -1,6 +1,7 @@
 console.log(location.pathname)
 
-const url = location.pathname.split('/')
+const url = location.hash.split('/')
+debugger
 if (UserService.token()) {
     if (url.includes('home.html')) {
         window.location.hash = '/home'
