@@ -664,6 +664,112 @@ body * {
     font-family: 'Inter', sans-serif;
 }
 
+.loading-view {
+    height: 100% !important;
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: block !important;
+    background-color: #ffffff !important;
+}
+
+.loading-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    transform: translateY(-10%);
+}
+
+.loading-container .app-logo {
+    width: 12rem;
+    height: max-content;
+    box-sizing: border-box;
+}
+
+.loading-container .process-bar {
+    width: 16rem;
+    height: 4px;
+    border-radius: 8px;
+    background-color: #f3f3f3;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    margin-top: 24px;
+    margin-bottom: 12px;
+}
+
+.loading-container .process-bar .process-value {
+    height: 100%;
+    width: 16rem;
+    border-radius: 8px;
+    box-sizing: border-box;
+    background-color: rgb(0, 127, 255, 0.8);
+    position: absolute;
+    animation: progress_bar 0.9s linear infinite;
+}
+
+@keyframes progress_bar {
+    0% {
+        transform: translateX(-16rem);
+    }
+
+    100% {
+        transform: translateX(32rem);
+    }
+}
+
+.text-loading #dot1 {
+    width: max-content;
+    height: max-content;
+    animation-name: dot1;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    opacity: 0;
+}
+
+.text-loading #dot2 {
+    width: max-content;
+    height: max-content;
+    animation-name: dot2;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    opacity: 0;
+}
+
+@keyframes dot1 {
+    0% {
+        opacity: 0;
+    }
+
+    40% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 0;
+    }
+}
+
+@keyframes dot2 {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    80% {
+        opacity: 0;
+    }
+
+}
+
 .window-bar {
     width: 100%;
     height: 3.8rem;

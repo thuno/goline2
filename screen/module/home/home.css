@@ -59,11 +59,19 @@
     background-color: rgb(25, 25, 25);
 }
 
-#home-header .screen-header .header_block3 button > i {
+#home-header .screen-header .header_block3 button>i {
     padding: 0.8rem;
     font-size: 1.6rem;
 }
 
 .show-user-action {
     padding: 0 1.2rem;
+}
+
+#home-body {
+    width: 100%;
+    height: 100%;
+    flex: 1;
+    position: relative;
+    box-sizing: border-box;
 }
