@@ -30,6 +30,7 @@
                                 "mode": 1
                             }
                         })
+                        debugger
                         if (data.code === 200) {
                             UserService.setToken(response.data.token);
                             UserService.setRefreshToken(response.data.refreshToken);
