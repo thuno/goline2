@@ -3,16 +3,14 @@ let urlParams = new URLSearchParams(queryString);
 let url_tab = urlParams.get('tab');
 let url_id = urlParams.get('id');
 
-$('body > #home-body').load('./project-component/loading.html', async function () {
+$('body > #home-body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@bd7507a/project-component/loading.html', async function () {
     const userItem = UserService.user()
-    $('.loading-view').show();
     $('.user-container .user-name').text(userItem?.name ?? "-");
     $('.user-container .user-email').text(userItem?.email ?? "-");
     if (userItem?.urlAvatar)
         $('.user-container .user-avatar').css('background-image', `url(${userItem?.urlAvatar ?? ""})`);
     await ProjectDA.init()
     await TeamDA.init();
-    $('.loading-view').hide();
 });
 
 // // $('.appbar').load('/View/title-bar.html', function () {
