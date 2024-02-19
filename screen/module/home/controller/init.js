@@ -3,7 +3,7 @@ let urlParams = new URLSearchParams(queryString);
 let url_tab = urlParams.get('tab');
 let url_id = urlParams.get('id');
 
-$('body > #home-body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@bd7507a/project-component/loading.html', async function () {
+$('body > #home-body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@c5afee1/project-component/loading.html', async function () {
     const userItem = UserService.user()
     $('.user-container .user-name').text(userItem?.name ?? "-");
     $('.user-container .user-email').text(userItem?.email ?? "-");
