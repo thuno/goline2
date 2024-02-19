@@ -7,6 +7,7 @@ $('body > #home-body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@0f7191d/p
     const userItem = UserService.user()
     $('.user-container .user-name').text(userItem?.name ?? "-");
     $('.user-container .user-email').text(userItem?.email ?? "-");
+    debugger
     if (userItem?.urlAvatar)
         $('.user-container .user-avatar').css('background-image', `url(${userItem?.urlAvatar ?? ""})`);
     await ProjectDA.init()

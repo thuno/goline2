@@ -93,6 +93,7 @@ const getData = async (url, { params } = {}) => {
     const response = await BaseDA.get(url, {
         headers: params ? { ...headers, params: params } : headers,
     })
+    debugger
     if (response.data.code === 200) {
         return response.data
     } else {

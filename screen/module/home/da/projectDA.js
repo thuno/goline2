@@ -45,7 +45,7 @@ class ProjectDA {
 
     static async init() {
         const res = await getData('/view/project-getall')
-        if (res.code === 200) {
+        if (res.Code === 200) {
             ProjectDA.list = res.data
         } else {
             toastr["error"](res.message);
