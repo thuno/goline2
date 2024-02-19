@@ -7,9 +7,9 @@ if (UserService.token()) {
         document.head.querySelector('title').innerHTML = 'Home'
         let cssTag = document.createElement('link')
         cssTag.rel = "stylesheet"
-        cssTag.href = "https://cdn.jsdelivr.net/gh/thuno/goline2@ef9060d/screen/module/home/home.css"
+        cssTag.href = "https://cdn.jsdelivr.net/gh/thuno/goline2@93d8f3c/screen/module/home/home.css"
         document.head.appendChild(cssTag)
-        $('body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@ef9060d/screen/module/home/home.html')
+        $('body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@93d8f3c/screen/module/home/home.html')
     } else {
         window.location.hash = '/design-view'
         $('body').load('./file/design-view.html')
@@ -19,7 +19,7 @@ if (UserService.token()) {
     document.head.querySelector('title').innerHTML = 'Login'
     let cssTag = document.createElement('link')
     cssTag.rel = "stylesheet"
-    cssTag.href = "https://cdn.jsdelivr.net/gh/thuno/goline2@ef9060d/screen/module/login/login-view.css"
+    cssTag.href = "https://cdn.jsdelivr.net/gh/thuno/goline2@93d8f3c/screen/module/login/login-view.css"
     document.head.appendChild(cssTag)
-    $('body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@ef9060d/screen/module/login/login-view.html')
+    $('body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@93d8f3c/screen/module/login/login-view.html')
 }
