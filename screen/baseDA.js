@@ -1,7 +1,7 @@
 class UserService {
     static token = () => Ultis.getStorage('token')
     static setToken = (txt) => Ultis.setStorage('token', txt)
-    static user = () => Ultis.getStorage('customer')
+    static user = () => JSON.parse(Ultis.getStorage('customer'))
     static setUser = (data) => Ultis.setStorage('customer', JSON.stringify(data))
     static timeRefresh = () => Ultis.getStorage('time_refresh')
 
