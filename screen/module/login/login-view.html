@@ -30,8 +30,8 @@
                                 "mode": 1
                             }
                         })
-                        debugger
-                        if (data.code === 200) {
+                        if (response.code === 200) {
+                            debugger
                             UserService.setToken(response.data.token);
                             UserService.setRefreshToken(response.data.refreshToken);
                             postData('/view/user-info').then(res => {
