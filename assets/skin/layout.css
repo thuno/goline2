@@ -1,0 +1,554 @@
+* {
+    flex-shrink: 0;
+    box-sizing: border-box;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow: hidden;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.row>.col0 {
+    display: none !important;
+}
+
+.row>.col1 {
+    width: auto !important;
+    min-width: auto !important;
+    flex: 0 calc((100% * 1 / 24) - var(--gutter) * 23 / 24) !important;
+}
+
+.row>.col2 {
+    width: auto !important;
+    min-width: auto !important;
+    flex: 0 calc((100% * 2 / 24) - var(--gutter) * 11 / 12) !important;
+}
+
+.row>.col3 {
+    width: auto !important;
+    min-width: auto !important;
+    flex: 0 calc((100% * 3 / 24) - var(--gutter) * 7 / 8) !important;
+}
+
+.row>.col4 {
+    width: auto !important;
+    min-width: auto !important;
+    flex: 0 calc((100% * 4 / 24) - var(--gutter) * 5 / 6) !important;
+}
+
+.row>.col6 {
+    width: auto !important;
+    min-width: auto !important;
+    flex: 0 calc((100% * 6 / 24) - var(--gutter) * 3 / 4) !important;
+}
+
+.row>.col8 {
+    width: auto !important;
+    min-width: auto !important;
+    flex: 0 calc((100% * 8 / 24) - var(--gutter) * 2 / 3) !important;
+}
+
+.row>.col10 {
+    width: auto !important;
+    min-width: auto !important;
+    flex: 0 calc((100% * 10 / 24) - var(--gutter) * 5 / 6) !important;
+}
+
+.row>.col12 {
+    width: auto !important;
+    min-width: auto !important;
+    flex: 0 calc((100% * 12 / 24) - var(--gutter) / 2) !important;
+}
+
+.row>.col16 {
+    width: auto !important;
+    min-width: auto !important;
+    flex: 0 calc((100% * 16 / 24) - var(--gutter) * 2 / 3) !important;
+}
+
+.row>.col20 {
+    width: auto !important;
+    min-width: auto !important;
+    flex: 0 calc((100% * 20 / 24) - var(--gutter) * 5 / 6) !important;
+}
+
+.row>.col24 {
+    width: auto !important;
+    min-width: auto !important;
+    flex: 0 100% !important;
+}
+
+/* Extra small devices (phones, 576px and down) min*/
+@media only screen and (max-width: 576px) {
+    .row>.col0-min {
+        display: none !important;
+    }
+
+    .row>.col1-min {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 1 / 24) - var(--gutter) * 23 / 24) !important;
+    }
+
+    .row>.col2-min {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 2 / 24) - var(--gutter) * 11 / 12) !important;
+    }
+
+    .row>.col3-min {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 3 / 24) - var(--gutter) * 7 / 8) !important;
+    }
+
+    .row>.col4-min {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 4 / 24) - var(--gutter) * 5 / 6) !important;
+    }
+
+    .row>.col6-min {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 6 / 24) - var(--gutter) * 3 / 4) !important;
+    }
+
+    .row>.col8-min {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 8 / 24) - var(--gutter) * 2 / 3) !important;
+    }
+
+    .row>.col10-min {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 10 / 24) - var(--gutter) * 5 / 6) !important;
+    }
+
+    .row>.col12-min {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 12 / 24) - var(--gutter) / 2) !important;
+    }
+
+    .row>.col16-min {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 16 / 24) - var(--gutter) * 2 / 3) !important;
+    }
+
+    .row>.col20-min {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 20 / 24) - var(--gutter) * 5 / 6) !important;
+    }
+
+    .row>.col24-min {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 100% !important;
+    }
+
+    /* more config responsive */
+}
+
+/* Small devices (portrait tablets and large phones, 576px and up) Small (sm)*/
+@media only screen and (min-width: 576px) and (max-width: 768px) {
+    :root {
+        font-size: 6px !important;
+    }
+
+    .row>.col0-sm {
+        display: none !important;
+    }
+
+    .row>.col1-sm {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 1 / 24) - var(--gutter) * 23 / 24) !important;
+    }
+
+    .row>.col2-sm {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 2 / 24) - var(--gutter) * 11 / 12) !important;
+    }
+
+    .row>.col3-sm {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 3 / 24) - var(--gutter) * 7 / 8) !important;
+    }
+
+    .row>.col4-sm {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 4 / 24) - var(--gutter) * 5 / 6) !important;
+    }
+
+    .row>.col6-sm {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 6 / 24) - var(--gutter) * 3 / 4) !important;
+    }
+
+    .row>.col8-sm {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 8 / 24) - var(--gutter) * 2 / 3) !important;
+    }
+
+    .row>.col10-sm {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 10 / 24) - var(--gutter) * 5 / 6) !important;
+    }
+
+
+    .row>.col12-sm {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 12 / 24) - var(--gutter) / 2) !important;
+    }
+
+    .row>.col16-sm {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 16 / 24) - var(--gutter) * 2 / 3) !important;
+    }
+
+    .row>.col20-sm {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 20 / 24) - var(--gutter) * 5 / 6) !important;
+    }
+
+    .row>.col24-sm {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 100% !important;
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) Medium (md)*/
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+    :root {
+        font-size: 6px !important;
+    }
+
+    .row>.col0-md {
+        display: none !important;
+    }
+
+    .row>.col1-md {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 1 / 24) - var(--gutter) * 23 / 24) !important;
+    }
+
+    .row>.col2-md {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 2 / 24) - var(--gutter) * 11 / 12) !important;
+    }
+
+    .row>.col3-md {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 3 / 24) - var(--gutter) * 7 / 8) !important;
+    }
+
+    .row>.col4-md {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 4 / 24) - var(--gutter) * 5 / 6) !important;
+    }
+
+    .row>.col6-md {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 6 / 24) - var(--gutter) * 3 / 4) !important;
+    }
+
+    .row>.col8-md {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 8 / 24) - var(--gutter) * 2 / 3) !important;
+    }
+
+    .row>.col10-md {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 10 / 24) - var(--gutter) * 5 / 6) !important;
+    }
+
+    .row>.col12-md {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 12 / 24) - var(--gutter) / 2) !important;
+    }
+
+    .row>.col16-md {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 16 / 24) - var(--gutter) * 2 / 3) !important;
+    }
+
+    .row>.col20-md {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 20 / 24) - var(--gutter) * 5 / 6) !important;
+    }
+
+    .row>.col24-md {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 100% !important;
+    }
+
+    /* more config resposive */
+}
+
+/* Large devices (laptops/desktops, 992px and up) Large (lg)*/
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+    :root {
+        font-size: 8px !important;
+    }
+
+    .row>.col0-lg {
+        display: none !important;
+    }
+
+    .row>.col1-lg {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 1 / 24) - var(--gutter) * 23 / 24) !important;
+    }
+
+    .row>.col2-lg {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 2 / 24) - var(--gutter) * 11 / 12) !important;
+    }
+
+    .row>.col3-lg {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 3 / 24) - var(--gutter) * 7 / 8) !important;
+    }
+
+    .row>.col4-lg {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 4 / 24) - var(--gutter) * 5 / 6) !important;
+    }
+
+    .row>.col6-lg {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 6 / 24) - var(--gutter) * 3 / 4) !important;
+    }
+
+    .row>.col8-lg {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 8 / 24) - var(--gutter) * 2 / 3) !important;
+    }
+
+    .row>.col10-lg {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 10 / 24) - var(--gutter) * 5 / 6) !important;
+    }
+
+    .row>.col12-lg {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 12 / 24) - var(--gutter) / 2) !important;
+    }
+
+    .row>.col16-lg {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 16 / 24) - var(--gutter) * 2 / 3) !important;
+    }
+
+    .row>.col20-lg {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 20 / 24) - var(--gutter) * 5 / 6) !important;
+    }
+
+    .row>.col24-lg {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 100% !important;
+    }
+
+    /* more config resposive */
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) X-large (xl)*/
+@media only screen and (min-width: 1200px) {
+    :root {
+        font-size: 8px !important;
+    }
+
+    .row>.col0-xl {
+        display: none !important;
+    }
+
+    .row>.col1-xl {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 1 / 24) - var(--gutter) * 23 / 24) !important;
+    }
+
+    .row>.col2-xl {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 2 / 24) - var(--gutter) * 11 / 12) !important;
+    }
+
+    .row>.col3-xl {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 3 / 24) - var(--gutter) * 7 / 8) !important;
+    }
+
+    .row>.col4-xl {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 4 / 24) - var(--gutter) * 5 / 6) !important;
+    }
+
+    .row>.col6-xl {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 6 / 24) - var(--gutter) * 3 / 4) !important;
+    }
+
+    .row>.col8-xl {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 8 / 24) - var(--gutter) * 2 / 3) !important;
+    }
+
+    .row>.col10-xl {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 10 / 24) - var(--gutter) * 5 / 6) !important;
+    }
+
+    .row>.col12-xl {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 12 / 24) - var(--gutter) / 2) !important;
+    }
+
+    .row>.col16-xl {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 16 / 24) - var(--gutter) * 2 / 3) !important;
+    }
+
+    .row>.col20-xl {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 20 / 24) - var(--gutter) * 5 / 6) !important;
+    }
+
+    .row>.col24-xl {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 100% !important;
+    }
+
+    /* more config resposive */
+}
+
+/* Extra large devices (large laptops and desktops, 1600px and up) XX-large (xxl) */
+@media only screen and (min-width: 1600px) {
+    :root {
+        font-size: 10px !important;
+    }
+
+    .row>.col0-xxl {
+        display: none !important;
+    }
+
+    .row>.col1-xxl {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 1 / 24) - var(--gutter) * 23 / 24) !important;
+    }
+
+    .row>.col2-xxl {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 2 / 24) - var(--gutter) * 11 / 12) !important;
+    }
+
+    .row>.col3-xxl {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 3 / 24) - var(--gutter) * 7 / 8) !important;
+    }
+
+    .row>.col4-xxl {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 4 / 24) - var(--gutter) * 5 / 6) !important;
+    }
+
+    .row>.col6-xxl {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 6 / 24) - var(--gutter) * 3 / 4) !important;
+    }
+
+    .row>.col8-xxl {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 8 / 24) - var(--gutter) * 2 / 3) !important;
+    }
+
+    .row>.col10-xxl {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 10 / 24) - var(--gutter) * 5 / 6) !important;
+    }
+
+    .row>.col12-xxl {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 12 / 24) - var(--gutter) / 2) !important;
+    }
+
+    .row>.col16-xxl {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 16 / 24) - var(--gutter) * 2 / 3) !important;
+    }
+
+    .row>.col20-xxl {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 calc((100% * 20 / 24) - var(--gutter) * 5 / 6) !important;
+    }
+
+    .row>.col24-xxl {
+        width: auto !important;
+        min-width: auto !important;
+        flex: 0 100% !important;
+    }
+}

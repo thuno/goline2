@@ -1,0 +1,100 @@
+    <script>
+        localStorage.clear();
+        var googleUser = {};
+        var googleInit = function () {
+            gapi.load('auth2', function () {
+                auth2 = gapi.auth2.init({
+                    client_id: '1024381494307-95bcqh537i2c8mg04l7r70bfr973mha4.apps.googleusercontent.com',
+                    cookiepolicy: 'single_host_origin',
+                    scope: 'profile email',
+                    plugin_name: "wini",
+                });
+                googleLogin(document.getElementById('google-btn'));
+            });
+        };
+
+        function googleLogin(element) {
+            auth2.attachClickHandler(element, {},
+                async function (googleUser) {
+                        const idToken = await googleUser.getAuthResponse().id_token;
+                        const data = {
+                            "type": "google",
+                            "code": idToken,
+                            "mode": 1
+                        };
+
+                        const response = await postData('/view/login', {
+                            data: {
+                                "type": "google",
+                                "code": idToken,
+                                "mode": 1
+                            }
+                        })
+                        if (data.code === 200) {
+                            debugger
+                            UserService.setToken(response.data.token);
+                            UserService.setRefreshToken(response.data.refreshToken);
+                            postData('/view/user-info').then(res => {
+                                if (res.code === 200) {
+                                    localStorage.setItem("customer", JSON.stringify(res.data));
+                                    window.location.href = '/sreen/home-screen.html?tab=home';
+                                } else {
+                                    toastr["error"](res.message);
+                                }
+                            })
+                        } else {
+                            toastr["error"](data.Message);
+                        }
+                    },
+                    function (error) {
+                        alert(JSON.stringify(error, undefined, 2));
+                    });
+        }
+    </script>
+    <div class="window-bar"></div>
+    <div class="w-login-view col">
+        <div class="w-login-form col">
+            <h1 class="heading-2" style="margin: 1rem 0;">Welcome to Wini!</h1>
+            <div class="regular3">Your idea, our responsibility</div>
+
+            <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
+
+            <button type="button" id="google-btn" class="login-with-google row">
+                <div class="icon">
+                    <svg xmlns="http:www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 20 20" fill="none">
+                        <path d="M10.2031 8.18176V12.0545H15.6948C15.4537 13.2999 14.73 14.3545 13.6447 15.0636L16.9564 17.5818C18.8859 15.8364 19.9991 13.2728 19.9991 10.2273C19.9991 9.51824 19.9342 8.83636 19.8135 8.18187L10.2031 8.18176Z" fill="#4285F4" />
+                        <path d="M4.48648 11.9033L3.73956 12.4636L1.0957 14.4818C2.77475 17.7454 6.21609 20 10.205 20C12.96 20 15.2699 19.109 16.9582 17.5818L13.6465 15.0636C12.7374 15.6636 11.5778 16.0273 10.205 16.0273C7.5519 16.0273 5.29777 14.2728 4.49065 11.9091L4.48648 11.9033Z" fill="#34A853" />
+                        <path d="M1.09455 5.51819C0.39885 6.86359 0 8.38179 0 9.99994C0 11.6181 0.39885 13.1363 1.09455 14.4817C1.09455 14.4907 4.48982 11.8999 4.48982 11.8999C4.28574 11.2999 4.16511 10.6636 4.16511 9.99983C4.16511 9.33611 4.28574 8.69979 4.48982 8.09979L1.09455 5.51819Z" fill="#FBBC05" />
+                        <path d="M10.2052 3.98181C11.708 3.98181 13.0438 4.49089 14.1106 5.47272L17.0327 2.60912C15.2609 0.990969 12.9604 0 10.2052 0C6.2163 0 2.77475 2.24545 1.0957 5.51818L4.49087 8.1C5.29788 5.73634 7.55211 3.98181 10.2052 3.98181Z" fill="#EA4335" />
+                    </svg>
+                </div>
+                <div class="button-text-2">Login with Google</div>
+            </button>
+            <div class="divider-container row">
+                <div class="line"></div>
+                <div class="label-3" style="color: rgba(0, 32, 77, 0.60);">or</div>
+                <div class="line"></div>
+            </div>
+            <button type="button" class="login-with-facebook row">
+                <div class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 20 20" fill="none">
+                        <g clippath="url(#clip0_1747_65517)">
+                            <path d="M20 10C20 4.47715 15.5229 0 10 0C4.47715 0 0 4.47715 0 10C0 14.9912 3.65684 19.1283 8.4375 19.8785V12.8906H5.89844V10H8.4375V7.79688C8.4375 5.29063 9.93047 3.90625 12.2146 3.90625C13.3084 3.90625 14.4531 4.10156 14.4531 4.10156V6.5625H13.1922C11.95 6.5625 11.5625 7.3334 11.5625 8.125V10H14.3359L13.8926 12.8906H11.5625V19.8785C16.3432 19.1283 20 14.9912 20 10Z" fill="#1877F2" />
+                            <path d="M13.8926 12.8906L14.3359 10H11.5625V8.125C11.5625 7.33418 11.95 6.5625 13.1922 6.5625H14.4531V4.10156C14.4531 4.10156 13.3088 3.90625 12.2146 3.90625C9.93047 3.90625 8.4375 5.29063 8.4375 7.79688V10H5.89844V12.8906H8.4375V19.8785C9.47287 20.0405 10.5271 20.0405 11.5625 19.8785V12.8906H13.8926Z" fill="white" />
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_1747_65517">
+                                <rect width="20" height="20" fill="white" />
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </div>
+                <div class="button-text-2">Login with Facebook</div>
+            </button>
+
+            <span class="regular11"> ©2021 Wini.vn All Rights Reserved </span>
+        </div>
+    </div>
+    <script>
+        googleInit();
+    </script>

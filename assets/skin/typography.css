@@ -1,0 +1,457 @@
+.medium11 {
+    line-height: 1.4rem;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #00204D;
+}
+
+.medium1 {
+    line-height: 1.6rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #00204D;
+}
+
+.overflow-elipstic {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.regular0 {
+    line-height: 1.4rem;
+    font-size: 1rem;
+    color: #00204D;
+}
+
+.regular11 {
+    line-height: 1.4rem;
+    font-size: 1.1rem;
+    color: #00204D;
+}
+
+.regular1 {
+    line-height: 1.6rem;
+    font-size: 1.2rem;
+    color: #00204D;
+}
+
+.regular2 {
+    line-height: 2.2rem;
+    font-size: 1.4rem;
+    color: #00204D;
+}
+
+.regular3 {
+    line-height: 2.8rem;
+    font-size: 1.6rem;
+    color: #00204D;
+}
+
+.regular4 {
+    line-height: 2.8rem;
+    font-size: 2rem;
+    color: #00204D;
+}
+
+.regular5 {
+    line-height: 3.2rem;
+    font-size: 1.4rem;
+    color: #00204D;
+}
+
+.regular6 {
+    line-height: 3.8rem;
+    font-size: 3rem;
+    color: #00204D;
+}
+
+.regular7 {
+    line-height: 4.8rem;
+    font-size: 3.8rem;
+    color: #00204D;
+}
+
+.regular8 {
+    line-height: 5.4rem;
+    font-size: 4.6rem;
+    color: #00204D;
+}
+
+.regular9 {
+    line-height: 6.4rem;
+    font-size: 5.6rem;
+    color: #00204D;
+}
+
+.semibold0 {
+    line-height: 1.4rem;
+    font-size: 1rem;
+    color: #00204D;
+    font-weight: 600;
+}
+
+.semibold11 {
+    line-height: 1.4rem;
+    font-size: 1.1rem;
+    color: #00204D;
+    font-weight: 600;
+}
+
+.semibold1 {
+    line-height: 1.6rem;
+    font-size: 1.2rem;
+    color: #00204D;
+    font-weight: 600;
+}
+
+.semibold2 {
+    line-height: 2.2rem;
+    font-size: 1.4rem;
+    color: #00204D;
+    font-weight: 600;
+}
+
+.semibold3 {
+    line-height: 2.8rem;
+    font-size: 1.6rem;
+    color: #00204D;
+    font-weight: 600;
+}
+
+.semibold4 {
+    line-height: 2.8rem;
+    font-size: 2rem;
+    color: #00204D;
+    font-weight: 600;
+}
+
+.semibold5 {
+    line-height: 3.2rem;
+    font-size: 2.4rem;
+    color: #00204D;
+    font-weight: 600;
+}
+
+.semibold6 {
+    line-height: 4.8rem;
+    font-size: 3rem;
+    color: #00204D;
+    font-weight: 600;
+}
+
+.semibold7 {
+    line-height: 4.8rem;
+    font-size: 3.8rem;
+    color: #00204D;
+    font-weight: 600;
+}
+
+.semibold8 {
+    line-height: 5.4rem;
+    font-size: 4.6rem;
+    color: #00204D;
+    font-weight: 600;
+}
+
+.semibold9 {
+    line-height: 6.4rem;
+    font-size: 5.6rem;
+    color: #00204D;
+    font-weight: 600;
+}
+
+.heading-1 {
+    line-height: 6.8rem;
+    font-size: 5.6rem;
+    font-weight: 600;
+    color: #00204D;
+}
+
+.heading-2 {
+    line-height: 5.6rem;
+    font-size: 4.6rem;
+    font-weight: 600;
+    color: #00204D;
+}
+
+.heading-3 {
+    line-height: 4.6rem;
+    font-size: 3.8rem;
+    font-weight: 600;
+    color: #00204D;
+}
+
+.heading-4 {
+    line-height: 3.8rem;
+    font-size: 3rem;
+    font-weight: 600;
+    color: #00204D;
+}
+
+.heading-5 {
+    line-height: 3.2rem;
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: #00204D;
+}
+
+.heading-6 {
+    line-height: 2.8rem;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #00204D;
+}
+
+.heading-7 {
+    line-height: 2.4rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #00204D;
+}
+
+.heading-8 {
+    line-height: 2.2rem;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #00204D;
+}
+
+.heading-9 {
+    line-height: 2rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #00204D;
+}
+
+.subtitle-1 {
+    line-height: 2.6rem;
+    font-size: 1.8rem;
+    color: #6E87AA;
+}
+
+.subtitle-2 {
+    line-height: 2.4rem;
+    font-size: 1.6rem;
+    color: #6E87AA;
+}
+
+.subtitle-3 {
+    line-height: 2.2rem;
+    font-size: 1.4rem;
+    color: #6E87AA;
+}
+
+.subtitle-4 {
+    line-height: 1.6rem;
+    font-size: 1.2rem;
+    color: #6E87AA;
+}
+
+.subtitle-5 {
+    line-height: 1.4rem;
+    font-size: 1rem;
+    color: #6E87AA;
+}
+
+.body-1 {
+    line-height: 2.8rem;
+    font-size: 1.8rem;
+    color: #4B6281;
+}
+
+.body-2 {
+    line-height: 2.4rem;
+    font-size: 1.6rem;
+    color: #4B6281;
+}
+
+.body-3 {
+    line-height: 2.2rem;
+    font-size: 1.4rem;
+    color: #4B6281;
+}
+
+.button-text-1 {
+    line-height: 2.4rem;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #00204D;
+}
+
+.button-text-2 {
+    line-height: 2.4rem;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: #00204D;
+}
+
+.button-text-3 {
+    line-height: 2.2rem;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #00204D;
+}
+
+.button-text-4 {
+    line-height: 2.2rem;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: #00204D;
+}
+
+.button-text-5 {
+    line-height: 1.6rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #00204D;
+}
+
+.button-text-6 {
+    line-height: 1.6rem;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #00204D;
+}
+
+.label-1 {
+    line-height: 2.4rem;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: #00204D;
+}
+
+.label-2 {
+    line-height: 2.2rem;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: #00204D;
+}
+
+.label-3 {
+    line-height: 2.2rem;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: #00204D;
+}
+
+.label-4 {
+    line-height: 2.2rem;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: #00204D;
+}
+
+.label-5 {
+    line-height: 1.6rem;
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #00204D;
+}
+
+.placeholder-1 {
+    line-height: 2.8rem;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: #00204D;
+}
+
+.placeholder-2 {
+    line-height: 2.2rem;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: #00204D;
+}
+
+
+
+.highlight-1 {
+    line-height: 6.8rem;
+    font-size: 5.6rem;
+    font-weight: 500;
+    color: #00204D;
+}
+
+.highlight-2 {
+    line-height: 5.6rem;
+    font-size: 4.6rem;
+    font-weight: 500;
+    color: #00204D;
+}
+
+.highlight-3 {
+    line-height: 4.6rem;
+    font-size: 3.8rem;
+    font-weight: 500;
+    color: #00204D;
+}
+
+.highlight-4 {
+    line-height: 3.8rem;
+    font-size: 3rem;
+    font-weight: 500;
+    color: #00204D;
+}
+
+.highlight-5 {
+    line-height: 3.2rem;
+    font-size: 2.4rem;
+    font-weight: 500;
+    color: #00204D;
+}
+
+.highlight-6 {
+    line-height: 2.8rem;
+    font-size: 2rem;
+    font-weight: 500;
+    color: #00204D;
+}
+
+.headline-1 {
+    line-height: 4.8rem;
+    font-size: 3.8rem;
+    font-weight: 500;
+    color: #00204D;
+}
+
+.headline-2 {
+    line-height: 3.8rem;
+    font-size: 3rem;
+    font-weight: 500;
+    color: #00204D;
+}
+
+
+.headline-3 {
+    line-height: 3.2rem;
+    font-size: 2.4rem;
+    font-weight: 500;
+    color: #00204D;
+}
+
+.headline-4 {
+    line-height: 2.8rem;
+    font-size: 2rem;
+    font-weight: 500;
+    color: #00204D;
+}
+
+.headline-5 {
+    line-height: 2.4rem;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: #00204D;
+}
+
+.title-3 {
+    line-height: 2.4rem;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: #4B6281;
+}
+
+.title-4 {
+    line-height: 1.6rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #4B6281;
+}
