@@ -3,7 +3,7 @@ let urlParams = new URLSearchParams(queryString);
 let url_tab = urlParams.get('tab');
 let url_id = urlParams.get('id');
 
-$('body > #home-body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@a3bbcb8/project-component/loading.html', async function () {
+$('body > #home-body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@ee283a0/project-component/loading.html', async function () {
     const userItem = UserService.user()
     $('.user-container .user-name').text(userItem?.name ?? "-");
     $('.user-container .user-email').text(userItem?.email ?? "-");
@@ -12,7 +12,7 @@ $('body > #home-body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@a3bbcb8/p
     await ProjectDA.init()
     await TeamDA.init()
     debugger
-    $('body > #home-body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@a3bbcb8/screen/module/home/local-component/body-layout.html', function () {
+    $('body > #home-body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@ee283a0/screen/module/home/local-component/body-layout.html', function () {
         switch_tab_selected('recent')
     })
 });
