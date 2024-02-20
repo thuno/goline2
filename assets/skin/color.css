@@ -2,7 +2,19 @@
     --primary-color: #366AE2;
     --background: #F2F5F8;
     --disabled-background: #f5f7fa;
-    --primary-border-color: #00358033;
     --primary-placeholder-color: #00204D66;
     --disable-input-color: rgba(0, 53, 128, 0.04);
+    --divider-color: rgba(0, 53, 128, 0.08);
+    --border-color: rgba(0, 53, 128, 0.18);
+    --border-overlay-color: rgba(0, 53, 128, 0.1);
+    --outline-color: rgb(229, 229, 229, 0.8);
+
+    --primary-sub-color: rgb(77, 122, 229);
+    --primary-border-color: rgb(188, 205, 245);
+    --primary-background-color: rgb(237, 242, 253);
+
+    --overlay-color: rgba(0, 53, 128, 0.04);
+    --overlay-selected-color: rgba(0, 53, 128, 0.08);
+
+    --disable-color: rgb(0, 32, 77, 0.25);
 }

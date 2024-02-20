@@ -665,86 +665,92 @@ body * {
     background-position: center;
     background-size: contain;
     font-family: 'Inter', sans-serif;
+    text-decoration: none
 }
 
 .box8 {
-    width: 8px;
-    height: 8px;
+    width: 0.8rem;
+    height: 0.8rem;
 }
 
 .box12 {
-    width: 12px;
-    height: 12px;
+    width: 1.2rem;
+    height: 1.2rem;
 }
 
 .box14 {
-    width: 14px;
-    height: 14px;
+    width: 1.4rem;
+    height: 1.4rem;
 }
 
 .box16 {
-    width: 16px;
-    height: 16px;
+    width: 1.6rem;
+    height: 1.6rem;
 }
 
 .box20 {
-    width: 20px;
-    height: 20px;
+    width: 2rem;
+    height: 2rem;
 }
 
 .box24 {
-    width: 24px;
-    height: 24px;
+    width: 2.4rem;
+    height: 2.4rem;
 }
 
 .box32 {
-    width: 32px;
-    height: 32px;
+    width: 3.2rem;
+    height: 3.2rem;
 }
 
 .box36 {
-    width: 36px;
-    height: 36px;
+    width: 3.6rem;
+    height: 3.6rem;
 }
 
 .box40 {
-    width: 40px;
-    height: 40px;
+    width: 4rem;
+    height: 4rem;
 }
 
 .box44 {
-    width: 44px;
-    height: 44px;
+    width: 4.4rem;
+    height: 4.4rem;
 }
 
 .box48 {
-    width: 48px;
-    height: 48px;
+    width: 4.8rem;
+    height: 4.8rem;
 }
 
 .box56 {
-    width: 56px;
-    height: 56px;
+    width: 5.6rem;
+    height: 5.6rem;
 }
 
 .box72 {
-    width: 72px;
-    height: 72px;
+    width: 7.2rem;
+    height: 7.2rem;
 }
 
 .box80 {
-    width: 80px;
-    height: 80px;
+    width: 8rem;
+    height: 8rem;
 }
 
 .box100 {
-    width: 100px;
-    height: 100px;
+    width: 10rem;
+    height: 10rem;
 }
 
 .box120 {
-    width: 120px;
-    height: 120px;
+    width: 12rem;
+    height: 12rem;
+}
+
+.center {
+    justify-content: center;
+    align-items: center;
 }
 
 .loading-view {

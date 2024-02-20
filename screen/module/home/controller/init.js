@@ -9,9 +9,9 @@ $('body > #home-body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@37eb071/p
     $('.user-container .user-email').text(userItem?.email ?? "-");
     if (userItem?.urlAvatar)
         $('.user-container .user-avatar').css('background-image', `url(${userItem?.urlAvatar ?? ""})`);
-    await ProjectDA.init()
-    await TeamDA.init()
-    debugger
+    // await ProjectDA.init()
+    // await TeamDA.init()
+    // debugger
     $('body > #home-body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@37eb071/screen/module/home/local-component/body-layout.html', function () {
         switch_tab_selected('recent')
     })
