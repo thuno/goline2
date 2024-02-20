@@ -46,7 +46,7 @@ class ProjectDA {
     static async init() {
         const res = await getData('/view/project-getall')
         if (res.Code === 200) {
-            ProjectDA.list = res.data
+            this.list = res.Data
         } else {
             toastr["error"](res.message);
         }
@@ -55,7 +55,7 @@ class ProjectDA {
 
     static async checkDomain(domain) {
         const res = await getData('/view/check-domain', { params: { domain: domain } })
-        if (res.code === 200) {
+        if (res.Code === 200) {
             debugger
             // ProjectDA.list = res.data
         } else {
@@ -68,7 +68,7 @@ class ProjectDA {
 
     static async add(obj) {
         const res = await postData('/view/add-project', { data: obj })
-        if (res.code === 200) {
+        if (res.Code === 200) {
             debugger
             ProjectDA.list.push(res.data)
         } else {
@@ -79,7 +79,7 @@ class ProjectDA {
 
     static async edit(obj) {
         const res = await postData('/view/edit-project', { data: obj })
-        if (res.code === 200) {
+        if (res.Code === 200) {
             debugger
             ProjectDA.list = ProjectDA.list.filter(e => e.ID !== obj.ID)
             ProjectDA.list.push(res.data)
@@ -91,7 +91,7 @@ class ProjectDA {
 
     static async delete(obj) {
         const res = await postData('/view/delete-project', { data: obj })
-        if (res.code === 200) {
+        if (res.Code === 200) {
             debugger
             ProjectDA.list = ProjectDA.list.filter(e => e.ID !== obj.ID)
         } else {

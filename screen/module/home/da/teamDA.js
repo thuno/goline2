@@ -26,8 +26,7 @@ class TeamDA {
             params: { id: id }
         })
         if (res.code === 200) {
-            debugger
-            ProjectDA.list = res.data
+            this.list = res.data
         } else {
             toastr["error"](res.message);
         }
