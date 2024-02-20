@@ -69,8 +69,8 @@ class ProjectDA {
     static async add(obj) {
         const res = await postData('/view/add-project', { data: obj })
         if (res.Code === 200) {
-            debugger
-            ProjectDA.list.push(res.data)
+            res.Data.Name = obj.Name
+            ProjectDA.list.push(res.Data)
         } else {
             toastr["error"](res.message);
         }

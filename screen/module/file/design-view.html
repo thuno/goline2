@@ -1,53 +1,31 @@
 <div class="col" style="z-index: 2; position: absolute; width: 100%; top: 0">
     <div class="title-bar" id="title-bar" style="height: 38px; width: 100%"></div>
     <div id="header" class="row">
+
+    </div>
+</div>
+
+<div id="home-header" class="col">
+    <div class="window-bar row">
+        <div class="title-bar-container row">
+            <button data-id="null" class="home-button row nav-tab active"><i class="fa-solid fa-home"></i></button>
+            <div class="tab-container row"></div>
+            <button class="button-add row"><i class="fa-solid fa-add"></i></button>
+        </div>
+    </div>
+
+    <!-- <div class="more-option-tab appbar_popup">
+            <div class="option-tile regular1">Pin tab</div>
+            <div class="option-tile regular1 border-bottom-light">Reload data</div>
+            <div class="option-tile regular1">Close tab</div>
+            <div class="option-tile regular1">Close all tab</div>
+        </div> -->
+
+    <div class="screen-header row">
         <div id="create_tool" class="row"></div>
         <p id="project_name" class="semibold2"></p>
         <div id="share_tool" class="row"></div>
     </div>
 </div>
-<div id="canvas_view" style="z-index: 0; position: absolute; top: 0">
-    <div id="divSection"></div>
-</div>
-
-<div id="left_view" class="elevation7">
-    <div id="tab_bar_left">
-        <i id="layer-search" class="fa-solid fa-magnifying-glass fa-xs"></i>
-        <button class="layer tab_left">Layer</button>
-        <button class="assets tab_left" style="opacity: 0.7">Assets</button>
-        <!-- <button class="base component tab_left">Base component</button> -->
-        <button id="btn_select_page">
-            <p></p>
-            <i class="fa-solid fa-chevron-up fa-xs"></i>
-        </button>
-    </div>
-    <div id="Layer" class="left_tab_view" style="display: block">
-        <div id="div_list_page">
-            <div class="header row">Modules<i class="fa-solid fa-plus" style="padding: 8px; border-radius: 2px"></i></div>
-            <div class="col"></div>
-        </div>
-        <div id="parentID:019cc638-18b3-434d-8c4a-973537cde698" style="overflow-y: scroll; height: 100%"></div>
-    </div>
-    <div id="Assets" class="left_tab_view" style="display: none"></div>
-    <!-- <div
-            id="Base component"
-            class="left_tab_view"
-            style="display: none"
-        ></div> -->
-</div>
-<div id="right_view" class="elevation7">
-    <div id="tab_bar_right">
-        <button data-index="0" class="design tab_right text-label">Design</button>
-        <button data-index="1" class="prototype tab_right text-label" style="opacity: 0.7">Prototype</button>
-        <button data-index="2" class="set-state tab_right text-label" style="opacity: 0.7">State</button>
-        <button data-index="3" class="set-state tab_right text-label" style="opacity: 0.7">Export</button>
-    </div>
-    <div id="Design" class="right_tab_view" style="display: block"></div>
-    <div id="Prototype" class="prototype_setting_view right_tab_view" style="display: none"></div>
-    <div id="State" class="state_setting_view right_tab_view" style="display: none"></div>
-    <div id="Export" class="export_view right_tab_view" style="display: none">
-        <div class="download-project center">
-            <span class="regular1">Download <i class="fa-solid fa-download fa-sm"></i></span>
-        </div>
-    </div>
-</div>
+<!-- ! -->
+<div id="body">

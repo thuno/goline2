@@ -158,7 +158,12 @@ $('body').on(`click`, `.add-project-container .button-add-project`, function (ev
     //         $('.popup-background').css("display", "flex");
     //     }
     // } else {
-    ProjectDA.add({ ID: 0, Name: "Untitled" });
+    ProjectDA.add({ ID: 0, Name: "Untitled" }).then(res => {
+        if (res.Code === 200) {
+            window.location.replace(`/#/file?id=${res.Data.ID}`);
+            window.location.reload()
+        }
+    })
     // }
 });
 
