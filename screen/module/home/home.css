@@ -166,6 +166,46 @@
     border-color: var(--primary-color);
 }
 
-#content-container .sort-container .type-view-button.selected > i {
+#content-container .sort-container .type-view-button.selected>i {
     color: var(--primary-color);
+}
+
+#content-container .project-content-container {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    overflow: hidden auto;
+    flex-wrap: wrap;
+    align-content: start;
+    padding: 1.2rem 0.8rem;
+    gap: 0.8rem;
+    align-items: stretch;
+}
+
+#content-container .project-content-container .project-card {
+    border-radius: 0.6rem;
+    box-sizing: border-box;
+    background-color: rgba(162, 176, 194, 0.25);
+    border: 1px solid var(--overlay-color);
+    --gutter: 0.8rem
+}
+
+.project-content-container .project-card>.project-bg {
+    height: 19.2rem;
+    width: 100%;
+    background-color: var(--background);
+}
+
+.project-content-container .project-card>.project-card-info {
+    flex: 1;
+    width: 100%;
+    box-sizing: border-box;
+    background-color: white;
+    padding: 0.8rem;
+    gap: 0.8rem;
+}
+
+.project-content-container .project-card>.project-card-info>.box24 {
+    background-color: var(--primary-color);
+    border-radius: 2px;
 }

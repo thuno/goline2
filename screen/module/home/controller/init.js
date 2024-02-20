@@ -1,17 +1,14 @@
-let queryString = window.location.search;
-let urlParams = new URLSearchParams(queryString);
-let url_tab = urlParams.get('tab');
-let url_id = urlParams.get('id');
-
 $('body > #home-body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@aedc420/project-component/loading.html', async function () {
     const userItem = UserService.user()
     $('.user-container .user-name').text(userItem?.name ?? "-");
     $('.user-container .user-email').text(userItem?.email ?? "-");
     if (userItem?.urlAvatar)
         $('.user-container .user-avatar').css('background-image', `url(${userItem?.urlAvatar ?? ""})`);
-    await ProjectDA.init()
-    await TeamDA.init()
+    // await ProjectDA.init()
+    // await TeamDA.init()
     // debugger
+    const x = new Date()
+    ProjectDA.list = [{ ID: 43, Name: 'Test', DateUpdate: x }, { ID: 23, Name: 'sdfihishfoisf', DateUpdate: x }]
     $('body > #home-body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@aedc420/screen/module/home/local-component/body-layout.html', function () {
         switch_tab_selected('recent')
     })

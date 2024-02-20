@@ -9,6 +9,10 @@
 /* Effect */
 @import '../assets/skin/effect.css';
 
+/* component */
+/* text */
+@import '../component/text/text.css';
+
 html,
 body {
     width: 100%;
@@ -666,6 +670,10 @@ body * {
     background-size: contain;
     font-family: 'Inter', sans-serif;
     text-decoration: none
+}
+
+body *::-webkit-scrollbar {
+    display: none;
 }
 
 .box8 {

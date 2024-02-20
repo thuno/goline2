@@ -15,11 +15,12 @@ class ProjectView {
 
     static create_projectCard(item) {
         let project_card =
-            `<div data-id=${item.ID} class="project-card ${item.ID == ProjectDA.selected?.ID ? "selected" : ""}">
+            `<div data-id=${item.ID} class="project-card col col4-xxl col8-xl col12  ${item.ID == ProjectDA.selected?.ID ? "selected" : ""}">
+                <div class="project-bg"></div>    
                 <div class="project-card-info row">
-                    <div class="box32"><img src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/pen.svg"></div>
-                    <div class="space col">
-                        <input  value="${item.Name}" class="project-name semibold1 text-title" readonly/>
+                    <div class="box24 center row"><i class="fa-solid fa-pen-nib" style="font-size: 1.2rem;color: #ffffff"></i></div>
+                    <div class="col" style="flex: 1;gap: 0.4rem;">
+                        <input value="${item.Name}" class="project-name semibold1 text-title" readonly/>
                         <span class="regular0 text-subtitle">Editor ${Ultis.getTimeEdit(item.DateUpdate)} ago</span>
                     </div>
                 </div>
