@@ -11,10 +11,9 @@ class BaseDA {
                 headers: headers ?? { "Content-Type": "application/json" },
                 body: JSON.stringify(body),
             })
-            debugger
             if (response.status === 200) {
                 const jsonData = await response.json()
-                return jsonData.data
+                return jsonData
             } else {
                 console.error("Failed to POST data:", error);
                 throw error;

@@ -40,11 +40,11 @@ class UserService {
                 params: { token: this.refreshToken() }
             }
         })
-        if (response.code === 200) {
-            this.setToken(response.data)
+        if (response.data.code === 200) {
+            this.setToken(response.data.data)
             this.setTimeRefresh()
-        } else if (response.code === 404) {
-            toastr['error']('Phiên đăng nhập cảu bạn đã hết hạn')
+        } else if (response.data.code === 404) {
+            toastr['error']('Phiên đăng nhập của bạn đã hết hạn')
             setTimeout(function () {
                 localStorage.clear()
                 window.location.href = '/screen/login-view.html'
