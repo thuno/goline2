@@ -6,6 +6,9 @@
 /* Layout */
 @import '../assets/skin/layout.css';
 
+/* Effect */
+@import '../assets/skin/effect.css';
+
 html,
 body {
     width: 100%;
