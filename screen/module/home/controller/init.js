@@ -11,6 +11,7 @@ $('body > #home-body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@a3bbcb8/p
         $('.user-container .user-avatar').css('background-image', `url(${userItem?.urlAvatar ?? ""})`);
     await ProjectDA.init()
     await TeamDA.init()
+    debugger
     $('body > #home-body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@a3bbcb8/screen/module/home/local-component/body-layout.html', function () {
         switch_tab_selected('recent')
     })
