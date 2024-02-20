@@ -135,6 +135,7 @@
     box-sizing: border-box;
     border: 1px solid var(--border-color);
     gap: 0.8rem;
+    cursor: pointer;
 }
 
 .add-project-container .button-add-project>.box32 {

@@ -135,30 +135,31 @@ $("body").on("mousedown", ".project-card, .project-tile", async function (ev) {
 });
 
 $('body').on(`click`, `.add-project-container .button-add-project`, function (ev) {
-    if (url_tab == "team-child") {
-        let cus = TeamDA.selected.CustomerTeamItems.find(e => e.CustomerID == userItem.ID);
-        if (cus == null) {
-            let teamParent = TeamDA.list.find(e => e.ID == TeamDA.selected.ParentID);
-            cus = teamParent.CustomerTeamItems.find(el => el.CustomerID == userItem.ID);
-        }
-        if (cus?.Permission != 2) {
-            ProjectDA.add({ ID: 0, TeamID: TeamDA.selected.ID, Name: "Untitled" });
-        } else {
-            let item = {
-                type: "info",
-                title: "Thông báo",
-                content: `Bạn không có quyền thực hiện thao tác này`,
-                cancelTitle: "Cancel",
-                confirmTitle: "Confirm",
-                cancelAction: function () { },
-                confirmAction: function () { },
-            };
-            $('.popup-background').append(PopupDA.create_alertPopup_center(item));
-            $('.popup-background').css("display", "flex");
-        }
-    } else {
-        ProjectDA.add({ ID: 0, Name: "Untitled" });
-    }
+    debugger
+    // if (url_tab == "team-child") {
+    //     let cus = TeamDA.selected.CustomerTeamItems.find(e => e.CustomerID == userItem.ID);
+    //     if (cus == null) {
+    //         let teamParent = TeamDA.list.find(e => e.ID == TeamDA.selected.ParentID);
+    //         cus = teamParent.CustomerTeamItems.find(el => el.CustomerID == userItem.ID);
+    //     }
+    //     if (cus?.Permission != 2) {
+    //         ProjectDA.add({ ID: 0, TeamID: TeamDA.selected.ID, Name: "Untitled" });
+    //     } else {
+    //         let item = {
+    //             type: "info",
+    //             title: "Thông báo",
+    //             content: `Bạn không có quyền thực hiện thao tác này`,
+    //             cancelTitle: "Cancel",
+    //             confirmTitle: "Confirm",
+    //             cancelAction: function () { },
+    //             confirmAction: function () { },
+    //         };
+    //         $('.popup-background').append(PopupDA.create_alertPopup_center(item));
+    //         $('.popup-background').css("display", "flex");
+    //     }
+    // } else {
+    ProjectDA.add({ ID: 0, Name: "Untitled" });
+    // }
 });
 
 $('body').on(`click`, `.project-option-popup .option-tile.active.open`, function (ev) {

@@ -7,11 +7,11 @@ if (UserService.token()) {
         document.head.querySelector('title').innerHTML = 'Home'
         let cssTag = document.createElement('link')
         cssTag.rel = "stylesheet"
-        // cssTag.href = "https://cdn.jsdelivr.net/gh/thuno/goline2@aedc420/screen/module/home/home.css"
-        cssTag.href = "./screen/module/home/home.css"
+        cssTag.href = "https://cdn.jsdelivr.net/gh/thuno/goline2@aedc420/screen/module/home/home.css"
+        // cssTag.href = "./screen/module/home/home.css"
         document.head.appendChild(cssTag)
-        // $('body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@aedc420/screen/module/home/home.html')
-        $('body').load('./screen/module/home/home.html')
+        $('body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@aedc420/screen/module/home/home.html')
+        // $('body').load('./screen/module/home/home.html')
     } else {
         // window.location.hash = '/file'
         document.head.querySelector('title').innerHTML = 'File'
