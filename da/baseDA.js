@@ -34,7 +34,7 @@ class BaseDA {
             })
             if (response.status === 200) {
                 const jsonData = await response.json()
-                return jsonData
+                return jsonData.data
             } else {
                 console.error("Failed to POST data:", error);
                 throw error;

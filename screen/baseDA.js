@@ -40,6 +40,7 @@ class UserService {
                 params: { token: this.refreshToken() }
             }
         })
+        debugger
         if (response.code === 200) {
             this.setToken(response.data)
             this.setTimeRefresh()
