@@ -37,7 +37,6 @@ class TeamDA {
 
     static async init() {
         const res = await getData('/view/team-getall')
-        debugger
         if (res.Code === 200) {
             this.list = res.Data
         } else {
