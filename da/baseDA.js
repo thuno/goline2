@@ -5,7 +5,7 @@
 class BaseDA {
     static post = async (url, { headers, body }) => {
         try {
-            if (headers.params) headers.params = JSON.stringify(headers.params)
+            if (headers?.params) headers.params = JSON.stringify(headers.params)
             const response = await fetch(url, {
                 method: 'POST',
                 headers: headers ?? { "Content-Type": "application/json" },
@@ -26,7 +26,7 @@ class BaseDA {
 
     static postFile = async (url, { headers, formData }) => {
         try {
-            if (headers.params) headers.params = JSON.stringify(headers.params)
+            if (headers?.params) headers.params = JSON.stringify(headers.params)
             const response = await fetch(url, {
                 method: 'POST',
                 headers: headers ?? { "Content-Type": "application/json" },
@@ -47,7 +47,7 @@ class BaseDA {
 
     static get = async (url, { headers }) => {
         try {
-            if (headers.params) headers.params = JSON.stringify(headers.params)
+            if (headers?.params) headers.params = JSON.stringify(headers.params)
             const response = await fetch(url, {
                 method: 'GET',
                 headers: headers,
