@@ -1,5 +1,5 @@
 var left_view, right_view, layer_view, assets_view, design_view, prototype_view, state_view
-$('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@7e7b76d/project-component/loading.html', async function () {
+$('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@aa2769c/project-component/loading.html', async function () {
     const pId = location.hash.match(/file\?id\=[\d]*/g)[0].replace('file?id=', "")
     await ProjectDA.getByID(parseInt(pId))
     const res = await ProjectDA.getPermission()
@@ -26,7 +26,7 @@ $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@7e7b76d/projec
             PageDA.checkEditPermission(PageDA.obj.Permission)
         }
     }
-    $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@7e7b76d/screen/module/file/local-component/body-layout.html', function () {
+    $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@aa2769c/screen/module/file/local-component/body-layout.html', function () {
         left_view = document.getElementById('left_view')
         right_view = document.getElementById('right_view')
         layer_view = document.getElementById('Layer')
