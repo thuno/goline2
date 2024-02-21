@@ -43,8 +43,8 @@ $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@b8b87c7/projec
             PageDA.obj.topx = topx
             PageDA.obj.leftx = leftx
         }
+        WiniIO.emitInit()
     })
-    WiniIO.emitInit()
     permissionTool()
     customerList()
 });
