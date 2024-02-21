@@ -209,7 +209,7 @@ class ProjectDA {
     }
 
     static async getPermission() {
-        const res = await postData('/view/get-permission')
+        const res = await getData('/view/get-permission')
         if (res.Code === 200) {
         } else {
             toastr["error"](res.message);
