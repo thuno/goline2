@@ -1,6 +1,5 @@
 var keyid = 'escape' // Key ESC
 var is_dbclick = false
-let scale = 1
 const factor = 0.05
 const min_scale = 0.02
 const max_scale = 256
@@ -9,10 +8,6 @@ var width = document.body?.clientWidth
 var height = document.body?.clientHeight
 var totalH = height + scale
 var totalW = width + scale
-var topx = 0,
-  leftx = 0,
-  leftw = left_view?.offsetWidth ?? 0,
-  reightw = right_view?.offsetWidth ?? 0
 var showF12 = false
 var selectPath
 var design_view_index = 0

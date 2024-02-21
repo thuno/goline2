@@ -1,4 +1,9 @@
-var left_view, right_view, layer_view, assets_view, design_view, prototype_view, state_view
+var left_view, right_view, layer_view, assets_view, design_view, prototype_view, state_view;
+var scale = 1;
+var topx = 0,
+    leftx = 0,
+    leftw = 0,
+    reightw = 0
 $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@e7e38ba/project-component/loading.html', async function () {
     const pId = location.hash.match(/file\?id\=[\d]*/g)[0].replace('file?id=', "")
     await ProjectDA.getByID(parseInt(pId))
@@ -29,6 +34,8 @@ $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@e7e38ba/projec
         design_view = document.getElementById('Design')
         prototype_view = document.getElementById('Prototype')
         state_view = document.getElementById('State')
+        leftw = left_view?.offsetWidth ?? 0
+        reightw = right_view?.offsetWidth ?? 0
         setupRightView()
         setupLeftView()
         if (!PageDA.obj.scale) {
