@@ -27,6 +27,8 @@ $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@f5425d1/projec
         }
     }
     $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@f5425d1/screen/module/file/local-component/body-layout.html', function () {
+        permissionTool()
+        customerList()
         left_view = document.getElementById('left_view')
         right_view = document.getElementById('right_view')
         layer_view = document.getElementById('Layer')
@@ -45,6 +47,4 @@ $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@f5425d1/projec
         }
         WiniIO.emitInit()
     })
-    permissionTool()
-    customerList()
 });
