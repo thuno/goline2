@@ -1,6 +1,6 @@
 ﻿class PageDA {
   static list = [];
-  static enableEdit = true;
+  static enableEdit = false;
   static obj = { ID: 0, ProjectID: 0, Permission: 2 };
   static urlCtr = "Page/";
   static settingsPage = false;
@@ -43,8 +43,8 @@
     }
   }
 
-  static checkEditPermission(item) {
-    if (item?.Permission != undefined && item.Permission < EnumPermission.viewer) {
+  static checkEditPermission(permisson) {
+    if (permisson != undefined && permisson < EnumPermission.viewer) {
       PageDA.enableEdit = true;
     } else {
       PageDA.enableEdit = false;

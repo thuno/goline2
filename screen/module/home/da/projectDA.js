@@ -181,8 +181,8 @@ class ProjectDA {
 
     static async getByID(id) {
         const res = await getData('/view/project-getById', { params: { pid: id } })
-        debugger
-        if (res.code === 200) {
+        if (res.Code === 200) {
+            this.obj = res.Data
         } else {
             toastr["error"](res.message);
         }
@@ -210,8 +210,7 @@ class ProjectDA {
 
     static async getPermission() {
         const res = await postData('/view/get-permission')
-        debugger
-        if (res.code === 200) {
+        if (res.Code === 200) {
         } else {
             toastr["error"](res.message);
         }

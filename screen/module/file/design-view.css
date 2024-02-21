@@ -2,6 +2,34 @@ body {
     position: relative;
 }
 
+body[enable="false"] .right_tab_view {
+    pointer-events: none !important;
+}
+
+body[enable="false"] .assets.tab_left {
+    display: none !important;
+}
+
+body[enable="false"] .header-modules>.fa-plus {
+    display: none !important;
+}
+
+body[enable="false"] .layer_wbase_tile>.is-lock {
+    display: none !important;
+}
+
+body[enable="false"] .f12-container {
+    pointer-events: none !important;
+}
+
+body[enable="false"] .btn-tool-state:nth-child(n + 2):nth-child(-n + 5) {
+    display: none !important;
+}
+
+body:has(#history-view) :is(.btn-tool-state:nth-child(1), .btn-history) {
+    display: none !important;
+}
+
 #file-header {
     width: 100%;
     min-height: 8.6rem;

@@ -1,12 +1,32 @@
 var left_view, right_view, layer_view, assets_view, design_view, prototype_view, state_view
 $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@7e7b76d/project-component/loading.html', async function () {
-    // customerList()
     const pId = location.hash.match(/file\?id\=[\d]*/g)[0].replace('file?id=', "")
-    const res = await ProjectDA.getByID(parseInt(pId))
-    debugger
-    await ProjectDA.getPermission()
+    await ProjectDA.getByID(parseInt(pId))
+    const res = await ProjectDA.getPermission()
+    if (res.Code === 200) {
+        for (let wpageItem of res.Data.WPageItems) {
+            if (wpageItem.Name == undefined) {
+                wpageItem.Name = `Page ${i + 1}`
+            }
+        }
+        PageDA.list.push(...res.Data.WPageItems)
+        if (PageDA.list.length > 0) {
+            PageDA.obj = Ultis.getStorage('opening-page')
+            if (checkTypeof(PageDA.obj) === 'string')
+                PageDA.obj = JSON.parse(PageDA.obj)
+            if (!PageDA.obj || PageDA.obj.ProjectID != ProjectDA.obj.ID) {
+                PageDA.obj = PageDA.list.find(e => e.ID === ProjectDA.obj.PageDefaultID) ?? PageDA.list[0]
+            }
+            PageDA.obj.Permission = PageDA.obj.Permission
+            if (!PageDA.obj.scale) {
+                PageDA.obj.scale = scale
+                PageDA.obj.topx = topx
+                PageDA.obj.leftx = leftx
+            }
+            PageDA.checkEditPermission(PageDA.obj.Permission)
+        }
+    }
     $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@7e7b76d/screen/module/file/local-component/body-layout.html', function () {
-        permissionTool()
         left_view = document.getElementById('left_view')
         right_view = document.getElementById('right_view')
         layer_view = document.getElementById('Layer')
@@ -17,4 +37,7 @@ $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@7e7b76d/projec
         setupRightView()
         setupLeftView()
     })
+    WiniIO.emitInit()
+    permissionTool()
+    customerList()
 });
