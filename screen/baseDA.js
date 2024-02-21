@@ -75,7 +75,7 @@ class UserService {
             headersObj.pid = ProjectDA.obj.ID
             if (PageDA.obj.ID) headersObj.pageid = PageDA.obj.ID
         }
-        return undefined
+        return headersObj
     }
 }
 
