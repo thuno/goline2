@@ -180,7 +180,7 @@ class ProjectDA {
     }
 
     static async getByID(id) {
-        const res = await get('/view/project-getById', { params: { pid: id } })
+        const res = await getData('/view/project-getById', { params: { pid: id } })
         debugger
         if (res.code === 200) {
         } else {
