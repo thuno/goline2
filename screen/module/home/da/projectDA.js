@@ -208,9 +208,16 @@ class ProjectDA {
         WiniIO.emitGet(null, url, EnumObj.project, EnumEvent.getProjectByID);
     }
 
-    static getPermission() {
-        let url = ProjectDA.urlCtr + "GetPermissionItem";
-        WiniIO.emitGet(null, url, EnumObj.project, EnumEvent.permission);
+    static async getPermission() {
+        const res = await postData('/view/get-permission')
+        debugger
+        if (res.code === 200) {
+        } else {
+            toastr["error"](res.message);
+        }
+        return res
+        // let url = ProjectDA.urlCtr + "GetPermissionItem";
+        // WiniIO.emitGet(null, url, EnumObj.project, EnumEvent.permission);
     }
 
     static create_UI_Project(item) {
