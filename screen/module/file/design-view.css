@@ -1,0 +1,241 @@
+body {
+    position: relative;
+}
+
+#file-header {
+    width: 100%;
+    min-height: 8.6rem;
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#body {
+    width: 100%;
+    height: 100%;
+    flex: 1;
+}
+
+.screen-header {
+    background-color: #2c2c2c;
+    justify-content: space-between;
+    position: relative;
+    height: 4.8rem;
+}
+
+#project_name {
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.logo-header::after {
+    content: '';
+    width: 2.4rem;
+    height: 2.4rem;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: url(../../../assets/logo_wini.svg);
+}
+
+.btn-share {
+    height: fit-content;
+    background-color: var(--primary-color);
+    padding: 0.8rem 1.2rem;
+    border-radius: 4px;
+    color: white !important;
+    margin: 0 1.2rem;
+}
+
+.btn-history::after {
+    content: '';
+    width: 2.2rem;
+    height: 2.2rem;
+    background-size: contain;
+    background-image: url(../../../assets/history.svg);
+}
+
+.btn-play::after {
+    content: '';
+    width: 2rem;
+    height: 2rem;
+    background-size: contain;
+    background-image: url(../../../assets/play.svg);
+}
+
+.btn-tool-state {
+    justify-content: center;
+    background-color: transparent;
+    border: none;
+    padding: 0.8rem;
+}
+
+.btn-tool-state.on-select {
+    background-color: #1890ff !important;
+}
+
+.btn-tool-state>img {
+    padding: 0;
+    width: 2.4rem;
+    height: 2.4rem;
+    border: none;
+}
+
+.btn-tool-state>i {
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    padding: 0.4rem;
+    font-size: 0.8rem;
+}
+
+.btn-tool-state>span {
+    position: fixed;
+    white-space: nowrap;
+    z-index: 10;
+    top: 8.6rem;
+    padding: 0.4rem;
+    border-radius: 4px;
+    color: white;
+    font-size: 1.2rem;
+    background-color: #262626;
+    visibility: hidden;
+}
+
+.btn-tool-state:hover {
+    background-color: #000000;
+}
+
+.btn-tool-state:hover> :last-child {
+    visibility: visible;
+}
+
+#canvas_view {
+    width: 100%;
+    height: 100%;
+    background-color: #f5f5f5;
+    position: fixed !important;
+    overflow: hidden;
+}
+
+#left_view {
+    top: 8.6rem;
+    left: 0;
+    height: calc(100% - 8.6rem);
+    background-color: white;
+    position: fixed;
+    overflow: visible auto;
+    min-width: 22.1rem !important;
+    max-width: 44.8rem !important;
+}
+
+#right_view {
+    top: 8.6rem;
+    right: 0;
+    height: calc(100% - 8.6rem);
+    width: 26rem;
+    background-color: white;
+    position: fixed;
+    overflow: visible auto;
+}
+
+#tab_bar_left {
+    width: 100%;
+    padding: 0.8rem 0.4rem 0.8rem 0.8rem;
+    border-bottom: 1px solid #e5e5e5;
+    height: 4rem;
+}
+
+#layer-search {
+    display: flex;
+    border-radius: 2px;
+    float: left;
+    margin-top: 0.3rem;
+    font-size: 1rem;
+}
+
+#btn_select_page {
+    float: right;
+    padding: 0.4rem;
+    color: #262626;
+    max-width: 40%;
+    justify-content: end;
+    width: fit-content;
+    gap: 0.4rem;
+}
+
+.tab_left,
+.tab_right {
+    padding: 0.4rem;
+    margin-right: 0.6rem;
+    float: left;
+}
+
+#tab_bar_right {
+    width: 100%;
+    padding: 0.8rem 0.4rem 0.8rem 0.8rem;
+    border-bottom: 1px solid #e5e5e5;
+    height: 4rem;
+}
+
+#div_list_page {
+    width: 100%;
+    min-height: 6.8rem;
+    max-height: 20rem;
+    border-bottom: 1px solid #e5e5e5;
+    padding-bottom: 0.8;
+}
+
+.header-modules {
+    justify-content: space-between;
+    padding: 0.6rem 0 0.6rem 1.6rem;
+}
+
+.header-modules>.fa-plus {
+    display: flex;
+    border-radius: 2px;
+    font-size: 1.2rem;
+}
+
+.edit-container {
+    width: 100%;
+    min-height: 4.8rem;
+    border-bottom: 1px solid #dfdfdf;
+    padding: 0.8rem;
+}
+
+.ds-block-header {
+    width: 100%;
+    height: 4rem;
+    padding-left: 1.2rem;
+    justify-content: space-between;
+}
+
+#edit-wini-res .row>.prefix-icon {
+    content: url(../../../assets/column.svg);
+}
+
+.action-button::after {
+    content: '';
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: var(--icon);
+    width: 60%;
+    height: 60%;
+}
+
+.ds-block-header>.action-button {
+    display: none;
+}
+
+.ds-block-header:hover>.action-button {
+    display: flex;
+}
+
+.action-button:hover {
+    background-color: #f1f1f1;
+    border-radius: 0.4rem;
+}

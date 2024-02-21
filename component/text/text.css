@@ -1,5 +1,5 @@
 .comp-text {
-    --max-line: 2,
+    --max-line: 2;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: var(--max-line);

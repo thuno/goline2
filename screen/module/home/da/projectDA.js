@@ -123,31 +123,52 @@ class ProjectDA {
         emitPort(obj, url, EnumObj.project, EnumEvent.editcode);
     }
 
-    static addCustomerProject(obj) {
-        var url = "UrPermission/AddCustomerProject";
-        if (ProjectDA.obj.ID != 0) {
-            WiniIO.emitPort(obj, url, EnumObj.customerProject, EnumEvent.add);
+    static async addCustomerProject(obj) {
+        const res = await postData('/view/add-customer-project', { data: obj })
+        if (res.code === 200) {
+            debugger
         } else {
-            emitPort(obj, url, EnumObj.customerProject, EnumEvent.add);
+            toastr["error"](res.message);
         }
+        return res
+        // var url = "UrPermission/AddCustomerProject";
+        // if (ProjectDA.obj.ID != 0) {
+        //     WiniIO.emitPort(obj, url, EnumObj.customerProject, EnumEvent.add);
+        // } else {
+        //     emitPort(obj, url, EnumObj.customerProject, EnumEvent.add);
+        // }
     }
 
-    static editCustomerProject(obj) {
-        let url = "UrPermission/EditCustomerProject";
-        if (ProjectDA.obj.ID != 0) {
-            WiniIO.emitPort(obj, url, EnumObj.customerProject, EnumEvent.edit);
+    static async editCustomerProject(obj) {
+        const res = await postData('/view/edit-customer-project', { data: obj })
+        if (res.code === 200) {
+            debugger
         } else {
-            emitPort(obj, url, EnumObj.customerProject, EnumEvent.edit);
+            toastr["error"](res.message);
         }
+        return res
+        // let url = "UrPermission/EditCustomerProject";
+        // if (ProjectDA.obj.ID != 0) {
+        //     WiniIO.emitPort(obj, url, EnumObj.customerProject, EnumEvent.edit);
+        // } else {
+        //     emitPort(obj, url, EnumObj.customerProject, EnumEvent.edit);
+        // }
     }
 
-    static deleteCustomerProject(obj) {
-        let url = "UrPermission/DeleteCustomerProject?id=" + obj;
-        if (ProjectDA.obj.ID != 0) {
-            WiniIO.emitPort(null, url, EnumObj.customerProject, EnumEvent.delete);
+    static async deleteCustomerProject(id) {
+        const res = await postData('/view/delete-customer-team', { params: { id: id } })
+        if (res.code === 200) {
+            debugger
         } else {
-            emitPort(null, url, EnumObj.customerProject, EnumEvent.delete);
+            toastr["error"](res.message);
         }
+        return res
+        // let url = "UrPermission/DeleteCustomerProject?id=" + obj;
+        // if (ProjectDA.obj.ID != 0) {
+        //     WiniIO.emitPort(null, url, EnumObj.customerProject, EnumEvent.delete);
+        // } else {
+        //     emitPort(null, url, EnumObj.customerProject, EnumEvent.delete);
+        // }
     }
 
     static getByIDApi() {
@@ -158,21 +179,28 @@ class ProjectDA {
         emitGet(null, url, EnumObj.project, EnumEvent.getProjectByIDapi);
     }
 
-    static getByID(id) {
-        let pid;
-        if (id == null) {
-            const queryString = window.location.search;
-            const urlParams = new URLSearchParams(queryString);
-            pid = urlParams.get("id");
+    static async getByID(id) {
+        const res = await postData('/view/delete-customer-team', { params: { pid: id } })
+        debugger
+        if (res.code === 200) {
         } else {
-            pid = id;
+            toastr["error"](res.message);
         }
-        let url = ProjectDA.urlCtr + "GetByID?pid=" + pid;
-        if (ProjectDA.obj.ID == 0) {
-            emitGet(null, url, EnumObj.project, EnumEvent.getProjectByID);
-        } else {
-            WiniIO.emitGet(null, url, EnumObj.project, EnumEvent.getProjectByID);
-        }
+        return res
+        // let pid;
+        // if (id == null) {
+        //     const queryString = window.location.search;
+        //     const urlParams = new URLSearchParams(queryString);
+        //     pid = urlParams.get("id");
+        // } else {
+        //     pid = id;
+        // }
+        // let url = ProjectDA.urlCtr + "GetByID?pid=" + pid;
+        // if (ProjectDA.obj.ID == 0) {
+        //     emitGet(null, url, EnumObj.project, EnumEvent.getProjectByID);
+        // } else {
+        //     WiniIO.emitGet(null, url, EnumObj.project, EnumEvent.getProjectByID);
+        // }
     }
 
     static getProjectInfor() {

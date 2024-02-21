@@ -17,11 +17,11 @@ if (UserService.token()) {
         document.head.querySelector('title').innerHTML = 'File'
         let cssTag = document.createElement('link')
         cssTag.rel = "stylesheet"
-        cssTag.href = "https://cdn.jsdelivr.net/gh/thuno/goline2@28682a3/screen/module/file/design-view.css"
-        // cssTag.href = "./screen/module/file/design-view.css"
+        // cssTag.href = "https://cdn.jsdelivr.net/gh/thu/no/goline2@28682a3/screen/module/file/design-view.css"
+        cssTag.href = "./screen/module/file/design-view.css"
         document.head.appendChild(cssTag)
-        // $('body').load('./file/design-view.html')
-        $('body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@28682a3/screen/module/file/design-view.html')
+        $('body').load('./screen/module/file/design-view.html')
+        // $('body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@28682a3/screen/module/file/design-view.html')
     }
 } else {
     window.location.hash = '/login'

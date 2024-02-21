@@ -1,6 +1,6 @@
 ﻿class PageDA {
   static list = [];
-  static enableEdit = false;
+  static enableEdit = true;
   static obj = { ID: 0, ProjectID: 0, Permission: 2 };
   static urlCtr = "Page/";
   static settingsPage = false;

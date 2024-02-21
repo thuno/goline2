@@ -1,14 +1,11 @@
-<div class="col" style="z-index: 2; position: absolute; width: 100%; top: 0">
-    <div class="title-bar" id="title-bar" style="height: 38px; width: 100%"></div>
-    <div id="header" class="row">
-
-    </div>
-</div>
-
-<div id="home-header" class="col">
+<script src="./screen/module/home/da/projectDA.js"></script>
+<script src="./screen/module/file/da/pageDA.js"></script>
+<script src="./screen/module/file/da/wbaseDA.js"></script>
+<script src="./screen/module/file/da/skinDA.js"></script>
+<div id="file-header" class="col">
     <div class="window-bar row">
         <div class="title-bar-container row">
-            <button data-id="null" class="home-button row nav-tab active"><i class="fa-solid fa-home"></i></button>
+            <button data-id="null" class="home-button row nav-tab active" style="width: 4.8rem;"><i class="fa-solid fa-home"></i></button>
             <div class="tab-container row"></div>
             <button class="button-add row"><i class="fa-solid fa-add"></i></button>
         </div>
@@ -22,11 +19,29 @@
         </div> -->
 
     <div class="screen-header row">
-        <div id="create_tool" class="row"></div>
+        <div class="row">
+            <button type="button" class="logo-header box48 row center"></button>
+            <div id="create_tool" class="row"></div>
+        </div>
         <p id="project_name" class="semibold2"></p>
-        <div id="share_tool" class="row"></div>
+        <div id="share_tool" class="row">
+            <div class="row customer-circle-list"></div>
+            <button type="button" class="regular1 btn-share">Share</button>
+            <button type="button" class="box48 center btn-history row"></button>
+            <button type="button" class="box48 center btn-play row"></button>
+            <div class="text-field-container row regular1" style="gap: 0.4rem;width: 8rem;">
+                <input type="text" value="20%"/>
+                <i class="fa-solid fa-chevron-down fa-xs"></i>
+            </div>
+        </div>
     </div>
 </div>
-<!-- ! -->
+
 <div id="body"></div>
-<script src="https://cdn.jsdelivr.net/gh/thuno/goline2@28682a3/screen/module/file/controller/init.js"></script>
+<script src="./screen/module/file/controller/init.js"></script>
+<script src="./screen/module/file/controller/header.js"></script>
+<script src="./screen/module/file/controller/left-view.js"></script>
+<script src="./screen/module/file/controller/left-view.js"></script>
+<script src="./screen/module/file/controller/right-view.js"></script>
+<script src="./socket/socket.io.js"></script>
+<script src="./socket/SocketWini.js"></script>

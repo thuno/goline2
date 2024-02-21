@@ -3,7 +3,7 @@ class ConfigApi {
 
     static domainApi = 'https://apip.wini.vn/';
     // 
-    static socketHome = "wss://home.wini.vn";
+    // static socketHome = "wss://home.wini.vn";
     static socketWini = "https://server.wini.vn";
     static socketWiniFile = "https://server.wini.vn";
 

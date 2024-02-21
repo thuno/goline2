@@ -705,9 +705,9 @@ class WbClass {
 }
 
 class WBaseDA {
-  static wbase_url = domainApi + '/WBase/ListItem'
-  static base_item_url = domainApi + '/WBase/listBaseitem'
-  static attribute_url = domainApi + '/Attribute/ListItemByPid'
+  static wbase_url = ConfigApi.domainApi + '/WBase/ListItem'
+  static base_item_url = ConfigApi.domainApi + '/WBase/listBaseitem'
+  static attribute_url = ConfigApi.domainApi + '/Attribute/ListItemByPid'
   static enumEvent
   static listData = []
   static isCtrlZ = false
@@ -989,7 +989,7 @@ class WBaseDA {
 
   static async getAssetChildren (parentid) {
     let url = `WBase/GetListChild?listid=${parentid}`
-    let result = await $.get(domainApi + url)
+    let result = await $.get(ConfigApi.domainApi + url)
     return result.Data
   }
 }

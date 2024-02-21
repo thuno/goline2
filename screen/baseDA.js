@@ -57,18 +57,23 @@ class UserService {
     static headers = async () => {
         const timeRefresh = this.timeRefresh()
         const now = Date.now() / 1000
+        let headersObj
         if (timeRefresh && timeRefresh > 0 && timeRefresh <= now) {
             await this.refreshNewToken()
-            return {
+            headersObj = {
                 refreshToken: this.refreshToken(),
                 token: this.token(),
                 'Content-Type': 'application/json'
             }
         } else if (this.token()) {
-            return {
+            headersObj = {
                 token: this.token(),
                 'Content-Type': 'application/json'
             }
+        }
+        if (ProjectDA.obj.ID && headersObj) {
+            headersObj.pid = ProjectDA.obj.ID
+            if (PageDA.obj.ID) headersObj.pageid = PageDA.obj.ID
         }
         return undefined
     }
