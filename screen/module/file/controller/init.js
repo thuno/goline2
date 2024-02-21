@@ -18,11 +18,6 @@ $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@30eaafa/projec
                 PageDA.obj = PageDA.list.find(e => e.ID === ProjectDA.obj.PageDefaultID) ?? PageDA.list[0]
             }
             PageDA.obj.Permission = PageDA.obj.Permission
-            if (!PageDA.obj.scale) {
-                PageDA.obj.scale = scale
-                PageDA.obj.topx = topx
-                PageDA.obj.leftx = leftx
-            }
             PageDA.checkEditPermission(PageDA.obj.Permission)
         }
     }
@@ -36,6 +31,11 @@ $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@30eaafa/projec
         state_view = document.getElementById('State')
         setupRightView()
         setupLeftView()
+        if (!PageDA.obj.scale) {
+            PageDA.obj.scale = scale
+            PageDA.obj.topx = topx
+            PageDA.obj.leftx = leftx
+        }
     })
     WiniIO.emitInit()
     permissionTool()
