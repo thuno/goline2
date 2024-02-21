@@ -5,7 +5,7 @@ $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@ea55c6d/projec
     const res = await ProjectDA.getByID(parseInt(pId))
     debugger
     await ProjectDA.getPermission()
-    $('body > #body').load('./screen/module/file/local-component/body-layout.html', function () {
+    $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@ea55c6d/screen/module/file/local-component/body-layout.html', function () {
         permissionTool()
         left_view = document.getElementById('left_view')
         right_view = document.getElementById('right_view')
