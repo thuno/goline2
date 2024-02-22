@@ -65,11 +65,7 @@ $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@4cb32cf/projec
         })
         // PropertyDA.list = skinResponse.Data.WPropertyItems
         console.log('get server done: ', Date.now())
-        wbase_list = []
         wbase_list = initDOM(wbaseResponse)
-        parent = divSection
-        selected_list = []
-        updateHoverWbase()
         arrange()
         setupRightView()
         setupLeftView()
