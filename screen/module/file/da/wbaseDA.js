@@ -717,7 +717,6 @@ class WBaseDA {
     attributeData = attributeData.Data
     let WbData = await getData(wbase_url)
     let cssData = await StyleDA.initStyleSheets()
-    debugger
     StyleDA.cssStyleSheets = cssData.Data
     StyleDA.cssStyleSheets.forEach(cssItem => {
       let styleTag = document.createElement('style')
