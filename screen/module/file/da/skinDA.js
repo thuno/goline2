@@ -28,7 +28,7 @@ class StyleDA {
   static listSkin = []
   static newSkin
 
-  static init (projectItem) {
+  static init(projectItem) {
     if (projectItem) {
       StyleDA.skinProjectID = projectItem.ID
       CateDA.initCate()
@@ -38,24 +38,22 @@ class StyleDA {
     }
   }
 
-  static async initSkin (pid) {
-    let result = await $.get(domainApi + `Css/ListSkinItem?pid=${pid}`)
+  static async initSkin(pid) {
+    let result = await getData(ConfigApi.domainApi + `Css/ListSkinItem?pid=${pid}`)
     return result.Data
   }
 
-  static async getById (id) {
-    let result = await $.get(domainApi + 'Css/GetListByID' + `?id=${id}`)
+  static async getById(id) {
+    let result = await getData(ConfigApi.domainApi + 'Css/GetListByID' + `?id=${id}`)
     return result.Data
   }
 
-  static async initStyleSheets () {
-    let result = await $.get(
-      domainApi + 'Css/ListItem' + `?pid=${ProjectDA.obj.ID}`
-    )
+  static async initStyleSheets() {
+    let result = await getData(ConfigApi.domainApi + `Css/ListItem?pid=${ProjectDA.obj.ID}`)
     return result
   }
 
-  static async addStyleSheet (cssItem) {
+  static async addStyleSheet(cssItem) {
     let result = await $.post('/view/add-stylesheet', {
       headers: await UserService.headerProject(),
       body: cssItem
@@ -64,7 +62,7 @@ class StyleDA {
     return result
   }
 
-  static async editStyleSheet (cssItem) {
+  static async editStyleSheet(cssItem) {
     let result = await $.post('/view/edit-stylesheet', {
       headers: await UserService.headerProject(),
       body: cssItem
@@ -72,7 +70,7 @@ class StyleDA {
     return result
   }
 
-  static async deleteStyleSheet (cssItem) {
+  static async deleteStyleSheet(cssItem) {
     let result = await $.post('/view/delete-stylesheet', {
       headers: await UserService.headerProject(),
       body: cssItem
@@ -80,22 +78,22 @@ class StyleDA {
     return result
   }
 
-  static getSkinsByListId (listId) {
+  static getSkinsByListId(listId) {
     let url = StyleDA.urlCtr + `ListByListPid?lid=${listId}`
     WiniIO.emitGet(null, url, EnumObj.style, EnumEvent.get)
   }
 
-  static copySkin (styleCopyItem) {
+  static copySkin(styleCopyItem) {
     let url = StyleDA.urlCtr + 'CopyStyle'
     WiniIO.emitPort(styleCopyItem, url, EnumObj.style, EnumEvent.copy)
   }
 
-  static getListMergeSkin () {
+  static getListMergeSkin() {
     let url = StyleDA.urlCtr + 'ListMergeItem'
     WiniIO.emitGet(null, url, EnumObj.style, EnumEvent.merge)
   }
 
-  static mergeSkin (styleInitItem) {
+  static mergeSkin(styleInitItem) {
     if (styleInitItem.ColorItems?.length > 0) {
       let listMergeColorID = styleInitItem.ColorItems.map(skinItem =>
         skinItem.ListID.split(',')
@@ -190,14 +188,14 @@ class StyleDA {
     WiniIO.emitPort(styleInitItem, url, EnumObj.style, EnumEvent.merge)
   }
 
-  static convertInitData (json) {
+  static convertInitData(json) {
     StyleDA.listColor = json.ColorItems
     StyleDA.listTypo = json.TextStyleItems
     StyleDA.listBorder = json.BorderItems
     StyleDA.listEffect = json.EffectItems
   }
 
-  static copySkinToProject (json) {
+  static copySkinToProject(json) {
     let newColor = json.ColorItems
     ColorDA.list.push(...newColor)
     let newTypo = json.TextStyleItems
@@ -228,7 +226,7 @@ class PropertyDA {
     BaseID: null
   }
 
-  static add (propertyItem) {
+  static add(propertyItem) {
     if (propertyItem) {
       this.list.push(propertyItem)
       assets_list
@@ -238,13 +236,13 @@ class PropertyDA {
     }
   }
 
-  static edit (propertyItem) {
+  static edit(propertyItem) {
     if (propertyItem) {
       WiniIO.emitProperty(propertyItem, EnumEvent.edit)
     }
   }
 
-  static delete (propertyItem) {
+  static delete(propertyItem) {
     if (propertyItem) {
       this.list = this.list.filter(e => e.GID != propertyItem.GID)
       let thisComponent = assets_list.find(e => e.GID == propertyItem.BaseID)
@@ -266,12 +264,12 @@ class CateDA {
   static list_effect_cate = []
   static needInit = false
 
-  static initCate () {
+  static initCate() {
     let url = this.urlCtr + 'ListItem'
     WiniIO.emitGet(null, url, EnumObj.cate, EnumEvent.init)
   }
 
-  static updateUISkin (enumCate, skinID) {
+  static updateUISkin(enumCate, skinID) {
     if (selected_list.length > 0) {
       updateTableSkinBody(enumCate, skinID)
     } else {
@@ -279,7 +277,7 @@ class CateDA {
     }
   }
 
-  static convertData (jsonData) {
+  static convertData(jsonData) {
     if (jsonData != null) {
       this.list = jsonData
       //
@@ -339,7 +337,7 @@ class CateDA {
     }
   }
 
-  static async createSkin (jsonSkin, listName, enumCate) {
+  static async createSkin(jsonSkin, listName, enumCate) {
     if (listName.length <= 1) {
       if (listName.length == 1 && listName[0].trim() != '') {
         jsonSkin.Name = listName[0]
@@ -389,18 +387,18 @@ class CateDA {
     }
   }
 
-  static add (cateItem) {
+  static add(cateItem) {
     CateDA.list.push(cateItem)
     let url = this.urlCtr + 'Add'
     WiniIO.emitPort(cateItem, url, EnumObj.cate, EnumEvent.add)
   }
 
-  static edit (cateItem) {
+  static edit(cateItem) {
     let url = this.urlCtr + 'Edit'
     WiniIO.emitPort(cateItem, url, EnumObj.cate, EnumEvent.edit)
   }
 
-  static delete (cateItem) {
+  static delete(cateItem) {
     let url = this.urlCtr + 'Delete'
     WiniIO.emitPort(cateItem, url, EnumObj.project, EnumEvent.delete)
   }

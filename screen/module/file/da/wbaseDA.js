@@ -40,7 +40,7 @@ class EnumPermission {
   static editer = 1
   static viewer = 2
 
-  static get_namePermission (per) {
+  static get_namePermission(per) {
     switch (per) {
       case this.owner:
         return 'Owner'
@@ -194,7 +194,7 @@ class ValidateType {
   static only_text = 9
   static not_empty = 10
 
-  static typeName (typeNumber = 10) {
+  static typeName(typeNumber = 10) {
     let _typeName
     switch (typeNumber) {
       case this.is_email:
@@ -705,20 +705,19 @@ class WbClass {
 }
 
 class WBaseDA {
-  static wbase_url = ConfigApi.domainApi + '/WBase/ListItem'
   static base_item_url = ConfigApi.domainApi + '/WBase/listBaseitem'
-  static attribute_url = ConfigApi.domainApi + '/Attribute/ListItemByPid'
   static enumEvent
   static listData = []
   static isCtrlZ = false
 
-  static async apiGetInitWbase () {
-    let attributeData = await $.get(
-      this.attribute_url + `?pageid=${PageDA.obj.ID}`
-    )
+  static async apiGetInitWbase() {
+    const attribute_url = ConfigApi.domainApi + `/Attribute/ListItemByPid?pageid=${PageDA.obj.ID}`
+    const wbase_url = ConfigApi.domainApi + `/WBase/ListItem?pageid=${PageDA.obj.ID}`
+    let attributeData = await getData(attribute_url)
     attributeData = attributeData.Data
-    let WbData = await $.get(this.wbase_url + `?pageid=${PageDA.obj.ID}`)
+    let WbData = await getData(wbase_url)
     let cssData = await StyleDA.initStyleSheets()
+    debugger
     StyleDA.cssStyleSheets = cssData.Data
     StyleDA.cssStyleSheets.forEach(cssItem => {
       let styleTag = document.createElement('style')
@@ -728,14 +727,11 @@ class WBaseDA {
       StyleDA.docStyleSheets.push(...styleTag.sheet.cssRules)
     })
     WbData = WbData.Data
-    WbData.forEach(
-      wb =>
-        (wb.AttributesItem = attributeData.find(e => e.GID === wb.AttributeID))
-    )
+    WbData.forEach(wb => (wb.AttributesItem = attributeData.find(e => e.GID === wb.AttributeID)))
     return WbData
   }
 
-  static add ({
+  static add({
     listWb,
     pageid,
     parentid,
@@ -752,7 +748,7 @@ class WBaseDA {
     WiniIO.emitMain(data)
   }
 
-  static edit (list_wbase_item, enumObj, isEditText = false) {
+  static edit(list_wbase_item, enumObj, isEditText = false) {
     // if (!WBaseDA.isCtrlZ && !isEditText) {
     //   addAction()
     // }
@@ -765,7 +761,7 @@ class WBaseDA {
     WiniIO.emitMain(data)
   }
 
-  static editBaseComponent (list_wbase_item, enumObj) {
+  static editBaseComponent(list_wbase_item, enumObj) {
     let data = {
       enumObj: enumObj ?? EnumObj.wBase,
       data: list_wbase_item,
@@ -775,7 +771,7 @@ class WBaseDA {
     WiniIO.emitMain(data)
   }
 
-  static unDelete (list_wbase_item) {
+  static unDelete(list_wbase_item) {
     let data = {
       enumObj: EnumObj.wBase,
       data: list_wbase_item,
@@ -784,7 +780,7 @@ class WBaseDA {
     WiniIO.emitMain(data)
   }
 
-  static delete (delete_list) {
+  static delete(delete_list) {
     // delete_list = delete_list.filter(
     //   e =>
     //     e.IsWini ||
@@ -817,7 +813,7 @@ class WBaseDA {
     }
   }
 
-  static async deleteWb ({ listWb = [] }) {
+  static async deleteWb({ listWb = [] }) {
     if (listWb.length > 0) {
       $.post(
         '/view/delete-wbase',
@@ -845,7 +841,7 @@ class WBaseDA {
     }
   }
 
-  static parent (list_wbase_item) {
+  static parent(list_wbase_item) {
     // if (!WBaseDA.isCtrlZ) {
     //   clearActionListFrom(action_index)
     //   addAction()
@@ -859,7 +855,7 @@ class WBaseDA {
     WiniIO.emitMain(data)
   }
 
-  static copy (list_wbase_item) {
+  static copy(list_wbase_item) {
     let data = {
       enumObj: EnumObj.wBase,
       enumEvent: EnumEvent.copy
@@ -919,7 +915,7 @@ class WBaseDA {
     WiniIO.emitMain(data)
   }
 
-  static editAndDelete (list_wbase_item, enumObj = EnumObj.attribute) {
+  static editAndDelete(list_wbase_item, enumObj = EnumObj.attribute) {
     let deleteList = list_wbase_item.filter(e => e.IsDeleted)
     wbase_list = wbase_list.filter(e =>
       deleteList.every(
@@ -940,7 +936,7 @@ class WBaseDA {
     WiniIO.emitMain(data)
   }
 
-  static addStyle (list_wbase_item, enumObj) {
+  static addStyle(list_wbase_item, enumObj) {
     if (!WBaseDA.isCtrlZ) {
       clearActionListFrom(action_index)
       addAction()
@@ -953,7 +949,7 @@ class WBaseDA {
     WiniIO.emitMain(data)
   }
 
-  static changeProperty (list_wbase_item) {
+  static changeProperty(list_wbase_item) {
     let data = {
       enumObj: EnumObj.wBase,
       data: list_wbase_item,
@@ -963,12 +959,12 @@ class WBaseDA {
   }
 
   static assetsLoading = false
-  static getAssetsList (listId, keySearch = '') {
+  static getAssetsList(listId, keySearch = '') {
     var url = `WBase/ListAssetsItem?listid=${listId}&keySearch=${keySearch}`
     WiniIO.emitGet(null, url, EnumObj.wBase, EnumEvent.get)
   }
 
-  static reloadAssetsList () {
+  static reloadAssetsList() {
     assets_list = assets_list.filter(
       e => e.ProjectID && e.PageID !== PageDA.obj.ID
     )
@@ -987,14 +983,14 @@ class WBaseDA {
     assets_list.push(...localAssets)
   }
 
-  static async getAssetChildren (parentid) {
+  static async getAssetChildren(parentid) {
     let url = `WBase/GetListChild?listid=${parentid}`
     let result = await $.get(ConfigApi.domainApi + url)
     return result.Data
   }
 }
 
-function addAction (enumEvent = EnumEvent.select, enumObj = EnumObj.wBase) {
+function addAction(enumEvent = EnumEvent.select, enumObj = EnumObj.wBase) {
   clearActionListFrom(action_index)
   let oldData = []
   if (select_box_parentID == wbase_parentID) {
@@ -1033,7 +1029,7 @@ function addAction (enumEvent = EnumEvent.select, enumObj = EnumObj.wBase) {
   console.log('actionList: ', action_index, action_list)
 }
 
-function clearActionListFrom (index = -1) {
+function clearActionListFrom(index = -1) {
   action_index = index
   if (index < 0) action_list = []
   else action_list = action_list.slice(0, index + 1)
