@@ -1,4 +1,4 @@
-$('body > #home-body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@d5a4ea5/project-component/loading.html', async function () {
+$('body > #home-body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@4fb60a1/project-component/loading.html', async function () {
     const userItem = UserService.user()
     $('.user-container .user-name').text(userItem?.name ?? "-");
     $('.user-container .user-email').text(userItem?.email ?? "-");
@@ -9,7 +9,7 @@ $('body > #home-body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@d5a4ea5/p
     // debugger
     const x = new Date()
     // ProjectDA.list = [{ ID: 43, Name: 'Test', DateUpdate: x }, { ID: 23, Name: 'sdfihishfoisf', DateUpdate: x }]
-    $('body > #home-body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@d5a4ea5/screen/module/home/local-component/body-layout.html', function () {
+    $('body > #home-body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@4fb60a1/screen/module/home/local-component/body-layout.html', function () {
         switch_tab_selected('recent')
     })
 });
