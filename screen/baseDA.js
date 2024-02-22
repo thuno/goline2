@@ -70,10 +70,10 @@ class UserService {
                 token: this.token(),
                 'Content-Type': 'application/json'
             }
-        }
-        if (ProjectDA.obj.ID && headersObj) {
-            headersObj.pid = ProjectDA.obj.ID
-            // if (PageDA.obj.ID) headersObj.pageid = PageDA.obj.ID
+            if (ProjectDA.obj.ID && headersObj) {
+                headersObj.pid = ProjectDA.obj.ID
+                // if (PageDA.obj.ID) headersObj.pageid = PageDA.obj.ID
+            }
         }
         return headersObj
     }

@@ -23,7 +23,7 @@ class StatusApi {
   /// status code = 402
   static exist = 402
 
-  static statusName (code) {
+  static statusName(code) {
     switch (code) {
       case StatusApi.token:
         return 'Token'
@@ -50,7 +50,7 @@ class StatusApi {
 var arrayConstructor = [].constructor
 var objectConstructor = {}.constructor
 
-function checkTypeof (object) {
+function checkTypeof(object) {
   if (object === null) {
     return 'null'
   }
@@ -66,10 +66,19 @@ function checkTypeof (object) {
   }
 }
 
+function uuidv4() {
+  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+    (
+      c ^
+      (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))
+    ).toString(16)
+  )
+}
+
 class Ultis {
   static dateDefault = new Date('01/01/2021').getTime()
 
-  static set_timeRefreshToken () {
+  static set_timeRefreshToken() {
     var result = new Date(Date.now())
     result.setDate(result.getDate() + 30)
     result.setMinutes(result.getMinutes() - 10)
@@ -77,26 +86,26 @@ class Ultis {
     localStorage.setItem('time_tokenRefresh', result)
   }
 
-  static get_timeRefreshToken () {
+  static get_timeRefreshToken() {
     let time = new Date(localStorage.getItem('time_tokenRefresh')).getTime()
     return time
   }
 
-  static toSecond (time) {
+  static toSecond(time) {
     return Math.floor(Math.abs(Date.now() - Ultis.dateDefault) / 1000 - time)
   }
-  static toMinus (time) {
+  static toMinus(time) {
     return Math.floor(
       (Math.abs(Date.now() - Ultis.dateDefault) / 1000 - time) / 60
     )
   }
-  static toHours (time) {
+  static toHours(time) {
     return Math.floor(
       (Math.abs(Date.now() - Ultis.dateDefault) / 1000 - time) / 3600
     )
   }
 
-  static getTimeEdit (time) {
+  static getTimeEdit(time) {
     if (Ultis.toHours(time) >= 24) {
       return `${Math.floor(Ultis.toHours(time) / 24)} days`
     } else if (0 < Ultis.toHours(time) && Ultis.toHours(time) < 24) {
@@ -110,14 +119,14 @@ class Ultis {
     }
   }
 
-  static money (number, a) {
+  static money(number, a) {
     var val = (number / 1).toFixed(a)
     return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
   }
-  static Unmoney (number) {
+  static Unmoney(number) {
     return number.toString().replace(/,/g, '')
   }
-  static stringToDate (_date, _format, _delimiter) {
+  static stringToDate(_date, _format, _delimiter) {
     var dayformat = _format
     var hourformat = ''
     var day = _date
@@ -170,7 +179,7 @@ class Ultis {
   //stringToDate("9-17-2014", "mm-dd-yyyy", "-")
   //stringToDate("9-17-2014 14:20:20", "mm-dd-yyyy HH:mm:ss", "-")
   //stringToDate("9-17-2014 02:30:30", "mm-dd-yyyy hh:mm:ss", "-")
-  static datetoString (x, y) {
+  static datetoString(x, y) {
     var z = {
       M: x.getMonth() + 1,
       d: x.getDate(),
@@ -187,17 +196,17 @@ class Ultis {
   }
   dateDefault = new Date('2022-1-1')
 
-  static setStorage (key, value) {
+  static setStorage(key, value) {
     localStorage.setItem(key, value)
   }
-  static getStorage (key) {
+  static getStorage(key) {
     return localStorage.getItem(key)
   }
-  static removeFromStorage (key) {
+  static removeFromStorage(key) {
     return localStorage.removeItem(key)
   }
   //1: năm, 2: quý,3: tháng, 4: tuần,5: ngày, 6: giờ, 7: phút, 8: giây
-  static dateAdd (date, type, units) {
+  static dateAdd(date, type, units) {
     if (!(date instanceof Date)) return undefined
     var ret = new Date(date)
     var checkRollover = function () {
@@ -238,11 +247,11 @@ class Ultis {
     return ret
   }
 
-  static removeStorage (key) {
+  static removeStorage(key) {
     return localStorage.removeItem(key)
   }
 
-  static randomString (length) {
+  static randomString(length) {
     let result = ''
     const characters =
       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
@@ -252,7 +261,7 @@ class Ultis {
     }
     return result
   }
-  static convertFormToJSON (form) {
+  static convertFormToJSON(form) {
     const array = $(form).serializeArray() // Encodes the set of form elements as an array of names and values.
 
     const json = {}
@@ -261,7 +270,7 @@ class Ultis {
     })
     return json
   }
-  static decodeJwtResponse (token) {
+  static decodeJwtResponse(token) {
     var base64Url = token.split('.')[1]
     var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
     var jsonPayload = decodeURIComponent(
@@ -289,7 +298,7 @@ class Ultis {
     return percent
   }
 
-  static hexToRGB (hex) {
+  static hexToRGB(hex) {
     let alpha = false,
       h = hex.slice(hex.startsWith('#') ? 1 : 0)
     if (h.length === 3) h = [...h].map(x => x + x).join('')
@@ -309,7 +318,7 @@ class Ultis {
     )
   }
 
-  static colorNameToHex (color) {
+  static colorNameToHex(color) {
     let colors = {
       aliceblue: 'f0f8ff',
       antiquewhite: 'faebd7',
@@ -457,7 +466,7 @@ class Ultis {
     return colors[color.toLowerCase()]
   }
 
-  static rgbToHex (rgba) {
+  static rgbToHex(rgba) {
     let splitRgba = rgba
       .replace(/(rgba|\(|\)|rgb)/g, '')
       .split(',')
@@ -478,7 +487,7 @@ class Ultis {
     return '#' + r + g + b + a
   }
 
-  static prettyJsonToString (data, space) {
+  static prettyJsonToString(data, space) {
     return JSON.stringify(data, null, 6).replace(
       /\n( *)/g,
       function (match, p1) {
@@ -487,7 +496,7 @@ class Ultis {
     )
   }
 
-  static async get (url, headers) {
+  static async get(url, headers) {
     var respond = await fetch(url, {
       method: 'GET', // or 'PUT'
       headers: headers
@@ -495,7 +504,7 @@ class Ultis {
     return respond
   }
 
-  static async post (url, headers, data) {
+  static async post(url, headers, data) {
     //debugger;
     var respond = await fetch(url, {
       method: 'POST', // or 'PUT'
@@ -507,7 +516,7 @@ class Ultis {
     }).then(response => response.json())
     return respond
   }
-  static handleListInput (listInput) {
+  static handleListInput(listInput) {
     let _obj = {}
     listInput.forEach(function (item) {
       if (item?.Name != '') {
@@ -518,7 +527,7 @@ class Ultis {
     return _obj
   }
 
-  static handleRequestUrl (request, listParam) {
+  static handleRequestUrl(request, listParam) {
     let param = ''
     listParam.forEach(function (e) {
       if (e.Name != null && e.Name != '') {
@@ -531,7 +540,7 @@ class Ultis {
     }
     return requestUrl
   }
-  static syntaxHighlight (json) {
+  static syntaxHighlight(json) {
     json = JSON.stringify(json, null, 6)
 
     return json.replace(/\n( *)/g, function (match, p1) {
@@ -559,11 +568,11 @@ class Ultis {
     })
   }
 
-  static generateRandomColor () {
+  static generateRandomColor() {
     return `#${Math.floor(Math.random() * 16777215).toString(16)}`
   }
 
-  static generateLightColorRgb () {
+  static generateLightColorRgb() {
     return (
       'rgb(' +
       (Math.floor((256 - 229) * Math.random()) + 230) +
@@ -575,14 +584,14 @@ class Ultis {
     )
   }
 
-  static generateDarkColorRgb (number) {
+  static generateDarkColorRgb(number) {
     const red = Math.floor(((number ?? Math.random()) * 256) / 2)
     const green = Math.floor(((number ?? Math.random()) * 256) / 2)
     const blue = Math.floor(((number ?? Math.random()) * 256) / 2)
     return 'rgb(' + red + ', ' + green + ', ' + blue + ')'
   }
 
-  static toSlug (input) {
+  static toSlug(input) {
     return input
       .toString()
       .toLowerCase()
@@ -599,7 +608,7 @@ class Ultis {
       .replaceAll(' ', '-')
   }
 
-  static isColor (color) {
+  static isColor(color) {
     const hex = /(#){0,1}[0-9A-Fa-f]{6,8}$/i
     if (color.match(hex)) return true
     else {
@@ -667,7 +676,7 @@ const showPopupObserver = new IntersectionObserver(entries => {
   })
 })
 
-function caclTextSize (text, font) {
+function caclTextSize(text, font) {
   let canvas = document.createElement('canvas')
   let context = canvas.getContext('2d')
   context.font = font
