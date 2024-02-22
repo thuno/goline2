@@ -79,6 +79,29 @@ class UserService {
         }
         return headersObj
     }
+
+    static async socketHeaders() {
+        const timeRefresh = this.timeRefresh()
+        const now = Date.now() / 1000
+        if (timeRefresh > 0 && timeRefresh <= now) {
+            await this.refreshNewToken()
+            return {
+                refreshToken: this.refreshToken(),
+                token: this.token(),
+                pid: StyleDA.skinProjectID ?? ProjectDA.obj.ID ?? 0,
+                pageid: PageDA.obj.ID,
+                'Content-Type': 'application/json'
+            }
+        } else {
+            return {
+                refreshToken: '',
+                token: this.token(),
+                pid: StyleDA.skinProjectID ?? ProjectDA.obj.ID,
+                pageid: PageDA.obj.ID,
+                'Content-Type': 'application/json'
+            }
+        }
+    }
 }
 
 const postData = async (url, { data, params } = {}) => {
