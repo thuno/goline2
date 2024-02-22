@@ -4,7 +4,7 @@ var topx = 0,
     leftx = 0,
     leftw = 0,
     reightw = 0
-$('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@a4e31d4/project-component/loading.html', async function () {
+$('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@c566981/project-component/loading.html', async function () {
     const pId = location.hash.match(/file\?id\=[\d]*/g)[0].replace('file?id=', "")
     await ProjectDA.getByID(parseInt(pId))
     const res = await ProjectDA.getPermission()
@@ -26,7 +26,7 @@ $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@a4e31d4/projec
             PageDA.checkEditPermission(PageDA.obj.Permission)
         }
     }
-    $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@a4e31d4/screen/module/file/local-component/body-layout.html', function () {
+    $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@c566981/screen/module/file/local-component/body-layout.html', function () {
         permissionTool()
         customerList()
         left_view = document.getElementById('left_view')
