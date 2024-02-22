@@ -87,7 +87,10 @@ const postData = async (url, { data, params } = {}) => {
         headers: params ? { ...headers, params: params } : headers,
         body: data
     })
-    return response.data
+    if (response.data)
+        return response.data
+    else
+        return response
 }
 
 const getData = async (url, { params } = {}) => {
@@ -95,7 +98,10 @@ const getData = async (url, { params } = {}) => {
     const response = await BaseDA.get(url, {
         headers: params ? { ...headers, params: params } : headers,
     })
-    return response.data
+    if (response.data)
+        return response.data
+    else
+        return response
 }
 
 const uploadFile = async ({ listFile, collectionId }) => {

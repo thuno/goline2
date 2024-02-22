@@ -711,8 +711,8 @@ class WBaseDA {
   static isCtrlZ = false
 
   static async apiGetInitWbase() {
-    const attribute_url = ConfigApi.domainApi + `/Attribute/ListItemByPid?pageid=${PageDA.obj.ID}`
-    const wbase_url = ConfigApi.domainApi + `/WBase/ListItem?pageid=${PageDA.obj.ID}`
+    const attribute_url = ConfigApi.domainApi + `Attribute/ListItemByPid?pageid=${PageDA.obj.ID}`
+    const wbase_url = ConfigApi.domainApi + `WBase/ListItem?pageid=${PageDA.obj.ID}`
     let attributeData = await getData(attribute_url)
     attributeData = attributeData.Data
     let WbData = await getData(wbase_url)
