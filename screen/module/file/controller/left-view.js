@@ -551,9 +551,9 @@ async function initUIAssetView() {
   let comContainer = document.createElement('div')
   comContainer.className = 'col'
   comContainer.innerHTML = `<div class="row" style="width: 100%">
-      <input class="search-assets" placeholder="Search assets..."/>
-      <i class="fa-solid fa-list-ul fa-sm" style="margin: 0 8px 0 4px; color: #262626"></i>
-      <i class="fa-brands fa-readme fa-sm" style="margin: 2px 4px 0 0; color: #262626"></i>
+      <input class="search-assets semibold1" placeholder="Search assets..."/>
+      <i class="fa-solid fa-list-ul row center box16" style="font-size: 1.2rem; color: #262626"></i>
+      <i class="fa-brands fa-readme row center box16" style="font-size: 1.2rem; color: #262626"></i>
     </div><div class="col" style="flex: 1; overflowY: scroll"></div>`
   let instContainer = document.createElement('div')
   instContainer.className = 'instance-container'
@@ -664,9 +664,9 @@ function createListComponent(projectItem, isShowContent) {
   container.id = `component projectID:${projectItem.ID}`
   container.className = 'col'
   let list_tile = document.createElement('div')
-  list_tile.className = 'list_tile row'
+  list_tile.className = 'list_tile row semibold1'
   list_tile.innerHTML = `<i class="fa-solid fa-caret-${isShow ? 'down' : 'right'
-    } fa-xs"></i><p class="title">${projectItem.ID === 0
+    }"></i><p class="title">${projectItem.ID === 0
       ? 'Selected objects'
       : projectItem.ID === ProjectDA.obj.ID
         ? 'Local components'
