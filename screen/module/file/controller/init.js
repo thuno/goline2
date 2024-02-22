@@ -70,7 +70,7 @@ $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@02ff32f/projec
         parent = divSection
         selected_list = []
         updateHoverWbase()
-        // arrange()
+        arrange()
         setupRightView()
         setupLeftView()
         if (!PageDA.obj.scale) {
