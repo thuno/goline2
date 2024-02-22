@@ -300,14 +300,14 @@ function createPageTile(pageItem) {
   }
   pageTile.appendChild(prefixIcon)
   let inputPageName = document.createElement('input')
-  inputPageName.className = 'inputPageName'
+  inputPageName.className = 'inputPageName regular1'
   pageTile.appendChild(inputPageName)
   inputPageName.readOnly = true
   inputPageName.value = pageItem.Name
   if (PageDA.enableEdit) {
     inputPageName.ondblclick = function () {
       this.style.cursor = 'text'
-      this.style.outline = '2px solid #1890FF'
+      this.style.outline = '0.2rem solid #1890FF'
       this.readOnly = false
       this.setSelectionRange(0, this.value.length)
       this.focus()

@@ -417,14 +417,15 @@ function customerList() {
     }
   })
   customer_circle.replaceChildren(
-    ...PageDA.customerList.slice(0, 3).map(customerItem => {
+    ...PageDA.customerList.slice(0, 3).map((customerItem, index) => {
       let itemCircle = document.createElement('div')
       const randomColor = Ultis.generateRandomColor()
       customerItem.color = randomColor
-      itemCircle.className = 'center semibold1 text-white'
+      itemCircle.className = 'center semibold1 row user-join box24'
       if (!customerItem.CustomerName && customerItem.CustomerID === user.ID)
         customerItem.CustomerName = user.Email
       itemCircle.style.backgroundColor = randomColor
+      itemCircle.style.left = `${1.4 * index}rem`
       itemCircle.innerHTML = (customerItem.CustomerName ?? 'Anonymous')
         .substring(0, 1)
         .toUpperCase()
@@ -437,9 +438,9 @@ function customerList() {
   if (PageDA.customerList.length > 3) {
     let itemCircle = document.createElement('div')
     const randomColor = Ultis.generateRandomColor()
-    itemCircle.className = 'center semibold1 text-white'
+    itemCircle.className = 'center semibold1 row user-join box24'
     itemCircle.style.backgroundColor = randomColor
-    itemCircle.innerHTML = PageDA.customerList.length - 3
+    itemCircle.innerHTML = PageDA.customerList.length - 3 > 10 ? '9+' : `${PageDA.customerList.length - 3}`
     let tooltip = document.createElement('span')
     tooltip.innerText = PageDA.customerList
       .slice(3)

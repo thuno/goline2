@@ -137,7 +137,36 @@ body:has(#history-view) :is(.btn-tool-state:nth-child(1), .btn-history) {
     background-color: #000000;
 }
 
-.btn-tool-state:hover> :last-child {
+.btn-tool-state:hover>span {
+    visibility: visible;
+}
+
+.customer-circle-list {
+    position: relative;
+    width: 6.6rem;
+    height: 2.4rem;
+}
+
+.customer-circle-list>.user-join {
+    position: absolute;
+    top: 0;
+    border-radius: 50%;
+}
+
+.customer-circle-list>.user-join>span {
+    position: fixed;
+    white-space: nowrap;
+    z-index: 10;
+    top: 8.6rem;
+    padding: 0.4rem;
+    border-radius: 4px;
+    color: white;
+    font-size: 1.2rem;
+    background-color: #262626;
+    visibility: hidden;
+}
+
+.customer-circle-list>.user-join:hover>span {
     visibility: visible;
 }
 
@@ -277,7 +306,6 @@ body:has(#history-view) :is(.btn-tool-state:nth-child(1), .btn-history) {
     width: 100%;
     flex: 1;
     padding: 0.6rem;
-    height: 100%;
 }
 
 .page_item_tile:hover {
