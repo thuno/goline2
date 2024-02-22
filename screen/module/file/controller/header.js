@@ -459,7 +459,7 @@ function customerList() {
 
 function permissionTool() {
   let projectTitle = document.getElementById('project_name')
-  projectTitle.innerHTML = ProjectDA.obj.Name
+  projectTitle.innerHTML = ProjectDA.obj.Name ?? 'Untitled'
   create_obj_tool.replaceChildren(
     ...list_tool.map(wTool => {
       let new_tool = document.createElement('button')
