@@ -552,8 +552,8 @@ async function initUIAssetView() {
   comContainer.className = 'col'
   comContainer.innerHTML = `<div class="row" style="width: 100%">
       <input class="search-assets semibold1" placeholder="Search assets..."/>
-      <i class="fa-solid fa-list-ul row center box16" style="font-size: 1.2rem; color: #262626"></i>
-      <i class="fa-brands fa-readme row center box16" style="font-size: 1.2rem; color: #262626"></i>
+      <i class="fa-solid fa-list-ul row center box20" ></i>
+      <i class="fa-brands fa-readme row center box20" ></i>
     </div><div class="col" style="flex: 1; overflowY: scroll"></div>`
   let instContainer = document.createElement('div')
   instContainer.className = 'instance-container'

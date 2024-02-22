@@ -327,6 +327,12 @@ body:has(#history-view) :is(.btn-tool-state:nth-child(1), .btn-history) {
     padding: 0 0.8rem 0 1.6rem;
 }
 
+.row:has(>.search-assets)>i {
+    display: flex;
+    font-size: 1.2rem;
+    color: #262626;
+}
+
 .list_tile {
     height: 3.2rem;
     cursor: pointer;
