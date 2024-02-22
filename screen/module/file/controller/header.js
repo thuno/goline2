@@ -416,6 +416,7 @@ function customerList() {
       PageDA.customerList.push(e)
     }
   })
+  customer_circle.style.width = `${2.4 * PageDA.customerList}rem`
   customer_circle.replaceChildren(
     ...PageDA.customerList.slice(0, 3).map((customerItem, index) => {
       let itemCircle = document.createElement('div')

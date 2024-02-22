@@ -1,28 +1,5 @@
-var keyid = 'escape' // Key ESC
-var is_dbclick = false
-const factor = 0.05
-const min_scale = 0.02
-const max_scale = 256
-var listLine = [] // gid, x,y,x1,y1
-var width = document.body?.clientWidth
-var height = document.body?.clientHeight
-var totalH = height + scale
-var totalW = width + scale
-var showF12 = false
-var selectPath
-var design_view_index = 0
-var prototypePoint
-var prototype_selected_page
-const isMac = navigator.userAgent.indexOf('Mac OS X') != -1
-
 document.onpaste = function (e) {
-  if (
-    document.activeElement.contentEditable == 'true' ||
-    document.activeElement.localName == 'input' ||
-    // document.activeElement.localName == 'p' ||
-    copy_item
-  )
-    return
+  if (document.activeElement.contentEditable == 'true' || document.activeElement.localName == 'input' || copy_item) return // document.activeElement.localName == 'p' ||
   e.stopPropagation()
   e.preventDefault()
   let fileList = []
@@ -56,13 +33,7 @@ let keyTimeStamp = 0
 function keyUpEvent(event) {
   console.log('keyup:', keyid, event.key)
   isKeyUp = true
-  if (
-    (document.activeElement.localName === 'input' &&
-      !document.activeElement.readOnly) ||
-    document.activeElement.closest('.w-text') ||
-    action_list[action_index]?.index != undefined
-  )
-    return
+  if ((document.activeElement.localName === 'input' && !document.activeElement.readOnly) || document.activeElement.closest('.w-text') || action_list[action_index]?.index != undefined) return
   event.preventDefault()
 
   let isCtrlKey = isMac ? event.metaKey : event.ctrlKey
@@ -223,8 +194,7 @@ document.body.onresize = function () {
   positionScrollLeft()
   positionScrollTop()
 }
-var divMain = document.getElementById('canvas_view')
-var divSection = document.getElementById('divSection')
+
 document.ondragover = function (e) {
   e.stopPropagation()
   e.preventDefault()
@@ -266,7 +236,6 @@ function dropFile(event) {
   }
 }
 
-divSection.style.transform = `scale(${scale}, ${scale})`
 var line = 1,
   t = 0,
   l = 0
@@ -310,16 +279,9 @@ var objr,
     xo1: 0,
     yo1: 0
   }
-var scrollTop = document.createElement('div')
-scrollTop.style.width = 5 + 'px'
-scrollTop.style.height = 100 + 'px'
-scrollTop.style.position = 'absolute'
+var scrollTop = document.getElementById('e060a4db-2b24-4ca6-89ea-0ff75d4fc79e')
 scrollTop.style.top = objscroll.y + 'px'
 scrollTop.style.right = reightw + 'px'
-scrollTop.style.borderRadius = '2px'
-scrollTop.id = 'e060a4db-2b24-4ca6-89ea-0ff75d4fc79e'
-scrollTop.style.backgroundColor = '#D9D9D9'
-divMain.appendChild(scrollTop)
 
 var scrollLeft = document.createElement('div')
 //scrollLeft.style.width = 100 + "px";
@@ -715,13 +677,7 @@ function selectParent(event) {
 
 var clearAction = false
 function downListener(event) {
-  if (
-    !document.getElementById('wini_features') &&
-    event.target.localName != 'input' &&
-    !document.activeElement.closest('.w-text') &&
-    ToolState.create_new_type.every(ts => ts !== tool_state) &&
-    document.body.contains(right_view)
-  ) {
+  if (!document.getElementById('wini_features') && event.target.localName != 'input' && !document.activeElement.closest('.w-text') && ToolState.create_new_type.every(ts => ts !== tool_state) && document.body.contains(right_view)) {
     event.activeElement = document.activeElement
     event.path = [...event.composedPath()]
     let mouseOffset = offsetScale(event.pageX, event.pageY)
