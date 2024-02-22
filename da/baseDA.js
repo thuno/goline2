@@ -15,7 +15,8 @@ class BaseDA {
                 const jsonData = await response.json()
                 return jsonData
             } else {
-                console.error("Failed to POST data:", error);
+                const txt = await response.text()
+                console.error("Failed to POST data:", txt);
                 throw error;
             }
         } catch (error) {
@@ -36,7 +37,8 @@ class BaseDA {
                 const jsonData = await response.json()
                 return jsonData
             } else {
-                console.error("Failed to POST data:", error);
+                const txt = await response.text()
+                console.error("Failed to POST data:", txt);
                 throw error;
             }
         } catch (error) {
@@ -56,7 +58,8 @@ class BaseDA {
                 const jsonData = await response.json()
                 return jsonData
             } else {
-                console.error("Failed to POST data:", error);
+                const txt = await response.text()
+                console.error("Failed to POST data:", txt);
                 throw error;
             }
         } catch (error) {

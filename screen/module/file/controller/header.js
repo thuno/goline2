@@ -456,10 +456,10 @@ function customerList() {
   }
 }
 //
-let projectTitle = document.getElementById('project_name')
-projectTitle.innerHTML = ProjectDA.obj.Name
 
 function permissionTool() {
+  let projectTitle = document.getElementById('project_name')
+  projectTitle.innerHTML = ProjectDA.obj.Name
   create_obj_tool.replaceChildren(
     ...list_tool.map(wTool => {
       let new_tool = document.createElement('button')
