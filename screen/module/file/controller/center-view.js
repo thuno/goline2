@@ -240,29 +240,17 @@ var line = 1,
   t = 0,
   l = 0
 let previousX, previousY
-var canvas = document.createElement('canvas')
+var canvas = document.getElementById('canvas_line')
+var ctx = canvas.getContext('2d')
+var canvas = document.getElementById('canvas_rect')
+var ctxr = canvasr.getContext('2d')
 
 canvas.width = totalW
 canvas.height = totalH
-canvas.style.position = 'absolute'
 canvas.style.top = t * scale + 'px'
 canvas.style.left = l * scale + 'px'
-canvas.id = 'canvas_line'
-canvas.style.backgroundColor = 'transparent'
-canvas.style.pointerEvents = 'none'
-divMain.appendChild(canvas)
-var ctx = canvas.getContext('2d')
-var canvasr = document.createElement('canvas')
 canvasr.width = width
 canvasr.height = height
-canvasr.style.top = '0px'
-canvasr.style.left = '0px'
-canvasr.style.position = 'absolute'
-canvasr.id = 'canvas_rect'
-canvasr.style.backgroundColor = 'transparent'
-canvasr.style.pointerEvents = 'none'
-divMain.appendChild(canvasr)
-var ctxr = canvasr.getContext('2d')
 
 var objr,
   objscroll = {
@@ -283,18 +271,8 @@ var scrollTop = document.getElementById('e060a4db-2b24-4ca6-89ea-0ff75d4fc79e')
 scrollTop.style.top = objscroll.y + 'px'
 scrollTop.style.right = reightw + 'px'
 
-var scrollLeft = document.createElement('div')
-//scrollLeft.style.width = 100 + "px";
-scrollLeft.style.height = 5 + 'px'
-scrollLeft.style.position = 'absolute'
-scrollLeft.style.bottom = 5 + 'px'
+var scrollLeft = document.getElementById('f01230bb-83e6-4320-b642-33f65c0f8696')
 scrollLeft.style.left = leftw + 'px'
-scrollLeft.id = 'f01230bb-83e6-4320-b642-33f65c0f8696'
-scrollLeft.style.borderRadius = '2px'
-scrollLeft.style.backgroundColor = 'red'
-//dive.style.pointerEvents = "none";
-divMain.appendChild(scrollLeft)
-var idscroll = ''
 
 function initScroll(listp) {
   if (listp.length > 0) {

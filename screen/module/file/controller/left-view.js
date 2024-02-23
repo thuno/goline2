@@ -544,7 +544,6 @@ function createLayerTile(wb, isShowChildren = false) {
   return layerContainer
 }
 
-var select_component
 async function initUIAssetView() {
   let scrollView = assets_view.querySelector(':scope > .col > .col')
   let scrollY = scrollView?.scrollTop ?? 0

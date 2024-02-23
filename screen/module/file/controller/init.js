@@ -17,6 +17,7 @@ var totalW = width + scale
 var showF12 = false
 var design_view_index = 0
 const isMac = navigator.userAgent.indexOf('Mac OS X') != -1
+var select_component
 $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@c4059e8/project-component/loading.html', async function () {
     const pId = location.hash.match(/file\?id\=[\d]*/g)[0].replace('file?id=', "")
     await ProjectDA.getByID(parseInt(pId))
@@ -2239,19 +2240,6 @@ function dragAltEnd() {
         drag_start_list = []
         alt_list = []
         WBaseDA.listData = []
-    }
-}
-
-//
-function handlePopupDispose(elementHTML, callback) {
-    if (callback) {
-        const observer = new IntersectionObserver((entries, observe) => {
-            let target = entries[0].target
-            if (!document.body.contains(target)) {
-                callback(entries, observe)
-            }
-        })
-        observer.observe(elementHTML)
     }
 }
 

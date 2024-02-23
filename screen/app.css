@@ -14,6 +14,10 @@
 @import '../component/text/text.css';
 /* textfield */
 @import '../component/textfield/text-field.css';
+/* popup */
+@import '../component/popup/popup.css';
+/* select1 */
+@import '../component/select1/select1.css';
 
 html,
 body {
