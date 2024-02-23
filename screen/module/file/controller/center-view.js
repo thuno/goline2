@@ -2268,10 +2268,7 @@ function doubleClickEvent(event) {
       }
     } else {
       if (element_path.some(ele => ele.id === 'canvas_view')) {
-        if (
-          target_element != document &&
-          target_element.classList?.contains('textfield')
-        )
+        if (target_element != document && target_element.classList?.contains('textfield'))
           target_element = target_element.parentElement
         if (clearAction) clearActionListFrom(action_index - 1)
         handleWbSelectedList(
