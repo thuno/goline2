@@ -42,6 +42,8 @@ const TextField = ({ id, value = '', maxLength, onChange, onBlur, onFocus, place
                 newElement.innerHTML = htmlText
                 newElement.appendChild(suffix)
             }
+        } else {
+            newElement.innerHTML = htmlText
         }
         if (onFocus || focusSelectAll) {
             $('body').on('focus', 'input', (ev) => {
