@@ -190,7 +190,7 @@ function EditAlignBlock() {
       'align bottom'
     ].map(alignType => {
       let btnAlign = document.createElement('button')
-      btnAlign.className = 'box32'
+      btnAlign.className = 'box24'
       btnAlign.type = 'button'
       if (isEnable)
         btnAlign.onclick = function () {

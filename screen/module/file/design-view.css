@@ -529,36 +529,36 @@ body:has(#history-view) :is(.btn-tool-state:nth-child(1), .btn-history) {
 }
 
 #edit_align_div>button * {
-    width: 2rem;
-    height: 2rem;
+    width: 1.6rem;
+    height: 1.6rem;
 }
 
-#edit_align_div>button:nth-child(1) {
+#edit_align_div>button:nth-child(1)::after {
     content: '';
     background-image: url(../../../assets/layout_align_left.svg);
 }
 
-#edit_align_div>button:nth-child(2) {
+#edit_align_div>button:nth-child(2)::after {
     content: '';
     background-image: url(../../../assets/layout_align_horizontal_center.svg);
 }
 
-#edit_align_div>button:nth-child(3) {
+#edit_align_div>button:nth-child(3)::after {
     content: '';
     background-image: url(../../../assets/layout_align_right.svg);
 }
 
-#edit_align_div>button:nth-child(4) {
+#edit_align_div>button:nth-child(4)::after {
     content: '';
     background-image: url(../../../assets/layout_align_top.svg);
 }
 
-#edit_align_div>button:nth-child(5) {
+#edit_align_div>button:nth-child(5)::after {
     content: '';
     background-image: url(../../../assets/layout_align_vertical_center.svg);
 }
 
-#edit_align_div>button:nth-child(6) {
+#edit_align_div>button:nth-child(6)::after {
     content: '';
     background-image: url(../../../assets/layout_align_bottom.svg);
 }
