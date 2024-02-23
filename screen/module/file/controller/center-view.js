@@ -1714,7 +1714,7 @@ function wdraw() {
         txtoffX = 16
       }
       let txt =
-        document.getElementById('inputName:' + wbaseHTML.id)?.value ??
+        left_view.querySelector(`#wbaseID:${wbaseHTML.id} input`)?.value ??
         wbase_list.find(e => e.GID == wbaseHTML.id)?.name
       ctxr.fillText(
         txt,

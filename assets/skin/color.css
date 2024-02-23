@@ -8,6 +8,7 @@
     --border-color: rgba(0, 53, 128, 0.18);
     --border-overlay-color: rgba(0, 53, 128, 0.1);
     --outline-color: rgb(229, 229, 229, 0.8);
+    --hover-background: #f1f1f1;
 
     --primary-sub-color: rgb(77, 122, 229);
     --primary-border-color: rgb(188, 205, 245);

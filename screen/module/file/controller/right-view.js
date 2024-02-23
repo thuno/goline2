@@ -170,17 +170,17 @@ function createCanvasBackground() {
 
 // edit align UI
 function EditAlignBlock() {
-  let editAlignContainer = document.createElement('div')
-  editAlignContainer.id = 'edit_align_div'
+  let editContainer = document.createElement('div')
+  editContainer.id = 'edit_align_div'
+  editContainer.className = 'edit-container row'
   let isEnable = selected_list.every(
     wb =>
-      ((selected_list.length > 1 || wb.Level > 1) &&
-        window.getComputedStyle(wb.value).position === 'absolute') ||
+      ((selected_list.length > 1 || wb.Level > 1) && window.getComputedStyle(wb.value).position === 'absolute') ||
       wb.value.classList.contains('w-block') ||
       wb.value.querySelector(':scope > .fixed-position')
   )
-  editAlignContainer.setAttribute('enable', isEnable)
-  editAlignContainer.replaceChildren(
+  editContainer.setAttribute('enable', isEnable)
+  editContainer.replaceChildren(
     ...[
       'align left',
       'align horizontal center',
@@ -189,8 +189,9 @@ function EditAlignBlock() {
       'align vertical center',
       'align bottom'
     ].map(alignType => {
-      let btnAlign = document.createElement('img')
-      btnAlign.className = 'img-button size-32'
+      let btnAlign = document.createElement('button')
+      btnAlign.className = 'box32'
+      btnAlign.type = 'button'
       if (isEnable)
         btnAlign.onclick = function () {
           handleEditAlign(alignType)
@@ -200,7 +201,7 @@ function EditAlignBlock() {
       return btnAlign
     })
   )
-  return editAlignContainer
+  return editContainer
 }
 
 function reloadEditAlignBlock() {
@@ -213,12 +214,7 @@ function EditOffsetBlock() {
   let edit_size_position_div = document.createElement('div')
   edit_size_position_div.id = 'edit_size_position_div'
   edit_size_position_div.className = 'edit-container col'
-  if (
-    select_box_parentID === wbase_parentID &&
-    selected_list.every(
-      e => !e.IsInstance && e.value.classList.contains('w-container')
-    )
-  ) {
+  if (select_box_parentID === wbase_parentID && selected_list.every(e => !e.IsInstance && e.value.classList.contains('w-container'))) {
     let pageDeviceContainer = document.createElement('div')
     pageDeviceContainer.className = 'page-device-container row'
     let btn_select_frame_size = document.createElement('button')
@@ -278,33 +274,27 @@ function EditOffsetBlock() {
   let editXYContainer = document.createElement('div')
   editXYContainer.className = 'row'
   // input edit left position
-  let list_offsetX = selected_list.filterAndMap(wb =>
-    `${getWBaseOffset(wb).x}`.replace('.00', '')
-  )
-  let edit_left = _textField({
+  let list_offsetX = selected_list.filterAndMap(wb => `${getWBaseOffset(wb).x}`.replace('.00', ''))
+  let edit_left = TextField({
     id: 'edit_position_item_left',
-    label: 'X',
+    className: 'right-view-input regular1',
+    prefix: `<div class="label-5" style="color: #b5b5b5">X</div>`,
     value: list_offsetX.length == 1 ? list_offsetX[0] : 'mixed',
     onBlur: function (ev) {
       let newValue = parseFloat(ev.target.value)
-      if (!isNaN(newValue)) {
-        handleEditOffset({ x: newValue })
-      }
+      if (!isNaN(newValue)) handleEditOffset({ x: newValue })
     }
-  })
+  });
   // input edit right position
-  let list_offsetY = selected_list.filterAndMap(wb =>
-    `${getWBaseOffset(wb).y}`.replace('.00', '')
-  )
-  let edit_top = _textField({
+  let list_offsetY = selected_list.filterAndMap(wb => `${getWBaseOffset(wb).y}`.replace('.00', ''))
+  let edit_top = TextField({
     id: 'edit_position_item_top',
-    label: 'Y',
+    className: 'right-view-input regular1',
+    prefix: `<div class="label-5" style="color: #b5b5b5">Y</div>`,
     value: list_offsetY.length == 1 ? list_offsetY[0] : 'mixed',
     onBlur: function (ev) {
       let newValue = parseFloat(ev.target.value)
-      if (!isNaN(newValue)) {
-        handleEditOffset({ y: newValue })
-      }
+      if (!isNaN(newValue)) handleEditOffset({ y: newValue })
     }
   })
   editXYContainer.replaceChildren(edit_left, edit_top)
@@ -316,15 +306,7 @@ function EditOffsetBlock() {
       e.value.classList.contains('fixed-position')
     )
     let iconFixPos = document.createElement('img')
-    iconFixPos.className = `img-button size-28 tlwh-option ${isFixPos ? ' toggle' : ''
-      } ${selected_list.some(
-        wb =>
-          !wb.value.classList.contains('w-variant') &&
-          wb.value.closest('.wbaseItem-value[iswini]')
-      )
-        ? ' disabled'
-        : ''
-      }`
+    iconFixPos.className = `img-button size-28 tlwh-option ${isFixPos ? ' toggle' : ''} ${selected_list.some(wb => !wb.value.classList.contains('w-variant') && wb.value.closest('.wbaseItem-value[iswini]')) ? ' disabled' : ''}`
     iconFixPos.src =
       'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/fix_position.svg'
     edit_top.lastChild.disabled = !isFixPos
@@ -349,43 +331,36 @@ function EditOffsetBlock() {
   editWHContainer.className = 'row uneditable-instance'
   // input edit width
   let list_width = selected_list.filterAndMap(e => e.value.offsetWidth)
-  let edit_width = _textField({
+  let edit_width = TextField({
     id: 'edit_frame_item_w',
-    label: 'W',
+    className: 'right-view-input regular1',
+    prefix: `<div class="label-5" style="color: #b5b5b5">W</div>`,
     value: list_width.length === 1 ? list_width[0] : 'mixed',
     onBlur: function (ev) {
       let newValue = parseFloat(ev.target.value)
-      if (!isNaN(newValue)) {
-        handleEditOffset({ width: newValue, ratioWH: isRatio })
-      }
+      if (!isNaN(newValue)) handleEditOffset({ width: newValue, ratioWH: isRatio })
     }
   })
   // input edit height
   let list_height = selected_list.filterAndMap(e => e.value.offsetHeight)
-  let edit_height = _textField({
+  let edit_height = TextField({
     id: 'edit_frame_item_h',
-    label: 'H',
+    className: 'right-view-input regular1',
+    prefix: `<div class="label-5" style="color: #b5b5b5">H</div>`,
     value: list_height.length == 1 ? list_height[0] : 'mixed',
     onBlur: function (ev) {
       let newValue = parseFloat(ev.target.value)
-      if (!isNaN(newValue)) {
-        handleEditOffset({ height: newValue, ratioWH: isRatio })
-      }
+      if (!isNaN(newValue)) handleEditOffset({ height: newValue, ratioWH: isRatio })
     }
   })
-  let isRatio = selected_list.some(wb =>
-    WbClass.scale.some(e => wb.value.classList.contains(e))
-  )
+  let isRatio = selected_list.some(wb => WbClass.scale.some(e => wb.value.classList.contains(e)))
   let icon_ratioWH = document.createElement('img')
-  icon_ratioWH.src = `https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/${isRatio ? 'ratioWH' : 'un_ratioWH'
-    }.svg`
-  icon_ratioWH.className =
-    'img-button size-28 tlwh-option' + (isRatio ? ' toggle' : '')
+  icon_ratioWH.src = `https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/${isRatio ? 'ratioWH' : 'un_ratioWH'}.svg`
+  icon_ratioWH.className = 'img-button size-28 tlwh-option' + (isRatio ? ' toggle' : '')
   if (!isRatio) {
     icon_ratioWH.onclick = function () {
       isRatio = !isRatio
-      this.src = `https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/${isRatio ? 'ratioWH' : 'un_ratioWH'
-        }.svg`
+      this.src = `https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/${isRatio ? 'ratioWH' : 'un_ratioWH'}.svg`
       if (isRatio) this.classList.add('toggle')
       else this.classList.remove('toggle')
     }
@@ -393,23 +368,18 @@ function EditOffsetBlock() {
   editWHContainer.replaceChildren(edit_width, edit_height, icon_ratioWH)
   edit_size_position_div.appendChild(editWHContainer)
 
-  if (
-    selected_list.every(wb => {
-      let computeSt = window.getComputedStyle(wb.value)
-      return (
-        WbClass.scale.every(e => !wb.value.classList.contains(e)) &&
-        (computeSt.display.match(/(flex|table)/g) ||
-          computeSt.position !== 'absolute')
-      )
-    })
-  ) {
+  if (selected_list.every(wb => {
+    let computeSt = window.getComputedStyle(wb.value)
+    return (
+      WbClass.scale.every(e => !wb.value.classList.contains(e)) &&
+      (computeSt.display.match(/(flex|table)/g) || computeSt.position !== 'absolute')
+    )
+  })) {
     let resizeContainer = document.createElement('div')
     resizeContainer.className = 'row uneditable-instance'
     resizeContainer.style.height = '32px'
     const initResizeW = function () {
-      let vl = selected_list.filterAndMap(
-        wb => wb.value.getAttribute('width-type') ?? 'fixed'
-      )
+      let vl = selected_list.filterAndMap(wb => wb.value.getAttribute('width-type') ?? 'fixed')
       vl = vl.length > 1 ? 'mixed' : vl[0] === 'fit' ? 'hug' : vl[0]
       edit_width.lastChild.disabled = vl !== 'fixed'
       icon_ratioWH.style.display = vl === 'fixed' ? null : 'none'
@@ -437,14 +407,13 @@ function EditOffsetBlock() {
     EnumCate.textformfield,
     EnumCate.button
   ]
-  let showInputRadius = selected_list.filter(wb =>
-    allowRadius.some(ct => wb.CateID === ct)
-  )
+  let showInputRadius = selected_list.filter(wb => allowRadius.some(ct => wb.CateID === ct))
   let radiusContainer = document.createElement('div')
   radiusContainer.className = 'row'
   // input edit rotate
-  let edit_rotate = _textField({
-    icon: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/rotate_rect.svg',
+  let edit_rotate = TextField({
+    prefix: '<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/rotate_rect.svg"/>',
+    className: 'right-view-input regular1',
     value: 0
   })
   if (showInputRadius.length > 0) {
@@ -455,8 +424,9 @@ function EditOffsetBlock() {
         .map(brvl => parseFloat(brvl.replace('px')))
     )
     list_radius_value = [].concat(...list_radius_value).filterAndMap()
-    let edit_radius = _textField({
-      icon: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/radius_rect.svg',
+    let edit_radius = TextField({
+      className: 'right-view-input regular1',
+      prefix: '<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/radius_rect.svg"/>',
       value: list_radius_value.length == 1 ? list_radius_value[0] : 'mixed',
       onBlur: function (ev) {
         let newValue = parseFloat(ev.target.value)
@@ -482,14 +452,8 @@ function EditOffsetBlock() {
     toggleRadiusDetails.setAttribute('show-details', false)
     toggleRadiusDetails.className = 'radius-details img-button size-24'
     toggleRadiusDetails.onclick = function () {
-      toggleRadiusDetails.setAttribute(
-        'show-details',
-        toggleRadiusDetails.getAttribute('show-details') != 'true'
-      )
-      edit_radius.style.pointerEvents =
-        toggleRadiusDetails.getAttribute('show-details') == 'true'
-          ? 'none'
-          : 'auto'
+      toggleRadiusDetails.setAttribute('show-details', toggleRadiusDetails.getAttribute('show-details') != 'true')
+      edit_radius.style.pointerEvents = toggleRadiusDetails.getAttribute('show-details') == 'true' ? 'none' : 'auto'
     }
     radiusContainer.replaceChildren(
       edit_rotate,
@@ -773,10 +737,10 @@ function EditLayoutBlock() {
           ].replace('px', '')
         )
       )
-      let inputChildSpace = _textField({
-        width: '88px',
-        icon: `https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/${isVertical ? 'vertical' : 'horizontal'
-          } child spacing.svg`,
+      let inputChildSpace = TextField({
+        className: 'right-view-input regular1',
+        style: 'width: 8.8rem',
+        prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/${isVertical ? 'vertical' : 'horizontal'} child spacing.svg"/>`,
         value: childSpaceValues.length == 1 ? childSpaceValues[0] : 'mixed',
         onBlur: function (ev) {
           let newValue = parseFloat(ev.target.value)
@@ -797,12 +761,7 @@ function EditLayoutBlock() {
         isWrapRow.style.width = '100%'
         let btnIsWarp = document.createElement('label')
         btnIsWarp.className = 'row regular1 check-box-label uneditable-instance'
-        btnIsWarp.innerHTML = `<input type="checkbox"${wbList
-          .filterAndMap(wb => window.getComputedStyle(wb.value).flexWrap)
-          .every(e => e === 'wrap')
-          ? ' checked'
-          : ''
-          } />Wrap content`
+        btnIsWarp.innerHTML = `<input type="checkbox"${wbList.filterAndMap(wb => window.getComputedStyle(wb.value).flexWrap).every(e => e === 'wrap') ? ' checked' : ''} />Wrap content`
         btnIsWarp.firstChild.onchange = function (ev) {
           handleEditLayout({ isWrap: ev.target.checked })
         }
@@ -820,10 +779,10 @@ function EditLayoutBlock() {
             ).replace('px', '')
           )
         )
-        let inputRunSpace = _textField({
-          width: '88px',
-          icon: `https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/${isVertical ? 'horizontal' : 'vertical'
-            } child spacing.svg`,
+        let inputRunSpace = TextField({
+          className: 'right-view-input regular1',
+          style: 'width: 8.8rem',
+          prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/${isVertical ? 'horizontal' : 'vertical'} child spacing.svg"/>`,
           value: runSpaceValues.length == 1 ? runSpaceValues[0] : 'mixed',
           onBlur: function (ev) {
             let newValue = parseFloat(ev.target.value)
@@ -846,15 +805,7 @@ function EditLayoutBlock() {
           ? ' checked'
           : ''
           }/>Overflow scroll`
-        if (
-          wbList.some(
-            wb =>
-              (wb.value.classList.contains('w-col') &&
-                wb.value.getAttribute('height-type') === 'fit') ||
-              (wb.value.classList.contains('w-row') &&
-                wb.value.getAttribute('width-type') === 'fit')
-          )
-        ) {
+        if (wbList.some(wb => (wb.value.classList.contains('w-col') && wb.value.getAttribute('height-type') === 'fit') || (wb.value.classList.contains('w-row') && wb.value.getAttribute('width-type') === 'fit'))) {
           btnIsScroll.setAttribute('disabled', 'true')
         } else {
           btnIsScroll.firstChild.onchange = function (ev) {
@@ -893,9 +844,10 @@ function EditLayoutBlock() {
     paddingContainer.style.gap = '4px'
     paddingContainer.style.marginTop = '6px'
     editContainer.appendChild(paddingContainer)
-    let input_padding_horizontal = _textField({
-      width: '88px',
-      icon: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding horizontal.svg',
+    let input_padding_horizontal = TextField({
+      className: 'right-view-input regular1',
+      style: 'width: 8.8rem',
+      prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding horizontal.svg" />`,
       value: padLeftValue == padRightValue ? padLeftValue : 'mixed',
       onBlur: function (ev) {
         let newValue = parseFloat(ev.target.value)
@@ -911,9 +863,10 @@ function EditLayoutBlock() {
         }
       }
     })
-    let input_padding_vertical = _textField({
-      width: '88px',
-      icon: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding vertical.svg',
+    let input_padding_vertical = TextField({
+      className: 'right-view-input regular1',
+      style: 'width: 8.8rem',
+      prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding vertical.svg" />`,
       value: padTopValue == padBotValue ? padTopValue : 'mixed',
       onBlur: function (ev) {
         let newValue = parseFloat(ev.target.value)
@@ -929,9 +882,10 @@ function EditLayoutBlock() {
       }
     })
     input_padding_vertical.style.marginLeft = '6px'
-    let input_padding_left = _textField({
-      width: '88px',
-      icon: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding left.svg',
+    let input_padding_left = TextField({
+      className: 'right-view-input regular1',
+      style: 'width: 8.8rem',
+      prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding left.svg" />`,
       value: padLeftValue,
       onBlur: function (ev) {
         let newValue = parseFloat(ev.target.value)
@@ -945,9 +899,10 @@ function EditLayoutBlock() {
         }
       }
     })
-    let input_padding_top = _textField({
-      width: '88px',
-      icon: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding top.svg',
+    let input_padding_top = TextField({
+      className: 'right-view-input regular1',
+      style: 'width: 8.8rem',
+      prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding top.svg" />`,
       value: padTopValue,
       onBlur: function (ev) {
         let newValue = parseFloat(ev.target.value)
@@ -966,11 +921,11 @@ function EditLayoutBlock() {
     icon_padding_details.className = 'img-button size-24'
     icon_padding_details.style.borderRadius = '2px'
     icon_padding_details.style.margin = '4px 0 0 6px'
-    icon_padding_details.src =
-      'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding details.svg'
-    let input_padding_right = _textField({
-      width: '88px',
-      icon: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding right.svg',
+    icon_padding_details.src = 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding details.svg'
+    let input_padding_right = TextField({
+      className: 'right-view-input regular1',
+      style: 'width: 8.8rem',
+      prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding right.svg" />`,
       value: padRightValue,
       onBlur: function (ev) {
         let newValue = parseFloat(ev.target.value)
@@ -985,9 +940,10 @@ function EditLayoutBlock() {
       }
     })
 
-    let input_padding_bottom = _textField({
-      width: '88px',
-      icon: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding bottom.svg',
+    let input_padding_bottom = TextField({
+      className: 'right-view-input regular1',
+      style: 'width: 8.8rem',
+      prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding bottom.svg" />`,
       value: padBotValue,
       onBlur: function (ev) {
         let newValue = parseFloat(ev.target.value)
@@ -1037,11 +993,7 @@ function EditLayoutBlock() {
     }
   } else {
     header.querySelector('.fa-minus').remove()
-    if (
-      selected_list.every(wb =>
-        wb.value.closest('.wbaseItem-value[iswini]:not(.w-variant)')
-      )
-    ) {
+    if (selected_list.every(wb => wb.value.closest('.wbaseItem-value[iswini]:not(.w-variant)'))) {
       header.classList.add('disable')
     } else {
       $(header).on('click', '.fa-plus', function () {
@@ -1057,34 +1009,6 @@ function EditLayoutBlock() {
 function reloadEditLayoutBlock() {
   let newEditAutoLayout = EditLayoutBlock()
   document.getElementById('edit_auto_layout_div').replaceWith(newEditAutoLayout)
-}
-
-// create text field UI
-function _textField({
-  id,
-  width = '82px',
-  icon,
-  label,
-  value,
-  iconSize = '24px',
-  onBlur
-}) {
-  let inputContainer = document.createElement('div')
-  inputContainer.id = id
-  inputContainer.className = 'text_field_right_view'
-  inputContainer.style.width = width
-  inputContainer.innerHTML = `${icon
-    ? `<img src="${icon}" style="box-sizing: border-box; padding: 6px; width: ${iconSize}; width: ${iconSize}"/>`
-    : ''
-    }${label
-      ? `<p class="label-5" style="color: #BFBFBF; margin-left: 4px">${label}</p>`
-      : ''
-    }<input class="input_text_field" value=${value} style="background-color: transparent" />`
-  inputContainer.lastChild.onfocus = function () {
-    this.select()
-  }
-  inputContainer.lastChild.onblur = onBlur
-  return inputContainer
 }
 
 // ! Constraints
@@ -1971,15 +1895,13 @@ function EditTypoBlock() {
     let lineHeightValues = listTextStyle.filterAndMap(wb =>
       window.getComputedStyle(wb.value).lineHeight.replace('px', '')
     )
-    let input_line_height = _textField({
-      width: '100%',
-      icon: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/line-height.svg',
+    let input_line_height = TextField({
+      className: 'right-view-input regular1',
+      style: 'width: 100%',
+      icon: '<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/line-height.svg" />',
       value: lineHeightValues.length === 1 ? lineHeightValues[0] : 'mixed',
       onBlur: function (ev) {
-        if (
-          ev.target.value.toLowerCase() === 'auto' ||
-          ev.target.value.toLowerCase() === 'normal'
-        ) {
+        if (ev.target.value.toLowerCase() === 'auto' || ev.target.value.toLowerCase() === 'normal') {
           handleEditTypo({ height: null })
         } else if (!isNaN(parseFloat(ev.target.value))) {
           handleEditTypo({ height: parseFloat(ev.target.value) })
@@ -1992,16 +1914,13 @@ function EditTypoBlock() {
     let lSpacingValues = listTextStyle.filterAndMap(wb =>
       window.getComputedStyle(wb.value).letterSpacing.replace('px', '')
     )
-    let input_letter_spacing = _textField({
-      width: '100%',
+    let input_letter_spacing = TextField({
+      className: 'right-view-input regular1',
+      style: 'width: 100%',
+      icon: '<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/letter-spacing.svg" />',
       value: lSpacingValues.length === 1 ? lSpacingValues[0] : 'mixed',
-      icon: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/letter-spacing.svg',
-      iconSize: '28px',
       onBlur: function (ev) {
-        if (
-          ev.target.value.toLowerCase() === 'auto' ||
-          ev.target.value.toLowerCase() === 'normal'
-        ) {
+        if (ev.target.value.toLowerCase() === 'auto' || ev.target.value.toLowerCase() === 'normal') {
           handleEditTypo({ letterSpacing: null })
         } else if (!isNaN(parseFloat(ev.target.value))) {
           handleEditTypo({ letterSpacing: parseFloat(ev.target.value) })
@@ -2414,11 +2333,11 @@ function EditBorderBlock() {
             .map(e => parseFloat(e.replace('px', '')))
             .sort((a, b) => b - a)[0]
       )
-      let edit_stroke_width = _textField({
-        width: '60px',
-        icon: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/stroke-width.svg',
+      let edit_stroke_width = TextField({
+        className: 'right-view-input regular1',
+        style: 'width: 6rem',
+        prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/stroke-width.svg"/>`,
         value: widthValues.length > 1 ? 'mixed' : widthValues[0],
-        iconSize: '28px',
         onBlur: function (ev) {
           let newValue = parseFloat(ev.target.value)
           if (!isNaN(newValue)) {
@@ -2631,10 +2550,11 @@ function EditEffectBlock() {
       popupEditEffect.appendChild(popup_title)
       let div_attribute = document.createElement('div')
       popupEditEffect.appendChild(div_attribute)
-      let input_offsetX = _textField({
+      let input_offsetX = TextField({
         id: 'edit_effect_offsetX',
-        width: '84px',
-        label: 'X',
+        className: 'right-view-input regular1',
+        style: 'width: 8.4rem',
+        prefix: `<div class="label-5" style="color: #b5b5b5">X</div>`,
         value: '0',
         onBlur: function () {
           if (!isNaN(parseFloat(this.value))) {
@@ -2642,10 +2562,11 @@ function EditEffectBlock() {
           }
         }
       })
-      let input_blur = _textField({
+      let input_blur = TextField({
         id: 'edit_effect_blur',
-        width: '84px',
-        label: 'Blur',
+        className: 'right-view-input regular1',
+        style: 'width: 8.4rem',
+        prefix: `<div class="label-5" style="color: #b5b5b5">Blur</div>`,
         value: '0',
         onBlur: function () {
           if (!isNaN(parseFloat(this.value))) {
@@ -2653,10 +2574,11 @@ function EditEffectBlock() {
           }
         }
       })
-      let input_offsetY = _textField({
+      let input_offsetY = TextField({
         id: 'edit_effect_offsetY',
-        width: '84px',
-        label: 'Y',
+        className: 'right-view-input regular1',
+        style: 'width: 8.4rem',
+        prefix: `<div class="label-5" style="color: #b5b5b5">Y</div>`,
         value: '0',
         onBlur: function () {
           if (!isNaN(parseFloat(this.value))) {
@@ -2664,10 +2586,11 @@ function EditEffectBlock() {
           }
         }
       })
-      let input_spread = _textField({
+      let input_spread = TextField({
         id: 'edit_effect_spread',
-        width: '84px',
-        label: 'Spread',
+        className: 'right-view-input regular1',
+        style: 'width: 8.4rem',
+        prefix: `<div class="label-5" style="color: #b5b5b5">Spread</div>`,
         value: '0',
         onBlur: function () {
           if (!isNaN(parseFloat(this.value))) {
@@ -2697,17 +2620,13 @@ function EditEffectBlock() {
           let blurValues = listEffect
             .filter(wb => window.getComputedStyle(wb.value).filter !== 'none')
             .filterAndMap(wb =>
-              window
-                .getComputedStyle(wb.value)
-                .filter.replace(/(blur\(|px\))/g, '')
+              window.getComputedStyle(wb.value).filter.replace(/(blur\(|px\))/g, '')
             )
           input_blur.querySelector('input').value =
             blurValues.length > 1 ? 'mixed' : blurValues[0]
         } else {
           let boxShadowList = listEffect
-            .filter(
-              wb => window.getComputedStyle(wb.value).boxShadow !== 'none'
-            )
+            .filter(wb => window.getComputedStyle(wb.value).boxShadow !== 'none')
             .map(wb => {
               let wbShadow = window.getComputedStyle(wb.value).boxShadow
               let color = wbShadow.match(/(rgba|rgb)\(.*\)/g)[0]
@@ -3592,55 +3511,46 @@ function popupEditSkin(enumCate, jsonSkin) {
       let div_height_spacing = document.createElement('div')
       div_height_spacing.className = 'row'
       div_height_spacing.style.width = '100%'
-      div_height_spacing.style.padding = '8px 4px 0 0'
+      div_height_spacing.style.padding = '0.8rem 0.4rem 0 0'
+      div_height_spacing.style.gap = '0.8rem'
       body.appendChild(div_height_spacing)
       // input line-height
-      let input_line_height = _textField(
-        '100%',
-        'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/line-height.svg',
-        undefined,
-        '0',
-        '25px'
-      )
-      input_line_height.style.flex = 1
-      input_line_height.style.marginRight = '8px'
-      input_line_height.lastChild.value = jsonSkin.Height
-        ? jsonSkin.Height
-        : 'Auto'
-      input_line_height.lastChild.onblur = function () {
-        let thisSkin = TypoDA.list.find(e => e.GID == jsonSkin.GID)
-        if (this.value.toLowerCase() == 'auto') {
-          editTypoSkin({ Height: this.value }, thisSkin)
-          demoText.style.lineHeight = 'normal'
-        } else if (!isNaN(parseFloat(this.value))) {
-          editTypoSkin({ Height: parseFloat(this.value) }, thisSkin)
-          demoText.style.lineHeight = parseFloat(this.value) + 'px'
-        } else {
-          this.value = thisSkin.Height
+      let input_line_height = TextField({
+        style: 'width: 100%;flex: 1',
+        className: 'right-view-input regular1',
+        prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/line-height.svg" />`,
+        value: jsonSkin.Height ? jsonSkin.Height : 'Auto',
+        onBlur: function () {
+          let thisSkin = TypoDA.list.find(e => e.GID == jsonSkin.GID)
+          if (this.value.toLowerCase() == 'auto') {
+            editTypoSkin({ Height: this.value }, thisSkin)
+            demoText.style.lineHeight = 'normal'
+          } else if (!isNaN(parseFloat(this.value))) {
+            editTypoSkin({ Height: parseFloat(this.value) }, thisSkin)
+            demoText.style.lineHeight = parseFloat(this.value) + 'px'
+          } else {
+            this.value = thisSkin.Height
+          }
         }
-      }
-      div_height_spacing.appendChild(input_line_height)
+      })
       // input letter spacing
-      let input_letter_spacing = _textField(
-        '100%',
-        'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/letter-spacing.svg',
-        undefined,
-        '0',
-        '28px'
-      )
-      input_letter_spacing.id = 'input_letter_spacing'
-      input_letter_spacing.style.flex = 1
-      input_letter_spacing.lastChild.value = jsonSkin.LetterSpacing
-      input_letter_spacing.lastChild.onblur = function () {
-        let thisSkin = TypoDA.list.find(e => e.GID == jsonSkin.GID)
-        if (!isNaN(parseFloat(this.value))) {
-          editTypoSkin({ LetterSpacing: parseFloat(this.value) }, thisSkin)
-          demoText.style.letterSpacing = parseFloat(this.value) + 'px'
-        } else {
-          this.value = thisSkin.LetterSpacing
+      let input_letter_spacing = TextField({
+        id: 'input_letter_spacing',
+        className: 'right-view-input regular1',
+        style: 'width: 100%;flex: 1',
+        prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/letter-spacing.svg" />`,
+        value: jsonSkin.LetterSpacing,
+        onBlur: function () {
+          let thisSkin = TypoDA.list.find(e => e.GID == jsonSkin.GID)
+          if (!isNaN(parseFloat(this.value))) {
+            editTypoSkin({ LetterSpacing: parseFloat(this.value) }, thisSkin)
+            demoText.style.letterSpacing = parseFloat(this.value) + 'px'
+          } else {
+            this.value = thisSkin.LetterSpacing
+          }
         }
-      }
-      div_height_spacing.appendChild(input_letter_spacing)
+      })
+      div_height_spacing.replaceChildren(input_line_height, input_letter_spacing)
       break
     case EnumCate.border:
       editName.onblur = function () {
@@ -3703,69 +3613,61 @@ function popupEditSkin(enumCate, jsonSkin) {
       btnSelectStyle.firstChild.innerHTML = jsonSkin.BorderStyle
       formEditLine.appendChild(btnSelectStyle)
 
-      let edit_stroke_width = _textField(
-        '60px',
-        'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/stroke-width.svg',
-        undefined,
-        '0',
-        '28px'
-      )
       let listWidth = jsonSkin.Width.split(' ')
-      switch (jsonSkin.BorderSide) {
-        case BorderSide.top:
-          edit_stroke_width.lastChild.value = listWidth[0]
-          break
-        case BorderSide.right:
-          edit_stroke_width.lastChild.value = listWidth[1]
-          break
-        case BorderSide.bottom:
-          edit_stroke_width.lastChild.value = listWidth[2]
-          break
-        case BorderSide.left:
-          edit_stroke_width.lastChild.value = listWidth[3]
-          break
-        default:
-          if (listWidth.every(value => value == listWidth[0])) {
-            edit_stroke_width.lastChild.value = listWidth[0]
-          } else {
-            edit_stroke_width.lastChild.value = 'mixed'
-          }
-          break
-      }
-      edit_stroke_width.lastChild.onblur = function () {
-        if (!isNaN(parseFloat(this.value))) {
-          let thisSkin = BorderDA.list.find(e => e.GID == jsonSkin.GID)
-          group_custom_border_side.style.display = 'none'
-          editBorderSkin({ Width: parseFloat(this.value) }, thisSkin)
-          demoDiv.style.borderTopWidth = thisSkin.Width.split(' ')[0] + 'px'
-          demoDiv.style.borderRightWidth = thisSkin.Width.split(' ')[1] + 'px'
-          demoDiv.style.borderBottomWidth = thisSkin.Width.split(' ')[2] + 'px'
-          demoDiv.style.borderLeftWidth = thisSkin.Width.split(' ')[3] + 'px'
-        } else {
-          let listWidth = jsonSkin.Width.split(' ')
+      let edit_stroke_width = TextField({
+        style: 'width: 6rem',
+        className: 'right-view-input regular1',
+        prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/stroke-width.svg" />`,
+        value: () => {
           switch (jsonSkin.BorderSide) {
             case BorderSide.top:
-              this.value = listWidth[0]
-              break
+              return listWidth[0]
             case BorderSide.right:
-              this.value = listWidth[1]
-              break
+              return listWidth[1]
             case BorderSide.bottom:
-              this.value = listWidth[2]
-              break
+              return listWidth[2]
             case BorderSide.left:
-              this.value = listWidth[3]
-              break
+              return listWidth[3]
             default:
-              if (listWidth.every(value => value == listWidth[0])) {
+              if (listWidth.every(value => value == listWidth[0])) return listWidth[0]
+              else return 'mixed'
+          }
+        },
+        onBlur: function () {
+          if (!isNaN(parseFloat(this.value))) {
+            let thisSkin = BorderDA.list.find(e => e.GID == jsonSkin.GID)
+            group_custom_border_side.style.display = 'none'
+            editBorderSkin({ Width: parseFloat(this.value) }, thisSkin)
+            demoDiv.style.borderTopWidth = thisSkin.Width.split(' ')[0] + 'px'
+            demoDiv.style.borderRightWidth = thisSkin.Width.split(' ')[1] + 'px'
+            demoDiv.style.borderBottomWidth = thisSkin.Width.split(' ')[2] + 'px'
+            demoDiv.style.borderLeftWidth = thisSkin.Width.split(' ')[3] + 'px'
+          } else {
+            let listWidth = jsonSkin.Width.split(' ')
+            switch (jsonSkin.BorderSide) {
+              case BorderSide.top:
                 this.value = listWidth[0]
-              } else {
-                this.value = 'mixed'
-              }
-              break
+                break
+              case BorderSide.right:
+                this.value = listWidth[1]
+                break
+              case BorderSide.bottom:
+                this.value = listWidth[2]
+                break
+              case BorderSide.left:
+                this.value = listWidth[3]
+                break
+              default:
+                if (listWidth.every(value => value == listWidth[0])) {
+                  this.value = listWidth[0]
+                } else {
+                  this.value = 'mixed'
+                }
+                break
+            }
           }
         }
-      }
+      })
       formEditLine.appendChild(edit_stroke_width)
 
       let btnSelectBorderSide = selectBorderSide(
@@ -3801,82 +3703,70 @@ function popupEditSkin(enumCate, jsonSkin) {
       group_custom_border_side.className = 'group_input_border_side'
       group_custom_border_side.style.display =
         jsonSkin.BorderSide == BorderSide.custom ? 'flex' : 'none'
-      let input_border_left = _textField(
-        '88px',
-        'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/border-left-black.svg',
-        undefined,
-        '0',
-        '36px'
-      )
-      input_border_left.style.marginLeft = '8px'
-      input_border_left.lastChild.value = jsonSkin.Width.split(' ')[3]
-      input_border_left.lastChild.onblur = function () {
-        let left_width_value = parseFloat(this.value)
-        let thisSkin = BorderDA.list.find(e => e.GID == jsonSkin.GID)
-        if (left_width_value) {
-          editBorderSkin({ LeftWidth: left_width_value }, thisSkin)
-          demoDiv.style.borderLeftWidth = left_width_value + 'px'
-        } else {
-          this.value = thisSkin.Width.split(' ')[3]
+      let input_border_left = TextField({
+        style: 'width: 8.8rem; margin-left: 0.8rem',
+        className: 'right-view-input regular1',
+        prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/border-left-black.svg" />`,
+        value: jsonSkin.Width.split(' ')[3],
+        onBlur: function (ev) {
+          let left_width_value = parseFloat(ev.target.value)
+          let thisSkin = BorderDA.list.find(e => e.GID == jsonSkin.GID)
+          if (left_width_value) {
+            editBorderSkin({ LeftWidth: left_width_value }, thisSkin)
+            demoDiv.style.borderLeftWidth = left_width_value + 'px'
+          } else {
+            ev.target.value = thisSkin.Width.split(' ')[3]
+          }
         }
-      }
+      })
       group_custom_border_side.appendChild(input_border_left)
-      let input_border_top = _textField(
-        '88px',
-        'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/border-top-black.svg',
-        undefined,
-        '0',
-        '36px'
-      )
-      input_border_top.style.marginRight = '8px'
-      input_border_top.lastChild.value = jsonSkin.Width.split(' ')[0]
-      input_border_top.lastChild.onblur = function () {
-        let top_width_value = parseFloat(this.value)
-        if (top_width_value) {
-          editBorderSkin({ TopWidth: top_width_value }, thisSkin)
-          demoDiv.style.borderTopWidth = top_width_value + 'px'
-        } else {
-          this.value = thisSkin.Width.split(' ')[0]
+      let input_border_top = TextField({
+        style: 'width: 8.8rem; margin-right: 0.8rem',
+        className: 'right-view-input regular1',
+        prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/border-top-black.svg" />`,
+        value: jsonSkin.Width.split(' ')[0],
+        onBlur: function (ev) {
+          let top_width_value = parseFloat(ev.target.value)
+          if (top_width_value) {
+            editBorderSkin({ TopWidth: top_width_value }, thisSkin)
+            demoDiv.style.borderTopWidth = top_width_value + 'px'
+          } else {
+            ev.target.value = thisSkin.Width.split(' ')[0]
+          }
         }
-      }
+      })
       group_custom_border_side.appendChild(input_border_top)
-      let input_border_right = _textField(
-        '88px',
-        'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/border-right-black.svg',
-        undefined,
-        '0',
-        '36px'
-      )
-      input_border_right.style.marginLeft = '8px'
-      input_border_right.lastChild.value = jsonSkin.Width.split(' ')[1]
-      input_border_right.lastChild.onblur = function () {
-        let right_width_value = parseFloat(this.value)
-        if (right_width_value) {
-          editBorderSkin({ RightWidth: right_width_value }, thisSkin)
-          demoDiv.style.borderRightWidth = right_width_value + 'px'
-        } else {
-          this.value = thisSkin.Width.split(' ')[1]
+      let input_border_right = TextField({
+        style: 'width: 8.8rem; margin-left: 0.8rem',
+        className: 'right-view-input regular1',
+        prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/border-right-black.svg" />`,
+        value: jsonSkin.Width.split(' ')[1],
+        onBlur: function (ev) {
+          let right_width_value = parseFloat(ev.target.value)
+          if (right_width_value) {
+            editBorderSkin({ RightWidth: right_width_value }, thisSkin)
+            demoDiv.style.borderRightWidth = right_width_value + 'px'
+          } else {
+            ev.target.value = thisSkin.Width.split(' ')[1]
+          }
         }
-      }
+      })
       group_custom_border_side.appendChild(input_border_right)
-      let input_border_bottom = _textField(
-        '88px',
-        'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/border-bottom-black.svg',
-        undefined,
-        '0',
-        '36px'
-      )
-      input_border_bottom.style.marginRight = '8px'
-      input_border_bottom.lastChild.value = jsonSkin.Width.split(' ')[2]
-      input_border_bottom.lastChild.onblur = function () {
-        let bottom_width_value = parseFloat(this.value)
-        if (bottom_width_value) {
-          editBorderSkin({ BottomWidth: bottom_width_value }, thisSkin)
-          demoDiv.style.borderBottomWidth = bottom_width_value + 'px'
-        } else {
-          this.value = thisSkin.Width.split(' ')[2]
+      let input_border_bottom = TextField({
+        style: 'width: 8.8rem; margin-right: 0.8rem',
+        className: 'right-view-input regular1',
+        prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/border-bottom-black.svg" />`,
+        value: jsonSkin.Width.split(' ')[2],
+        onBlur: function (ev) {
+          let bottom_width_value = parseFloat(ev.target.value)
+          if (bottom_width_value) {
+            editBorderSkin({ BottomWidth: bottom_width_value }, thisSkin)
+            demoDiv.style.borderBottomWidth = bottom_width_value + 'px'
+          } else {
+            ev.target.value = thisSkin.Width.split(' ')[2]
+          }
         }
-      }
+      })
       group_custom_border_side.appendChild(input_border_bottom)
       break
     case EnumCate.effect:

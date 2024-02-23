@@ -1,8 +1,11 @@
-const TextField = ({ id, value = '', maxLength, onChange, onBlur, onFocus, placeholder = '', disabled, readOnly, className, helperText, name, suffix, prefix, helperTextColor, style, type = 'text', returnType = 'object' }) => {
+const TextField = ({ id, value = '', maxLength, onChange, onBlur, onFocus, placeholder = '', disabled, readOnly, className, helperText, name, suffix, prefix, helperTextColor, style, type = 'text', returnType = 'object', focusSelectAll = true }) => {
     if (returnType === 'string') {
-        if (onFocus) {
+        if (onFocus || focusSelectAll) {
             var dataId = uuidv4()
-            $('body').on('focus', `.text-field-container[txtf-id=${dataId}] > input`, onFocus)
+            $('body').on('focus', `.text-field-container[txtf-id=${dataId}] > input`, (ev) => {
+                this.select()
+                if(onFocus) onFocus(ev)
+            })
         }
         if (onChange) {
             dataId ??= uuidv4()
@@ -36,8 +39,12 @@ const TextField = ({ id, value = '', maxLength, onChange, onBlur, onFocus, place
             newElement.innerHTML = htmlText
             newElement.appendChild(suffix)
         }
-        if (onFocus)
-            $(newElement).on('focus', 'input', onFocus)
+        if (onFocus || focusSelectAll) {
+            $('body').on('focus', 'input', (ev) => {
+                this.select()
+                if(onFocus) onFocus(ev)
+            })
+        }
         if (onChange)
             $(newElement).on('change', 'input', onChange)
         if (onBlur)

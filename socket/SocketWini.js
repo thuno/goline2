@@ -642,7 +642,7 @@ socket.on('server-refresh', data => {
 class WiniIO {
   static emitMain(obj) {
     obj.userItem = UserService.user()
-    obj.token = UserService.getToken()
+    obj.token = UserService.token()
     obj.pid = parseInt(obj.pid ?? ProjectDA.obj.ID)
     obj.pageid = obj.pageid ?? PageDA.obj.ID
     arrange(obj.data)

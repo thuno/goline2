@@ -37,7 +37,6 @@ function setupLeftView() {
   document.getElementById('layer-search').onclick = showSearchResult
   // div contain all wbase_item as list tile
   replaceAllLyerItemHTML()
-  observer_listPage.observe(div_list_page)
   $('body').on('click', '.tab_left', function () {
     leftTabChange(this.innerHTML)
   })
@@ -377,18 +376,15 @@ function createLayerTile(wb, isShowChildren = false) {
   layerContainer.className = 'col'
   let wbase_tile = document.createElement('div')
   wbase_tile.id = `wbaseID:${wb.GID}`
-  wbase_tile.className = 'layer_wbase_tile ' + wb.ListClassName.split(' ')[1]
-  wbase_tile.style.setProperty('--spacing', `${(wb.Level - 1) * 16}px`)
+  wbase_tile.className = 'layer_wbase_tile row center ' + wb.ListClassName.split(' ')[1]
+  wbase_tile.style.setProperty('--spacing', `${(wb.Level - 1) * 1.6}rem`)
   if (wb.IsWini) {
     wbase_tile.setAttribute('iswini', wb.IsWini)
   } else if (wb.IsInstance) {
     wbase_tile.setAttribute('isinstance', wb.IsInstance)
   }
   let isShowListChid = isShowChildren
-  wbase_tile.innerHTML = `<i class="fa-solid fa-caret-${isShowListChid ? 'down' : 'right'
-    } fa-xs prefix-btn" style="margin-left: ${(wb.Level - 1) * 16}px"></i>
-  <img/><input id="inputName:${wb.GID}" readonly value="${wb.Name
-    }"/><i class="fa-solid fa-lock fa-xs is-lock"></i>`
+  wbase_tile.innerHTML = `<i class="fa-solid fa-caret-${isShowListChid ? 'down' : 'right'} box24 center prefix-btn"></i><div class="box28 row center"><input class="semibold" readonly value="${wb.Name}"/><i class="fa-solid fa-lock fa-xs is-lock"></i>`
   layerContainer.appendChild(wbase_tile)
 
   $(wbase_tile).on('click', '.prefix-btn', function () {
@@ -400,7 +396,7 @@ function createLayerTile(wb, isShowChildren = false) {
     }
   })
 
-  $(wbase_tile).on('dblclick', 'img', function (e) {
+  $(wbase_tile).on('dblclick', '.box28', function (e) {
     e.stopPropagation()
     let objCenter = document.getElementById(wb.GID)
     let centerRect = objCenter.getBoundingClientRect()
@@ -461,8 +457,7 @@ function createLayerTile(wb, isShowChildren = false) {
   }
   if (!wbase_tile.classList.contains('w-textfield')) {
     if (wb.IsShow) {
-      wbase_tile.querySelector('.is-lock').className =
-        'fa-solid fa-lock-open fa-xs is-lock'
+      wbase_tile.querySelector('.is-lock').className = 'fa-solid fa-lock-open fa-xs is-lock'
     } else {
       layerContainer.querySelectorAll('.is-lock').forEach(lockBtn => {
         if (lockBtn !== wbase_tile.querySelector('.is-lock')) {
@@ -473,56 +468,11 @@ function createLayerTile(wb, isShowChildren = false) {
     wbase_tile.onclick = function () {
       if (!sortLayer && !left_view.resizing) handleWbSelectedList([wb])
     }
-    // $(wbase_tile).on('click', '.is-lock', function () {
-    //   if (!sortLayer && !left_view.resizing) {
-    //     let listUpdate = []
-    //     wb.IsShow = !wb.IsShow
-    //     if (wb.IsShow) {
-    //       wb.value.removeAttribute('lock')
-    //       this.className = 'fa-solid fa-lock-open fa-xs is-lock'
-    //       layerContainer.querySelectorAll('.is-lock').forEach(lockBtn => {
-    //         let tile = lockBtn.closest('.layer_wbase_tile:not(.w-textfield)')
-    //         if (tile) {
-    //           lockBtn.className = 'fa-solid fa-lock-open fa-xs is-lock'
-    //           lockBtn.style.pointerEvents = 'auto'
-    //           listUpdate.push(tile.id.replace('wbaseID:', ''))
-    //         }
-    //       })
-    //       listUpdate = wbase_list.filter(e => {
-    //         if (listUpdate.some(id => e.GID === id)) {
-    //           e.value.removeAttribute('lock')
-    //           e.IsShow = true
-    //           return true
-    //         } else {
-    //           return false
-    //         }
-    //       })
-    //     } else {
-    //       wb.value.setAttribute('lock', 'true')
-    //       this.className = 'fa-solid fa-lock fa-xs is-lock'
-    //       layerContainer.querySelectorAll('.is-lock').forEach(lockBtn => {
-    //         if (lockBtn !== this) {
-    //           lockBtn.className = 'fa-solid fa-lock fa-xs is-lock'
-    //           lockBtn.style.pointerEvents = 'none'
-    //         }
-    //       })
-    //     }
-    //     listUpdate.push(wb)
-    //     WBaseDA.edit(listUpdate, EnumObj.wBase)
-    //   }
-    // })
   }
   $(wbase_tile).on('dblclick', 'input', function () {
     if (PageDA.enableEdit) {
       this.style.cursor = 'text'
-      this.style.outline = `1.5px solid ${wb.IsWini ||
-        wb.IsInstance ||
-        $(wbase_tile).parents(
-          `.col:has(> .layer_wbase_tile[iswini], layer_wbase_tile[isinstance])`
-        ).length
-        ? '#7B61FF'
-        : '#1890FF'
-        }`
+      this.style.outline = `0.15rem inset ${wb.IsWini || wb.IsInstance || $(wbase_tile).parents(`.col:has(> .layer_wbase_tile[iswini], layer_wbase_tile[isinstance])`).length ? '#7B61FF' : '#1890FF'}`
       this.readOnly = false
       this.setSelectionRange(0, this.value.length)
       this.focus()
@@ -540,7 +490,6 @@ function createLayerTile(wb, isShowChildren = false) {
       }
     }
   })
-
   return layerContainer
 }
 
@@ -919,14 +868,6 @@ const observer_instance = new ResizeObserver(entries => {
       instance_value.style.position = 'absolute'
       instance_demo.style.height = entry.contentRect.width + 'px'
     }
-  })
-})
-
-const observer_listPage = new ResizeObserver(entries => {
-  entries.forEach(entry => {
-    let listPageHTML = entry.target
-    let listLayerHTML = document.getElementById(`parentID:${wbase_parentID}`)
-    listLayerHTML.style.height = `calc(100% - ${listPageHTML.offsetHeight}px)`
   })
 })
 
