@@ -85,7 +85,6 @@ $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@002e58c/projec
             .forEach(wbHTML => setAttributeByStyle(wbHTML))
         setupRightView()
         setupLeftView()
-        centerViewInitListener()
         if (!PageDA.obj.scale) {
             topx = PageDA.obj.topx
             leftx = PageDA.obj.leftx
@@ -103,6 +102,7 @@ $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@002e58c/projec
                     .map(m => m.StyleItem)
             )
         }
+        centerViewInitListener()
         WiniIO.emitInit()
     })
 });

@@ -242,7 +242,7 @@ var line = 1,
 let previousX, previousY
 var canvas = document.getElementById('canvas_line')
 var ctx = canvas.getContext('2d')
-var canvas = document.getElementById('canvas_rect')
+var canvasr = document.getElementById('canvas_rect')
 var ctxr = canvasr.getContext('2d')
 
 canvas.width = totalW
@@ -723,11 +723,7 @@ var listCurve = []
 function centerViewInitListener() {
   window.addEventListener('mousemove', moveListener)
   divMain.addEventListener('mousedown', function (event) {
-    if (
-      !document.getElementById('wini_features') &&
-      event.target !== document.activeElement &&
-      ToolState.create_new_type.every(ts => ts !== tool_state)
-    ) {
+    if (!document.getElementById('wini_features') && event.target !== document.activeElement && ToolState.create_new_type.every(ts => ts !== tool_state)) {
       event.activeElement = document.activeElement
       event.path = [...event.composedPath()]
       previousX = event.pageX
@@ -769,12 +765,7 @@ function centerViewInitListener() {
   })
   window.addEventListener('keydown', event => {
     console.log('keydown:', keyid, event.key)
-    if (
-      (document.activeElement.localName === 'input' &&
-        !document.activeElement.readOnly) ||
-      document.activeElement.id === 'project_name' ||
-      action_list[action_index]?.index != undefined
-    ) {
+    if ((document.activeElement.localName === 'input' && !document.activeElement.readOnly) || document.activeElement.id === 'project_name') {
       if (event.key === 'Enter') {
         document.activeElement.blur()
         window.getSelection().removeAllRanges()
