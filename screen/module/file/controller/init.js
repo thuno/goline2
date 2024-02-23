@@ -68,12 +68,40 @@ $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@3ef64b8/projec
         console.log('get server done: ', Date.now())
         wbase_list = initDOM(wbaseResponse)
         arrange()
+        for (let wb of wbase_list) {
+            wb.value = null
+            initComponents(wb)
+            if (wb.Level === 1) divSection.appendChild(wb.value)
+        }
+        StyleDA.docStyleSheets.forEach(cssRuleItem => {
+            if (cssRuleItem.style.length > 0) {
+                divSection
+                    .querySelectorAll(cssRuleItem.selectorText)
+                    .forEach(wbHTML => setAttributeByStyle(wbHTML, cssRuleItem.style))
+            }
+        })
+        divSection
+            .querySelectorAll('.wbaseItem-value[isinstance][class*="w-st0"]')
+            .forEach(wbHTML => setAttributeByStyle(wbHTML))
         setupRightView()
         setupLeftView()
+        centerViewInitListener()
         if (!PageDA.obj.scale) {
-            PageDA.obj.scale = scale
-            PageDA.obj.topx = topx
-            PageDA.obj.leftx = leftx
+            topx = PageDA.obj.topx
+            leftx = PageDA.obj.leftx
+            scale = PageDA.obj.scale
+            divSection.style.top = topx + 'px'
+            divSection.style.left = leftx + 'px'
+            divSection.style.transform = `scale(${scale}, ${scale})`
+            input_scale_set(scale * 100)
+            positionScrollLeft()
+            positionScrollTop()
+        } else {
+            initScroll(
+                wbase_list
+                    .filter(m => m.ParentID === wbase_parentID)
+                    .map(m => m.StyleItem)
+            )
         }
         WiniIO.emitInit()
     })
@@ -324,34 +352,6 @@ function setAttributeByStyle(wbHTML, cssRule) {
     if (cssRule.height === '') wbHTML.setAttribute('height-type', 'fit')
 }
 
-const resizeWbase = new ResizeObserver(entries => {
-    entries.forEach(entry => {
-        let framePage = entry.target
-        let localResponsive =
-            ProjectDA.obj.ResponsiveJson ?? ProjectDA.responsiveJson
-        let brpShortName = localResponsive.BreakPoint.map(brp =>
-            brp.Key.match(brpRegex).pop().replace(/[()]/g, '')
-        )
-        let listClass = [...framePage.classList].filter(clName =>
-            [...brpShortName, 'min-brp'].every(brpKey => clName != brpKey)
-        )
-        let closestBrp = localResponsive.BreakPoint.filter(
-            brp => framePage.offsetWidth >= brp.Width
-        )
-        if (closestBrp.length > 0) {
-            closestBrp = closestBrp
-                .pop()
-                .Key.match(brpRegex)
-                .pop()
-                .replace(/[()]/g, '')
-            listClass.push(closestBrp)
-        } else {
-            listClass.push('min-brp')
-        }
-        framePage.className = listClass.join(' ')
-    })
-})
-
 function getWBaseOffset(wb) {
     let leftValue
     let topValue
@@ -431,12 +431,6 @@ function handleRequestUrl(request, listParam) {
         requestUrl = requestUrl + '?' + param.slice(0, -1)
     }
     return requestUrl
-}
-
-class enumTypeInput {
-    static param = 1
-    static header = 2
-    static body = 3
 }
 
 function wMainAxis(key, isHorizontal) {
@@ -567,85 +561,9 @@ function crossAxisToAlign(key, isHorizontal) {
 
 // 
 // 
-async function initData() {
-    WiniIO.emitInit()
-    console.log('init: ', Date.now())
-    console.log('get server: ', Date.now())
-    listShowName = []
-    action_list = []
-    action_index = -1
-    divSection.replaceChildren()
-    let wbaseResponse = await WBaseDA.apiGetInitWbase()
-    StyleDA.initSkin(ProjectDA.obj.ID).then(skinResponse => {
-        CateDA.initCate()
-        StyleDA.listSkin = skinResponse
-        StyleDA.listSkin.forEach(skin => {
-            document.documentElement.style.setProperty(`--${skin.GID}`, skin.Css)
-        })
-    })
-    // PropertyDA.list = skinResponse.Data.WPropertyItems
-    console.log('get server done: ', Date.now())
-    wbase_list = []
-    wbase_list = initDOM(wbaseResponse)
-    parent = divSection
-    selected_list = []
-    updateHoverWbase()
-    arrange()
-    $.get(WBaseDA.base_item_url, function (baseComponentResponse) {
-        base_component_list = baseComponentResponse.Data
-        console.log('base component:', base_component_list)
-        base_component_list = initDOM(base_component_list)
-    })
-    console.log('in handle data: ', Date.now())
-    for (let wb of wbase_list) {
-        wb.value = null
-        initComponents(wb)
-        if (wb.Level === 1) divSection.appendChild(wb.value)
-    }
-    StyleDA.docStyleSheets.forEach(cssRuleItem => {
-        if (cssRuleItem.style.length > 0) {
-            divSection
-                .querySelectorAll(cssRuleItem.selectorText)
-                .forEach(wbHTML => setAttributeByStyle(wbHTML, cssRuleItem.style))
-        }
-    })
-    divSection
-        .querySelectorAll('.wbaseItem-value[isinstance][class*="w-st0"]')
-        .forEach(wbHTML => setAttributeByStyle(wbHTML))
-    console.log('out handle data: ', Date.now())
-    centerViewInitListener()
-    if (PageDA.obj.scale !== undefined) {
-        topx = PageDA.obj.topx
-        leftx = PageDA.obj.leftx
-        scale = PageDA.obj.scale
-        divSection.style.top = topx + 'px'
-        divSection.style.left = leftx + 'px'
-        divSection.style.transform = `scale(${scale}, ${scale})`
-        input_scale_set(scale * 100)
-        positionScrollLeft()
-        positionScrollTop()
-    } else {
-        initScroll(
-            wbase_list
-                .filter(m => m.ParentID === wbase_parentID)
-                .map(m => m.StyleItem)
-        )
-    }
-    document.getElementById('body').querySelector('.loading-view').remove()
-    setupRightView()
-    setupLeftView()
-    document
-        .getElementById('btn_select_page')
-        .querySelector(':scope > p').innerHTML = PageDA.obj.Name
-    console.log('show done: ', Date.now())
-    setTimeout(function () {
-        toolStateChange(ToolState.move)
-    }, 80)
-}
-
 function input_scale_set(value) {
     settingsPage = true
-    input_scale.innerHTML = `${Math.floor(value)}%`
+    share_tool.querySelector('div:last-child > input').innerHTML = `${Math.floor(value)}%`
 }
 
 function toolStateChange(toolState) {

@@ -366,6 +366,12 @@ class WCarouselEffect {
     static easeInOut = 'ease-in-out'
 }
 
+class enumTypeInput {
+    static param = 1
+    static header = 2
+    static body = 3
+}
+
 const uuid4Regex =
     /[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/g
 const hexRegex = /(#){0,1}[0-9A-Fa-f]{6,8}$/i
@@ -497,4 +503,30 @@ const listDevice = [
     ]
 ]
 const wbase_parentID = '019cc638-18b3-434d-8c4a-973537cde698'
- 
+const resizeWbase = new ResizeObserver(entries => {
+    entries.forEach(entry => {
+        let framePage = entry.target
+        let localResponsive =
+            ProjectDA.obj.ResponsiveJson ?? ProjectDA.responsiveJson
+        let brpShortName = localResponsive.BreakPoint.map(brp =>
+            brp.Key.match(brpRegex).pop().replace(/[()]/g, '')
+        )
+        let listClass = [...framePage.classList].filter(clName =>
+            [...brpShortName, 'min-brp'].every(brpKey => clName != brpKey)
+        )
+        let closestBrp = localResponsive.BreakPoint.filter(
+            brp => framePage.offsetWidth >= brp.Width
+        )
+        if (closestBrp.length > 0) {
+            closestBrp = closestBrp
+                .pop()
+                .Key.match(brpRegex)
+                .pop()
+                .replace(/[()]/g, '')
+            listClass.push(closestBrp)
+        } else {
+            listClass.push('min-brp')
+        }
+        framePage.className = listClass.join(' ')
+    })
+})
