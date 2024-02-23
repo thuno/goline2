@@ -4,7 +4,7 @@ const TextField = ({ id, value = '', maxLength, onChange, onBlur, onFocus, place
             var dataId = uuidv4()
             $('body').on('focus', `.text-field-container[txtf-id=${dataId}] > input`, (ev) => {
                 this.select()
-                if(onFocus) onFocus(ev)
+                if (onFocus) onFocus(ev)
             })
         }
         if (onChange) {
@@ -25,24 +25,28 @@ const TextField = ({ id, value = '', maxLength, onChange, onBlur, onFocus, place
         newElement.className = `text-field-container row ${className ?? 'placeholder-2'} ${helperText?.length && 'helper-text'}`
         newElement.style.cssText = `--helper-text-color: ${helperTextColor ?? '#e14337'};${style ?? ''}`
         if (helperText?.length) newElement.setAttribute('helper-text', helperText)
-        if (typeof prefix === 'string') {
-            var htmlText = prefix
-        } else {
-            newElement.appendChild(prefix)
+        if (prefix) {
+            if (typeof prefix === 'string') {
+                var htmlText = prefix
+            } else {
+                newElement.appendChild(prefix)
+            }
         }
         htmlText ??= ''
         htmlText += `<input type=${type} value=${value} placeholder=${placeholder} ${maxLength ? `maxLength=${maxLength}` : ''} ${name ? `name=${name}` : ''} ${readOnly ? 'readOnly' : ''} ${disabled ? 'disabled' : ''}/>`
-        if (typeof suffix === 'string') {
-            htmlText += suffix
-            newElement.innerHTML = htmlText
-        } else {
-            newElement.innerHTML = htmlText
-            newElement.appendChild(suffix)
+        if (suffix) {
+            if (typeof suffix === 'string') {
+                htmlText += suffix
+                newElement.innerHTML = htmlText
+            } else {
+                newElement.innerHTML = htmlText
+                newElement.appendChild(suffix)
+            }
         }
         if (onFocus || focusSelectAll) {
             $('body').on('focus', 'input', (ev) => {
                 this.select()
-                if(onFocus) onFocus(ev)
+                if (onFocus) onFocus(ev)
             })
         }
         if (onChange)
