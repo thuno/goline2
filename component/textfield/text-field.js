@@ -15,13 +15,14 @@ const TextField = ({ id, value = '', maxLength, onChange, onBlur, onFocus, place
             dataId ??= uuidv4()
             $('body').on('blur', `.text-field-container[txtf-id=${dataId}] > input`, onBlur)
         }
-        return `<div ${id.length ? `id=${id}` : ''} ${dataId ? `txtf-id=${dataId}` : ''}  class="text-field-container row ${className ?? 'placeholder-2'} ${helperText?.length && 'helper-text'}" style="--helper-text-color: ${helperTextColor ?? '#e14337'};${style ?? ''}" ${helperText?.length ? `helper-text=${helperText}` : ''}>
+        return `<div ${id?.length ? `id=${id}` : ''} ${dataId ? `txtf-id=${dataId}` : ''}  class="text-field-container row ${className ?? 'placeholder-2'} ${helperText?.length && 'helper-text'}" style="--helper-text-color: ${helperTextColor ?? '#e14337'};${style ?? ''}" ${helperText?.length ? `helper-text=${helperText}` : ''}>
             ${prefix ?? ''}
             <input type=${type} value=${value} placeholder=${placeholder} ${maxLength ? `maxLength=${maxLength}` : ''} ${name ? `name=${name}` : ''} ${readOnly ? 'readOnly' : ''} ${disabled ? 'disabled' : ''}/>
             ${suffix ?? ''}
         </div>`
     } else {
         let newElement = document.createElement('div')
+        if (id?.length) newElement.id = id
         newElement.className = `text-field-container row ${className ?? 'placeholder-2'} ${helperText?.length && 'helper-text'}`
         newElement.style.cssText = `--helper-text-color: ${helperTextColor ?? '#e14337'};${style ?? ''}`
         if (helperText?.length) newElement.setAttribute('helper-text', helperText)
