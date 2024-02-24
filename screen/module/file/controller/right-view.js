@@ -190,7 +190,7 @@ function EditAlignBlock() {
       'align bottom'
     ].map(alignType => {
       let btnAlign = document.createElement('button')
-      btnAlign.className = 'box24'
+      btnAlign.className = 'box24 row'
       btnAlign.type = 'button'
       if (isEnable)
         btnAlign.onclick = function () {
@@ -211,129 +211,154 @@ function reloadEditAlignBlock() {
 
 // edit position UI
 function EditOffsetBlock() {
-  let edit_size_position_div = document.createElement('div')
-  edit_size_position_div.id = 'edit_size_position_div'
-  edit_size_position_div.className = 'edit-container col'
-  if (select_box_parentID === wbase_parentID && selected_list.every(e => !e.IsInstance && e.value.classList.contains('w-container'))) {
-    let pageDeviceContainer = document.createElement('div')
-    pageDeviceContainer.className = 'page-device-container row'
-    let btn_select_frame_size = document.createElement('button')
-    pageDeviceContainer.appendChild(btn_select_frame_size)
-    btn_select_frame_size.onclick = function (e) {
-      e.stopPropagation()
-      let popup = document.createElement('div')
-      popup.className = 'popup_select_device col wini_popup popup_remove'
-      for (let i = 0; i < listDevice.length; i++) {
-        let col = document.createElement('nav')
-        col.className = 'col'
-        if (i + 1 != listDevice.length)
-          col.style.borderBottom = '0.5px solid #e5e5e5'
-        for (let device of listDevice[i]) {
-          let option = document.createElement('div')
-          option.className = 'w-device-option-tile'
-          option.onclick = function (ev) {
-            ev.stopPropagation()
-            handleEditOffset({ width: device.Width, height: device.Height })
-            popup.remove()
-            reloadEditOffsetBlock()
-          }
-          option.innerHTML = `<i class="fa-solid fa-check" style="visibility: ${btn_title.innerHTML === device.Name ? 'visible' : 'hidden'
-            }"></i><span>${device.Name}</span><span>${device.Width}x${device.Height
-            }</span>`
-          col.appendChild(option)
-        }
-        popup.appendChild(col)
-      }
-      document.getElementById('body').appendChild(popup)
-      if (
-        popup.getBoundingClientRect().bottom >
-        document.body.getBoundingClientRect().bottom
-      ) {
-        popup.style.height = `${document.body.getBoundingClientRect().bottom -
-          popup.getBoundingClientRect().y
-          }px`
-      }
-    }
-    let listSize = selected_list
-      .filter(wb => wb.value.classList.contains('w-container'))
-      .filterAndMap(
-        wb =>
-          `${parseInt(wb.value.offsetWidth)}x${parseInt(wb.value.offsetHeight)}`
-      )
-    btn_select_frame_size.innerHTML = `<p class="semibold1">${listSize.length === 1
-      ? listDevice
-        .reduce((a, b) => a.concat(b))
-        .find(device => `${device.Width}x${device.Height}` === listSize[0])
-        ?.Name ?? 'Device size'
-      : 'Device size'
-      }</p><i class="fa-solid fa-chevron-down fa-2xs"></i>`
-    edit_size_position_div.appendChild(pageDeviceContainer)
-  }
+  let editContainer = document.createElement('div')
+  editContainer.id = 'edit_size_position_div'
+  editContainer.className = 'edit-container col'
+  // if (select_box_parentID === wbase_parentID && selected_list.every(e => !e.IsInstance && e.value.classList.contains('w-container'))) {
+  //   let pageDeviceContainer = document.createElement('div')
+  //   pageDeviceContainer.className = 'page-device-container row'
+  //   let btn_select_frame_size = document.createElement('button')
+  //   pageDeviceContainer.appendChild(btn_select_frame_size)
+  //   btn_select_frame_size.onclick = function (e) {
+  //     e.stopPropagation()
+  //     let popup = document.createElement('div')
+  //     popup.className = 'popup_select_device col wini_popup popup_remove'
+  //     for (let i = 0; i < listDevice.length; i++) {
+  //       let col = document.createElement('nav')
+  //       col.className = 'col'
+  //       if (i + 1 != listDevice.length)
+  //         col.style.borderBottom = '0.5px solid #e5e5e5'
+  //       for (let device of listDevice[i]) {
+  //         let option = document.createElement('div')
+  //         option.className = 'w-device-option-tile'
+  //         option.onclick = function (ev) {
+  //           ev.stopPropagation()
+  //           handleEditOffset({ width: device.Width, height: device.Height })
+  //           popup.remove()
+  //           reloadEditOffsetBlock()
+  //         }
+  //         option.innerHTML = `<i class="fa-solid fa-check" style="visibility: ${btn_title.innerHTML === device.Name ? 'visible' : 'hidden'
+  //           }"></i><span>${device.Name}</span><span>${device.Width}x${device.Height
+  //           }</span>`
+  //         col.appendChild(option)
+  //       }
+  //       popup.appendChild(col)
+  //     }
+  //     document.getElementById('body').appendChild(popup)
+  //     if (
+  //       popup.getBoundingClientRect().bottom >
+  //       document.body.getBoundingClientRect().bottom
+  //     ) {
+  //       popup.style.height = `${document.body.getBoundingClientRect().bottom -
+  //         popup.getBoundingClientRect().y
+  //         }px`
+  //     }
+  //   }
+  //   let listSize = selected_list
+  //     .filter(wb => wb.value.classList.contains('w-container'))
+  //     .filterAndMap(
+  //       wb =>
+  //         `${parseInt(wb.value.offsetWidth)}x${parseInt(wb.value.offsetHeight)}`
+  //     )
+  //   btn_select_frame_size.innerHTML = `<p class="semibold1">${listSize.length === 1
+  //     ? listDevice
+  //       .reduce((a, b) => a.concat(b))
+  //       .find(device => `${device.Width}x${device.Height}` === listSize[0])
+  //       ?.Name ?? 'Device size'
+  //     : 'Device size'
+  //     }</p><i class="fa-solid fa-chevron-down fa-2xs"></i>`
+  //   editContainer.appendChild(pageDeviceContainer)
+  // }
 
   //
-  let editXYContainer = document.createElement('div')
-  editXYContainer.className = 'row'
-  // input edit left position
-  let list_offsetX = selected_list.filterAndMap(wb => `${getWBaseOffset(wb).x}`.replace('.00', ''))
-  let edit_left = TextField({
-    id: 'edit_position_item_left',
+  const parentHTML = divSection.querySelector(`.wbaseItem-value.w-container[id="${select_box_parentID}"]`)
+  if (parentHTML && window.getComputedStyle(parentHTML).display.match('flex')) {
+    const isFixPos = selected_list.every(e => e.value.classList.contains('fixed-position'))
+    var iconFixPos = `<button type="button" class="toogle-fix-position box24 row ${isFixPos ? 'toggle' : ''} ${selected_list.some(wb => !wb.value.classList.contains('w-variant') && wb.value.closest('.wbaseItem-value[iswini]')) ? ' disabled' : ''}"></button>`
+    $(editContainer).on('click', '.toogle-fix-position', function () { handleEditOffset({ fixPosition: !isFixPos }) })
+  }
+
+  const list_offsetX = selected_list.filterAndMap(wb => `${getWBaseOffset(wb).x}`.replace('.00', ''))
+  const editX = TextField({
+    returnType: 'string',
     className: 'right-view-input regular1',
     prefix: `<div class="label-5" style="color: #b5b5b5">X</div>`,
+    disabled: iconFixPos != null,
     value: list_offsetX.length == 1 ? list_offsetX[0] : 'mixed',
     onBlur: function (ev) {
       let newValue = parseFloat(ev.target.value)
       if (!isNaN(newValue)) handleEditOffset({ x: newValue })
     }
-  });
-  // input edit right position
-  let list_offsetY = selected_list.filterAndMap(wb => `${getWBaseOffset(wb).y}`.replace('.00', ''))
-  let edit_top = TextField({
-    id: 'edit_position_item_top',
+  })
+  const list_offsetY = selected_list.filterAndMap(wb => `${getWBaseOffset(wb).y}`.replace('.00', ''))
+  const editY = TextField({
+    returnType: 'string',
     className: 'right-view-input regular1',
     prefix: `<div class="label-5" style="color: #b5b5b5">Y</div>`,
+    disabled: iconFixPos != null,
     value: list_offsetY.length == 1 ? list_offsetY[0] : 'mixed',
     onBlur: function (ev) {
       let newValue = parseFloat(ev.target.value)
       if (!isNaN(newValue)) handleEditOffset({ y: newValue })
     }
   })
-  editXYContainer.replaceChildren(edit_left, edit_top)
-  let parentHTML = divSection.querySelector(
-    `.wbaseItem-value.w-container[id="${select_box_parentID}"]`
-  )
-  if (parentHTML && window.getComputedStyle(parentHTML).display.match('flex')) {
-    let isFixPos = selected_list.every(e =>
-      e.value.classList.contains('fixed-position')
-    )
-    let iconFixPos = document.createElement('img')
-    iconFixPos.className = `img-button size-28 tlwh-option ${isFixPos ? ' toggle' : ''} ${selected_list.some(wb => !wb.value.classList.contains('w-variant') && wb.value.closest('.wbaseItem-value[iswini]')) ? ' disabled' : ''}`
-    iconFixPos.src =
-      'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/fix_position.svg'
-    edit_top.lastChild.disabled = !isFixPos
-    edit_left.lastChild.disabled = !isFixPos
-    iconFixPos.onclick = function () {
-      isFixPos = !isFixPos
-      handleEditOffset({ fixPosition: isFixPos })
-      if (isFixPos) this.classList.add('toggle')
-      else this.classList.remove('toggle')
-      edit_top.lastChild.disabled = !isFixPos
-      edit_left.lastChild.disabled = !isFixPos
-      reloadEditAlignBlock()
-      reloadEditOffsetBlock()
-      reloadEditConstraintsBlock()
-    }
-    editXYContainer.appendChild(iconFixPos)
+  const isFlexBox = selected_list.every(wb => {
+    let computeSt = window.getComputedStyle(wb.value)
+    return WbClass.scale.every(e => !wb.value.classList.contains(e)) &&
+      (computeSt.display.match(/(flex|table)/g) || computeSt.position !== 'absolute')
+  })
+  const isRatio = selected_list.some(wb => window.getComputedStyle(wb.value).aspectRatio !== 'auto')
+  let iconRatioWH = `<button type="button" class="toggle-ratioWH box24 row ${isRatio ? 'toggle' : ''}">${RatioWH({ toggle: isRatio })}</button>`
+  if (isFlexBox) {
+    var disabledInputW = false
+    var disabledInputH = false
+    var selectTypeW = Select1({
+      returnType: 'string',
+      value: () => {
+        let vl = selected_list.filterAndMap(wb => wb.value.getAttribute('width-type') ?? 'fixed')
+        vl = vl.length > 1 ? 'mixed' : vl[0]
+        if (vl !== 'fixed') {
+          disabledInputW = true
+          iconRatioWH = null
+        }
+        return vl
+      },
+      style: 'width: 9.8rem',
+      dropdownStyle: 'background-color: #000000',
+      options: [
+        { id: 'mixed', name: 'mixed', prefix: `<div class="box20"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${value === 'mixed' ? '' : 'display: none'}` },
+        { id: 'hug', name: 'hug-content', prefix: `<div class="box16">${HugContent({ color: '#ffffff' })}</div>`, style: `${checkActiveFillHug({ type: 'fit' }) ? '' : 'display: none'}` },
+        { id: 'fixed', name: 'fixed-size', prefix: `<div class="box16">${FixedSize({ color: '#ffffff' })}</div>` },
+        { id: 'fill', name: 'fill-container', prefix: `<div class="box20"></div>`, style: `${checkActiveFillHug({ type: 'fill' }) ? '' : 'display: none'}` },
+      ],
+    })
+    var selectTypeH = Select1({
+      returnType: 'string',
+      value: () => {
+        let vl = selected_list.filterAndMap(wb => wb.value.getAttribute('height-type') ?? 'fixed')
+        vl = vl.length > 1 ? 'mixed' : vl[0]
+        if (vl !== 'fixed') {
+          disabledInputH = true
+          iconRatioWH = null
+        }
+        return vl
+      },
+      style: 'width: 9.8rem',
+      dropdownStyle: 'background-color: #000000',
+      options: [
+        { id: 'mixed', name: 'mixed', prefix: `<div class="box20"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${value === 'mixed' ? '' : 'display: none'}` },
+        { id: 'hug', name: 'hug-content', prefix: `<div class="box16">${HugContent({ color: '#ffffff' })}</div>`, style: `transform: rotate(90deg);${checkActiveFillHug({ type: 'fit' }) ? '' : 'display: none'}` },
+        { id: 'fixed', name: 'fixed-size', prefix: `<div class="box16">${FixedSize({ color: '#ffffff' })}</div>`, style: `transform: rotate(90deg);` },
+        { id: 'fill', name: 'fill-container', prefix: `<div class="box20"></div>`, style: `transform: rotate(90deg);${checkActiveFillHug({ type: 'fill' }) ? '' : 'display: none'}` },
+      ],
+    })
   }
-  edit_size_position_div.appendChild(editXYContainer)
-  //
-  //
-  let editWHContainer = document.createElement('div')
-  editWHContainer.className = 'row uneditable-instance'
-  // input edit width
-  let list_width = selected_list.filterAndMap(e => e.value.offsetWidth)
-  let edit_width = TextField({
-    id: 'edit_frame_item_w',
+  if (iconRatioWH) $(editContainer).on('click', '.toggle-ratioWH', function () { })
+  const list_width = selected_list.filterAndMap(e => e.value.offsetWidth)
+  const editW = TextField({
+    returnType: 'string',
     className: 'right-view-input regular1',
+    disabled: disabledInputW,
     prefix: `<div class="label-5" style="color: #b5b5b5">W</div>`,
     value: list_width.length === 1 ? list_width[0] : 'mixed',
     onBlur: function (ev) {
@@ -341,11 +366,11 @@ function EditOffsetBlock() {
       if (!isNaN(newValue)) handleEditOffset({ width: newValue, ratioWH: isRatio })
     }
   })
-  // input edit height
-  let list_height = selected_list.filterAndMap(e => e.value.offsetHeight)
-  let edit_height = TextField({
-    id: 'edit_frame_item_h',
+  const list_height = selected_list.filterAndMap(e => e.value.offsetHeight)
+  const editH = TextField({
+    returnType: 'string',
     className: 'right-view-input regular1',
+    disabled: disabledInputH,
     prefix: `<div class="label-5" style="color: #b5b5b5">H</div>`,
     value: list_height.length == 1 ? list_height[0] : 'mixed',
     onBlur: function (ev) {
@@ -353,79 +378,23 @@ function EditOffsetBlock() {
       if (!isNaN(newValue)) handleEditOffset({ height: newValue, ratioWH: isRatio })
     }
   })
-  let isRatio = selected_list.some(wb => WbClass.scale.some(e => wb.value.classList.contains(e)))
-  let icon_ratioWH = document.createElement('img')
-  icon_ratioWH.src = `https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/${isRatio ? 'ratioWH' : 'un_ratioWH'}.svg`
-  icon_ratioWH.className = 'img-button size-28 tlwh-option' + (isRatio ? ' toggle' : '')
-  if (!isRatio) {
-    icon_ratioWH.onclick = function () {
-      isRatio = !isRatio
-      this.src = `https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/${isRatio ? 'ratioWH' : 'un_ratioWH'}.svg`
-      if (isRatio) this.classList.add('toggle')
-      else this.classList.remove('toggle')
-    }
-  }
-  editWHContainer.replaceChildren(edit_width, edit_height, icon_ratioWH)
-  edit_size_position_div.appendChild(editWHContainer)
-
-  if (selected_list.every(wb => {
-    let computeSt = window.getComputedStyle(wb.value)
-    return (
-      WbClass.scale.every(e => !wb.value.classList.contains(e)) &&
-      (computeSt.display.match(/(flex|table)/g) || computeSt.position !== 'absolute')
-    )
-  })) {
-    let resizeContainer = document.createElement('div')
-    resizeContainer.className = 'row uneditable-instance'
-    resizeContainer.style.height = '32px'
-    const initResizeW = function () {
-      let vl = selected_list.filterAndMap(wb => wb.value.getAttribute('width-type') ?? 'fixed')
-      vl = vl.length > 1 ? 'mixed' : vl[0] === 'fit' ? 'hug' : vl[0]
-      edit_width.lastChild.disabled = vl !== 'fixed'
-      icon_ratioWH.style.display = vl === 'fixed' ? null : 'none'
-      return vl
-    }
-    let resizeWBtn = _btnSelectResizeType(true, initResizeW())
-    const initResizeH = function () {
-      let vl = selected_list.filterAndMap(
-        wb => wb.value.getAttribute('height-type') ?? 'fixed'
-      )
-      vl = vl.length > 1 ? 'mixed' : vl[0] === 'fit' ? 'hug' : vl[0]
-      edit_height.lastChild.disabled = vl !== 'fixed'
-      icon_ratioWH.style.display ??= vl === 'fixed' ? null : 'none'
-      return vl
-    }
-    let resizeHBtn = _btnSelectResizeType(false, initResizeH())
-    resizeContainer.replaceChildren(resizeWBtn, resizeHBtn)
-    edit_size_position_div.appendChild(resizeContainer)
-  }
-  // input edit radius
-  const allowRadius = [
-    EnumCate.rectangle,
-    EnumCate.frame,
-    EnumCate.form,
-    EnumCate.textformfield,
-    EnumCate.button
-  ]
-  let showInputRadius = selected_list.filter(wb => allowRadius.some(ct => wb.CateID === ct))
-  let radiusContainer = document.createElement('div')
-  radiusContainer.className = 'row'
-  // input edit rotate
-  let edit_rotate = TextField({
-    prefix: '<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/rotate_rect.svg"/>',
+  const edit_rotate = TextField({
+    returnType: 'string',
     className: 'right-view-input regular1',
+    prefix: '<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/rotate_rect.svg"/>',
     value: 0
   })
+
+  const allowRadius = ['w-container', 'w-button', 'w-rectangle', 'w-textformfield']
+  const showInputRadius = selected_list.filter(wb => allowRadius.some(cls => wb.value.classList.contains(cls)))
   if (showInputRadius.length > 0) {
-    let list_radius_value = showInputRadius.map(e =>
-      window
-        .getComputedStyle(e.value)
-        .borderRadius.split(' ')
-        .map(brvl => parseFloat(brvl.replace('px')))
-    )
+    let isRadiusDetails = false
+    const list_radius_value = showInputRadius.map(e => window.getComputedStyle(e.value).borderRadius.split(' ').map(brvl => parseFloat(brvl.replace('px'))))
     list_radius_value = [].concat(...list_radius_value).filterAndMap()
-    let edit_radius = TextField({
-      className: 'right-view-input regular1',
+    const edit_radius = TextField({
+      returnType: 'string',
+      className: 'right-view-input regular1 radius-all',
+      style: isRadiusDetails ? 'visibility: hidden' : '',
       prefix: '<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/radius_rect.svg"/>',
       value: list_radius_value.length == 1 ? list_radius_value[0] : 'mixed',
       onBlur: function (ev) {
@@ -442,186 +411,143 @@ function EditOffsetBlock() {
             list_radius_value.length == 1 ? list_radius_value[0] : 'mixed'
         } else {
           handleEditOffset({ radius: newValue })
-          _row_radius_detail
-            .querySelectorAll(':scope > input')
-            .forEach(i => (i.value = newValue))
+          _row_radius_detail.querySelectorAll(':scope > input').forEach(i => (i.value = newValue))
         }
       }
     })
-    let toggleRadiusDetails = document.createElement('img')
-    toggleRadiusDetails.setAttribute('show-details', false)
-    toggleRadiusDetails.className = 'radius-details img-button size-24'
-    toggleRadiusDetails.onclick = function () {
-      toggleRadiusDetails.setAttribute('show-details', toggleRadiusDetails.getAttribute('show-details') != 'true')
-      edit_radius.style.pointerEvents = toggleRadiusDetails.getAttribute('show-details') == 'true' ? 'none' : 'auto'
-    }
-    radiusContainer.replaceChildren(
-      edit_rotate,
-      edit_radius,
-      toggleRadiusDetails
-    )
-    edit_size_position_div.appendChild(radiusContainer)
-    // fifth line contain 4 rect radius topleft, topright, botleft, botright
-    let _row_radius_detail = document.createElement('div')
-    _row_radius_detail.id = 'row_radius_detail'
-    let icon_HTML = document.createElement('img')
-    icon_HTML.src =
-      'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/radius_rect.svg'
-    icon_HTML.className = 'img-button size-24'
-    _row_radius_detail.replaceChildren(
-      icon_HTML,
-      ...[
-        'borderTopLeftRadius',
-        'borderTopRightRadius',
-        'borderBottomLeftRadius',
-        'borderBottomRightRadius'
-      ].map(radiusProp => {
-        let radiusInputDetail = document.createElement('input')
-        let rvalue = showInputRadius.filterAndMap(e =>
-          window.getComputedStyle(e.value)[radiusProp].replace('px', '')
+    const iconRadiusDetails = `<button type="button" class="radius-details box24 row ${isRadiusDetails ? 'toggle' : ''}">${RadiusDetails()}</button>`
+    $(editContainer).on('click', '.radius-details', function (ev) {
+      isRadiusDetails = !isRadiusDetails
+      editContainer.querySelector('.radius-all').style.visibility = isRadiusDetails ? 'hidden' : null
+      editContainer.querySelector('.radius-details-input').style.display = isRadiusDetails ? 'flex' : 'none'
+      if (isRadiusDetails)
+        ev.target.closest('.radius-details').classList.add('toggle')
+      else
+        ev.target.closest('.radius-details').classList.remove('toggle')
+    })
+    const editRadiusDetails = `<div class="row radius-details-input" style="display: ${isRadiusDetails ? 'flex' : 'none'}">
+      <img class="box16" src ='https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/radius_rect.svg' />
+      <input class="regular1 br-tl" value="${() => {
+        let rvalue = showInputRadius.filterAndMap(e => window.getComputedStyle(e.value).borderTopLeftRadius.replace('px', ''))
+        return rvalue.length === 1 ? rvalue[0] : 'mixed'
+      }}"/>
+      <input class="regular1 br-tr" value="${() => {
+        let rvalue = showInputRadius.filterAndMap(e => window.getComputedStyle(e.value).borderTopRightRadius.replace('px', ''))
+        return rvalue.length === 1 ? rvalue[0] : 'mixed'
+      }}"/>
+      <input class="regular1 br-bl" value="${() => {
+        let rvalue = showInputRadius.filterAndMap(e => window.getComputedStyle(e.value).borderBottomLeftRadius.replace('px', ''))
+        return rvalue.length === 1 ? rvalue[0] : 'mixed'
+      }}"/>
+      <input class="regular1 br-br" value="${() => {
+        let rvalue = showInputRadius.filterAndMap(e => window.getComputedStyle(e.value).borderBottomRightRadius.replace('px', ''))
+        return rvalue.length === 1 ? rvalue[0] : 'mixed'
+      }}"/>
+    </div>`
+    $(editContainer).on('blur', '.radius-details-input > .br-tl', function () {
+      let newValue = parseFloat(this.value)
+      if (isNaN(newValue)) {
+        let list_top_left_value = selected_list
+          .filter(e => e.StyleItem.FrameItem?.TopLeft != undefined)
+          .map(e => e.StyleItem.FrameItem.TopLeft)
+        let top_left_value = list_top_left_value[0]
+        list_top_left_value = list_top_left_value.filter(
+          e => e != top_left_value
         )
-        radiusInputDetail.value = rvalue.length === 1 ? rvalue[0] : 'mixed'
-        radiusInputDetail.onfocus = function () {
-          this.setSelectionRange(0, this.value.length)
-        }
-        return radiusInputDetail
-      })
-    )
-    $('body').on(
-      'blur',
-      '#row_radius_detail > input:nth-child(2)',
-      function () {
-        let newValue = parseFloat(this.value)
-        if (isNaN(newValue)) {
-          let list_top_left_value = selected_list
-            .filter(e => e.StyleItem.FrameItem?.TopLeft != undefined)
-            .map(e => e.StyleItem.FrameItem.TopLeft)
-          let top_left_value = list_top_left_value[0]
-          list_top_left_value = list_top_left_value.filter(
-            e => e != top_left_value
-          )
-          this.value =
-            list_top_left_value.length == 0 ? top_left_value : 'mixed'
-        } else {
-          handleEditOffset({ radiusTL: newValue })
-          edit_radius.lastChild.value =
-            [
-              ..._row_radius_detail.querySelectorAll(':scope > input')
-            ].filterAndMap(i => i.value).length > 1
-              ? 'mixed'
-              : this.value
-        }
+        this.value =
+          list_top_left_value.length == 0 ? top_left_value : 'mixed'
+      } else {
+        handleEditOffset({ radiusTL: newValue })
+        edit_radius.lastChild.value =
+          [
+            ..._row_radius_detail.querySelectorAll(':scope > input')
+          ].filterAndMap(i => i.value).length > 1
+            ? 'mixed'
+            : this.value
       }
-    )
-    $('body').on(
-      'blur',
-      '#row_radius_detail > input:nth-child(3)',
-      function () {
-        let newValue = parseFloat(this.value)
-        if (isNaN(newValue)) {
-          let list_top_right_value = selected_list
-            .filter(e => e.StyleItem.FrameItem?.Topright != undefined)
-            .map(e => e.StyleItem.FrameItem.TopRight)
-          let top_right_value = list_top_right_value[0]
-          list_top_right_value = list_top_right_value.filter(
-            e => e != top_right_value
-          )
-          this.value =
-            list_top_right_value.length == 0 ? top_right_value : 'mixed'
-        } else {
-          handleEditOffset({ radiusTR: newValue })
-          edit_radius.lastChild.value =
-            [
-              ..._row_radius_detail.querySelectorAll(':scope > input')
-            ].filterAndMap(i => i.value).length > 1
-              ? 'mixed'
-              : this.value
-        }
+    })
+    $(editContainer).on('blur', '.radius-details-input > .br-tr', function () {
+      let newValue = parseFloat(this.value)
+      if (isNaN(newValue)) {
+        let list_top_right_value = selected_list
+          .filter(e => e.StyleItem.FrameItem?.Topright != undefined)
+          .map(e => e.StyleItem.FrameItem.TopRight)
+        let top_right_value = list_top_right_value[0]
+        list_top_right_value = list_top_right_value.filter(
+          e => e != top_right_value
+        )
+        this.value =
+          list_top_right_value.length == 0 ? top_right_value : 'mixed'
+      } else {
+        handleEditOffset({ radiusTR: newValue })
+        edit_radius.lastChild.value =
+          [
+            ..._row_radius_detail.querySelectorAll(':scope > input')
+          ].filterAndMap(i => i.value).length > 1
+            ? 'mixed'
+            : this.value
       }
-    )
-    $('body').on(
-      'blur',
-      '#row_radius_detail > input:nth-child(4)',
-      function () {
-        let newValue = parseFloat(this.value)
-        if (isNaN(newValue)) {
-          let list_bot_left_value = selected_list
-            .filter(e => e.StyleItem.FrameItem?.BottomLeft != undefined)
-            .map(e => e.StyleItem.FrameItem.BottomLeft)
-          let bot_left_value = list_bot_left_value[0]
-          list_bot_left_value = list_bot_left_value.filter(
-            e => e != bot_left_value
-          )
-          this.value =
-            list_bot_left_value.length == 0 ? bot_left_value : 'mixed'
-        } else {
-          handleEditOffset({ radiusBL: newValue })
-          edit_radius.lastChild.value =
-            [
-              ..._row_radius_detail.querySelectorAll(':scope > input')
-            ].filterAndMap(i => i.value).length > 1
-              ? 'mixed'
-              : this.value
-        }
+    })
+    $(editContainer).on('blur', '.radius-details-input > .br-bl', function () {
+      let newValue = parseFloat(this.value)
+      if (isNaN(newValue)) {
+        let list_bot_left_value = selected_list
+          .filter(e => e.StyleItem.FrameItem?.BottomLeft != undefined)
+          .map(e => e.StyleItem.FrameItem.BottomLeft)
+        let bot_left_value = list_bot_left_value[0]
+        list_bot_left_value = list_bot_left_value.filter(
+          e => e != bot_left_value
+        )
+        this.value =
+          list_bot_left_value.length == 0 ? bot_left_value : 'mixed'
+      } else {
+        handleEditOffset({ radiusBL: newValue })
+        edit_radius.lastChild.value =
+          [
+            ..._row_radius_detail.querySelectorAll(':scope > input')
+          ].filterAndMap(i => i.value).length > 1
+            ? 'mixed'
+            : this.value
       }
-    )
-    $('body').on(
-      'blur',
-      '#row_radius_detail > input:nth-child(5)',
-      function () {
-        let newValue = parseFloat(this.value)
-        if (isNaN(newValue)) {
-          let list_bot_right_value = selected_list
-            .filter(e => e.StyleItem.FrameItem?.BottomRight != undefined)
-            .map(e => e.StyleItem.FrameItem.BottomRight)
-          let bot_right_value = list_bot_right_value[0]
-          list_bot_right_value = list_bot_right_value.filter(
-            e => e != bot_right_value
-          )
-          this.value =
-            list_bot_right_value.length == 0 ? bot_right_value : 'mixed'
-        } else {
-          handleEditOffset({ radiusBR: newValue })
-          edit_radius.lastChild.value =
-            [
-              ..._row_radius_detail.querySelectorAll(':scope > input')
-            ].filterAndMap(i => i.value).length > 1
-              ? 'mixed'
-              : this.value
-        }
+    })
+    $(editContainer).on('blur', '.radius-details-input > .br-br', function () {
+      let newValue = parseFloat(this.value)
+      if (isNaN(newValue)) {
+        let list_bot_right_value = selected_list
+          .filter(e => e.StyleItem.FrameItem?.BottomRight != undefined)
+          .map(e => e.StyleItem.FrameItem.BottomRight)
+        let bot_right_value = list_bot_right_value[0]
+        list_bot_right_value = list_bot_right_value.filter(
+          e => e != bot_right_value
+        )
+        this.value =
+          list_bot_right_value.length == 0 ? bot_right_value : 'mixed'
+      } else {
+        handleEditOffset({ radiusBR: newValue })
+        edit_radius.lastChild.value =
+          [
+            ..._row_radius_detail.querySelectorAll(':scope > input')
+          ].filterAndMap(i => i.value).length > 1
+            ? 'mixed'
+            : this.value
       }
-    )
-    edit_size_position_div.appendChild(_row_radius_detail)
+    })
+    var editR = edit_radius + iconRadiusDetails + editRadiusDetails
   }
-  if (
-    selected_list.filter(wb =>
-      ['w-container', 'w-button', 'w-textformfield', 'w-variant'].some(e =>
-        wb.value.classList.contains(e)
-      )
-    ).length > 0
-  ) {
+
+  const enableClipContentList = ['w-container', 'w-button', 'w-textformfield', 'w-variant']
+  if (selected_list.filter(wb => enableClipContentList.some(e => wb.value.classList.contains(e))).length > 0) {
     // sixth line is btn checkboc clip content (overflow)
-    let btn_clip_content = document.createElement('label')
-    btn_clip_content.className = 'row regular1 uneditable-instance'
-    btn_clip_content.style.margin = '4px 0 0 16px'
-    btn_clip_content.innerHTML = `<input type="checkbox"${selected_list
-      .filter(wb =>
-        ['w-container', 'w-button', 'w-textformfield', 'w-variant'].some(e =>
-          wb.value.classList.contains(e)
-        )
-      )
-      .every(wb =>
-        window.getComputedStyle(wb.value).overflow.includes('hidden')
-      )
-      ? ' checked'
-      : ''
-      } style="margin-right: 8px; width: fit-content" />Clip content`
-    $(btn_clip_content).on('change', 'input', function (ev) {
-      handleEditOffset({ isClip: ev.target.checked })
+    var btn_clip_content = Checkbox({
+      returnType: 'string',
+      value: selected_list.filter(wb => enableClipContentList.some(e => wb.value.classList.contains(e))).every(wb =>window.getComputedStyle(wb.value).overflow.includes('hidden')),
+      onChange: (ev) => {
+        handleEditOffset({ isClip: ev.target.checked })
+      }
     })
-    edit_size_position_div.appendChild(btn_clip_content)
   }
-  return edit_size_position_div
+  editContainer.innerHTML = `<div class="row" style="gap: 1.2rem 0.8rem; flex-wrap: wrap">${editX}${editY}${iconFixPos ?? ''}${editW}${editH}${iconRatioWH ?? ''}${selectTypeW}${selectTypeH}${edit_rotate}${editR ?? ''}${btn_clip_content ?? ''}</div>`
+  return editContainer
 }
 
 // update style HTML edit position UI

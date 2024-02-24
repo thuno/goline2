@@ -1,16 +1,16 @@
-const Select1 = ({ id, value, onChange, placeholder = '', disabled, className, helperText, helperTextColor, style, type = 'button', returnType = 'object', options }) => {
+const Select1 = ({ id, value, onChange, placeholder = '', disabled, className, helperText, helperTextColor, style, type = 'button', returnType = 'object', options, dropdownStyle, dropdownClass }) => {
     if (returnType === 'string') {
         const selectedValue = (options ?? []).find(e => e.id === value)
         const dataId = uuidv4()
         switch (type) {
             case 'button':
-                $('body').on('focus', `.select1-container[slct1-id=${dataId}]`, function (ev) { showSelect1Options({ value: value, options: options, parent: ev.target.closest('.select1-container'), hiddenSearch: true, onChange: onChange }) })
+                $('body').on('focus', `.select1-container[slct1-id=${dataId}]`, function (ev) { showSelect1Options({ dropdownStyle: dropdownStyle, dropdownClass: dropdownClass, value: value, options: options, parent: ev.target.closest('.select1-container'), hiddenSearch: true, onChange: onChange }) })
                 return `<button ${id.length ? `id=${id}` : ''} ${dataId ? `slct1-id=${dataId}` : ''}  class="select1-container row ${className ?? 'regular1'} ${helperText?.length && 'helper-text'} ${disabled ? 'disabled' : ''}" style="--helper-text-color: ${helperTextColor ?? '#e14337'};${style ?? ''}" ${helperText?.length ? `helper-text=${helperText}` : ''}>
                     ${selectedValue?.name ? `<div class="select1-value-name">${selectedValue.name}</div>` : `<div class="select1-placeholder">${placeholder ?? ''}</div>`}
                     <i class="fa-solid fa-chevron-down" style="font-size: 1.2rem;color: #888"></i>
                 </button>`
             default:
-                $('body').on('click', `.select1-container[slct1-id=${dataId}]`, function (ev) { showSelect1Options({ options: options, parent: ev.target.closest('.select1-container'), onChange: onChange }) })
+                $('body').on('click', `.select1-container[slct1-id=${dataId}]`, function (ev) { showSelect1Options({ dropdownStyle: dropdownStyle, dropdownClass: dropdownClass, options: options, parent: ev.target.closest('.select1-container'), onChange: onChange }) })
                 return `<div ${id.length ? `id=${id}` : ''} ${dataId ? `slct1-id=${dataId}` : ''} class="select1-container row ${className ?? 'regular1'} ${helperText?.length && 'helper-text'} ${disabled ? 'disabled' : ''}" style="--helper-text-color: ${helperTextColor ?? '#e14337'};${style ?? ''}" ${helperText?.length ? `helper-text=${helperText}` : ''}>
                     ${selectedValue?.name ? `<div class="select1-value-name">${selectedValue.name}</div>` : `<div class="select1-placeholder">${placeholder ?? ''}</div>`}
                     <i class="fa-solid fa-chevron-down" style="font-size: 1.2rem;color: #888"></i>
@@ -21,11 +21,11 @@ const Select1 = ({ id, value, onChange, placeholder = '', disabled, className, h
             case 'button':
                 var newElement = document.createElement('button')
                 newElement.type = 'button'
-                newElement.onfocus = function (ev) { showSelect1Options({ value: value, options: options, parent: ev.target.closest('.select1-container'), hiddenSearch: true, onChange: onChange }) }
+                newElement.onfocus = function (ev) { showSelect1Options({ dropdownStyle: dropdownStyle, dropdownClass: dropdownClass, value: value, options: options, parent: ev.target.closest('.select1-container'), hiddenSearch: true, onChange: onChange }) }
                 break;
             default:
                 newElement = document.createElement('div')
-                newElement.onclick = function (ev) { showSelect1Options({ options: options, parent: ev.target.closest('.select1-container'), onChange: onChange }) }
+                newElement.onclick = function (ev) { showSelect1Options({ dropdownStyle: dropdownStyle, dropdownClass: dropdownClass, options: options, parent: ev.target.closest('.select1-container'), onChange: onChange }) }
                 break;
         }
         newElement.className = `select1-container row ${className ?? 'regular1'} ${helperText?.length && 'helper-text'} ${disabled ? 'disabled' : ''}" style="--helper-text-color: ${helperTextColor ?? '#e14337'};${style ?? ''}`
@@ -36,13 +36,13 @@ const Select1 = ({ id, value, onChange, placeholder = '', disabled, className, h
     }
 }
 
-function showSelect1Options({ hiddenSearch = false, parent, options = [], value, onChange }) {
+function showSelect1Options({ hiddenSearch = false, parent, options = [], value, onChange, dropdownStyle, dropdownClass }) {
     const offset = parent.getBoundingClientRect()
     let onSelect = null
     let search = null
     let popup = document.createElement('div')
-    popup.className = 'select1-popup col'
-    popup.style.cssText = `top: ${offset.y + offset.height + 2}px; left: ${offset.x}px; width: ${width / 10}rem`
+    popup.className = `select1-popup col ${dropdownClass ?? ''}`
+    popup.style.cssText = `top: ${offset.y + offset.height + 2}px; left: ${offset.x}px; width: ${width / 10}rem;${dropdownStyle ?? ''}`
     let htmlText = ''
     popup.onmouseover = function (ev) { onSelect = ev.target }
     popup.onmouseout = function () { onSelect = null }
@@ -74,7 +74,8 @@ function showSelect1Options({ hiddenSearch = false, parent, options = [], value,
             listOptionsView.replaceChildren(...(search ?? options).map(item => {
                 let option = document.createElement('button')
                 option.type = 'button'
-                option.className = 'select1-tile row regular1'
+                option.className = `select1-tile row regular1 ${item.disabled ? 'disabled' : ''}`
+                option.style.cssText = item.style
                 option.innerHTML = `${value != null ? `<i class="fa-solid fa-check" style="font-size: 1.2rem; color: #262626; visibility: ${item.id === value ? 'visible' : 'hidden'}"></i>` : ''}${typeof item.prefix === 'string' ? item.prefix : ''}${item.title ?? item.name ?? ''}`
                 option.onclick = function (e) {
                     e.stopPropagation()

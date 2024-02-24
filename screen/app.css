@@ -18,6 +18,8 @@
 @import '../component/popup/popup.css';
 /* select1 */
 @import '../component/select1/select1.css';
+/* checkbox */
+@import '../component/checkbox/checkbox.css';
 
 html,
 body {
@@ -689,6 +691,11 @@ button * {
 .box8 {
     width: 0.8rem;
     height: 0.8rem;
+}
+
+.box10 {
+    width: 1rem;
+    height: 1rem;
 }
 
 .box12 {

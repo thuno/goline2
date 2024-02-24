@@ -386,8 +386,8 @@ function createLayerTile(wb, isShowChildren = false) {
   let isShowListChid = isShowChildren
   wbase_tile.innerHTML = `<i class="fa-solid fa-caret-${isShowListChid ? 'down' : 'right'} box24 center prefix-btn"></i>
   <div class="box28 row center"></div>
-  <input class="semibold" readonly value="${wb.Name}"/>
-  <i class="fa-solid fa-lock fa-xs is-lock"></i>`
+  <input class="semibold1" readonly value="${wb.Name}"/>
+  <i class="fa-solid fa-lock is-lock"></i>`
   layerContainer.appendChild(wbase_tile)
 
   $(wbase_tile).on('click', '.prefix-btn', function () {
