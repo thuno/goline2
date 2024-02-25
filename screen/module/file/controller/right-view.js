@@ -385,7 +385,7 @@ function EditOffsetBlock() {
     value: 0
   })
 
-  const allowRadius = ['w-container', 'w-button', 'w-rectangle', 'w-textformfield']
+  const allowRadius = ['w-container', 'w-button', 'w-rect', 'w-textformfield']
   const showInputRadius = selected_list.filter(wb => allowRadius.some(cls => wb.value.classList.contains(cls)))
   if (showInputRadius.length > 0) {
     let isRadiusDetails = false
