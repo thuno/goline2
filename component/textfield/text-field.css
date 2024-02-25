@@ -1,7 +1,6 @@
 .text-field-container {
     height: 4rem;
     position: relative;
-    flex: 1;
     gap: 0.8rem;
     border-radius: 4px;
     border: 0.5px solid #00358033;

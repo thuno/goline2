@@ -389,7 +389,7 @@ function EditOffsetBlock() {
   const showInputRadius = selected_list.filter(wb => allowRadius.some(cls => wb.value.classList.contains(cls)))
   if (showInputRadius.length > 0) {
     let isRadiusDetails = false
-    const list_radius_value = showInputRadius.map(e => window.getComputedStyle(e.value).borderRadius.split(' ').map(brvl => parseFloat(brvl.replace('px'))))
+    let list_radius_value = showInputRadius.map(e => window.getComputedStyle(e.value).borderRadius.split(' ').map(brvl => parseFloat(brvl.replace('px'))))
     list_radius_value = [].concat(...list_radius_value).filterAndMap()
     const edit_radius = TextField({
       returnType: 'string',
@@ -546,7 +546,7 @@ function EditOffsetBlock() {
       }
     })
   }
-  editContainer.innerHTML = `<div class="row" style="gap: 1.2rem 0.8rem; flex-wrap: wrap">${editX}${editY}${iconFixPos ?? ''}${editW}${editH}${iconRatioWH ?? ''}${selectTypeW}${selectTypeH}${edit_rotate}${editR ?? ''}${btn_clip_content ?? ''}</div>`
+  editContainer.innerHTML = `<div class="row" style="gap: 1.2rem 0.8rem; flex-wrap: wrap">${editX}${editY}${iconFixPos ?? ''}${editW}${editH}${iconRatioWH ?? ''}${selectTypeW??''}${selectTypeH??''}${edit_rotate}${editR ?? ''}${btn_clip_content ?? ''}</div>`
   return editContainer
 }
 

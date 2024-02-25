@@ -617,40 +617,6 @@ body:has(#history-view) :is(.btn-tool-state:nth-child(1), .btn-history) {
     width: 9.8rem;
 }
 
-#row_radius_detail {
-    display: none;
-    height: 3.2rem;
-    width: 20rem;
-    align-items: center;
-    border: 1px solid transparent;
-    overflow: hidden;
-    border-radius: 0.4rem;
-}
-
-#edit_size_position_div:has(.radius-details[show-details="true"]) #row_radius_detail {
-    display: flex;
-}
-
-#row_radius_detail>img {
-    pointer-events: none !important;
-}
-
-#row_radius_detail input {
-    height: 100%;
-    color: #595959;
-    flex: 1;
-    padding: 0.4rem;
-    margin-left: 0.4rem;
-}
-
-#row_radius_detail:hover {
-    border-color: #e5e5e5;
-}
-
-#row_radius_detail:focus-within {
-    border-color: #1890ff !important;
-}
-
 .radius-details {
     margin-left: 2.2rem;
     border: 1px solid transparent;
