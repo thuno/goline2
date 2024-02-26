@@ -15,11 +15,6 @@ class TitleBarDA {
     }
 
     static updateTitleBar(pId) {
-        $('body', '.home-button.nav-tab', function (ev) {
-            ev.stopPropagation()
-            window.location.href = `/#/home`
-            window.location.reload()
-        })
         let newList = TitleBarDA.list()
         document.body.querySelector('.window-bar .tab-container').innerHTML = newList.map((e, i) => {
             if (e.ID !== pId)
@@ -51,6 +46,12 @@ class TitleBarDA {
         }
     }
 }
+
+$('body', '.home-button.nav-tab', function (ev) {
+    ev.stopPropagation()
+    window.location.href = `/#/home`
+    window.location.reload()
+})
 
 // $(document).ready(function () {
 //     let token = Ultis.getStorage('token');

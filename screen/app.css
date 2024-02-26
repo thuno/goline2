@@ -902,6 +902,7 @@ button * {
 .title-bar-container button {
     min-width: 3.8rem;
     max-width: 8.8rem;
+    width: fit-content;
     height: 3.8rem;
     color: #BFBFBF;
     justify-content: center;
@@ -926,6 +927,12 @@ button * {
     height: 3.8rem;
     max-width: calc(100% - 7.6rem);
     overflow: auto hidden;
+}
+
+.nav-tab[data-id] {
+    justify-content: space-between;
+    gap: 0.8rem;
+    padding: 1.2rem;
 }
 
 .nav-tab * {
