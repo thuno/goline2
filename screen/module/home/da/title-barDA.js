@@ -47,7 +47,7 @@ class TitleBarDA {
     }
 }
 
-$('body', '.home-button.nav-tab', function (ev) {
+$('body').on('click','.home-button.nav-tab', function (ev) {
     ev.stopPropagation()
     window.location.href = `/#/home`
     window.location.reload()
