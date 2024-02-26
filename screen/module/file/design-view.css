@@ -630,7 +630,7 @@ body:has(#history-view) :is(.btn-tool-state:nth-child(1), .btn-history) {
 
 .radius-details-input {
     height: 3.2rem;
-    width: 28rem;
+    width: 24rem;
     align-items: center;
     border: 1px solid transparent;
     overflow: hidden;

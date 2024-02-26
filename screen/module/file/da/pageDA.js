@@ -14,7 +14,11 @@
     PageDA.obj.scale = scale;
     PageDA.obj.leftx = leftx;
     PageDA.obj.topx = topx;
-    this.setSelected(PageDA.obj);
+    let openingProjects = TitleBarDA.list()
+    const findIndex = openingProjects.findIndex(e => e.ID === ProjectDA.obj.ID)
+    ProjectDA.obj.WPageItems = [...PageDA.list]
+    openingProjects[findIndex] = ProjectDA.obj
+    TitleBarDA.setList(openingProjects)
   }
 
   static selectPage(pageItem) {
