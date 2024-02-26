@@ -900,7 +900,8 @@ button * {
 }
 
 .title-bar-container button {
-    width: 3.8rem;
+    min-width: 3.8rem;
+    max-width: 8.8rem;
     height: 3.8rem;
     color: #BFBFBF;
     justify-content: center;
@@ -932,6 +933,7 @@ button * {
     color: #8C8C8C;
     overflow: hidden;
     text-overflow: ellipsis;
+    background-color: transparent !important;
 }
 
 .nav-tab:hover>*,

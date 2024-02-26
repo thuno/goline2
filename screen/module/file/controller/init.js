@@ -28,7 +28,7 @@ $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@b3b86cc/projec
     else
         openingProjects[findIndex] = { ...ProjectDA.obj, ...openingProjects[findIndex] }
     TitleBarDA.setList(openingProjects)
-    TitleBarDA.updateTitleBar(pId)
+    TitleBarDA.updateTitleBar(parseInt(pId))
     const res = await ProjectDA.getPermission()
     if (res.Code === 200) {
         for (let wpageItem of res.Data.WPageItems) {
