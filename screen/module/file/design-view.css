@@ -606,6 +606,11 @@ body:has(#history-view) :is(.btn-tool-state:nth-child(1), .btn-history) {
     height: 3.2rem;
     padding: 0.4rem 0.8rem;
     width: 9.8rem;
+    border-color: transparent;
+}
+
+.right-view-input:hover {
+    border-color: #00358033;
 }
 
 .radius-details {
