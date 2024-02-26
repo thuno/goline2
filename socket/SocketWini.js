@@ -785,9 +785,7 @@ class WiniIO {
   }
 
   static async emitInit() {
-    let headers = await UserService.socketHeaders()
-    headers.pageid = PageDA.obj.ID
-    socket.emit('client-init', { headers: headers })
+    socket.emit('client-init', { pageid: PageDA.obj.ID })
   }
 
   static async emitPage(listPage, enumEvent) {

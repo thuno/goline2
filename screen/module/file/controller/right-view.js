@@ -540,13 +540,13 @@ function EditOffsetBlock() {
     // sixth line is btn checkboc clip content (overflow)
     var btn_clip_content = Checkbox({
       returnType: 'string',
-      value: selected_list.filter(wb => enableClipContentList.some(e => wb.value.classList.contains(e))).every(wb =>window.getComputedStyle(wb.value).overflow.includes('hidden')),
+      value: selected_list.filter(wb => enableClipContentList.some(e => wb.value.classList.contains(e))).every(wb => window.getComputedStyle(wb.value).overflow.includes('hidden')),
       onChange: (ev) => {
         handleEditOffset({ isClip: ev.target.checked })
       }
     })
   }
-  editContainer.innerHTML = `<div class="row" style="gap: 1.2rem 0.8rem; flex-wrap: wrap">${editX}${editY}${iconFixPos ?? ''}${editW}${editH}${iconRatioWH ?? ''}${selectTypeW??''}${selectTypeH??''}${edit_rotate}${editR ?? ''}${btn_clip_content ?? ''}</div>`
+  editContainer.innerHTML = `<div class="row" style="gap: 1.2rem 0.8rem; flex-wrap: wrap">${editX}${editY}${iconFixPos ?? ''}${editW}${editH}${iconRatioWH ?? ''}${selectTypeW ?? ''}${selectTypeH ?? ''}${edit_rotate}${editR ?? ''}${btn_clip_content ?? ''}</div>`
   return editContainer
 }
 
@@ -1327,29 +1327,20 @@ function EditBackgroundBlock() {
   editContainer.className = 'edit-container col'
   let header = document.createElement('div')
   header.className = 'ds-block-header row'
-  let scaleWb = selected_list.every(wb =>
-    WbClass.scale.some(e => wb.value.classList.contains(e))
-  )
-  header.innerHTML = `<p>${scaleWb ? 'Checked primary color' : 'Background'}</p>
-  <button class="action-button skin-btn bg-header-action"></button>
+  let scaleWb = selected_list.every(wb => WbClass.scale.some(e => wb.value.classList.contains(e)))
+  header.innerHTML = `<p class="semibold1" class="flex: 1">${scaleWb ? 'Checked primary color' : 'Background'}</p>
+  <button class="action-button skin-btn bg-header-action">${MoreSkins()}</button>
   <i class="fa-regular fa-image fa-sm bg-header-action"></i>
   <i class="fa-solid fa-plus fa-sm bg-header-action"></i>`
   editContainer.appendChild(header)
 
-  let wbBg = selected_list.filterAndMap(
-    wb => window.getComputedStyle(wb.value).backgroundImage
-  )
+  let wbBg = selected_list.filterAndMap(wb => window.getComputedStyle(wb.value).backgroundImage)
   if (wbBg.length === 1) {
     if (wbBg[0] === 'none') {
       wbBg = selected_list.filterAndMap(wb => {
-        let bgColor =
-          wb.value.style?.backgroundColor?.length > 0
-            ? wb.value.style.backgroundColor
-            : StyleDA.docStyleSheets.find(cssRule =>
-              [...divSection.querySelectorAll(cssRule.selectorText)].includes(
-                wb.value
-              )
-            )?.style?.backgroundColor
+        let bgColor = wb.value.style?.backgroundColor?.length > 0
+          ? wb.value.style.backgroundColor
+          : StyleDA.docStyleSheets.find(cssRule => [...divSection.querySelectorAll(cssRule.selectorText)].includes(wb.value))?.style?.backgroundColor
         if (bgColor?.match(uuid4Regex)) return bgColor?.match(uuid4Regex)[0]
         else return bgColor?.length === 0 ? null : bgColor
       })
@@ -1361,9 +1352,7 @@ function EditBackgroundBlock() {
             header.querySelector('.fa-plus').remove()
             header.querySelector('.skin-btn').remove()
             if (colorSkin.CateID !== EnumCate.color) {
-              cateItem = CateDA.list_color_cate.find(
-                e => e.ID == colorSkin.CateID
-              )
+              cateItem = CateDA.list_color_cate.find(e => e.ID === colorSkin.CateID)
             }
             let skin_tile = wbaseSkinTile({
               cate: EnumCate.color,
@@ -2648,75 +2637,88 @@ function reloadEditEffectBlock() {
   document.getElementById('edit-effect').replaceWith(newEditEffect)
 }
 
-function createEditColorForm({
-  id,
-  value = '#000000ff',
-  onchange,
-  onsubmit,
-  ondelete,
-  suffixAction
-}) {
-  let editColorTile = document.createElement('div')
-  if (id) editColorTile.id = id
-  editColorTile.className = 'edit-color-tile'
-  editColorTile.style.padding = '0 4px'
-
-  editColorTile.innerHTML = `<div class="parameter-form">
-  <input type="color" value=${value.substring(0, 7)} class="color-picker"/>
-  <input value="${value
-      .replace('#', '')
-      .substring(0, 6)
-      .toUpperCase()}" class="edit-color-form"/><div class="ver-line"></div><input value="${Ultis.hexToPercent(
-        value.replace('#', '').substring(6)
-      )}%" class="edit-opacity-form"/>
+function createEditColorForm({ id, value = '#000000ff', onchange, onsubmit, ondelete, suffixAction, returnType = 'object' }) {
+  const children = `<div class="parameter-form">
+    <input type="color" value=${value.substring(0, 7)} class="color-picker box16"/>
+    <input value="${value.replace('#', '').substring(0, 6).toUpperCase()}" class="input-color-value regular1"/><input value="${Ultis.hexToPercent(value.replace('#', '').substring(6))}%" class="input-opacity-value regular1"/>
   </div>
-  ${suffixAction
-      ? '<img src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/buttonStyle.svg"/>'
-      : '<div class="row"><i class="fa-regular fa-eye"></i><i class="fa-solid fa-minus"></i></div>'
-    }`
-
-  $(editColorTile).on('input', '.color-picker', function () {
-    editColorTile.querySelector('.edit-color-form').value = this.value
-      .replace('#', '')
-      .toUpperCase()
-    value = this.value + value.substring(7)
-    onchange(value)
-  })
-  $(editColorTile).on('blur', '.color-picker', () => onsubmit(value))
-  $(editColorTile).on('focus', '.edit-color-form', function () {
-    this.setSelectionRange(0, this.value.length)
-  })
-  $(editColorTile).on('blur', '.edit-color-form', function () {
-    if (this.value.match(hexRegex)) {
-      value =
-        this.value.match(hexRegex).input.replace('#', '').substring(0, 6) +
-        value.substring(7)
-      editColorTile.querySelector('.color-picker').value = `#${value}`
-      this.value = value.toUpperCase()
-      onsubmit(`#${value}`)
-    } else {
-      this.value = value.replace('#', '').substring(0, 6).toUpperCase()
-    }
-  })
-  $(editColorTile).on('blur', '.edit-opacity-form', function () {
-    this.setSelectionRange(0, this.value.length)
-  })
-  $(editColorTile).on('blur', '.edit-opacity-form', function () {
-    if (!isNaN(parseInt(this.value.replace('%', '')))) {
-      onsubmit(
-        value.substring(7) +
-        Ultis.percentToHex(parseInt(this.value.replace('%', '')))
-      )
-    } else {
-      this.value = Ultis.hexToPercent(value.replace('#', '').substring(6))
-    }
-  })
-  if (ondelete) $(editColorTile).on('click', '.fa-minus', ondelete)
-  else if (suffixAction)
-    $(editColorTile).on('click', '.parameter-form + img', suffixAction)
-  else editColorTile.querySelector('.fa-minus').style.display = 'none'
-  //? </function>
-  return editColorTile
+  ${suffixAction ? `<button type='button' class="row default-icon-btn box24" style="padding: 0.4rem">${MoreSkins()}</button>` : `<i class="fa-solid fa-minus box24 center" style="font-size: 1.6rem;${!ondelete && !suffixAction ? 'display: none' : ''}"></i>`}`
+  if (returnType === 'string') {
+    const dataId = uuidv4()
+    $('body').on('input', `.edit-color-tile[data-id="${dataId}"] .color-picker`, function (ev) {
+      document.body.querySelector(`.edit-color-tile[data-id="${dataId}"] .input-color-value`).value = ev.target.value.replace('#', '').toUpperCase()
+      value = ev.target.value + value.substring(7)
+      onchange(value)
+    })
+    $('body').on('blur', `.edit-color-tile[data-id="${dataId}"] .color-picker`, () => onsubmit(value))
+    $('body').on('focus', `.edit-color-tile[data-id="${dataId}"] .input-color-value`, function () {
+      this.setSelectionRange(0, this.value.length)
+    })
+    $('body').on('blur', `.edit-color-tile[data-id="${dataId}"] .input-color-value`, function (ev) {
+      if (ev.target.value.match(hexRegex)) {
+        value = ev.target.value.match(hexRegex).input.replace('#', '').substring(0, 6) + value.substring(7)
+        document.body.querySelector(`.edit-color-tile[data-id="${dataId}"] .color-picker`).value = `#${value}`
+        ev.target.value = value.toUpperCase()
+        onsubmit(`#${value}`)
+      } else {
+        ev.target.value = value.replace('#', '').substring(0, 6).toUpperCase()
+      }
+    })
+    $('body').on('blur', `.edit-color-tile[data-id="${dataId}"] .input-opacity-value`, function () {
+      this.setSelectionRange(0, this.value.length)
+    })
+    $('body').on('blur', `.edit-color-tile[data-id="${dataId}"] .input-opacity-value`, function (ev) {
+      if (!isNaN(parseInt(ev.target.value.replace('%', '')))) {
+        onsubmit(value.substring(7) + Ultis.percentToHex(parseInt(ev.target.value.replace('%', ''))))
+      } else {
+        ev.target.value = Ultis.hexToPercent(value.replace('#', '').substring(6))
+      }
+    })
+    if (ondelete) $('body').on('click', `.edit-color-tile[data-id="${dataId}"] .fa-minus`, ondelete)
+    else if (suffixAction)
+      $('body').on('click', `.edit-color-tile[data-id="${dataId}"] .parameter-form + button`, suffixAction)
+    //
+    return `<div ${id?.length ? `id=${id}` : ''} data-id="${dataId}" class="row edit-color-tile">${children}</div>`
+  } else {
+    let editColorTile = document.createElement('div')
+    editColorTile.className = 'row edit-color-tile'
+    if (id?.length) editColorTile.id = id
+    editColorTile.innerHTML = children
+    $(editColorTile).on('input', '.color-picker', function (ev) {
+      editColorTile.querySelector('.input-color-value').value = ev.target.value.replace('#', '').toUpperCase()
+      value = ev.target.value + value.substring(7)
+      onchange(value)
+    })
+    $(editColorTile).on('blur', '.color-picker', () => onsubmit(value))
+    $(editColorTile).on('focus', '.input-color-value', function () {
+      this.setSelectionRange(0, this.value.length)
+    })
+    $(editColorTile).on('blur', '.input-color-value', function () {
+      if (this.value.match(hexRegex)) {
+        value = this.value.match(hexRegex).input.replace('#', '').substring(0, 6) + value.substring(7)
+        editColorTile.querySelector('.color-picker').value = `#${value}`
+        this.value = value.toUpperCase()
+        onsubmit(`#${value}`)
+      } else {
+        this.value = value.replace('#', '').substring(0, 6).toUpperCase()
+      }
+    })
+    $(editColorTile).on('blur', '.input-opacity-value', function () {
+      this.setSelectionRange(0, this.value.length)
+    })
+    $(editColorTile).on('blur', '.input-opacity-value', function () {
+      if (!isNaN(parseInt(this.value.replace('%', '')))) {
+        onsubmit(value.substring(7) + Ultis.percentToHex(parseInt(this.value.replace('%', ''))))
+      } else {
+        this.value = Ultis.hexToPercent(value.replace('#', '').substring(6))
+      }
+    })
+    if (ondelete) $(editColorTile).on('click', '.fa-minus', ondelete)
+    else if (suffixAction)
+      $(editColorTile).on('click', '.parameter-form + button', suffixAction)
+    //
+    return editColorTile
+  }
 }
 
 function createButtonAction(src1, src2, action) {

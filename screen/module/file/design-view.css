@@ -682,3 +682,66 @@ body:has(#history-view) :is(.btn-tool-state:nth-child(1), .btn-history) {
 .radius-details-input:focus-within {
     border-color: #1890ff !important;
 }
+
+.default-icon-btn {
+    border-radius: 0.2rem;
+    cursor: pointer;
+}
+
+.default-icon-btn:hover {
+    background-color: var(--hover-background);
+}
+
+i.center[class*="box"] {
+    display: flex;
+    border-radius: 0.2rem;
+    cursor: pointer;
+}
+
+i.center[class*="box"]:hover {
+    background-color: var(--hover-background);
+}
+
+.edit-color-tile {
+    width: 100%;
+    justify-content: space-between;
+}
+
+.parameter-form {
+    height: 2.4rem;
+    padding: 0 0.4rem;
+    border-radius: 0.2rem;
+    border: 0.5px inset transparent;
+}
+
+.parameter-form:hover {
+    border-color: #dfdfdf;
+}
+
+.parameter-form:hover .input-opacity-value {
+    border-left: 1px inset var(--hover-background);
+}
+
+.parameter-form:focus-within {
+    border-color: #1890ff;
+}
+
+.parameter-form:focus-within .input-opacity-value {
+    border-left: 1px inset var(--primary-color);
+}
+
+.color-picker {
+    border: 0.5px solid #e5e5e5;
+    padding: 0;
+    border-radius: 0.4rem;
+}
+
+.input-color-value {
+    width: 5.6rem;
+    padding-left: 0.8rem;
+}
+
+.input-opacity-value {
+    width: 4rem;
+    padding-left: 0.8rem;
+}
