@@ -1,6 +1,6 @@
 class TitleBarDA {
     static list = (i) => i != null ? JSON.parse(Ultis.getStorage('list-project-tab') ?? '[]')[i] : JSON.parse(Ultis.getStorage('list-project-tab') ?? '[]')
-    static setList = (list) => JSON.stringify(Ultis.setStorage('list-project-tab', list ?? []))
+    static setList = (list) => Ultis.setStorage('list-project-tab', JSON.stringify(list ?? []))
 
     static initDataStorage() {
         if (url.includes('home') || url.every(e => !e.match(/file\?id\=[\d]*/g))) {
