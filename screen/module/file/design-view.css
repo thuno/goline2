@@ -309,16 +309,6 @@ body:has(#history-view) :is(.btn-tool-state:nth-child(1), .btn-history) {
     content: url(../../../assets/column.svg);
 }
 
-.action-button::after {
-    content: '';
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-image: var(--icon);
-    width: 60%;
-    height: 60%;
-}
-
 .ds-block-header>.action-button {
     display: none;
 }
@@ -618,7 +608,6 @@ body:has(#history-view) :is(.btn-tool-state:nth-child(1), .btn-history) {
 }
 
 .radius-details {
-    margin-left: 2.2rem;
     border: 1px solid transparent;
     border-radius: 2px;
 }
@@ -653,7 +642,7 @@ body:has(#history-view) :is(.btn-tool-state:nth-child(1), .btn-history) {
 
 .radius-details-input {
     height: 3.2rem;
-    width: 20rem;
+    width: 28rem;
     align-items: center;
     border: 1px solid transparent;
     overflow: hidden;
@@ -662,6 +651,7 @@ body:has(#history-view) :is(.btn-tool-state:nth-child(1), .btn-history) {
 
 .radius-details-input>img {
     pointer-events: none !important;
+    margin: 0 0.6rem;
 }
 
 .radius-details-input input {
@@ -708,26 +698,9 @@ i.center[class*="box"]:hover {
 }
 
 .parameter-form {
-    height: 2.4rem;
     padding: 0 0.4rem;
     border-radius: 0.2rem;
-    border: 0.5px inset transparent;
-}
-
-.parameter-form:hover {
-    border-color: #dfdfdf;
-}
-
-.parameter-form:hover .input-opacity-value {
-    border-left: 1px inset var(--hover-background);
-}
-
-.parameter-form:focus-within {
-    border-color: #1890ff;
-}
-
-.parameter-form:focus-within .input-opacity-value {
-    border-left: 1px inset var(--primary-color);
+    border: 0.5px solid transparent;
 }
 
 .color-picker {
@@ -737,11 +710,28 @@ i.center[class*="box"]:hover {
 }
 
 .input-color-value {
-    width: 5.6rem;
-    padding-left: 0.8rem;
+    width: 6.8rem;
+    padding: 0.6rem;
 }
 
 .input-opacity-value {
-    width: 4rem;
+    width: 4.4rem;
     padding-left: 0.8rem;
+    border-left: 1px solid transparent;
+}
+
+.parameter-form:hover {
+    border-color: #dfdfdf;
+}
+
+.parameter-form:hover .input-opacity-value {
+    border-color: var(--hover-background);
+}
+
+.parameter-form:focus-within {
+    border-color: #1890ff;
+}
+
+.parameter-form:focus-within .input-opacity-value {
+    border-color: var(--primary-color);
 }

@@ -381,7 +381,7 @@ function EditOffsetBlock() {
   const edit_rotate = TextField({
     returnType: 'string',
     className: 'right-view-input regular1',
-    prefix: '<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/rotate_rect.svg"/>',
+    prefix: '<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/rotate_rect.svg"/>',
     value: 0
   })
 
@@ -395,7 +395,7 @@ function EditOffsetBlock() {
       returnType: 'string',
       className: 'right-view-input regular1 radius-all',
       style: isRadiusDetails ? 'visibility: hidden' : '',
-      prefix: '<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/radius_rect.svg"/>',
+      prefix: '<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/radius_rect.svg"/>',
       value: list_radius_value.length == 1 ? list_radius_value[0] : 'mixed',
       onBlur: function (ev) {
         let newValue = parseFloat(ev.target.value)
@@ -425,24 +425,24 @@ function EditOffsetBlock() {
       else
         ev.target.closest('.radius-details').classList.remove('toggle')
     })
-    const editRadiusDetails = `<div class="row radius-details-input" style="display: ${isRadiusDetails ? 'flex' : 'none'}">
-      <img class="box16" src ='https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/radius_rect.svg' />
-      <input class="regular1 br-tl" value="${() => {
+    const editRadiusDetails = `<div class="row radius-details-input" style="gap: 0.4rem;display: ${isRadiusDetails ? 'flex' : 'none'}">
+      <img class="box12" src ='https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/radius_rect.svg' />
+      <input class="regular1 br-tl" value="${(() => {
         let rvalue = showInputRadius.filterAndMap(e => window.getComputedStyle(e.value).borderTopLeftRadius.replace('px', ''))
         return rvalue.length === 1 ? rvalue[0] : 'mixed'
-      }}"/>
-      <input class="regular1 br-tr" value="${() => {
+      })()}"/>
+      <input class="regular1 br-tr" value="${(() => {
         let rvalue = showInputRadius.filterAndMap(e => window.getComputedStyle(e.value).borderTopRightRadius.replace('px', ''))
         return rvalue.length === 1 ? rvalue[0] : 'mixed'
-      }}"/>
-      <input class="regular1 br-bl" value="${() => {
+      })()}"/>
+      <input class="regular1 br-bl" value="${(() => {
         let rvalue = showInputRadius.filterAndMap(e => window.getComputedStyle(e.value).borderBottomLeftRadius.replace('px', ''))
         return rvalue.length === 1 ? rvalue[0] : 'mixed'
-      }}"/>
-      <input class="regular1 br-br" value="${() => {
+      })()}"/>
+      <input class="regular1 br-br" value="${(() => {
         let rvalue = showInputRadius.filterAndMap(e => window.getComputedStyle(e.value).borderBottomRightRadius.replace('px', ''))
         return rvalue.length === 1 ? rvalue[0] : 'mixed'
-      }}"/>
+      })()}"/>
     </div>`
     $(editContainer).on('blur', '.radius-details-input > .br-tl', function () {
       let newValue = parseFloat(this.value)
@@ -1329,9 +1329,9 @@ function EditBackgroundBlock() {
   header.className = 'ds-block-header row'
   let scaleWb = selected_list.every(wb => WbClass.scale.some(e => wb.value.classList.contains(e)))
   header.innerHTML = `<p class="semibold1" class="flex: 1">${scaleWb ? 'Checked primary color' : 'Background'}</p>
-  <button class="action-button skin-btn bg-header-action">${MoreSkins()}</button>
-  <i class="fa-regular fa-image fa-sm bg-header-action"></i>
-  <i class="fa-solid fa-plus fa-sm bg-header-action"></i>`
+  <button type='button' class="row default-icon-btn box24 action-buttons" style="padding: 0.4rem">${MoreSkins()}</button>
+  <i class="fa-regular fa-image center box24" style="font-size: 1.4rem"></i>
+  <i class="fa-solid fa-plus center box24" style="font-size: 1.4rem"></i>`
   editContainer.appendChild(header)
 
   let wbBg = selected_list.filterAndMap(wb => window.getComputedStyle(wb.value).backgroundImage)
@@ -1403,25 +1403,16 @@ function EditBackgroundBlock() {
       editContainer.appendChild(editImgTile)
 
       let divSelectImg = document.createElement('div')
+      divSelectImg.className = 'row'
+      divSelectImg.style.gap = '0.8rem'
       divSelectImg.innerHTML = `<div style="background: url(${window
         .getComputedStyle(selected_list[0].value)
-        .backgroundImage.replace(
-          /(url\("|"\))/g,
-          ''
-        )}) 0 0 / cover no-repeat; width: 20px; height: 16px; margin: 6px"></div><p>Image</p><input class="regular1" value="100%" style="width: 38px; min-width: 40px;padding: 0 0 0 6px"/>`
+        .backgroundImage.replace(/(url\("|"\))/g, '')}) 0 0 / cover no-repeat; width: 2rem; height: 1rem"></div class="regular1"><p>Image</p><input class="regular1" value="100%" style="width: 4.4rem;padding-left: 0.8rem"/>`
       editImgTile.appendChild(divSelectImg)
 
       $(divSelectImg).on('click', 'div', function () {
         if (!document.getElementById('popup_img_document')) FileDA.init()
       })
-
-      let btnEye = document.createElement('img')
-      btnEye.src =
-        'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/eye-outline.svg'
-      btnEye.style.width = '16px'
-      btnEye.style.height = '16px'
-      btnEye.style.padding = '6px'
-      editImgTile.appendChild(btnEye)
 
       let btnRemoveBgImg = document.createElement('i')
       btnRemoveBgImg.className = 'fa-solid fa-minus'
@@ -2639,10 +2630,10 @@ function reloadEditEffectBlock() {
 
 function createEditColorForm({ id, value = '#000000ff', onchange, onsubmit, ondelete, suffixAction, returnType = 'object' }) {
   const children = `<div class="parameter-form">
-    <input type="color" value=${value.substring(0, 7)} class="color-picker box16"/>
+    <input type="color" value=${value.substring(0, 7)} class="color-picker box20"/>
     <input value="${value.replace('#', '').substring(0, 6).toUpperCase()}" class="input-color-value regular1"/><input value="${Ultis.hexToPercent(value.replace('#', '').substring(6))}%" class="input-opacity-value regular1"/>
   </div>
-  ${suffixAction ? `<button type='button' class="row default-icon-btn box24" style="padding: 0.4rem">${MoreSkins()}</button>` : `<i class="fa-solid fa-minus box24 center" style="font-size: 1.6rem;${!ondelete && !suffixAction ? 'display: none' : ''}"></i>`}`
+  ${suffixAction ? `<button type='button' class="row default-icon-btn box24" style="padding: 0.4rem">${MoreSkins()}</button>` : `<i class="fa-solid fa-minus box24 center" style="font-size: 1.4rem;${!ondelete && !suffixAction ? 'display: none' : ''}"></i>`}`
   if (returnType === 'string') {
     const dataId = uuidv4()
     $('body').on('input', `.edit-color-tile[data-id="${dataId}"] .color-picker`, function (ev) {

@@ -680,6 +680,7 @@ function createNewWbase({ wb, relativeWbs = [], level }) {
 
 //! .................................................................................................
 function createWbaseHTML({ parentid, x, y, w, h, newObj }) {
+    debugger
     WBaseDA.listData = []
     if (newObj) {
         var new_obj = newObj
