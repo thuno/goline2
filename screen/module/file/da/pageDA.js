@@ -1,45 +1,26 @@
 ﻿class PageDA {
   static list = [];
   static enableEdit = false;
-  static obj = { ID: 0, ProjectID: 0, Permission: 2 };
+  static obj = { ID: Ultis.getStorage('pageId') ?? 0, ProjectID: 0, Permission: 2 };
+  static setSelected(obj) {
+    PageDA.obj = obj
+    Ultis.setStorage('pageId', obj.ID);
+  };
   static urlCtr = "Page/";
   static settingsPage = false;
   static customerList = [];
 
   static saveSettingsPage() {
-    if (this.settingsPage) {
-      PageDA.obj.scale = scale;
-      PageDA.obj.leftx = leftx;
-      PageDA.obj.topx = topx;
-      if (!ProjectDA.obj.PageItem) ProjectDA.obj.PageItem = PageDA.list;
-      ProjectDA.obj.PageItem.splice(
-        ProjectDA.obj.PageItem.findIndex((page) => page.ID === PageDA.obj.ID),
-        1,
-        PageDA.obj,
-      );
-      TitleBarDA.list.splice(
-        TitleBarDA.list.findIndex((project) => project.ID === ProjectDA.obj.ID),
-        1,
-        ProjectDA.obj,
-      );
-      Ultis.setStorage("opening-page", JSON.stringify(PageDA.obj));
-      this.settingsPage = false;
-    }
-  }
-
-  static pageLoadingView(func) {
-    divSection.replaceChildren();
-    let loadingView = document.createElement("div");
-    loadingView.className = "loading-view";
-    document.getElementById("body").appendChild(loadingView);
-    $(loadingView).load("/View/loading.html", func);
+    PageDA.obj.scale = scale;
+    PageDA.obj.leftx = leftx;
+    PageDA.obj.topx = topx;
+    this.setSelected(PageDA.obj);
   }
 
   static selectPage(pageItem) {
     if (pageItem && pageItem.ID !== PageDA.obj.ID) {
-      PageDA.obj = pageItem;
-      Ultis.setStorage("opening-page", JSON.stringify(pageItem));
-      PageDA.pageLoadingView(initData);
+      this.setSelected(pageItem);
+      window.location.reload()
     }
   }
 
@@ -78,9 +59,7 @@
   }
 
   static edit(obj) {
-    this.settingsPage = true;
-    this.saveSettingsPage();
-    Ultis.setStorage("opening-page", JSON.stringify(obj));
+    this.setSelected(obj);
     WiniIO.emitPage([obj], EnumEvent.edit);
   }
 

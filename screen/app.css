@@ -927,21 +927,15 @@ button * {
     overflow: auto hidden;
 }
 
-.nav-tab>.tab-title {
+.nav-tab * {
     white-space: nowrap;
-    margin: 0 8px;
     color: #8C8C8C;
     overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.nav-tab>.tab-close {
-    color: #8C8C8C;
-}
-
-.nav-tab:hover>.tab-title,
-.nav-tab.active>.tab-title,
-.nav-tab:hover>.tab-close,
-.nav-tab.active>.tab-close {
+.nav-tab:hover>*,
+.nav-tab.active>* {
     color: white;
 }
 

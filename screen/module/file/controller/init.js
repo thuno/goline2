@@ -20,7 +20,12 @@ const isMac = navigator.userAgent.indexOf('Mac OS X') != -1
 var select_component
 $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@311c5b4/project-component/loading.html', async function () {
     const pId = location.hash.match(/file\?id\=[\d]*/g)[0].replace('file?id=', "")
+    ProjectDA.obj.ID = pId
     await ProjectDA.getByID(parseInt(pId))
+    let openingProjects = TitleBarDA.list()
+    const findIndex = openingProjects.findIndex(e => e.ID === ProjectDA.obj.ID)
+    if (findIndex !== -1) openingProjects[findIndex] = { ...ProjectDA.obj, ...openingProjects[findIndex] }
+    TitleBarDA.setList(openingProjects)
     const res = await ProjectDA.getPermission()
     if (res.Code === 200) {
         for (let wpageItem of res.Data.WPageItems) {
@@ -30,13 +35,8 @@ $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@311c5b4/projec
         }
         PageDA.list.push(...res.Data.WPageItems)
         if (PageDA.list.length > 0) {
-            PageDA.obj = Ultis.getStorage('opening-page')
-            if (checkTypeof(PageDA.obj) === 'string')
-                PageDA.obj = JSON.parse(PageDA.obj)
-            if (!PageDA.obj || PageDA.obj.ProjectID != ProjectDA.obj.ID) {
-                PageDA.obj = PageDA.list.find(e => e.ID === ProjectDA.obj.PageDefaultID) ?? PageDA.list[0]
-            }
-            PageDA.obj.Permission = PageDA.obj.Permission
+            PageDA.obj = PageDA.list.find(e => e.ID === PageDA.obj.ID) ?? PageDA.list.find(e => e.ID === ProjectDA.obj.PageDefaultID) ?? PageDA.list[0]
+            PageDA.setSelected(PageDA.obj)
             PageDA.checkEditPermission(PageDA.obj.Permission)
         }
     }
@@ -86,9 +86,9 @@ $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@311c5b4/projec
         setupRightView()
         setupLeftView()
         if (!PageDA.obj.scale) {
-            // topx = PageDA.obj.topx
-            // leftx = PageDA.obj.leftx
-            // scale = PageDA.obj.scale
+            topx = PageDA.obj.topx ?? 0
+            leftx = PageDA.obj.leftx ?? 0
+            scale = PageDA.obj.scale ?? 1
             divSection.style.top = topx + 'px'
             divSection.style.left = leftx + 'px'
             divSection.style.transform = `scale(${scale}, ${scale})`
@@ -96,11 +96,7 @@ $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@311c5b4/projec
             positionScrollLeft()
             positionScrollTop()
         } else {
-            initScroll(
-                wbase_list
-                    .filter(m => m.ParentID === wbase_parentID)
-                    .map(m => m.StyleItem)
-            )
+            initScroll(wbase_list.filter(m => m.ParentID === wbase_parentID).map(m => m.StyleItem))
         }
         centerViewInitListener()
         WiniIO.emitInit()
@@ -978,7 +974,7 @@ function handleWbSelectedList(newlist = []) {
                     assets_view.querySelector('.instance-container').replaceChildren()
                 updateListComponentByProject({ ID: 0 })
             }
-            f12_update_selectWbase()
+            // f12_update_selectWbase()
             $('.wbaseItem-value').removeClass('selected')
         }
         switch (design_view_index) {

@@ -308,7 +308,7 @@ function EditOffsetBlock() {
       (computeSt.display.match(/(flex|table)/g) || computeSt.position !== 'absolute')
   })
   const isRatio = selected_list.some(wb => window.getComputedStyle(wb.value).aspectRatio !== 'auto')
-  let iconRatioWH = `<button type="button" class="toggle-ratioWH box24 default-icon-btn center row ${isRatio ? 'toggle' : ''}" style="padding: 0.6rem">${RatioWH({ toggle: isRatio })}</button>`
+  let iconRatioWH = `<button type="button" class="toggle-ratioWH box24 default-icon-btn center row ${isRatio ? 'toggle' : ''}" style="padding: 0.5rem">${RatioWH({ toggle: isRatio })}</button>`
   if (isFlexBox) {
     var disabledInputW = false
     var disabledInputH = false
@@ -415,7 +415,7 @@ function EditOffsetBlock() {
         }
       }
     })
-    const iconRadiusDetails = `<button type="button" class="radius-details box24 row ${isRadiusDetails ? 'toggle' : ''}" style="padding: 0.6rem">${RadiusDetails()}</button>`
+    const iconRadiusDetails = `<button type="button" class="radius-details box24 row ${isRadiusDetails ? 'toggle' : ''}" style="padding: 0.4rem">${RadiusDetails()}</button>`
     $(editContainer).on('click', '.radius-details', function (ev) {
       isRadiusDetails = !isRadiusDetails
       editContainer.querySelector('.radius-all').style.visibility = isRadiusDetails ? 'hidden' : null
@@ -1329,8 +1329,8 @@ function EditBackgroundBlock() {
   header.className = 'ds-block-header row'
   let scaleWb = selected_list.every(wb => WbClass.scale.some(e => wb.value.classList.contains(e)))
   header.innerHTML = `<p class="semibold1" style="flex: 1">${scaleWb ? 'Checked primary color' : 'Background'}</p>
-  <button type='button' class="row default-icon-btn box24 action-button" style="padding: 0.6rem">${MoreSkins()}</button>
-  <i class="fa-regular fa-image center box24" style="font-size: 1.4rem"></i>
+  <button type='button' class="row default-icon-btn box24 action-button" style="padding: 0.7rem">${MoreSkins()}</button>
+  <i class="fa-regular fa-image center box24" style="font-size: 1.2rem"></i>
   <i class="fa-solid fa-plus center box24" style="font-size: 1.4rem"></i>`
   editContainer.appendChild(header)
 

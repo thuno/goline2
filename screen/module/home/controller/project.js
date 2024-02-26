@@ -160,6 +160,7 @@ $('body').on(`click`, `.add-project-container .button-add-project`, function (ev
     // } else {
     ProjectDA.add({ ID: 0, Name: "Untitled" }).then(res => {
         if (res.Code === 200) {
+            TitleBarDA.setList([...TitleBarDA.list(), res.Data])
             window.location.replace(`/#/file?id=${res.Data.ID}`);
             window.location.reload()
         }
