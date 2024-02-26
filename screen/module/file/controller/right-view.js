@@ -5337,11 +5337,11 @@ function createBreakpoint() {
           title.readOnly = true
           title.value = brp.Key
           title.className = 'regular2'
-          title.ondblclick = function (e) {
-            e.stopPropagation()
-            this.readOnly = false
-            this.focus()
-            this.select()
+          title.ondblclick = function (ev) {
+            ev.stopPropagation()
+            ev.target.readOnly = false
+            ev.target.focus()
+            ev.target.select()
           }
           title.onblur = function (e) {
             e.stopPropagation()
@@ -5383,9 +5383,9 @@ function createBreakpoint() {
           let inputBrpContainer = document.createElement('div')
           let input = document.createElement('input')
           input.value = `${brp.Width}`
-          input.onfocus = function (e) {
-            e.stopPropagation()
-            this.select()
+          input.onfocus = function (ev) {
+            ev.stopPropagation()
+            ev.target.select()
           }
           input.onblur = function (e) {
             e.stopPropagation()

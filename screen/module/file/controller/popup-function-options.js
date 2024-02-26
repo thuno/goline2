@@ -835,8 +835,8 @@ function createFolderTile(collectionItem) {
         e.stopPropagation()
         selectFolder(collectionItem)
     }
-    $(folderTile).on('focus', 'input', function () {
-        this.select()
+    $(folderTile).on('focus', 'input', function (ev) {
+        ev.target.select()
     })
     if (collectionItem.ID != -1) {
         folderTile.onauxclick = function (e) {

@@ -3,7 +3,7 @@ const TextField = ({ id, value = '', maxLength, onChange, onBlur, onFocus, place
         if (onFocus || focusSelectAll) {
             var dataId = uuidv4()
             $('body').on('focus', `.text-field-container[txtf-id=${dataId}] > input`, (ev) => {
-                this.select()
+                ev.target.select()
                 if (onFocus) onFocus(ev)
             })
         }
@@ -48,7 +48,7 @@ const TextField = ({ id, value = '', maxLength, onChange, onBlur, onFocus, place
         }
         if (onFocus || focusSelectAll) {
             $('body').on('focus', 'input', (ev) => {
-                this.select()
+                ev.target.select()
                 if (onFocus) onFocus(ev)
             })
         }
