@@ -1039,10 +1039,7 @@ function moveListener(event) {
           } else if (keyid != 'z' && design_view_index !== 1) {
             let isCreate = false
             if (ToolState.create_new_type.some(tool => tool_state == tool) && checkpad == 0) {
-              let offset_convert = offsetScale(
-                Math.min(minx, event.pageX),
-                Math.min(miny, event.pageY)
-              )
+              const offset_convert = offsetScale(Math.min(minx, event.pageX), Math.min(miny, event.pageY))
               let parentHTML = event.target.closest(
                 `.wbaseItem-value:is(.w-container, .w-textformfield, .w-button, .w-table):not(*[isinstance])`
               )

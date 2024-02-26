@@ -86,9 +86,9 @@ $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@0a2212e/projec
         setupRightView()
         setupLeftView()
         if (!PageDA.obj.scale) {
-            topx = PageDA.obj.topx
-            leftx = PageDA.obj.leftx
-            scale = PageDA.obj.scale
+            // topx = PageDA.obj.topx
+            // leftx = PageDA.obj.leftx
+            // scale = PageDA.obj.scale
             divSection.style.top = topx + 'px'
             divSection.style.left = leftx + 'px'
             divSection.style.transform = `scale(${scale}, ${scale})`
@@ -680,7 +680,6 @@ function createNewWbase({ wb, relativeWbs = [], level }) {
 
 //! .................................................................................................
 function createWbaseHTML({ parentid, x, y, w, h, newObj }) {
-    debugger
     WBaseDA.listData = []
     if (newObj) {
         var new_obj = newObj

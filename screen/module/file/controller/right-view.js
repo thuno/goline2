@@ -274,7 +274,7 @@ function EditOffsetBlock() {
   const parentHTML = divSection.querySelector(`.wbaseItem-value.w-container[id="${select_box_parentID}"]`)
   if (parentHTML && window.getComputedStyle(parentHTML).display.match('flex')) {
     const isFixPos = selected_list.every(e => e.value.classList.contains('fixed-position'))
-    var iconFixPos = `<button type="button" class="toogle-fix-position box24 row ${isFixPos ? 'toggle' : ''} ${selected_list.some(wb => !wb.value.classList.contains('w-variant') && wb.value.closest('.wbaseItem-value[iswini]')) ? ' disabled' : ''}"></button>`
+    var iconFixPos = `<button type="button" class="toogle-fix-position box24 default-icon-btn center row ${isFixPos ? 'toggle' : ''} ${selected_list.some(wb => !wb.value.classList.contains('w-variant') && wb.value.closest('.wbaseItem-value[iswini]')) ? ' disabled' : ''}" style="padding: 0.6rem">${FixPosition}</button>`
     $(editContainer).on('click', '.toogle-fix-position', function () { handleEditOffset({ fixPosition: !isFixPos }) })
   }
 
@@ -308,7 +308,7 @@ function EditOffsetBlock() {
       (computeSt.display.match(/(flex|table)/g) || computeSt.position !== 'absolute')
   })
   const isRatio = selected_list.some(wb => window.getComputedStyle(wb.value).aspectRatio !== 'auto')
-  let iconRatioWH = `<button type="button" class="toggle-ratioWH box24 row ${isRatio ? 'toggle' : ''}">${RatioWH({ toggle: isRatio })}</button>`
+  let iconRatioWH = `<button type="button" class="toggle-ratioWH box24 default-icon-btn center row ${isRatio ? 'toggle' : ''}" style="padding: 0.6rem">${RatioWH({ toggle: isRatio })}</button>`
   if (isFlexBox) {
     var disabledInputW = false
     var disabledInputH = false
@@ -326,10 +326,10 @@ function EditOffsetBlock() {
       style: 'width: 9.8rem',
       dropdownStyle: 'background-color: #000000',
       options: [
-        { id: 'mixed', name: 'mixed', prefix: `<div class="box20"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${value === 'mixed' ? '' : 'display: none'}` },
-        { id: 'hug', name: 'hug-content', prefix: `<div class="box16">${HugContent({ color: '#ffffff' })}</div>`, style: `${checkActiveFillHug({ type: 'fit' }) ? '' : 'display: none'}` },
-        { id: 'fixed', name: 'fixed-size', prefix: `<div class="box16">${FixedSize({ color: '#ffffff' })}</div>` },
-        { id: 'fill', name: 'fill-container', prefix: `<div class="box20"></div>`, style: `${checkActiveFillHug({ type: 'fill' }) ? '' : 'display: none'}` },
+        { id: 'mixed', name: 'mixed', prefix: `<div class="box12 row center"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${value === 'mixed' ? '' : 'display: none'}` },
+        { id: 'hug', name: 'hug-content', prefix: `<div class="box12 row center">${HugContent({ color: '#ffffff' })}</div>`, style: `${checkActiveFillHug({ type: 'fit' }) ? '' : 'display: none'}` },
+        { id: 'fixed', name: 'fixed-size', prefix: `<div class="box12 row center">${FixedSize({ color: '#ffffff' })}</div>` },
+        { id: 'fill', name: 'fill-container', prefix: `<div class="box12 row center"></div>`, style: `${checkActiveFillHug({ type: 'fill' }) ? '' : 'display: none'}` },
       ],
     })
     var selectTypeH = Select1({
@@ -346,10 +346,10 @@ function EditOffsetBlock() {
       style: 'width: 9.8rem',
       dropdownStyle: 'background-color: #000000',
       options: [
-        { id: 'mixed', name: 'mixed', prefix: `<div class="box20"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${value === 'mixed' ? '' : 'display: none'}` },
-        { id: 'hug', name: 'hug-content', prefix: `<div class="box16">${HugContent({ color: '#ffffff' })}</div>`, style: `transform: rotate(90deg);${checkActiveFillHug({ type: 'fit' }) ? '' : 'display: none'}` },
-        { id: 'fixed', name: 'fixed-size', prefix: `<div class="box16">${FixedSize({ color: '#ffffff' })}</div>`, style: `transform: rotate(90deg);` },
-        { id: 'fill', name: 'fill-container', prefix: `<div class="box20"></div>`, style: `transform: rotate(90deg);${checkActiveFillHug({ type: 'fill' }) ? '' : 'display: none'}` },
+        { id: 'mixed', name: 'mixed', prefix: `<div class="box12 row center"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${value === 'mixed' ? '' : 'display: none'}` },
+        { id: 'hug', name: 'hug-content', prefix: `<div class="box12 row center">${HugContent({ color: '#ffffff' })}</div>`, style: `transform: rotate(90deg);${checkActiveFillHug({ type: 'fit' }) ? '' : 'display: none'}` },
+        { id: 'fixed', name: 'fixed-size', prefix: `<div class="box12 row center">${FixedSize({ color: '#ffffff' })}</div>`, style: `transform: rotate(90deg);` },
+        { id: 'fill', name: 'fill-container', prefix: `<div class="box12 row center"></div>`, style: `transform: rotate(90deg);${checkActiveFillHug({ type: 'fill' }) ? '' : 'display: none'}` },
       ],
     })
   }
@@ -415,7 +415,7 @@ function EditOffsetBlock() {
         }
       }
     })
-    const iconRadiusDetails = `<button type="button" class="radius-details box24 row ${isRadiusDetails ? 'toggle' : ''}">${RadiusDetails()}</button>`
+    const iconRadiusDetails = `<button type="button" class="radius-details box24 row ${isRadiusDetails ? 'toggle' : ''}" style="padding: 0.6rem">${RadiusDetails()}</button>`
     $(editContainer).on('click', '.radius-details', function (ev) {
       isRadiusDetails = !isRadiusDetails
       editContainer.querySelector('.radius-all').style.visibility = isRadiusDetails ? 'hidden' : null
@@ -1328,8 +1328,8 @@ function EditBackgroundBlock() {
   let header = document.createElement('div')
   header.className = 'ds-block-header row'
   let scaleWb = selected_list.every(wb => WbClass.scale.some(e => wb.value.classList.contains(e)))
-  header.innerHTML = `<p class="semibold1" class="flex: 1">${scaleWb ? 'Checked primary color' : 'Background'}</p>
-  <button type='button' class="row default-icon-btn box24 action-buttons" style="padding: 0.4rem">${MoreSkins()}</button>
+  header.innerHTML = `<p class="semibold1" style="flex: 1">${scaleWb ? 'Checked primary color' : 'Background'}</p>
+  <button type='button' class="row default-icon-btn box24 action-button" style="padding: 0.6rem">${MoreSkins()}</button>
   <i class="fa-regular fa-image center box24" style="font-size: 1.4rem"></i>
   <i class="fa-solid fa-plus center box24" style="font-size: 1.4rem"></i>`
   editContainer.appendChild(header)

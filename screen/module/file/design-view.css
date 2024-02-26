@@ -612,24 +612,6 @@ body:has(#history-view) :is(.btn-tool-state:nth-child(1), .btn-history) {
     border-radius: 2px;
 }
 
-.radius-details::after {
-    width: 1.4rem;
-    height: 1.4rem;
-    content: '';
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-image: url(../../../assets/radius_detail.svg);
-}
-
-.toogle-fix-position::after {
-    width: 1.4rem;
-    height: 1.4rem;
-    content: '';
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-image: url(../../../assets/fix_position.svg);
-}
-
 .toogle-fix-position.toggle {
     border: 1px inset #262626;
     border-radius: 0.4rem;
@@ -704,7 +686,6 @@ i.center[class*="box"]:hover {
 }
 
 .color-picker {
-    border: 0.5px solid #e5e5e5;
     padding: 0;
     border-radius: 0.4rem;
 }
