@@ -20,12 +20,15 @@ const isMac = navigator.userAgent.indexOf('Mac OS X') != -1
 var select_component
 $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@ee65dbf/project-component/loading.html', async function () {
     const pId = location.hash.match(/file\?id\=[\d]*/g)[0].replace('file?id=', "")
-    TitleBarDA.updateTitleBar(pId)
     await ProjectDA.getByID(parseInt(pId))
     let openingProjects = TitleBarDA.list()
     const findIndex = openingProjects.findIndex(e => e.ID === ProjectDA.obj.ID)
-    if (findIndex !== -1) openingProjects[findIndex] = { ...ProjectDA.obj, ...openingProjects[findIndex] }
+    if (findIndex === -1)
+        openingProjects.push(ProjectDA.obj)
+    else
+        openingProjects[findIndex] = { ...ProjectDA.obj, ...openingProjects[findIndex] }
     TitleBarDA.setList(openingProjects)
+    TitleBarDA.updateTitleBar(pId)
     const res = await ProjectDA.getPermission()
     if (res.Code === 200) {
         for (let wpageItem of res.Data.WPageItems) {
