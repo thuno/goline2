@@ -939,6 +939,11 @@ button * {
     color: white;
 }
 
+.nav-tab i {
+    display: flex !important;
+    font-size: 1.2rem;
+}
+
 .tab-close:hover {
     background-color: transparent;
 }

@@ -15,6 +15,11 @@ class TitleBarDA {
     }
 
     static updateTitleBar(pId) {
+        $('body', '.home-button.nav-tab', function (ev) {
+            ev.stopPropagation()
+            window.location.href = `/#/home`
+            window.location.reload()
+        })
         let newList = TitleBarDA.list()
         document.body.querySelector('.window-bar .tab-container').innerHTML = newList.map((e, i) => {
             if (e.ID !== pId)
@@ -34,7 +39,7 @@ class TitleBarDA {
                 }
                 window.location.reload()
             });
-            return `<button type="button" data-id="${e.ID}" class="nav-tab semibold1 row ${e.ID === pId ? 'active' : ''}">${e.Name ?? 'Untitled'}<i class="fa-solid fa-close row box20 center" style="display: flex; font-size: 1.2rem;color: #8C8C8C"></i></button>`;
+            return `<button type="button" data-id="${e.ID}" class="nav-tab semibold1 row ${e.ID === pId ? 'active' : ''}">${e.Name ?? 'Untitled'}<i class="fa-solid fa-close row box20 center"></i></button>`;
         }).join('')
 
         // change UI with each platform
@@ -47,42 +52,42 @@ class TitleBarDA {
     }
 }
 
-$(document).ready(function () {
-    let token = Ultis.getStorage('token');
-    if (token != null && token != "null") {
-        $('body').on('click', '.home-button', function (e) {
-            window.location.href = "/View/home-screen.html?tab=home";
-            Ultis.setStorage('project-tab-selected', null);
-        });
-        // update selected project
-        $('body').on('click', '.nav-tab', function (e) {
-            if ($(this).data('id') != null) {
-                Ultis.setStorage('project-tab-selected', $(this).data('id'));
-                ProjectDA.changeProject($(this).data('id'));
-            }
-        });
-        $('body').on('mousedown', '.nav-tab', function (e) {
-            if (e.button == 2) {
-                e.stopPropagation();
-                $('.more-option-tab').css("top", $(this).offset().top + 39);
-                $('.more-option-tab').css("left", $(this).offset().left);
-                $('.more-option-tab').show();
-            }
-        });
-        $('body').on('click', '.more-option-tab .option', function (e) {
-            let tab_selected_id = Ultis.getStorage('project-tab-selected');
-            // TODO: add function tương ứng => ThuNT77
-        });
-        // add new project
-        $('body').on('click', '.button-add', function (e) {
-            ProjectDA.add({ "Name": "Untitled" });
-        });
-    }
+// $(document).ready(function () {
+//     let token = Ultis.getStorage('token');
+//     if (token != null && token != "null") {
+//         $('body').on('click', '.home-button', function (e) {
+//             window.location.href = "/View/home-screen.html?tab=home";
+//             Ultis.setStorage('project-tab-selected', null);
+//         });
+//         // update selected project
+//         $('body').on('click', '.nav-tab', function (e) {
+//             if ($(this).data('id') != null) {
+//                 Ultis.setStorage('project-tab-selected', $(this).data('id'));
+//                 ProjectDA.changeProject($(this).data('id'));
+//             }
+//         });
+//         $('body').on('mousedown', '.nav-tab', function (e) {
+//             if (e.button == 2) {
+//                 e.stopPropagation();
+//                 $('.more-option-tab').css("top", $(this).offset().top + 39);
+//                 $('.more-option-tab').css("left", $(this).offset().left);
+//                 $('.more-option-tab').show();
+//             }
+//         });
+//         $('body').on('click', '.more-option-tab .option', function (e) {
+//             let tab_selected_id = Ultis.getStorage('project-tab-selected');
+//             // TODO: add function tương ứng => ThuNT77
+//         });
+//         // add new project
+//         $('body').on('click', '.button-add', function (e) {
+//             ProjectDA.add({ "Name": "Untitled" });
+//         });
+//     }
 
-    // window.onclick = function (ev) {
-    //     if (!$('.appbar_popup').is(ev.target) || $('.wini-popup').has($(ev.target)).length == 1) {
-    //         $('.appbar_popup').hide();
-    //     }
-    // }
-});
+//     // window.onclick = function (ev) {
+//     //     if (!$('.appbar_popup').is(ev.target) || $('.wini-popup').has($(ev.target)).length == 1) {
+//     //         $('.appbar_popup').hide();
+//     //     }
+//     // }
+// });
 

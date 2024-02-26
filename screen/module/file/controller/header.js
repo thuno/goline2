@@ -501,9 +501,17 @@ function permissionTool() {
     }
 
     projectTitle.onblur = function () {
-      this.contentEditable = false
-      ProjectDA.obj.Name = this.innerHTML
-      ProjectDA.edit(ProjectDA.obj)
+      if (this.innerHTML.length) {
+        this.contentEditable = false
+        ProjectDA.obj.Name = this.innerHTML
+        let titleBarList = TitleBarDA.list()
+        titleBarList[titleBarList.findIndex(e => e.ID === ProjectDA.obj.ID)].Name = this.innerHTML
+        TitleBarDA.setList(titleBarList)
+        document.body.querySelector(`.nav-tab[data-id="${e.ID}"]`).innerHTML = `${this.innerHTML ?? 'Untitled'}<i class="fa-solid fa-close row box20 center"></i>`
+        ProjectDA.edit(ProjectDA.obj)
+      } else {
+        this.value = ProjectDA.obj.Name
+      }
     }
   }
 }

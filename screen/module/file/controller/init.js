@@ -20,7 +20,7 @@ const isMac = navigator.userAgent.indexOf('Mac OS X') != -1
 var select_component
 $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@311c5b4/project-component/loading.html', async function () {
     const pId = location.hash.match(/file\?id\=[\d]*/g)[0].replace('file?id=', "")
-    ProjectDA.obj.ID = pId
+    TitleBarDA.updateTitleBar(pId)
     await ProjectDA.getByID(parseInt(pId))
     let openingProjects = TitleBarDA.list()
     const findIndex = openingProjects.findIndex(e => e.ID === ProjectDA.obj.ID)

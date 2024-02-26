@@ -1,4 +1,5 @@
 $('body > #home-body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@311c5b4/project-component/loading.html', async function () {
+    TitleBarDA.updateTitleBar(0)
     const userItem = UserService.user()
     $('.user-container .user-name').text(userItem?.name ?? "-");
     $('.user-container .user-email').text(userItem?.email ?? "-");
@@ -6,33 +7,11 @@ $('body > #home-body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@311c5b4/p
         $('.user-container .user-avatar').css('background-image', `url(${userItem?.urlAvatar ?? ""})`);
     await ProjectDA.init()
     await TeamDA.init()
-    // debugger
     const x = new Date()
-    // ProjectDA.list = [{ ID: 43, Name: 'Test', DateUpdate: x }, { ID: 23, Name: 'sdfihishfoisf', DateUpdate: x }]
     $('body > #home-body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@311c5b4/screen/module/home/local-component/body-layout.html', function () {
         switch_tab_selected('recent')
     })
 });
-
-// // $('.appbar').load('/View/title-bar.html', function () {
-// //     TitleBarDA.initDataStorage();
-// // });
-
-// let loadding_P_success = false;
-// let loadding_T_success = false;
-
-// function check_loadingSuccess() {
-//     if (loadding_P_success && loadding_T_success) {
-//         $('.list-team-container').html(TeamView.create_list_Team());
-//         setTimeout(
-//             async function () {
-//                 $('.loading-view').hide();
-//                 $('#home-body').css('display', "flex");
-//                 await switch_tab_selected(url_tab, url_id);
-//             }, 250
-//         )
-//     }
-// }
 
 var list_type = 1; // 1: grid, 2: list
 
