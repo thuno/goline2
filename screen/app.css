@@ -676,9 +676,12 @@ body * {
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    font-family: 'Inter', sans-serif;
     text-decoration: none;
     cursor: context-menu;
+}
+
+body *:not(.wbaseItem-value) {
+    font-family: 'Inter', sans-serif;
 }
 
 body *::-webkit-scrollbar {
