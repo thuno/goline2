@@ -54,28 +54,28 @@ class StyleDA {
   }
 
   static async addStyleSheet(cssItem) {
-    let result = await $.post('/view/add-stylesheet', {
-      headers: await UserService.headerProject(),
-      body: cssItem
-    })
-    if (result.data.Code === 200) StyleDA.listSkin.push(cssItem)
-    return result
+    const res = postData('/view/add-stylesheet', { data: cssItem })
+    if (res.Code === 200) {
+      debugger
+      StyleDA.listSkin.push(cssItem)
+    }
+    return res
   }
 
   static async editStyleSheet(cssItem) {
-    let result = await $.post('/view/edit-stylesheet', {
-      headers: await UserService.headerProject(),
-      body: cssItem
-    })
-    return result
+    const res = postData('/view/edit-stylesheet', { data: cssItem })
+    if (res.Code === 200) {
+      debugger
+    }
+    return res
   }
 
   static async deleteStyleSheet(cssItem) {
-    let result = await $.post('/view/delete-stylesheet', {
-      headers: await UserService.headerProject(),
-      body: cssItem
-    })
-    return result
+    const res = postData('/view/delete-stylesheet', { data: cssItem })
+    if (res.Code === 200) {
+      debugger
+    }
+    return res
   }
 
   static getSkinsByListId(listId) {
