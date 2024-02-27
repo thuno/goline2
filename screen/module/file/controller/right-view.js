@@ -1890,7 +1890,6 @@ function EditTypoBlock() {
       reloadEditTypoBlock()
     }
   })
-  _row.appendChild()
   // group btn select text align vertical
   const alignVerticalValues = listTextStyle.filterAndMap(wb => window.getComputedStyle(wb.value).alignItems)
   const group_btn_text_align_vertical = GroupButtonOptions({
