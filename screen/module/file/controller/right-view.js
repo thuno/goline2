@@ -1440,7 +1440,7 @@ function EditBackgroundBlock() {
     //   offset: offset,
     //   cssText: bgColor ? `#${bgColor}` : null
     // })
-    showTableSkin({cate: EnumCate.color, offset: offset})
+    showTableSkin({ cate: EnumCate.color, offset: offset })
   })
   $(header).on('click', '.fa-image', function () {
     if (!document.getElementById('popup_img_document')) FileDA.init()
@@ -2754,8 +2754,8 @@ function showTableSkin({ cate, offset, selectedSkinId }) {
     hiddenOverlay: true,
     style: `left: ${offset.x}px; top: ${offset.y}px`,
     children: `<div class="popup-header col">
-      <div class="semibold1 row">${title}<i class="fa-solid fa-plus center box24" style="font-size: 1.4rem"></i></div>
-      ${TextField({ placeholder: 'Search skins...', className: 'search-skins', style: 'width:100% ', prefix: `<i class="fa-solid fa-magnifying-glass"></i>`, onChange: () => { } })}
+      <div class="heading-8 row" style="justify-content: space-between">${title}<i class="fa-solid fa-plus center box24" style="font-size: 1.4rem"></i></div>
+      ${TextField({ returnType: 'string', placeholder: 'Search skins...', className: 'search-skins', style: 'width:100% ', prefix: `<i class="fa-solid fa-magnifying-glass"></i>`, onChange: () => { } })}
     </div>
     <div class="col tb-skins-popup-body"></div>`
   })

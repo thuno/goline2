@@ -4,7 +4,7 @@ function showPopup({ children, hiddenOverlay = false, style }) {
     popupOverlay.innerHTML = `<div class="popup-container col" ${style?.length ? `style="${style}"` : ''}></div>`
     let popupContainer = popupOverlay.querySelector('.popup-container')
     if (typeof children === 'string') {
-        popupContainer.innerHTML = `<div>${children}</div>`
+        popupContainer.innerHTML = children
     } else if (Array.isArray(children)) {
         popupContainer.replaceChildren(...children)
     } else {
