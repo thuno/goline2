@@ -1360,20 +1360,14 @@ function EditBackgroundBlock() {
               title: (cateItem ? `${cateItem.Name}/` : '') + colorSkin.Name,
               onClick: function () {
                 let offset = header.getBoundingClientRect()
-                createDropdownTableSkin({
-                  cate: EnumCate.color,
-                  offset: offset,
-                  currentSkinID: colorSkin.GID,
-                  cssText: colorSkin.Css
-                })
+                showTableSkin({ cate: EnumCate.color, offset: offset, cssText: colorSkin.Css, selectedSkinId: colorSkin.GID })
               },
-              onRemove: function () {
+              onRemove: scaleWb ? null : function () {
                 handleEditBackground({ hexCode: null })
                 reloadEditBackgroundBlock()
               }
             })
             editContainer.appendChild(skin_tile)
-            if (scaleWb) skin_tile.lastChild.style.display = 'none'
           }
         } else {
           header.querySelector('.fa-plus').remove()
@@ -1435,11 +1429,6 @@ function EditBackgroundBlock() {
   $(header).on('click', '.fa-plus', addBackgroundColor)
   $(header).on('click', '.action-button', function () {
     const offset = header.getBoundingClientRect()
-    // createDropdownTableSkin({
-    //   cate: EnumCate.color,
-    //   offset: offset,
-    //   cssText: bgColor ? `#${bgColor}` : null
-    // })
     showTableSkin({ cate: EnumCate.color, offset: offset, cssText: bgColor ? `#${bgColor}` : null })
   })
   $(header).on('click', '.fa-image', function () {
