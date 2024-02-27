@@ -2757,7 +2757,7 @@ function showTableSkin({ cate, offset, selectedSkinId, cssText }) {
       <div class="heading-9 row" style="width: 100%; justify-content: space-between">${title}<i class="fa-solid fa-plus center box24" style="font-size: 1.2rem"></i></div>
       ${TextField({ returnType: 'string', placeholder: 'Search skins...', className: 'search-skins regular11', style: 'width:100%; height: fit-content', prefix: `<i class="fa-solid fa-magnifying-glass" style="font-size: 1rem; color: #bfbfbf"></i>`, onChange: () => { } })}
     </div>
-    <div class="col tb-skins-popup-body"></div>`
+    <div class="col tb-skins-popup-body" style="padding: 0.8rem 0"></div>`
   })
   $(popupTbSkins).on('click', '.popup-header .fa-plus', function () {
     let popupAddSkin = showPopup({
@@ -3024,7 +3024,7 @@ function createSkinTileHTML(enumCate, jsonSkin) {
     let edit_delete_popup = showPopup({
       hiddenOverlay: true,
       children: `<div class="edit-skin default-option semibold1 row">Edit</div><div class="delete-skin default-option semibold1 row">Delete</div>`,
-      style: 'background-color: #000000; width: fit-content; height: fit-content; padding: 0.2rem;'
+      style: `left: ${e.pageX}px; top: ${e.pageY}px; background-color: #000000; width: fit-content; height: fit-content; padding: 0.2rem;border-radius: 0.2rem !important`
     })
     $(edit_delete_popup).on('click', '.edit-skin', function () {
       showEditSkin()
@@ -3061,7 +3061,7 @@ function createSkinTileHTML(enumCate, jsonSkin) {
           document.querySelector('.popup-overlay:has(.tb-skins-popup-body)').remove()
         }
       }
-      skin_tile.innerHTML = `<div class="prefix-tile box24" style="border-radius: 50%; background-color: ${jsonSkin.Css}"></div><div class="skin-name regular2">${jsonSkin.Name}</div>${action_edit}`
+      skin_tile.innerHTML = `<div class="prefix-tile box20" style="border-radius: 50%; background-color: ${jsonSkin.Css}"></div><div class="skin-name regular1">${jsonSkin.Name}</div>${action_edit}`
       break
     case EnumCate.typography:
       skin_tile.onclick = function (e) {
@@ -3073,7 +3073,7 @@ function createSkinTileHTML(enumCate, jsonSkin) {
         }
       }
       const splitCss = jsonSkin.Css.split(';')
-      skin_tile.innerHTML = `<div style="${jsonSkin.Css};font-size: 1.6rem; line-height: normal">Ag</div><div class="skin-name regular2 comp-text">${jsonSkin.Name}</div><p style="font-size: 1.1rem; color: #bfbfbf">${splitCss.find(cssVl => cssVl.includes('font-size'))?.replace('font-size:', "")?.trim()}/${splitCss.find(cssVl => cssVl.includes('line-height'))?.replace('line-height:', "")?.trim() ?? 'normal'}</p>${action_edit}`
+      skin_tile.innerHTML = `<div style="${jsonSkin.Css};font-size: 1.6rem; line-height: normal">Ag</div><div class="skin-name regular1 comp-text">${jsonSkin.Name}</div><p style="font-size: 1.1rem; color: #bfbfbf">${splitCss.find(cssVl => cssVl.includes('font-size'))?.replace('font-size:', "")?.trim()}/${splitCss.find(cssVl => cssVl.includes('line-height'))?.replace('line-height:', "")?.trim() ?? 'normal'}</p>${action_edit}`
       break
     case EnumCate.border:
       skin_tile.onclick = function (e) {
@@ -3084,7 +3084,7 @@ function createSkinTileHTML(enumCate, jsonSkin) {
           reloadEditBorderBlock()
         }
       }
-      skin_tile.innerHTML = `<div class="box24" style="border-radius: 50%; background-color: #f1f1f1;border: ${jsonSkin.Css};border-width: 0.5rem !important"></div><div class="skin-name regular2">${jsonSkin.Name}</div>${action_edit}`
+      skin_tile.innerHTML = `<div class="box20" style="border-radius: 50%; background-color: #f1f1f1;border: ${jsonSkin.Css};border-width: 0.5rem !important"></div><div class="skin-name regular1">${jsonSkin.Name}</div>${action_edit}`
       break
     case EnumCate.effect:
       skin_tile.onclick = function (e) {
@@ -3095,7 +3095,7 @@ function createSkinTileHTML(enumCate, jsonSkin) {
           reloadEditEffectBlock()
         }
       }
-      skin_tile.innerHTML = `<div class="box24">${EffectSettings()}</div><div class="skin-name regular2">${jsonSkin.Name}</div>${action_edit}`
+      skin_tile.innerHTML = `<div class="box20">${EffectSettings()}</div><div class="skin-name regular1">${jsonSkin.Name}</div>${action_edit}`
       break
     default:
       break
