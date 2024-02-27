@@ -47,7 +47,7 @@ function showSelect1Options({ hiddenSearch = false, parent, options = [], value,
     let search = null
     let popup = document.createElement('div')
     popup.className = `select1-popup col ${dropdownClass ?? ''}`
-    popup.style.cssText = `top: ${offset.y + offset.height + 2}px; left: ${offset.x}px; width: ${width / 10}rem;${dropdownStyle ?? ''}`
+    popup.style.cssText = `top: ${offset.y + offset.height + 2}px; left: ${offset.x}px; width: ${offset.width / 10}rem;${dropdownStyle ?? ''}`
     let htmlText = ''
     popup.onmouseover = function (ev) { onSelect = ev.target }
     popup.onmouseout = function () { onSelect = null }
@@ -87,6 +87,7 @@ function showSelect1Options({ hiddenSearch = false, parent, options = [], value,
                     onChange(item)
                     popup.remove()
                 }
+                return option
             }))
         }
     }
