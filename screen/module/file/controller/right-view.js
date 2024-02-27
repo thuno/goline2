@@ -2782,7 +2782,7 @@ function showTableSkin({ cate, offset, selectedSkinId, cssText }) {
     })
     $(popupAddSkin).on('click', '.popup-footer > .close-popup', function () { popupAddSkin.remove() })
     $(popupAddSkin).on('click', '.popup-footer > .popup-submit', function () {
-      createNewSkin({ cate: cate, name: popupAddSkin.querySelector('.input-skin-name').value.trimm(), cssText: cssText })
+      createNewSkin({ cate: cate, name: popupAddSkin.querySelector('.input-skin-name input').value.trim(), cssText: cssText })
       popupAddSkin.remove()
       popupTbSkins.remove()
     })
