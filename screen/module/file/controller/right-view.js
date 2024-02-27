@@ -324,8 +324,8 @@ function EditOffsetBlock() {
     var selectTypeW = Select1({
       returnType: 'string',
       value: wValue,
-      style: 'width: 9.8rem; padding: 0.6rem',
-      dropdownStyle: 'background-color: #000000; width: fit-content',
+      style: 'width: 9.8rem; padding: 0.8rem',
+      dropdownStyle: 'background-color: #000000; width: fit-content; padding: 0',
       options: [
         { id: 'mixed', title: 'mixed', name: 'mixed', style: 'color: #ffffff', prefix: `<div class="box12 row center"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${wValue === 'mixed' ? '' : 'display: none'}` },
         { id: 'hug', title: 'hug-content', name: 'hug', style: 'color: #ffffff', prefix: `<div class="box12 row center">${HugContent({ color: '#ffffff' })}</div>`, style: `${checkActiveFillHug({ type: 'fit' }) ? '' : 'display: none'}` },
@@ -348,8 +348,8 @@ function EditOffsetBlock() {
     var selectTypeH = Select1({
       returnType: 'string',
       value: hValue,
-      style: 'width: 9.8rem; padding: 0.6rem',
-      dropdownStyle: 'background-color: #000000; width: fit-content',
+      style: 'width: 9.8rem; padding: 0.8rem',
+      dropdownStyle: 'background-color: #000000; width: fit-content; padding: 0',
       options: [
         { id: 'mixed', title: 'mixed', name: 'mixed', style: 'color: #ffffff', prefix: `<div class="box12 row center"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${hValue === 'mixed' ? '' : 'display: none'}` },
         { id: 'hug', title: 'hug-content', name: 'hug', style: 'color: #ffffff', prefix: `<div class="box12 row center">${HugContent({ color: '#ffffff' })}</div>`, style: `transform: rotate(90deg);${checkActiveFillHug({ type: 'fit' }) ? '' : 'display: none'}` },
