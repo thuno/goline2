@@ -680,7 +680,7 @@ body * {
     cursor: context-menu;
 }
 
-body *:not(.wbaseItem-value, i) {
+body *:not(#divSection *, i) {
     font-family: 'Inter', sans-serif;
 }
 
