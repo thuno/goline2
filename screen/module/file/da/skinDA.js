@@ -55,8 +55,8 @@ class StyleDA {
 
   static async addStyleSheet(cssItem) {
     const res = postData('/view/add-stylesheet', { data: cssItem })
+    debugger
     if (res.Code === 200) {
-      debugger
       StyleDA.listSkin.push(cssItem)
     }
     return res

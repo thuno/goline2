@@ -70,11 +70,12 @@ class UserService {
                 token: this.token(),
                 'Content-Type': 'application/json'
             }
-            if (window.location.hash !== '#/login') {
-                if (ProjectDA.obj.ID && headersObj) {
-                    headersObj.pid = ProjectDA.obj.ID
-                    // if (PageDA.obj.ID) headersObj.pageid = PageDA.obj.ID
-                }
+        }
+        if (window.location.hash !== '#/login') {
+            if (ProjectDA.obj.ID && headersObj) {
+                debugger
+                headersObj.pid = ProjectDA.obj.ID
+                // if (PageDA.obj.ID) headersObj.pageid = PageDA.obj.ID
             }
         }
         return headersObj
