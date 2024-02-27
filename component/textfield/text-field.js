@@ -2,22 +2,22 @@ const TextField = ({ id, value = '', maxLength, onChange, onBlur, onFocus, place
     if (returnType === 'string') {
         if (onFocus || focusSelectAll) {
             var dataId = uuidv4()
-            $('body').on('focus', `.text-field-container[txtf-id=${dataId}] > input`, (ev) => {
+            $('body').on('focus', `.text-field-container[txtf-id="${dataId}"] > input`, (ev) => {
                 ev.target.select()
                 if (onFocus) onFocus(ev)
             })
         }
         if (onChange) {
             dataId ??= uuidv4()
-            $('body').on('change', `.text-field-container[txtf-id=${dataId}] > input`, onChange)
+            $('body').on('change', `.text-field-container[txtf-id="${dataId}"] > input`, onChange)
         }
         if (onBlur) {
             dataId ??= uuidv4()
-            $('body').on('blur', `.text-field-container[txtf-id=${dataId}] > input`, onBlur)
+            $('body').on('blur', `.text-field-container[txtf-id="${dataId}"] > input`, onBlur)
         }
-        return `<div ${id?.length ? `id=${id}` : ''} ${dataId ? `txtf-id=${dataId}` : ''}  class="text-field-container row ${className ?? 'placeholder-2'} ${helperText?.length && 'helper-text'}" style="--helper-text-color: ${helperTextColor ?? '#e14337'};${style ?? ''}" ${helperText?.length ? `helper-text=${helperText}` : ''}>
+        return `<div ${id?.length ? `id="${id}"` : ''} ${dataId ? `txtf-id="${dataId}"` : ''}  class="text-field-container row ${className ?? 'placeholder-2'} ${helperText?.length && 'helper-text'}" style="--helper-text-color: ${helperTextColor ?? '#e14337'};${style ?? ''}" ${helperText?.length ? `helper-text="${helperText}"` : ''}>
             ${prefix ?? ''}
-            <input type=${type} ${value?.length ? `value=${value}` : ''} ${placeholder?.length ? `placeholder=${placeholder}` : ''} ${maxLength ? `maxLength=${maxLength}` : ''} ${name ? `name=${name}` : ''} ${readOnly ? 'readOnly' : ''} ${disabled ? 'disabled' : ''}/>
+            <input type="${type}" value="${value}" placeholder="${placeholder}" ${maxLength ? `maxLength="${maxLength}"` : ''} ${name ? `name="${name}"` : ''} ${readOnly ? 'readOnly' : ''} ${disabled ? 'disabled' : ''}/>
             ${suffix ?? ''}
         </div>`
     } else {
@@ -34,7 +34,7 @@ const TextField = ({ id, value = '', maxLength, onChange, onBlur, onFocus, place
             }
         }
         htmlText ??= ''
-        htmlText += `<input type=${type} value=${value} placeholder=${placeholder} ${maxLength ? `maxLength=${maxLength}` : ''} ${name ? `name=${name}` : ''} ${readOnly ? 'readOnly' : ''} ${disabled ? 'disabled' : ''}/>`
+        htmlText += `<input type="${type}" value="${value}" placeholder="${placeholder}" ${maxLength ? `maxLength="${maxLength}"` : ''} ${name ? `name="${name}"` : ''} ${readOnly ? 'readOnly' : ''} ${disabled ? 'disabled' : ''}/>`
         if (suffix) {
             if (typeof suffix === 'string') {
                 htmlText += suffix

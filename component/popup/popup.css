@@ -92,7 +92,6 @@
     position: absolute;
     width: max-content;
     height: max-content;
-    background-color: transparent;
 }
 
 .popup-overlay.hidden-overlay>.popup-container .popup-close-btn {
