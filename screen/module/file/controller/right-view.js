@@ -2738,22 +2738,22 @@ function showTableSkin({ cate, offset, selectedSkinId, cssText }) {
     case EnumCate.color:
       var title = 'Color skin'
       var titleAddSkin = 'Create new color skin'
-      var prefix = `<div class"box20" style="border-radius: 50%; background-color: ${cssText}"></div>`
+      var prefix = `<div class="box24" style="border-radius: 50%; background-color: ${cssText}"></div>`
       break
     case EnumCate.typography:
       title = 'Typography skin'
       titleAddSkin = 'Create new typography skin'
-      prefix = `<div style="${cssText};font-size: 1.4rem">Ag</div>`
+      prefix = `<div style="${cssText};font-size: 1.6rem; line-height: normal">Ag</div>`
       break
     case EnumCate.border:
       title = 'Border skin'
       titleAddSkin = 'Create new border skin'
-      prefix = `<div class"box20" style="border-radius: 50%; background-color: #f1f1f1;border: 1.5px solid ${window.getComputedStyle(selected_list[0].value).borderColor}"></div>`
+      prefix = `<div class="box24" style="border-radius: 50%; background-color: #f1f1f1;border: 1.5px solid ${window.getComputedStyle(selected_list[0].value).borderColor}"></div>`
       break
     case EnumCate.effect:
       title = 'Effect skin'
       titleAddSkin = 'Create new effect skin'
-      prefix = `<div class"box20">${EffectSettings()}</div>`
+      prefix = `<div class="box24">${EffectSettings()}</div>`
       break
     default:
       return
@@ -2769,15 +2769,15 @@ function showTableSkin({ cate, offset, selectedSkinId, cssText }) {
   })
   $(popupTbSkins).on('click', '.popup-header .fa-plus', function () {
     let popupAddSkin = showPopup({
-      style: 'width: 60%',
+      style: 'width: 40%',
       children: `<div class="popup-header row heading-8">${titleAddSkin}</div>
-      <div class="popup-body row">
+      <div class="popup-body row" style="gap: 1.6rem; padding: 0.8rem 1.6rem;">
       ${prefix}
       ${TextField({ returnType: 'string', placeholder: 'New skin name', className: 'regular1', style: 'width:100%; flex: 1', onChange: () => { } })}
       </div>
       <div class="popup-footer row">
-        <button type='button' className='popup-action close-popup'>Cancel</button>
-        <button type='button' className='popup-action popup-submit'>Create skin</button>
+        <button type='button' class='popup-action close-popup row button-text-3'>Cancel</button>
+        <button type='button' class='popup-action popup-submit row button-text-3'>Create skin</button>
       </div>`
     })
     $(popupAddSkin).on('click', '.popup-footer > .close-popup', function () { popupAddSkin.remove() })
@@ -2786,6 +2786,7 @@ function showTableSkin({ cate, offset, selectedSkinId, cssText }) {
       popupAddSkin.remove()
       popupTbSkins.remove()
     })
+    popupAddSkin.querySelector('.popup-close-btn').remove()
   })
   updateTableSkinBody(cate, selectedSkinId)
 }
