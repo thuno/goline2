@@ -1683,7 +1683,7 @@ function EditTypoBlock() {
     const familyValue = fontFamilyValues.length === 1 ? fontFamilyValues[0] : 'mixed'
     const selectFontFamily = TextField({
       returnType: 'string',
-      className: 'col24 right-view-input',
+      className: 'col24 right-view-input regular1',
       value: familyValue,
       style: '--gutter: 0.6rem',
       suffix: Select1({
@@ -1720,8 +1720,8 @@ function EditTypoBlock() {
     const weightValue = fWeightValues.length === 1 ? fWeightValues[0] : 'mixed'
     const selectFontWeight = Select1({
       returnType: 'string',
-      className: 'col12 right-view-input',
-      style: '--gutter: 0.6rem',
+      className: 'col12 right-view-input regular1',
+      style: '--gutter: 0.6rem; text-align: start',
       value: weightValue,
       dropdownStyle: 'background-color: #000000',
       options: [
@@ -1743,7 +1743,7 @@ function EditTypoBlock() {
     const selectFontSize = TextField({
       returnType: 'string',
       style: '--gutter: 0.6rem',
-      className: 'col12 right-view-input',
+      className: 'col12 right-view-input regular1',
       type: 'number',
       value: sizeValue,
       suffix: Select1({
@@ -1780,7 +1780,7 @@ function EditTypoBlock() {
     const inputlHeight = TextField({
       returnType: 'string',
       style: '--gutter: 0.6rem',
-      className: 'col12 right-view-input',
+      className: 'col12 right-view-input regular1',
       prefix: '<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/line-height.svg"/>',
       value: heightValue,
       onBlur: function (ev) {
@@ -1796,7 +1796,7 @@ function EditTypoBlock() {
     const inputlSpacing = TextField({
       returnType: 'string',
       style: '--gutter: 0.6rem',
-      className: 'col12 right-view-input',
+      className: 'col12 right-view-input regular1',
       prefix: '<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/letter-spacing.svg"/>',
       value: spacingValue,
       onBlur: function (ev) {

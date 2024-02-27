@@ -89,10 +89,10 @@ function showSelect1Options({ hiddenSearch = false, parent, options = [], value,
                 option.style.cssText = `color: #262626;${item.style ?? ''}`
                 option.innerHTML = `${value != null ? `<i class="fa-solid fa-check" style="font-size: 1.2rem; color: inherit !important; visibility: ${item.id === value ? 'visible' : 'hidden'}"></i>` : ''}${typeof item.prefix === 'string' ? item.prefix : ''}${item.title ?? item.name ?? ''}`
                 option.onmouseover = function () {
-                    option.onOverOption = true
+                    popup.onOverOption = true
                 }
                 option.onmouseout = function () {
-                    delete option.onOverOption
+                    delete popup.onOverOption
                 }
                 option.onclick = function (e) {
                     e.stopPropagation()
