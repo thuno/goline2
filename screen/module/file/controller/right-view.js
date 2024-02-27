@@ -1502,9 +1502,7 @@ function EditIconColorBlock() {
                     currentSkinID: colorSkin.GID,
                     cssText: colorSkin.Css
                   })
-                  document
-                    .getElementById('popup_table_skin')
-                    .setAttribute('edit-type', wbStyle[i])
+                  document.body.querySelector('.tb-skins-popup-body').setAttribute('edit-type', wbStyle[i])
                 },
                 handleUnlinkSkin: function () {
                   handleEditIconColor({
@@ -1540,9 +1538,7 @@ function EditIconColorBlock() {
                     ? `#${colorValue.replace('#', '')}`
                     : `#${Ultis.colorNameToHex(colorValue)}`
                 })
-                document
-                  .getElementById('popup_table_skin')
-                  .setAttribute('edit-type', wbStyle[i])
+                document.body.querySelector('.tb-skins-popup-body').setAttribute('edit-type', wbStyle[i])
               }
             })
           )
@@ -1647,9 +1643,7 @@ function EditTypoBlock() {
               currentSkinID: colorSkin.GID,
               cssText: colorSkin.Css
             })
-            document
-              .getElementById('popup_table_skin')
-              .setAttribute('edit-type', 'typo')
+            document.body.querySelector('.tb-skins-popup-body').setAttribute('edit-type', 'typo')
           },
           handleUnlinkSkin: function () {
             handleEditTypo({
@@ -1682,9 +1676,7 @@ function EditTypoBlock() {
               window.getComputedStyle(listTextStyle[0].value).color
             )
           })
-          document
-            .getElementById('popup_table_skin')
-            .setAttribute('edit-type', 'typo')
+          document.body.querySelector('.tb-skins-popup-body').setAttribute('edit-type', 'typo')
         }
       })
     }
@@ -2781,8 +2773,8 @@ function showTableSkin({ cate, offset, selectedSkinId, cssText }) {
       </div>`
     })
     $(popupAddSkin).on('click', '.popup-footer > .close-popup', function () { popupAddSkin.remove() })
-    $(popupAddSkin).on('click', '.popup-footer > .popup-submit', function () {
-      createNewSkin({ cate: cate, name: popupAddSkin.querySelector('.input-skin-name input').value.trim(), cssText: cssText })
+    $(popupAddSkin).on('click', '.popup-footer > .popup-submit', async function () {
+      await createNewSkin({ cate: cate, name: popupAddSkin.querySelector('.input-skin-name input').value.trim(), cssText: cssText })
       popupAddSkin.remove()
       popupTbSkins.remove()
     })
@@ -2791,8 +2783,8 @@ function showTableSkin({ cate, offset, selectedSkinId, cssText }) {
   updateTableSkinBody(cate, selectedSkinId)
 }
 
-function createNewSkin({ cate, cssText, name }) {
-  CateDA.createSkin({
+async function createNewSkin({ cate, cssText, name }) {
+  let skin = await CateDA.createSkin({
     GID: uuidv4(),
     ProjectID: ProjectDA.obj.ID,
     Css: cssText.length === 7 ? `${cssText}ff` : cssText,
@@ -2800,45 +2792,44 @@ function createNewSkin({ cate, cssText, name }) {
   },
     name.replace('\\', '/').split('/'),
     cate
-  ).then(skin => {
-    if (skin) {
-      document.documentElement.style.setProperty(`--${skin.GID}`, skin.Css)
-      switch (cate) {
-        case EnumCate.color:
-          const editType = document.getElementById('popup_table_skin').getAttribute('edit-type')
-          switch (editType) {
-            case 'typo':
-              handleEditTypo({ colorSkin: skin })
-              reloadEditTypoBlock()
-              break
-            default:
-              if (editType) {
-                handleEditIconColor({ prop: editType, colorSkin: skin })
-                reloadEditIconColorBlock()
-              } else {
-                handleEditBackground({ colorSkin: skin })
-                reloadEditBackgroundBlock()
-              }
-              break
-          }
-          break
-        case EnumCate.typography:
-          handleEditTypo({ typoSkin: skin })
-          reloadEditTypoBlock()
-          break
-        case EnumCate.border:
-          handleEditBorder({ borderSkin: skin })
-          reloadEditBorderBlock()
-          break
-        case EnumCate.effect:
-          handleEditEffect({ effectSkin: skin })
-          reloadEditEffectBlock()
-          break
-        default:
-          break
-      }
+  )
+  if (skin) {
+    document.documentElement.style.setProperty(`--${skin.GID}`, skin.Css)
+    switch (cate) {
+      case EnumCate.color:
+        const editType = document.body.querySelector('.tb-skins-popup-body').getAttribute('edit-type')
+        switch (editType) {
+          case 'typo':
+            handleEditTypo({ colorSkin: skin })
+            reloadEditTypoBlock()
+            break
+          default:
+            if (editType) {
+              handleEditIconColor({ prop: editType, colorSkin: skin })
+              reloadEditIconColorBlock()
+            } else {
+              handleEditBackground({ colorSkin: skin })
+              reloadEditBackgroundBlock()
+            }
+            break
+        }
+        break
+      case EnumCate.typography:
+        handleEditTypo({ typoSkin: skin })
+        reloadEditTypoBlock()
+        break
+      case EnumCate.border:
+        handleEditBorder({ borderSkin: skin })
+        reloadEditBorderBlock()
+        break
+      case EnumCate.effect:
+        handleEditEffect({ effectSkin: skin })
+        reloadEditEffectBlock()
+        break
+      default:
+        break
     }
-  })
+  }
 }
 
 function updateTableSkinBody(enumCate, currentSkinID) {
@@ -3008,85 +2999,50 @@ function createCateSkinHTML(cateItem, currentSkinID) {
 function createSkinTileHTML(enumCate, jsonSkin) {
   let skin_tile = document.createElement('button')
   skin_tile.id = `skinID:${jsonSkin.GID}`
-  skin_tile.className = 'skin_tile_option'
+  skin_tile.className = 'skin_tile_option row'
   if (selected_list.length == 0 && jsonSkin.CateID != enumCate) {
     skin_tile.style.paddingLeft = '36px'
   }
-  let action_edit = document.createElement('i')
   if (jsonSkin.ProjectID != ProjectDA.obj.ID) {
-    action_edit.className = 'fa-regular fa-circle-question fa-lg'
-    action_edit.style.display = 'flex'
-    action_edit.style.color = '#1890ff'
-    skin_tile.style.pointerEvents = 'none'
+    var action_edit = `<i class="fa-regular fa-circle-question box24 center" style="display: flex; font-size: 1.2rem; color: var(--primary-color); pointer-events: none"></i>`
   } else {
-    action_edit.className = 'fa-solid fa-sliders fa-lg'
-    action_edit.onclick = showEditSkin
+    action_edit = `<i class="fa-solid fa-sliders box24 center" style="display: flex; font-size: 1.2rem;"></i>`
   }
+  $(skin_tile).on('click', '.fa-sliders', showEditSkin)
   function showEditSkin(e) {
     e.stopPropagation()
     let popupEdit = popupEditSkin(enumCate, jsonSkin)
     popupEdit.style.top = e.pageY + 'px'
     popupEdit.style.left = e.pageX + 'px'
     document.getElementById('body').appendChild(popupEdit)
-    if (
-      popupEdit.getBoundingClientRect().bottom >= document.body.offsetHeight
-    ) {
-      popupEdit.style.top = `${document.body.offsetHeight - popupEdit.offsetHeight
-        }px`
+    if (popupEdit.getBoundingClientRect().bottom >= document.body.offsetHeight) {
+      popupEdit.style.top = `${document.body.offsetHeight - popupEdit.offsetHeight}px`
     }
   }
   skin_tile.onauxclick = function (e) {
     e.stopPropagation()
-    let projectViewBody = document.getElementById('body')
-    projectViewBody.querySelector('.popupEditOrDelete')?.remove()
-    let popupEditOrDelete = document.createElement('div')
-    popupEditOrDelete.className =
-      'popupEditOrDelete col wini_popup popup_remove'
-    popupEditOrDelete.style.top = e.pageY + 'px'
-    popupEditOrDelete.style.left = e.pageX + 'px'
-    popupEditOrDelete.style.zIndex = projectViewBody.childNodes.length
-    let options = [
-      {
-        title: 'Edit',
-        click: showEditSkin
-      },
-      {
-        title: 'Delete',
-        click: function (e) {
-          e.stopPropagation()
-          StyleDA.deleteStyleSheet(jsonSkin)
-          skin_tile.remove()
-        }
-      }
-    ]
-    popupEditOrDelete.replaceChildren(
-      ...options.map(option => {
-        let optionTile = document.createElement('div')
-        optionTile.innerHTML = option.title
-        optionTile.onclick = function (e) {
-          option.click(e)
-          popupEditOrDelete.remove()
-        }
-        return optionTile
-      })
-    )
-    projectViewBody.appendChild(popupEditOrDelete)
-    if (
-      popupEditOrDelete.getBoundingClientRect().right >
-      document.body.offsetWidth
-    ) {
-      popupEditOrDelete.style.left = null
-      popupEditOrDelete.style.right = '0px'
-    }
+    let edit_delete_popup = showPopup({
+      hiddenOverlay: true,
+      children: `<div class="edit-skin default-option semibold1 row">Edit</div><div class="delete-skin default-option semibold1 row">Delete</div>`,
+      style: 'background-color: #000000; width: fit-content; height: fit-content; padding: 0.2rem;'
+    })
+    $(edit_delete_popup).on('click', '.edit-skin', function () {
+      showEditSkin()
+      edit_delete_popup.remove()
+    })
+    $(edit_delete_popup).on('click', '.delete-skin', function (ev) {
+      ev.stopPropagation()
+      StyleDA.deleteStyleSheet(jsonSkin)
+      skin_tile.remove()
+      edit_delete_popup.remove()
+    })
   }
   switch (enumCate) {
     case EnumCate.color:
       skin_tile.onclick = function (e) {
         e.stopPropagation()
         if (selected_list.length > 0) {
-          const editType = document
-            .getElementById('popup_table_skin')
-            .getAttribute('edit-type')
+          const editType = document.body.querySelector('.tb-skins-popup-body').getAttribute('edit-type')
           switch (editType) {
             case 'typo':
               handleEditTypo({ colorSkin: jsonSkin })
@@ -3102,59 +3058,44 @@ function createSkinTileHTML(enumCate, jsonSkin) {
               }
               break
           }
-          document
-            .querySelectorAll('.popup_remove')
-            .forEach(popup => popup.remove())
+          document.querySelector('.popup-overlay:has(.tb-skins-popup-body)').remove()
         }
       }
-      skin_tile.innerHTML = `<div class="prefix-tile" style="background-color: ${jsonSkin.Css}"></div><div class="skin-name">${jsonSkin.Name}</div>`
+      skin_tile.innerHTML = `<div class="prefix-tile box24" style="border-radius: 50%; background-color: ${jsonSkin.Css}"></div><div class="skin-name regular2">${jsonSkin.Name}</div>${action_edit}`
       break
     case EnumCate.typography:
       skin_tile.onclick = function (e) {
         e.stopPropagation()
         if (selected_list.length > 0) {
           handleEditTypo({ typoSkin: jsonSkin })
-          document
-            .querySelectorAll('.popup_remove')
-            .forEach(popup => popup.remove())
+          document.querySelector('.popup-overlay:has(.tb-skins-popup-body)').remove()
           reloadEditTypoBlock()
         }
       }
-      skin_tile.innerHTML = `<div class="prefix-tile"><p style="font: ${jsonSkin.Css}">Ag</p></div><div class="row"><p class="skin-name">${jsonSkin.Name}</p><p style="font-size: 11px; color: #bfbfbf"></p></div>`
-      setTimeout(function () {
-        let prefixSt = window.getComputedStyle(
-          skin_tile.querySelector('.prefix-tile > p')
-        )
-        skin_tile.querySelector(
-          '.skin-name + p'
-        ).innerHTML = `&nbsp . ${prefixSt.fontSize}/${prefixSt.lineHeight}`
-      }, 100)
+      const splitCss = jsonSkin.Css.split(';')
+      skin_tile.innerHTML = `<div style="${jsonSkin.Css};font-size: 1.6rem; line-height: normal">Ag</div><div class="skin-name regular2">${jsonSkin.Name}</div><p style="font-size: 1.1rem; color: #bfbfbf">${splitCss.find(cssVl => cssVl.includes('font-size'))?.replace('font-size:', "")?.trim()}/${splitCss.find(cssVl => cssVl.includes('line-height'))?.replace('line-height:', "")?.trim() ?? 'normal'}</p>${action_edit}`
       break
     case EnumCate.border:
       skin_tile.onclick = function (e) {
         e.stopPropagation()
         if (selected_list.length > 0) {
           handleEditBorder({ borderSkin: jsonSkin })
-          document
-            .querySelectorAll('.popup_remove')
-            .forEach(popup => popup.remove())
+          document.querySelector('.popup-overlay:has(.tb-skins-popup-body)').remove()
           reloadEditBorderBlock()
         }
       }
-      skin_tile.innerHTML = `<div class="prefix-tile" style="border: ${jsonSkin.Css};border-width: 5px !important"></div><div class="skin-name">${jsonSkin.Name}</div>`
+      skin_tile.innerHTML = `<div class="box24" style="border-radius: 50%; background-color: #f1f1f1;border: ${jsonSkin.Css};border-width: 0.5rem !important"></div><div class="skin-name regular2">${jsonSkin.Name}</div>${action_edit}`
       break
     case EnumCate.effect:
       skin_tile.onclick = function (e) {
         e.stopPropagation()
         if (selected_list.length > 0) {
           handleEditEffect({ effectSkin: jsonSkin })
-          document
-            .querySelectorAll('.popup_remove')
-            .forEach(popup => popup.remove())
+          document.querySelector('.popup-overlay:has(.tb-skins-popup-body)').remove()
           reloadEditEffectBlock()
         }
       }
-      skin_tile.innerHTML = `<div class="prefix-tile" style="background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/effect-settings.svg);border-color: transparent"></div><div class="skin-name">${jsonSkin.Name}</div>`
+      skin_tile.innerHTML = `<div class="box24">${EffectSettings()}</div><div class="skin-name regular2">${jsonSkin.Name}</div>${action_edit}`
       break
     default:
       break

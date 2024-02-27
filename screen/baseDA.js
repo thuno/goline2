@@ -73,7 +73,6 @@ class UserService {
         }
         if (window.location.hash !== '#/login') {
             if (ProjectDA.obj.ID && headersObj) {
-                debugger
                 headersObj.pid = ProjectDA.obj.ID
                 // if (PageDA.obj.ID) headersObj.pageid = PageDA.obj.ID
             }

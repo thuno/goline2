@@ -54,7 +54,7 @@ class StyleDA {
   }
 
   static async addStyleSheet(cssItem) {
-    const res = postData('/view/add-stylesheet', { data: cssItem })
+    const res = await postData('/view/add-stylesheet', { data: cssItem })
     debugger
     if (res.Code === 200) {
       StyleDA.listSkin.push(cssItem)
@@ -63,7 +63,7 @@ class StyleDA {
   }
 
   static async editStyleSheet(cssItem) {
-    const res = postData('/view/edit-stylesheet', { data: cssItem })
+    const res = await postData('/view/edit-stylesheet', { data: cssItem })
     if (res.Code === 200) {
       debugger
     }
@@ -71,7 +71,7 @@ class StyleDA {
   }
 
   static async deleteStyleSheet(cssItem) {
-    const res = postData('/view/delete-stylesheet', { data: cssItem })
+    const res = await postData('/view/delete-stylesheet', { data: cssItem })
     if (res.Code === 200) {
       debugger
     }

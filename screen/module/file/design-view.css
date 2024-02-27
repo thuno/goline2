@@ -733,29 +733,10 @@ i.center[class*="box"]:hover {
 }
 
 .skin_tile_option {
-    height: 32px;
+    height: 3.2rem;
     width: 100%;
     margin: 0;
-    padding: 0 8px 0 16px;
-    font-size: 12px;
-    line-height: 16px;
-    font-weight: 400;
-    display: flex;
-    align-items: center;
-    text-overflow: ellipsis;
-    box-sizing: border-box;
-    background-color: transparent;
-    border: none;
-}
-
-.skin_tile_option .prefix-tile {
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    border: 0.5px solid #c4c4c4;
-    background-position: center;
-    background-repeat: no-repeat;
-    box-sizing: border-box;
+    padding: 0.8rem 1.6rem;
 }
 
 .skin_tile_option .prefix-tile:has(p) {
@@ -782,12 +763,6 @@ i.center[class*="box"]:hover {
     text-overflow: ellipsis;
 }
 
-.skin_tile_option>div {
-    align-items: center;
-    white-space: nowrap;
-    width: calc(100% - 56px);
-}
-
 .skin_tile_option:hover {
     background-color: #f5f5f5;
 }
@@ -811,4 +786,13 @@ i.center[class*="box"]:hover {
     right: 0;
     position: absolute;
     background-color: #f5f5f5;
+}
+
+.default-option {
+    padding: 0.4rem 0.8rem;
+    color: #ffffff;
+}
+
+.default-option:hover {
+    background-color: var(--primary-color);
 }

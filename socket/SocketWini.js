@@ -512,9 +512,7 @@ socket.on('server-post', data => {
         CateDA.convertData(CateDA.list)
         switch (StyleDA.newSkin.Type) {
           case EnumCate.color:
-            const editType = document
-              .getElementById('popup_table_skin')
-              .getAttribute('edit-type')
+            const editType = document.body.querySelector('.tb-skins-popup-body').getAttribute('edit-type')
             switch (editType) {
               case 'typo':
                 handleEditTypo({ colorSkin: StyleDA.newSkin })
@@ -542,13 +540,9 @@ socket.on('server-post', data => {
           default:
             break
         }
-        document.documentElement.style.setProperty(
-          `--${StyleDA.newSkin.GID}`,
-          StyleDA.newSkin.Css
-        )
+        document.documentElement.style.setProperty(`--${StyleDA.newSkin.GID}`, StyleDA.newSkin.Css)
         StyleDA.newSkin = null
-        document.querySelectorAll('.popup_remove').forEach(e => e.remove())
-        create_skin_popup.style.display = 'none'
+        document.querySelectorAll('.popup-overlay').forEach(e => e.remove())
       })
       break
     // !POST collection
