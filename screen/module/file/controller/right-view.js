@@ -2773,7 +2773,7 @@ function showTableSkin({ cate, offset, selectedSkinId, cssText }) {
       children: `<div class="popup-header row heading-8">${titleAddSkin}</div>
       <div class="popup-body row" style="gap: 1.6rem; padding: 0.8rem 1.6rem;">
       ${prefix}
-      ${TextField({ returnType: 'string', placeholder: 'New skin name', className: 'regular1', style: 'width:100%; flex: 1', onChange: () => { } })}
+      ${TextField({ returnType: 'string', placeholder: 'New skin name', className: 'regular1 input-skin-name', style: 'width:100%; flex: 1', onChange: () => { } })}
       </div>
       <div class="popup-footer row">
         <button type='button' class='popup-action close-popup row button-text-3'>Cancel</button>
@@ -2782,7 +2782,7 @@ function showTableSkin({ cate, offset, selectedSkinId, cssText }) {
     })
     $(popupAddSkin).on('click', '.popup-footer > .close-popup', function () { popupAddSkin.remove() })
     $(popupAddSkin).on('click', '.popup-footer > .popup-submit', function () {
-      createNewSkin(cate, cssText)
+      createNewSkin({ cate: cate, name: popupAddSkin.querySelector('.input-skin-name').value.trimm(), cssText: cssText })
       popupAddSkin.remove()
       popupTbSkins.remove()
     })
