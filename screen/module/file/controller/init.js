@@ -18,7 +18,7 @@ var showF12 = false
 var design_view_index = 0
 const isMac = navigator.userAgent.indexOf('Mac OS X') != -1
 var select_component
-$('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@cfd6eb3/project-component/loading.html', async function () {
+$('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@f187565/project-component/loading.html', async function () {
     const pId = location.hash.match(/file\?id\=[\d]*/g)[0].replace('file?id=', "")
     await ProjectDA.getByID(parseInt(pId))
     let openingProjects = TitleBarDA.list()
@@ -43,7 +43,7 @@ $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@cfd6eb3/projec
             PageDA.checkEditPermission(PageDA.obj.Permission)
         }
     }
-    $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@cfd6eb3/screen/module/file/local-component/body-layout.html', async function () {
+    $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@f187565/screen/module/file/local-component/body-layout.html', async function () {
         permissionTool()
         customerList()
         left_view = document.getElementById('left_view')
