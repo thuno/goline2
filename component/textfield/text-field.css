@@ -54,3 +54,8 @@
     font: inherit 1.2rem/1.6rem 'Inter';
     transform: translate(-7.5%, 92.5%) scale(0.85);
 }
+
+.text-field-container input[type=number]::-webkit-inner-spin-button, 
+.text-field-container input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+}

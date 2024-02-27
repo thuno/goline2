@@ -1690,7 +1690,7 @@ function EditTypoBlock() {
         returnType: 'string',
         iconOnly: true,
         style: 'border: none',
-        className: 'box24 action-button',
+        className: 'box24 action-button center',
         dropdownStyle: 'background-color: #000000; width: 24rem !important',
         options: [
           { id: 'mixed', name: 'mixed', prefix: `<div class="box12 row center"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${familyValue === 'mixed' ? '' : 'display: none'}` },
@@ -1698,6 +1698,7 @@ function EditTypoBlock() {
             return {
               id: e,
               name: e,
+              style: 'color: #ffffff'
             }
           })
         ],
@@ -1719,7 +1720,7 @@ function EditTypoBlock() {
     const weightValue = fWeightValues.length === 1 ? fWeightValues[0] : 'mixed'
     const selectFontWeight = Select1({
       returnType: 'string',
-      className: 'col12',
+      className: 'col12 right-view-input',
       style: '--gutter: 0.6rem',
       dropdownStyle: 'background-color: #000000',
       options: [
@@ -1728,6 +1729,7 @@ function EditTypoBlock() {
           return {
             id: e,
             name: e,
+            style: 'color: #ffffff'
           }
         })
       ],
@@ -1747,7 +1749,7 @@ function EditTypoBlock() {
         returnType: 'string',
         iconOnly: true,
         style: 'border: none',
-        className: 'box24 action-button',
+        className: 'box24 action-button center',
         dropdownStyle: 'background-color: #000000; width: 8rem !important',
         options: [
           { id: 'mixed', name: 'mixed', prefix: `<div class="box12 row center"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${sizeValue === 'mixed' ? '' : 'display: none'}` },
@@ -1755,6 +1757,7 @@ function EditTypoBlock() {
             return {
               id: e,
               name: e,
+              style: 'color: #ffffff'
             }
           })
         ],

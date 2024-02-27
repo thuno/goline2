@@ -80,8 +80,8 @@ function showSelect1Options({ hiddenSearch = false, parent, options = [], value,
                 let option = document.createElement('button')
                 option.type = 'button'
                 option.className = `select1-tile row regular1 ${item.disabled ? 'disabled' : ''}`
-                option.style.cssText = item.style
-                option.innerHTML = `${value != null ? `<i class="fa-solid fa-check" style="font-size: 1.2rem; color: #262626; visibility: ${item.id === value ? 'visible' : 'hidden'}"></i>` : ''}${typeof item.prefix === 'string' ? item.prefix : ''}${item.title ?? item.name ?? ''}`
+                option.style.cssText = `color: #262626;${item.style??''}`
+                option.innerHTML = `${value != null ? `<i class="fa-solid fa-check" style="font-size: 1.2rem; color: inherit !important; visibility: ${item.id === value ? 'visible' : 'hidden'}"></i>` : ''}${typeof item.prefix === 'string' ? item.prefix : ''}${item.title ?? item.name ?? ''}`
                 option.onclick = function (e) {
                     e.stopPropagation()
                     onChange(item)
