@@ -3862,43 +3862,49 @@ function wbaseSkinTile({
   switch (cate) {
     case EnumCate.color:
       htmlText += `<div class="prefix-tile box20" style="border-radius: 50%; background-color: ${prefixValue}"></div><div class="regular1">${title}</div>`
-      if (handleUnlinkSkin) {
-        btn_unLink.onclick = handleUnlinkSkin
-      } else {
-        btn_unLink.onclick = function () {
+      if (handleUnlinkSkin)
+        $(wbase_skin_tile).on('click', '.unlink-action', handleUnlinkSkin)
+      else
+        $(wbase_skin_tile).on('click', '.unlink-action', function () {
           unlinkColorSkin()
           reloadEditBackgroundBlock()
-        }
-      }
+        })
       break
     case EnumCate.typography:
       htmlText += `<div style="font-size: 1.6rem; line-height: normal">Ag</div><div class="regular1">${title}</div><div style="color: #c4c4c4"> . ${prefixValue}</div>`
-      btn_unLink.onclick = function () {
-        unlinkTypoSkin()
-        reloadEditTypoBlock()
-      }
+      if (handleUnlinkSkin)
+        $(wbase_skin_tile).on('click', '.unlink-action', handleUnlinkSkin)
+      else
+        $(wbase_skin_tile).on('click', '.unlink-action', function () {
+          unlinkTypoSkin()
+          reloadEditTypoBlock()
+        })
       break
     case EnumCate.border:
       htmlText += `<div class="box20" style="border-radius: 50%; background-color: #f1f1f1;border: ${prefixValue};border-width: 0.5rem !important"></div><div class="skin-name regular1">${title}</div>`
-      btn_unLink.onclick = function () {
-        unlinkBorderSkin()
-        reloadEditBorderBlock()
-      }
+      if (handleUnlinkSkin)
+        $(wbase_skin_tile).on('click', '.unlink-action', handleUnlinkSkin)
+      else
+        $(wbase_skin_tile).on('click', '.unlink-action', function () {
+          unlinkBorderSkin()
+          reloadEditBorderBlock()
+        })
       break
     case EnumCate.effect:
       htmlText += `<div class="box20">${EffectSettings()}</div><div class="skin-name regular1">${title}</div>`
-      btn_unLink.onclick = function () {
-        unlinkEffectSkin()
-        reloadEditEffectBlock()
-      }
+      if (handleUnlinkSkin)
+        $(wbase_skin_tile).on('click', '.unlink-action', handleUnlinkSkin)
+      else
+        $(wbase_skin_tile).on('click', '.unlink-action', function () {
+          unlinkEffectSkin()
+          reloadEditEffectBlock()
+        })
       break
     default:
       break
   }
   wbase_skin_tile.innerHTML = `<button type="button" class="row skin-details">${htmlText}</button>${handleUnlinkSkin ? `<button type="button" class="box24 center row action-button unlink-action">${UnlinkSkin()}</button>` : ''}${onRemove ? `<i class="fa-solid fa-minus box24 center" style="display: flex; font-size: 1.2rem; color: #bfbfbf"></i>` : ''}`
   $(wbase_skin_tile).on('click', '.skin-details', onClick)
-  if (handleUnlinkSkin)
-    $(wbase_skin_tile).on('click', '.unlink-action', handleUnlinkSkin)
   if (onRemove)
     $(wbase_skin_tile).on('click', '.fa-minus', onRemove)
   return wbase_skin_tile
