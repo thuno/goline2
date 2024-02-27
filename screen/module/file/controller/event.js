@@ -3859,9 +3859,7 @@ function handleEditIconColor({
   onSubmit = true,
   iconValue
 }) {
-  let listUpdate = selected_list.filter(wb =>
-    wb.value.classList.contains('w-svg')
-  )
+  let listUpdate = selected_list.filter(wb => wb.value.classList.contains('w-svg'))
   const pWbComponent = document
     .getElementById(select_box_parentID)
     ?.closest(`.wbaseItem-value[iswini]:not(.w-variant)`)

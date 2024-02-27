@@ -2792,24 +2792,20 @@ function showTableSkin({ cate, offset, selectedSkinId, cssText }) {
 }
 
 function createNewSkin({ cate, cssText, name }) {
-  debugger
   CateDA.createSkin({
     GID: uuidv4(),
     ProjectID: ProjectDA.obj.ID,
     Css: cssText.length === 7 ? `${cssText}ff` : cssText,
-    Type: skinType
+    Type: cate
   },
     name.replace('\\', '/').split('/'),
     cate
   ).then(skin => {
     if (skin) {
-      debugger
       document.documentElement.style.setProperty(`--${skin.GID}`, skin.Css)
-      switch (skinType) {
+      switch (cate) {
         case EnumCate.color:
-          const editType = document
-            .getElementById('popup_table_skin')
-            .getAttribute('edit-type')
+          const editType = document.getElementById('popup_table_skin').getAttribute('edit-type')
           switch (editType) {
             case 'typo':
               handleEditTypo({ colorSkin: skin })
