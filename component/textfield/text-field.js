@@ -17,7 +17,7 @@ const TextField = ({ id, value = '', maxLength, onChange, onBlur, onFocus, place
         }
         return `<div ${id?.length ? `id=${id}` : ''} ${dataId ? `txtf-id=${dataId}` : ''}  class="text-field-container row ${className ?? 'placeholder-2'} ${helperText?.length && 'helper-text'}" style="--helper-text-color: ${helperTextColor ?? '#e14337'};${style ?? ''}" ${helperText?.length ? `helper-text=${helperText}` : ''}>
             ${prefix ?? ''}
-            <input type=${type} value=${value} placeholder=${placeholder} ${maxLength ? `maxLength=${maxLength}` : ''} ${name ? `name=${name}` : ''} ${readOnly ? 'readOnly' : ''} ${disabled ? 'disabled' : ''}/>
+            <input type=${type} ${value?.length ? `value=${value}` : ''} ${placeholder?.length ? `placeholder=${placeholder}` : ''} ${maxLength ? `maxLength=${maxLength}` : ''} ${name ? `name=${name}` : ''} ${readOnly ? 'readOnly' : ''} ${disabled ? 'disabled' : ''}/>
             ${suffix ?? ''}
         </div>`
     } else {
