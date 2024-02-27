@@ -2752,7 +2752,7 @@ function showTableSkin({ cate, offset, selectedSkinId, cssText }) {
   }
   let popupTbSkins = showPopup({
     hiddenOverlay: true,
-    style: `left: ${offset.x}px; top: ${offset.y}px`,
+    style: `left: ${offset.x}px; top: ${offset.y}px; max-height: 32rem`,
     children: `<div class="popup-header col" style="padding: 0.8rem 1.2rem; gap: 0.8rem">
       <div class="heading-9 row" style="width: 100%; justify-content: space-between">${title}<i class="fa-solid fa-plus center box24" style="font-size: 1.2rem"></i></div>
       ${TextField({ returnType: 'string', placeholder: 'Search skins...', className: 'search-skins regular11', style: 'width:100%; height: fit-content', prefix: `<i class="fa-solid fa-magnifying-glass" style="font-size: 1rem; color: #bfbfbf"></i>`, onChange: () => { } })}
@@ -3100,7 +3100,6 @@ function createSkinTileHTML(enumCate, jsonSkin) {
     default:
       break
   }
-  skin_tile.appendChild(action_edit)
   return skin_tile
 }
 
