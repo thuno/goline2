@@ -1685,8 +1685,11 @@ function EditTypoBlock() {
       returnType: 'string',
       className: 'col24 right-view-input',
       value: familyValue,
+      style: '--gutter: 0.6rem',
       suffix: Select1({
         returnType: 'string',
+        iconOnly: true,
+        style: 'border: none',
         className: 'box24 action-button',
         dropdownStyle: 'background-color: #000000; width: 24rem !important',
         options: [
@@ -1717,6 +1720,7 @@ function EditTypoBlock() {
     const selectFontWeight = Select1({
       returnType: 'string',
       className: 'col12',
+      style: '--gutter: 0.6rem',
       dropdownStyle: 'background-color: #000000',
       options: [
         { id: 'mixed', name: 'mixed', prefix: `<div class="box12 row center"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${weightValue === 'mixed' ? '' : 'display: none'}` },
@@ -1735,11 +1739,14 @@ function EditTypoBlock() {
     const sizeValue = fSizeValues.length === 1 ? fSizeValues[0] : 'mixed'
     const selectFontSize = TextField({
       returnType: 'string',
+      style: '--gutter: 0.6rem',
       className: 'col12 right-view-input',
       type: 'number',
       value: sizeValue,
       suffix: Select1({
         returnType: 'string',
+        iconOnly: true,
+        style: 'border: none',
         className: 'box24 action-button',
         dropdownStyle: 'background-color: #000000; width: 8rem !important',
         options: [
@@ -1768,6 +1775,7 @@ function EditTypoBlock() {
     const heightValue = lineHeightValues.length === 1 ? lineHeightValues[0] : 'mixed'
     const inputlHeight = TextField({
       returnType: 'string',
+      style: '--gutter: 0.6rem',
       className: 'col12 right-view-input',
       prefix: '<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/line-height.svg"/>',
       value: heightValue,
@@ -1783,6 +1791,7 @@ function EditTypoBlock() {
     const spacingValue = lSpacingValues.length === 1 ? lSpacingValues[0] : 'mixed'
     const inputlSpacing = TextField({
       returnType: 'string',
+      style: '--gutter: 0.6rem',
       className: 'col12 right-view-input',
       prefix: '<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/letter-spacing.svg"/>',
       value: spacingValue,
@@ -1814,10 +1823,12 @@ function EditTypoBlock() {
   })
   const group_btn_auto_size = GroupButtonOptions({
     value: autoSizeValues.length > 1 ? 'mixed' : autoSizeValues[0],
+    style: 'padding: 0 0.8rem',
     options: [
       {
         id: TextAutoSize.autoWidth,
-        icon: AutoWidth()
+        icon: AutoWidth(),
+        style: 'padding: 0.2rem'
       },
       {
         id: TextAutoSize.autoHeight,
@@ -1825,7 +1836,8 @@ function EditTypoBlock() {
       },
       {
         id: TextAutoSize.fixedSize,
-        icon: FixedSize()
+        icon: FixedSize(),
+        style: 'padding: 0.2rem'
       }
     ],
     onselect: (vl) => {
@@ -1883,7 +1895,7 @@ function EditTypoBlock() {
     options: [
       {
         id: TextAlignVertical.top,
-        img: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/text-align-vertical-top.svg'
+        img: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/text-align-vertical-top.svg',
       },
       {
         id: TextAlignVertical.middle,

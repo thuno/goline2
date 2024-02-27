@@ -92,5 +92,16 @@ function showSelect1Options({ hiddenSearch = false, parent, options = [], value,
     }
     renderOptions()
     document.body.appendChild(popup)
+    const thisPopupRect = popup.getBoundingClientRect()
+    if (thisPopupRect) {
+        if (thisPopupRect.right > document.body.offsetWidth) {
+            popup.style.left = null
+            popup.style.right = '0.4rem'
+        }
+        if (thisPopupRect.bottom > document.body.offsetHeight) {
+            popup.style.top = null
+            popup.style.bottom = '0.4rem'
+        }
+    }
     return popup
 }
