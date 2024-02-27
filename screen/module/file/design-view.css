@@ -783,7 +783,6 @@ i.center[class*="box"]:hover {
 .wbase_skin_tile:hover>* {
     display: flex;
     align-items: center;
-    justify-content: center;
     border-radius: 0.2rem;
 }
 
