@@ -1350,7 +1350,7 @@ function EditBackgroundBlock() {
           let cateItem
           if (colorSkin) {
             header.querySelector('.fa-plus').remove()
-            header.querySelector('.skin-btn').remove()
+            header.querySelector('.action-button').remove()
             if (colorSkin.CateID !== EnumCate.color) {
               cateItem = CateDA.list_color_cate.find(e => e.ID === colorSkin.CateID)
             }
@@ -3858,15 +3858,10 @@ function wbaseSkinTile({
 }) {
   let wbase_skin_tile = document.createElement('div')
   wbase_skin_tile.className = 'wbase_skin_tile row'
-  let btn_table_skin = document.createElement('div')
-  btn_table_skin.onclick = function () {
-    setTimeout(onClick, 200)
-  }
-  let btn_unLink = document.createElement('div')
-  btn_unLink.className = 'unlink-skin-btn'
+  let htmlText = ''
   switch (cate) {
     case EnumCate.color:
-      btn_table_skin.innerHTML = `<div style="width: 15px;height: 15px;border-radius: 50%;border: 0.5px solid #c4c4c4; background-color: ${prefixValue}"></div><p style="margin: 0 8px; flex: 1; text-align: left">${title}</p>`
+      htmlText += `<div class="prefix-tile box20" style="border-radius: 50%; background-color: ${prefixValue}"></div><div class="regular1">${title}</div>`
       if (handleUnlinkSkin) {
         btn_unLink.onclick = handleUnlinkSkin
       } else {
@@ -3877,21 +3872,21 @@ function wbaseSkinTile({
       }
       break
     case EnumCate.typography:
-      btn_table_skin.innerHTML = `<p style="font-size: 14px">Ag</p><div class="row" style="margin: 0 8px;flex: 1"><p>${title}</p><p style="color: #c4c4c4"> . ${prefixValue}</p></div>`
+      htmlText += `<div style="font-size: 1.6rem; line-height: normal">Ag</div><div class="regular1">${title}</div><div style="color: #c4c4c4"> . ${prefixValue}</div>`
       btn_unLink.onclick = function () {
         unlinkTypoSkin()
         reloadEditTypoBlock()
       }
       break
     case EnumCate.border:
-      btn_table_skin.innerHTML = `<div style="width: 15px;height: 15px;border-radius: 50%;border: 0.5px solid #c4c4c4; background-color: ${prefixValue}"></div><p style="margin: 0 8px; flex: 1; text-align: left">${title}</p>`
+      htmlText += `<div class="box20" style="border-radius: 50%; background-color: #f1f1f1;border: ${prefixValue};border-width: 0.5rem !important"></div><div class="skin-name regular1">${title}</div>`
       btn_unLink.onclick = function () {
         unlinkBorderSkin()
         reloadEditBorderBlock()
       }
       break
     case EnumCate.effect:
-      btn_table_skin.innerHTML = `<img src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/effect-settings.svg" style="width: 16px;height: 16px"/><p style="margin: 0 8px; flex: 1; text-align: left">${title}</p>`
+      htmlText += `<div class="box20">${EffectSettings()}</div><div class="skin-name regular1">${title}</div>`
       btn_unLink.onclick = function () {
         unlinkEffectSkin()
         reloadEditEffectBlock()
@@ -3900,13 +3895,12 @@ function wbaseSkinTile({
     default:
       break
   }
-  wbase_skin_tile.replaceChildren(btn_table_skin, btn_unLink)
-  if (onRemove) {
-    let btnRemoveColor = document.createElement('i')
-    btnRemoveColor.className = 'fa-solid fa-minus fa-xs'
-    wbase_skin_tile.appendChild(btnRemoveColor)
-    btnRemoveColor.onclick = onRemove
-  }
+  wbase_skin_tile.innerHTML = `<button type="button" class="row skin-details">${htmlText}</button>${handleUnlinkSkin ? `<button type="button" class="box24 center row action-button unlink-action">${UnlinkSkin()}</button>` : ''}${onRemove ? `<i class="fa-solid fa-minus box24 center" style="display: flex; font-size: 1.2rem; color: #bfbfbf"></i>` : ''}`
+  $(wbase_skin_tile).on('click', '.skin-details', onClick)
+  if (handleUnlinkSkin)
+    $(wbase_skin_tile).on('click', '.unlink-action', handleUnlinkSkin)
+  if (onRemove)
+    $(wbase_skin_tile).on('click', '.fa-minus', onRemove)
   return wbase_skin_tile
 }
 
