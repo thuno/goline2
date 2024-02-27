@@ -3892,7 +3892,7 @@ function wbaseSkinTile({
     default:
       break
   }
-  wbase_skin_tile.innerHTML = `<div class="row skin-details">${htmlText}</div><button type="button" class="box24 center row action-button unlink-action">${UnlinkSkin()}</button>${onRemove ? `<i class="fa-solid fa-minus box24 center" style="display: flex; font-size: 1.2rem; color: #bfbfbf"></i>` : ''}`
+  wbase_skin_tile.innerHTML = `<div class="row skin-details">${htmlText}</div><button type="button" class="box24 center row action-button unlink-action">${UnlinkSkin()}</button>${onRemove ? `<i class="fa-solid fa-minus box24 center" style="display: flex; font-size: 1.2rem"></i>` : ''}`
   $(wbase_skin_tile).on('click', '.skin-details', onClick)
   if (onRemove)
     $(wbase_skin_tile).on('click', '.fa-minus', onRemove)
