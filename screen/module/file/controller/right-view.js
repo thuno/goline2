@@ -352,9 +352,9 @@ function EditOffsetBlock() {
       dropdownStyle: 'background-color: #000000; width: fit-content; padding: 0',
       options: [
         { id: 'mixed', title: 'mixed', name: 'mixed', prefix: `<div class="box12 row center"></div>`, style: `color: #ffffff;pointer-events: none;border-bottom: 1px inset #ffffff;${hValue === 'mixed' ? '' : 'display: none'}` },
-        { id: 'hug', title: 'hug-content', name: 'hug', prefix: `<div class="box12 row center">${HugContent({ color: '#ffffff' })}</div>`, style: `color: #ffffff;transform: rotate(90deg);${checkActiveFillHug({ type: 'fit' }) ? '' : 'display: none'}` },
-        { id: 'fixed', title: 'fixed-size', name: 'fixed', prefix: `<div class="box12 row center">${FixedSize({ color: '#ffffff' })}</div>`, style: `color: #ffffff;transform: rotate(90deg);` },
-        { id: 'fill', title: 'fill-container', name: 'fill', prefix: `<div class="box12 row center">${FillContainer({ color: '#ffffff' })}</div>`, style: `color: #ffffff;transform: rotate(90deg);${checkActiveFillHug({ type: 'fill' }) ? '' : 'display: none'}` },
+        { id: 'hug', title: 'hug-content', name: 'hug', prefix: `<div class="box12 row center" style="transform: rotate(90deg);">${HugContent({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fit' }) ? '' : 'display: none'}` },
+        { id: 'fixed', title: 'fixed-size', name: 'fixed', prefix: `<div class="box12 row center" style="transform: rotate(90deg);">${FixedSize({ color: '#ffffff' })}</div>`, style: `color: #ffffff;` },
+        { id: 'fill', title: 'fill-container', name: 'fill', prefix: `<div class="box12 row center" style="transform: rotate(90deg);">${FillContainer({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fill' }) ? '' : 'display: none'}` },
       ],
       onChange: (value) => {
         handleEditOffset({ height: value.id === 'hug' ? null : value.id === 'fill' ? -1 : value.id })
