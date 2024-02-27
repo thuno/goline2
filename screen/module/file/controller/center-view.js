@@ -1710,9 +1710,7 @@ function wdraw() {
         )
         txtoffX = 16
       }
-      let txt =
-        left_view.querySelector(`#wbaseID:${wbaseHTML.id} input`)?.value ??
-        wbase_list.find(e => e.GID == wbaseHTML.id)?.name
+      let txt = left_view.querySelector(`.layer_wbase_tile[id*="${wbaseHTML.id}"] input`)?.value ?? wbase_list.find(e => e.GID == wbaseHTML.id)?.name
       ctxr.fillText(
         txt,
         canvasOff.x + txtoffX,
