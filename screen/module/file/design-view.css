@@ -414,11 +414,12 @@ body:has(#history-view) :is(.btn-tool-state:nth-child(1), .btn-history) {
 
 .layer_wbase_tile>input {
     flex: 1;
-    height: 100%;
-    text-overflow: ellipsis;
+    padding: 0.6rem 0.4rem;
     min-width: 2rem;
+    max-width: 100%;
     cursor: auto;
-    gap: 0.8rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .layer_wbase_tile+.col {
@@ -721,4 +722,93 @@ i.center[class*="box"]:hover {
 
 .parameter-form:focus-within .input-opacity-value {
     border-color: var(--primary-color);
+}
+
+.cate-skin-tile {
+    display: none;
+}
+
+.cate-skin-tile:has(> .skin_tile_option) {
+    display: flex;
+}
+
+.skin_tile_option {
+    height: 32px;
+    width: 100%;
+    margin: 0;
+    padding: 0 8px 0 16px;
+    font-size: 12px;
+    line-height: 16px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+    background-color: transparent;
+    border: none;
+}
+
+.skin_tile_option .prefix-tile {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    border: 0.5px solid #c4c4c4;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-sizing: border-box;
+}
+
+.skin_tile_option .prefix-tile:has(p) {
+    display: flex;
+    width: fit-content;
+    height: fit-content;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+
+.skin_tile_option .prefix-tile>p {
+    font-size: 14px !important;
+}
+
+.skin_tile_option .prefix-tile+div {
+    margin: 0 8px;
+    flex: 1;
+    text-align: left;
+}
+
+.skin_tile_option p {
+    margin: 0;
+    text-overflow: ellipsis;
+}
+
+.skin_tile_option>div {
+    align-items: center;
+    white-space: nowrap;
+    width: calc(100% - 56px);
+}
+
+.skin_tile_option:hover {
+    background-color: #f5f5f5;
+}
+
+.skin_tile_option>i {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.skin_tile_option:hover {
+    position: relative;
+}
+
+.skin_tile_option:hover>i {
+    display: flex;
+    right: 0;
+    position: absolute;
+    background-color: #f5f5f5;
 }

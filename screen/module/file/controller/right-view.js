@@ -1433,13 +1433,14 @@ function EditBackgroundBlock() {
   }
 
   $(header).on('click', '.fa-plus', addBackgroundColor)
-  $(header).on('click', '.skin-btn', function () {
-    let offset = header.getBoundingClientRect()
-    createDropdownTableSkin({
-      cate: EnumCate.color,
-      offset: offset,
-      cssText: bgColor ? `#${bgColor}` : null
-    })
+  $(header).on('click', '.action-button', function () {
+    const offset = header.getBoundingClientRect()
+    // createDropdownTableSkin({
+    //   cate: EnumCate.color,
+    //   offset: offset,
+    //   cssText: bgColor ? `#${bgColor}` : null
+    // })
+    showTableSkin({cate: EnumCate.color, offset: offset})
   })
   $(header).on('click', '.fa-image', function () {
     if (!document.getElementById('popup_img_document')) FileDA.init()
@@ -1580,9 +1581,7 @@ let list_font_weight = ['200', '300', '400', '500', '600', '700', '800', '900']
 
 // ! textStyle
 function EditTypoBlock() {
-  let listTextStyle = selected_list.filter(wb =>
-    ['w-text', 'w-textformfield'].some(e => wb.value.classList.contains(e))
-  )
+  let listTextStyle = selected_list.filter(wb => ['w-text', 'w-textformfield'].some(e => wb.value.classList.contains(e)))
   let editContainer = document.createElement('div')
   editContainer.id = 'edit_text_style'
   editContainer.className = 'edit-container col'
@@ -2734,6 +2733,35 @@ function createButtonAction(src1, src2, action) {
   return button
 }
 
+function showTableSkin({ cate, offset, selectedSkinId }) {
+  switch (cate) {
+    case EnumCate.color:
+      var title = 'Color skin'
+      break
+    case EnumCate.typography:
+      title = 'Typography skin'
+      break
+    case EnumCate.border:
+      title = 'Border skin'
+      break
+    case EnumCate.effect:
+      title = 'Effect skin'
+      break
+    default:
+      return
+  }
+  showPopup({
+    hiddenOverlay: true,
+    style: `left: ${offset.x}px; top: ${offset.y}px`,
+    children: `<div class="popup-header col">
+      <div class="semibold1 row">${title}<i class="fa-solid fa-plus center box24" style="font-size: 1.4rem"></i></div>
+      ${TextField({ placeholder: 'Search skins...', className: 'search-skins', style: 'width:100% ', prefix: `<i class="fa-solid fa-magnifying-glass"></i>`, onChange: () => { } })}
+    </div>
+    <div class="col tb-skins-popup-body"></div>`
+  })
+  updateTableSkinBody(cate, selectedSkinId)
+}
+
 function createDropdownTableSkin({ cate, offset, currentSkinID, cssText }) {
   let dropdown = document.createElement('div')
   dropdown.onclick = function (e) {
@@ -2862,24 +2890,23 @@ function createDropdownTableSkin({ cate, offset, currentSkinID, cssText }) {
 }
 
 function updateTableSkinBody(enumCate, currentSkinID) {
-  let dropdown = document.getElementById('popup_table_skin')
+  let dropdown = document.body.querySelector('.tb-skins-popup-body')
   if (!dropdown) return
-  let body = document.createElement('div')
   let noti_empty_skin = document.createElement('p')
-  noti_empty_skin.style.margin = '8px 16px'
+  noti_empty_skin.style.margin = '0.8rem 1.6rem'
   noti_empty_skin.className = 'regular0 text-subtitle'
 
   switch (enumCate) {
     case EnumCate.color:
       if (StyleDA.listSkin.filter(e => e.Type === EnumCate.color).length == 0) {
         noti_empty_skin.innerHTML = 'No color skins.'
-        body.replaceChildren(noti_empty_skin)
+        dropdown.replaceChildren(noti_empty_skin)
       } else {
         let list_color_cate = [
           { ID: EnumCate.color },
           ...CateDA.list_color_cate.sort((a, b) => a.Name - b.Name)
         ]
-        body.replaceChildren(
+        dropdown.replaceChildren(
           ...list_color_cate.map(cateItem =>
             createCateSkinHTML(cateItem, currentSkinID)
           )
@@ -2891,13 +2918,13 @@ function updateTableSkinBody(enumCate, currentSkinID) {
         StyleDA.listSkin.filter(e => e.Type === EnumCate.typography).length == 0
       ) {
         noti_empty_skin.innerHTML = 'No typography skins.'
-        body.replaceChildren(noti_empty_skin)
+        dropdown.replaceChildren(noti_empty_skin)
       } else {
         let list_typo_cate = [
           { ID: EnumCate.typography },
           ...CateDA.list_typo_cate.sort((a, b) => a.Name - b.Name)
         ]
-        body.replaceChildren(
+        dropdown.replaceChildren(
           ...list_typo_cate.map(cateItem =>
             createCateSkinHTML(cateItem, currentSkinID)
           )
@@ -2910,13 +2937,13 @@ function updateTableSkinBody(enumCate, currentSkinID) {
         StyleDA.listSkin.filter(e => e.Type === EnumCate.border).length == 0
       ) {
         noti_empty_skin.innerHTML = 'No border skins.'
-        body.replaceChildren(noti_empty_skin)
+        dropdown.replaceChildren(noti_empty_skin)
       } else {
         let list_border_cate = [
           { ID: EnumCate.border },
           ...CateDA.list_border_cate.sort((a, b) => a.Name - b.Name)
         ]
-        body.replaceChildren(
+        dropdown.replaceChildren(
           ...list_border_cate.map(cateItem =>
             createCateSkinHTML(cateItem, currentSkinID)
           )
@@ -2929,13 +2956,13 @@ function updateTableSkinBody(enumCate, currentSkinID) {
         StyleDA.listSkin.filter(e => e.Type === EnumCate.effect).length == 0
       ) {
         noti_empty_skin.innerHTML = 'No effect skins.'
-        body.replaceChildren(noti_empty_skin)
+        dropdown.replaceChildren(noti_empty_skin)
       } else {
         let list_effect_cate = [
           { ID: EnumCate.effect },
           ...CateDA.list_effect_cate.sort((a, b) => a.Name - b.Name)
         ]
-        body.replaceChildren(
+        dropdown.replaceChildren(
           ...list_effect_cate.map(cateItem =>
             createCateSkinHTML(cateItem, currentSkinID)
           )
@@ -2946,18 +2973,11 @@ function updateTableSkinBody(enumCate, currentSkinID) {
     default:
       break
   }
-  let currentBody = dropdown.querySelector(':scope > .body_popup_skin')
-  if (currentBody) {
-    currentBody.replaceWith(body)
-  } else {
-    dropdown.appendChild(body)
-  }
-  body.className = 'body_popup_skin'
   if (currentSkinID) {
     let usingSkin = document.getElementById(`skinID:${currentSkinID}`)
     if (usingSkin) {
       usingSkin.style.background = '#E6F7FF'
-      body.scrollTo({
+      dropdown.scrollTo({
         top: (usingSkin.offsetTop ?? 0) - 36,
         behavior: 'smooth'
       })

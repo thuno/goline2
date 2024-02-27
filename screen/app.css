@@ -992,3 +992,7 @@ button * {
 #share_tool>.text-field-container * {
     color: #ffffff;
 }
+
+.text-subtitle {
+    color: rgb(0, 32, 77, 0.6) !important;
+}
