@@ -1,0 +1,740 @@
+.wbaseItem-value[lock="true"] {
+  pointer-events: none !important;
+}
+
+.wbaseItem-value[lock="true"] .wbaseItem-value {
+  pointer-events: none !important;
+}
+
+.w-button.wbaseItem-value {
+  outline: none;
+  border: none;
+  background-color: unset;
+}
+
+.wbaseItem-value {
+  position: relative;
+  box-sizing: border-box;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.wbaseItem-value.w-block > * {
+  position: absolute !important;
+}
+
+/* .wbaseItem-value.w-block > .wbaseItem-value:is(*[constx="left_right"], *[constx="scale"]) {
+  width: auto !important;
+}
+
+.wbaseItem-value.w-block > .wbaseItem-value:is(*[consty="top_bottom"], *[consty="scale"]) {
+  height: auto !important;
+} */
+
+.wbaseItem-value.w-col[wrap="wrap"] {
+  flex-wrap: wrap !important;
+  align-content: var(--cross-axis-align);
+}
+
+.wbaseItem-value.w-row[wrap="wrap"] {
+  flex-wrap: wrap !important;
+  align-content: var(--cross-axis-align);
+}
+
+.wbaseItem-value.w-col {
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--child-space);
+  column-gap: var(--run-space);
+}
+
+.wbaseItem-value.w-row {
+  display: flex;
+  flex-direction: row;
+  column-gap: var(--child-space);
+  row-gap: var(--run-space);
+}
+
+.wbaseItem-value:is(.w-row, .w-col) {
+  /* align-items: var(--cross-axis-align);
+  justify-content: var(--main-axis-align); */
+  padding: var(--padding);
+}
+
+.wbaseItem-value:is(.w-row, .w-col) > * {
+  flex-shrink: 0;
+}
+
+.wbaseItem-value.w-col[scroll="true"] {
+  overflow: hidden auto !important;
+  justify-content: flex-start !important;
+}
+
+.wbaseItem-value.w-row[scroll="true"] {
+  overflow: auto hidden !important;
+  justify-content: flex-start !important;
+}
+
+.wbaseItem-value.w-col[wrap="wrap"][scroll="true"] {
+  overflow: scroll hidden !important;
+  align-content: flex-start !important;
+}
+
+.wbaseItem-value.w-row[wrap="wrap"][scroll="true"] {
+  overflow: hidden scroll !important;
+  align-content: flex-start !important;
+}
+
+:is(.wbaseItem-value.w-col, .wbaseItem-value.w-row) > .wbaseItem-value:not(.wbaseItem-value.fixed-position) {
+  left: unset !important;
+  top: unset !important;
+  right: unset !important;
+  bottom: unset !important;
+  transform: unset !important;
+}
+
+.w-container.w-page {
+  width: 100% !important;
+  min-width: 100% !important;
+}
+
+:not(.w-table) > .fixed-position {
+  position: absolute !important;
+}
+
+.w-text {
+  display: flex;
+}
+
+.w-text > span {
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  width: inherit;
+  text-align: inherit;
+  height: fit-content;
+  padding: 0;
+  display: block;
+  cursor: text !important;
+  text-overflow: ellipsis;
+  overflow: hidden !important;
+  outline: none;
+  overflow-wrap: break-word;
+}
+
+.w-text > span * {
+  all: unset !important;
+}
+
+.wbaseItem-value.w-svg {
+  position: relative;
+  display: block !important;
+}
+
+.wbaseItem-value.w-svg > svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* switch */
+.w-switch {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: unset !important;
+  aspect-ratio: 9 / 5;
+  background-color: var(--unchecked-bg) !important;
+  border-radius: 50vw !important;
+  border: none;
+  outline: none;
+}
+
+.w-switch > input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  border: none;
+  outline: none;
+}
+
+.w-switch > .slider {
+  position: absolute;
+  height: calc(100% - 4px);
+  aspect-ratio: 1 / 1;
+  left: 2px;
+  bottom: 2px;
+  background-color: var(--dot-color);
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+.w-switch > input:checked + .slider {
+  -webkit-transform: translateX(calc(0.8 * (100% + 4px)));
+  -ms-transform: translateX(calc(0.8 * (100% + 4px)));
+  transform: translateX(calc(0.8 * (100% + 4px)));
+}
+
+/*checkbox*/
+.w-checkbox {
+  position: relative;
+  width: 24px;
+  aspect-ratio: 1 / 1 !important;
+  background-color: var(--unchecked-bg) !important;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.w-checkbox > input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.w-checkbox > input:checked ~ svg {
+  display: block;
+}
+
+.w-checkbox > svg {
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  display: none;
+  transition: 0.4s;
+}
+
+.w-checkbox > svg > path {
+  stroke: var(--check-color) !important;
+}
+
+/* w-textformfield */
+.w-textformfield {
+  position: relative;
+}
+
+.w-textformfield {
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  width: 382px;
+  padding: 10px 16px;
+  box-sizing: border-box;
+}
+
+.wbaseItem-value.w-textformfield .wbaseItem-value:has(> .input-container) {
+  width: 100% !important;
+  flex: 1;
+  align-items: center;
+  display: flex;
+}
+
+:is(.w-col:not(.w-col[scroll="true"], .w-col:has(.w-col[scroll="true"], .w-row[scroll="true"])), .w-row:not(.w-row[scroll="true"], .w-row:has(.w-col[scroll="true"], .w-row[scroll="true"]))):has(.w-textformfield.helper-text) {
+  overflow: unset !important;
+}
+
+.w-textformfield.helper-text {
+  overflow: visible !important;
+  border-color: var(--state-color) !important;
+}
+
+.w-textformfield.helper-text::after {
+  content: attr(helper-text);
+  color: var(--state-color);
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  font-size: inherit;
+  line-height: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  transform: translate(-7.5%, 92.5%) scale(0.85);
+}
+
+.w-textformfield .input-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-items: center;
+  gap: 4px;
+  width: 100%;
+  background-color: transparent !important;
+}
+
+.w-textformfield .input-container > input,
+label {
+  border: none;
+  outline: none;
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  transition: 0.4s;
+}
+
+.w-textformfield .input-container > input {
+  min-width: 0;
+  width: 100%;
+  background-color: transparent;
+  padding: 0;
+  line-height: inherit;
+  order: 1;
+}
+
+.w-textformfield .input-container > input::placeholder {
+  color: inherit;
+}
+
+.w-textformfield .input-container:has(> label) > input {
+  transform: translateY(-50%);
+}
+
+.input-container > label {
+  transform: translateY(calc(50% + 4px + (0.25 * 100%)));
+  order: 0;
+  line-height: 0.8;
+}
+
+.w-textformfield .input-container.content > label {
+  transform: scale(0.75) translate(-12.5%, -12.5%);
+  text-align: start;
+}
+
+.input-container > input:focus ~ label {
+  transform: scale(0.75) translate(-12.5%, -12.5%);
+  text-align: start;
+  color: var(--focus-color);
+}
+
+.w-textformfield .input-container:has(> label) > input:focus {
+  transform: none;
+}
+
+.w-textformfield .input-container.content:has(> label) > input {
+  transform: none;
+}
+
+.w-textformfield .input-container + .suffix-btn-txtfd {
+  width: var(--suffix-size);
+  position: relative;
+  box-sizing: border-box;
+  aspect-ratio: 1 / 1;
+}
+
+.w-textformfield .input-container + .suffix-btn-txtfd > svg {
+  position: absolute;
+  box-sizing: border-box;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.w-textformfield .input-container + .suffix-btn-txtfd > svg > path {
+  fill: var(--suffix-icon-color);
+}
+
+body:has(> .w-date-picker-popup) {
+  position: relative;
+}
+
+.w-date-picker-popup {
+  position: absolute;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 8px;
+  height: fit-content;
+  box-shadow: 0 0 12px 0 #00204d1f;
+}
+
+.w-date-picker-popup * {
+  cursor: context-menu;
+}
+
+.w-date-picker-popup > .header {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+}
+
+.w-date-picker-popup > .header > span {
+  width: 100%;
+  flex: 1;
+  margin: 0 24px;
+  text-align: center;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: bold;
+}
+
+.w-date-picker-popup > .header > * {
+  font-size: 16px;
+  color: #4b6281;
+  cursor: pointer;
+}
+
+.w-date-picker-popup > .body {
+  display: flex;
+  flex-direction: column;
+  padding: 12px 16px;
+  border-top: 1px solid #00358014;
+}
+
+.w-date-picker-popup > .body:has(div:nth-child(5)) {
+  border-bottom: 1px solid #00358014;
+}
+
+.w-date-picker-popup > .body > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.date-picker-circle {
+  width: 32px;
+  height: 32px;
+  margin: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  border-radius: 50%;
+  color: #00204de5;
+}
+
+:is(.month-picker-circle, .year-picker-circle) {
+  width: 56px;
+  height: 32px;
+  margin: 8px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+  border-radius: 24px;
+  color: #00204de5;
+  cursor: pointer;
+}
+
+.w-date-picker-popup div:not(div:first-child) > .date-picker-circle {
+  cursor: pointer;
+}
+
+/*  */
+:is(.date-picker-circle, .month-picker-circle, .year-picker-circle)[selected="true"] {
+  background-color: #366ae2;
+  color: white;
+}
+
+.date-picker-circle[in-range="false"] {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.w-date-picker-popup > .footer {
+  display: none;
+  margin: 16px 0;
+  cursor: pointer;
+  text-align: center;
+  font-size: 14px;
+  line-height: 22px;
+  color: #366ae2;
+  font-weight: 500;
+}
+
+.w-date-picker-popup > .body:has(div:nth-child(5)) + .footer {
+  display: block;
+}
+
+/* radio */
+.w-radio {
+  display: block;
+  position: relative;
+  width: 20px;
+  aspect-ratio: 1 / 1 !important;
+  border-radius: 50%;
+  box-sizing: border-box;
+  border: 2px solid #2196f3ff;
+  background-color: transparent !important;
+}
+
+.w-radio > input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.w-radio > .checkmark {
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+  width: inherit;
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+}
+
+/* table */
+.w-table {
+  display: table !important;
+  border-collapse: collapse;
+  overflow: visible !important;
+  border-radius: 0 !important;
+}
+
+.w-table[table-width="hug"] {
+  table-layout: auto !important;
+}
+
+:is(.w-table, .w-table > tbody) > .table-row {
+  display: table-row !important;
+  border-style: inherit;
+  border-color: inherit;
+  border-width: 0;
+}
+
+:is(.w-table, .w-table > tbody) > .table-row > .table-cell {
+  border-width: 0 var(--col-border) var(--row-border) 0;
+  text-align: var(--text-align);
+  vertical-align: var(--vertical-align);
+  border-style: inherit;
+  border-color: inherit;
+  padding: var(--padding);
+  box-sizing: border-box;
+}
+
+:is(.w-table, .w-table > tbody) > .table-row > .table-cell > .wbaseItem-value {
+  position: relative !important;
+  left: unset !important;
+  top: unset !important;
+  right: unset !important;
+  bottom: unset !important;
+  transform: unset !important;
+}
+
+:is(.w-table, .w-table > tbody) > .table-row > :not(td:has(> *)) {
+  min-width: 20px !important;
+}
+
+:is(.w-table, .w-table > tbody) > :not(.table-row:has(.wbaseItem-value)) {
+  height: 20px !important;
+}
+
+:is(.w-table, .w-table > tbody) > .table-row > .table-cell:last-child {
+  border-right-width: 0 !important;
+}
+
+:is(.w-table, .w-table > tbody) > .table-row:last-child > .table-cell {
+  border-bottom-width: 0 !important;
+}
+
+:is(.w-table[type="0"], .w-table[type="0"] > tbody) > .table-row:first-child > .table-cell {
+  background-color: var(--header-bg) !important;
+}
+
+:is(.w-table[type="1"], .w-table[type="1"] > tbody) > .table-row:first-child > .table-cell {
+  background-color: var(--header-bg) !important;
+}
+
+:is(.w-table[type="2"], .w-table[type="2"] > tbody) > .table-row:last-child > .table-cell {
+  background-color: var(--footer-bg) !important;
+}
+:is(.w-table[type="3"], .w-table[type="3"] > tbody) > .table-row:last-child > .table-cell {
+  background-color: var(--footer-bg) !important;
+}
+
+/* tree */
+.w-tree {
+  display: flex;
+  flex-flow: column nowrap !important;
+  margin-left: calc(var(--indent-space) * var(--tree-level));
+  padding: 0 !important;
+  height: fit-content !important;
+  min-height: fit-content !important;
+}
+
+.w-tree > .w-tree {
+  column-gap: inherit;
+  width: calc(100% - (var(--indent-space) * var(--tree-level)));
+  justify-content: inherit;
+  align-items: inherit;
+}
+
+.w-tree:has(> .tile-item > .children-value > .fixed-position) {
+  position: relative;
+}
+
+.w-tree > .tile-item {
+  column-gap: inherit;
+  justify-content: inherit;
+  align-items: inherit;
+  padding: var(--padding);
+  display: flex !important;
+  flex-direction: row !important;
+  width: 100%;
+  height: var(--height);
+  box-sizing: border-box;
+}
+
+.w-tree > .tile-item > .children-value {
+  column-gap: inherit;
+  justify-content: inherit;
+  align-items: inherit;
+  display: flex !important;
+  flex-direction: row !important;
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  box-sizing: border-box;
+}
+
+.w-tree[tree-height="hug"] .tile-item {
+  height: fit-content !important;
+}
+
+.w-tree[tree-height="hug"] .tile-item > .children-value {
+  height: fit-content !important;
+}
+
+.w-tree > .w-tree > .tile-item > .children-value > * {
+  min-width: min-content !important;
+}
+
+.w-tree:has(> :nth-child(2)) > .tile-item > .btn-tree-action {
+  visibility: visible !important;
+  pointer-events: auto;
+}
+
+.w-tree > .tile-item > .btn-tree-action {
+  display: flex;
+  visibility: hidden;
+  aspect-ratio: 1 / 1;
+  width: var(--action-size);
+  justify-content: center;
+  align-items: center;
+  font-size: calc(var(--action-size) / 1.25);
+  color: var(--action-color);
+}
+
+.w-tree:has(> .tile-item > :is(.fa-chevron-right, .fa-caret-right).btn-tree-action) > .w-tree {
+  display: none !important;
+}
+
+/* carousel */
+.w-carousel {
+  overflow: hidden !important;
+  position: relative;
+  display: flex;
+}
+
+.w-carousel > .slide-list {
+  width: inherit;
+  height: inherit;
+  align-items: inherit;
+}
+
+.w-carousel .slide-arrow {
+  position: absolute;
+  display: flex;
+  aspect-ratio: 1 / 1;
+  width: var(--action-size);
+  justify-content: center;
+  align-items: center;
+  font-size: calc(var(--action-size) / 1.25);
+  color: var(--action-color);
+  border-radius: 50%;
+  background-color: var(--action-bg);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.w-carousel .slide-arrow.slide-prev {
+  left: 8px;
+}
+
+.w-carousel .slide-arrow.slide-next {
+  right: 8px;
+}
+
+.w-carousel .slide-track {
+  width: inherit;
+  height: inherit;
+  display: flex;
+  transition: 0.1s;
+  align-items: inherit;
+}
+
+.w-carousel[effect="fade"] .slide-track {
+  transform: none;
+  transition: none;
+  display: block;
+}
+
+.w-carousel .slide-clone {
+  display: flex !important;
+  width: 100%;
+  min-width: 100%;
+  height: 100%;
+  align-items: inherit;
+  column-gap: var(--gap);
+  justify-content: var(--justify-content);
+  box-sizing: border-box;
+  padding: var(--padding);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.w-carousel .slide-clone > .wbaseItem-value {
+  position: relative !important;
+  left: unset !important;
+  top: unset !important;
+  right: unset !important;
+  bottom: unset !important;
+  transform: unset !important;
+}
+
+.w-carousel[effect="fade"] .slide-clone:not(.slide-clone[isactive="true"]) {
+  display: none !important;
+}
+
+/* state||status */
+/* .wbaseItem-value:hover {}
+.w-button:focus {} */
+.w-switch:has(> input:checked) {
+  background-color: var(--checked-color) !important;
+}
+.w-radio:has(> input[type="radio"]:checked) {
+  border-color: var(--checked-color) !important;
+}
+
+.w-radio > input[type="radio"]:checked ~ .checkmark {
+  display: block !important;
+  background-color: var(--checked-color);
+}
+.w-checkbox:has(> input:checked) {
+  background-color: var(--checked-color) !important;
+  border: none !important;
+}
+
+/* component css name rule */
+/*  */
+
+.wbaseItem-value[onsort="true"] > .wbaseItem-value {
+  order: unset !important;
+  z-index: unset !important;
+}
