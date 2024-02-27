@@ -3006,7 +3006,7 @@ function createSkinTileHTML(enumCate, jsonSkin) {
   if (jsonSkin.ProjectID != ProjectDA.obj.ID) {
     var action_edit = `<i class="fa-regular fa-circle-question box24 center" style="display: flex; font-size: 1.2rem; color: var(--primary-color); pointer-events: none"></i>`
   } else {
-    action_edit = `<i class="fa-solid fa-sliders box24 center" style="display: flex; font-size: 1.2rem;"></i>`
+    action_edit = `<i class="fa-solid fa-sliders box24 center"></i>`
   }
   $(skin_tile).on('click', '.fa-sliders', showEditSkin)
   function showEditSkin(e) {
@@ -3073,7 +3073,7 @@ function createSkinTileHTML(enumCate, jsonSkin) {
         }
       }
       const splitCss = jsonSkin.Css.split(';')
-      skin_tile.innerHTML = `<div style="${jsonSkin.Css};font-size: 1.6rem; line-height: normal">Ag</div><div class="skin-name regular2">${jsonSkin.Name}</div><p style="font-size: 1.1rem; color: #bfbfbf">${splitCss.find(cssVl => cssVl.includes('font-size'))?.replace('font-size:', "")?.trim()}/${splitCss.find(cssVl => cssVl.includes('line-height'))?.replace('line-height:', "")?.trim() ?? 'normal'}</p>${action_edit}`
+      skin_tile.innerHTML = `<div style="${jsonSkin.Css};font-size: 1.6rem; line-height: normal">Ag</div><div class="skin-name regular2 comp-text">${jsonSkin.Name}</div><p style="font-size: 1.1rem; color: #bfbfbf">${splitCss.find(cssVl => cssVl.includes('font-size'))?.replace('font-size:', "")?.trim()}/${splitCss.find(cssVl => cssVl.includes('line-height'))?.replace('line-height:', "")?.trim() ?? 'normal'}</p>${action_edit}`
       break
     case EnumCate.border:
       skin_tile.onclick = function (e) {

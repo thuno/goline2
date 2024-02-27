@@ -737,51 +737,20 @@ i.center[class*="box"]:hover {
     width: 100%;
     margin: 0;
     padding: 0.8rem 1.6rem;
-}
-
-.skin_tile_option .prefix-tile:has(p) {
-    display: flex;
-    width: fit-content;
-    height: fit-content;
-    align-items: center;
-    justify-content: center;
-    border: none;
-}
-
-.skin_tile_option .prefix-tile>p {
-    font-size: 14px !important;
-}
-
-.skin_tile_option .prefix-tile+div {
-    margin: 0 8px;
-    flex: 1;
-    text-align: left;
-}
-
-.skin_tile_option p {
-    margin: 0;
-    text-overflow: ellipsis;
-}
-
-.skin_tile_option:hover {
-    background-color: #f5f5f5;
-}
-
-.skin_tile_option>i {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    aspect-ratio: 1 / 1;
-    padding: 8px;
-    box-sizing: border-box;
+    gap: 0.6rem;
 }
 
 .skin_tile_option:hover {
     position: relative;
+    background-color: #f5f5f5;
 }
 
-.skin_tile_option:hover>i {
+.skin_tile_option>.fa-sliders {
+    display: none;
+    font-size: 1.2rem;
+}
+
+.skin_tile_option:hover>.fa-sliders {
     display: flex;
     right: 0;
     position: absolute;
@@ -795,4 +764,9 @@ i.center[class*="box"]:hover {
 
 .default-option:hover {
     background-color: var(--primary-color);
+}
+
+.skin_tile_option .skin-name {
+    --max-line: 1;
+    max-width: 12rem;
 }
