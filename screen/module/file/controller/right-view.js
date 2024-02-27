@@ -1722,6 +1722,7 @@ function EditTypoBlock() {
       returnType: 'string',
       className: 'col12 right-view-input',
       style: '--gutter: 0.6rem',
+      value: weightValue,
       dropdownStyle: 'background-color: #000000',
       options: [
         { id: 'mixed', name: 'mixed', prefix: `<div class="box12 row center"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${weightValue === 'mixed' ? '' : 'display: none'}` },

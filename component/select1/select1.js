@@ -6,7 +6,10 @@ const Select1 = ({ id, value, onChange, placeholder = '', disabled, className, h
         switch (type) {
             case 'button':
                 $('body').on('focus', `.select1-container[slct1-id="${dataId}"]`, function (ev) { popup = showSelect1Options({ dropdownStyle: dropdownStyle, dropdownClass: dropdownClass, value: value, options: options, parent: ev.target.closest('.select1-container'), hiddenSearch: true, onChange: onChange }) })
-                $('body').on('blur', `.select1-container[slct1-id="${dataId}"]`, function () { popup?.remove() })
+                $('body').on('blur', `.select1-container[slct1-id="${dataId}"]`, function () {
+                    if (!popup.onOverOption)
+                        popup?.remove()
+                })
                 return `<button ${id?.length ? `id="${id}"` : ''} ${dataId ? `slct1-id="${dataId}"` : ''}  class="select1-container row ${className ?? 'regular1'} ${helperText?.length && 'helper-text'} ${disabled ? 'disabled' : ''}" style="--helper-text-color: ${helperTextColor ?? '#e14337'};${style ?? ''}" ${helperText?.length ? `helper-text="${helperText}"` : ''}>
                     ${iconOnly ? '' : selectedValue?.name ? `<div class="select1-value-name">${selectedValue.name}</div>` : `<div class="select1-placeholder">${placeholder ?? ''}</div>`}
                     <i class="fa-solid fa-chevron-down" style="font-size: 1.2rem;color: #888"></i>
@@ -25,7 +28,10 @@ const Select1 = ({ id, value, onChange, placeholder = '', disabled, className, h
                 var newElement = document.createElement('button')
                 newElement.type = 'button'
                 newElement.onfocus = function (ev) { popup = showSelect1Options({ dropdownStyle: dropdownStyle, dropdownClass: dropdownClass, value: value, options: options, parent: ev.target.closest('.select1-container'), hiddenSearch: true, onChange: onChange }) }
-                newElement.onblur = function () { popup?.remove() }
+                newElement.onblur = function () {
+                    if (!popup.onOverOption)
+                            popup?.remove()
+                }
                 break;
             default:
                 newElement = document.createElement('div')
@@ -80,8 +86,14 @@ function showSelect1Options({ hiddenSearch = false, parent, options = [], value,
                 let option = document.createElement('button')
                 option.type = 'button'
                 option.className = `select1-tile row regular1 ${item.disabled ? 'disabled' : ''}`
-                option.style.cssText = `color: #262626;${item.style??''}`
+                option.style.cssText = `color: #262626;${item.style ?? ''}`
                 option.innerHTML = `${value != null ? `<i class="fa-solid fa-check" style="font-size: 1.2rem; color: inherit !important; visibility: ${item.id === value ? 'visible' : 'hidden'}"></i>` : ''}${typeof item.prefix === 'string' ? item.prefix : ''}${item.title ?? item.name ?? ''}`
+                option.onmouseover = function () {
+                    option.onOverOption = true
+                }
+                option.onmouseout = function () {
+                    delete option.onOverOption
+                }
                 option.onclick = function (e) {
                     e.stopPropagation()
                     onChange(item)
