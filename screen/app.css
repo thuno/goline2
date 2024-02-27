@@ -20,6 +20,8 @@
 @import '../component/select1/select1.css';
 /* checkbox */
 @import '../component/checkbox/checkbox.css';
+/* group button options */
+@import '../component/group-button-options/group-button-options.css';
 
 html,
 body {

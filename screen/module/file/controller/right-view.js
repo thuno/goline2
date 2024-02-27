@@ -312,45 +312,53 @@ function EditOffsetBlock() {
   if (isFlexBox) {
     var disabledInputW = false
     var disabledInputH = false
+    const wValue = (() => {
+      let vl = selected_list.filterAndMap(wb => wb.value.getAttribute('width-type') ?? 'fixed')
+      vl = vl.length > 1 ? 'mixed' : vl[0]
+      if (vl !== 'fixed') {
+        disabledInputW = true
+        iconRatioWH = null
+      }
+      return vl
+    })()
     var selectTypeW = Select1({
       returnType: 'string',
-      value: () => {
-        let vl = selected_list.filterAndMap(wb => wb.value.getAttribute('width-type') ?? 'fixed')
-        vl = vl.length > 1 ? 'mixed' : vl[0]
-        if (vl !== 'fixed') {
-          disabledInputW = true
-          iconRatioWH = null
-        }
-        return vl
-      },
+      value: wValue,
       style: 'width: 9.8rem',
       dropdownStyle: 'background-color: #000000',
       options: [
-        { id: 'mixed', name: 'mixed', prefix: `<div class="box12 row center"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${value === 'mixed' ? '' : 'display: none'}` },
+        { id: 'mixed', name: 'mixed', prefix: `<div class="box12 row center"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${wValue === 'mixed' ? '' : 'display: none'}` },
         { id: 'hug', name: 'hug-content', prefix: `<div class="box12 row center">${HugContent({ color: '#ffffff' })}</div>`, style: `${checkActiveFillHug({ type: 'fit' }) ? '' : 'display: none'}` },
         { id: 'fixed', name: 'fixed-size', prefix: `<div class="box12 row center">${FixedSize({ color: '#ffffff' })}</div>` },
-        { id: 'fill', name: 'fill-container', prefix: `<div class="box12 row center"></div>`, style: `${checkActiveFillHug({ type: 'fill' }) ? '' : 'display: none'}` },
+        { id: 'fill', name: 'fill-container', prefix: `<div class="box12 row center">${FillContainer({ color: '#ffffff' })}</div>`, style: `${checkActiveFillHug({ type: 'fill' }) ? '' : 'display: none'}` },
       ],
+      onChange: (value) => {
+        handleEditOffset({ width: value.id === 'hug' ? null : value.id === 'fill' ? -1 : value.id })
+      }
     })
+    const hValue = (() => {
+      let vl = selected_list.filterAndMap(wb => wb.value.getAttribute('height-type') ?? 'fixed')
+      vl = vl.length > 1 ? 'mixed' : vl[0]
+      if (vl !== 'fixed') {
+        disabledInputH = true
+        iconRatioWH = null
+      }
+      return vl
+    })()
     var selectTypeH = Select1({
       returnType: 'string',
-      value: () => {
-        let vl = selected_list.filterAndMap(wb => wb.value.getAttribute('height-type') ?? 'fixed')
-        vl = vl.length > 1 ? 'mixed' : vl[0]
-        if (vl !== 'fixed') {
-          disabledInputH = true
-          iconRatioWH = null
-        }
-        return vl
-      },
+      value: hValue,
       style: 'width: 9.8rem',
       dropdownStyle: 'background-color: #000000',
       options: [
-        { id: 'mixed', name: 'mixed', prefix: `<div class="box12 row center"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${value === 'mixed' ? '' : 'display: none'}` },
+        { id: 'mixed', name: 'mixed', prefix: `<div class="box12 row center"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${hValue === 'mixed' ? '' : 'display: none'}` },
         { id: 'hug', name: 'hug-content', prefix: `<div class="box12 row center">${HugContent({ color: '#ffffff' })}</div>`, style: `transform: rotate(90deg);${checkActiveFillHug({ type: 'fit' }) ? '' : 'display: none'}` },
         { id: 'fixed', name: 'fixed-size', prefix: `<div class="box12 row center">${FixedSize({ color: '#ffffff' })}</div>`, style: `transform: rotate(90deg);` },
-        { id: 'fill', name: 'fill-container', prefix: `<div class="box12 row center"></div>`, style: `transform: rotate(90deg);${checkActiveFillHug({ type: 'fill' }) ? '' : 'display: none'}` },
+        { id: 'fill', name: 'fill-container', prefix: `<div class="box12 row center">${FillContainer({ color: '#ffffff' })}</div>`, style: `transform: rotate(90deg);${checkActiveFillHug({ type: 'fill' }) ? '' : 'display: none'}` },
       ],
+      onChange: (value) => {
+        handleEditOffset({ height: value.id === 'hug' ? null : value.id === 'fill' ? -1 : value.id })
+      }
     })
   }
   if (iconRatioWH) $(editContainer).on('click', '.toggle-ratioWH', function () { })
@@ -538,13 +546,14 @@ function EditOffsetBlock() {
   const enableClipContentList = ['w-container', 'w-button', 'w-textformfield', 'w-variant']
   if (selected_list.filter(wb => enableClipContentList.some(e => wb.value.classList.contains(e))).length > 0) {
     // sixth line is btn checkboc clip content (overflow)
-    var btn_clip_content = Checkbox({
+    var btn_clip_content = `<div class="row regular1" style="0.4rem; padding: 0.2rem 0.8rem">${Checkbox({
       returnType: 'string',
+      size: '1.6rem',
       value: selected_list.filter(wb => enableClipContentList.some(e => wb.value.classList.contains(e))).every(wb => window.getComputedStyle(wb.value).overflow.includes('hidden')),
       onChange: (ev) => {
         handleEditOffset({ isClip: ev.target.checked })
       }
-    })
+    })} Clip content</div>`
   }
   editContainer.innerHTML = `<div class="row" style="gap: 1.2rem 0.8rem; flex-wrap: wrap">${editX}${editY}${iconFixPos ?? ''}${editW}${editH}${iconRatioWH ?? ''}${selectTypeW ?? ''}${selectTypeH ?? ''}${edit_rotate}${editR ?? ''}${btn_clip_content ?? ''}</div>`
   return editContainer
@@ -1571,21 +1580,9 @@ function EditTypoBlock() {
   editContainer.id = 'edit_text_style'
   editContainer.className = 'edit-container col'
   let header = document.createElement('div')
-  header.id = 'edit_text_style_header'
   header.className = 'ds-block-header row'
+  header.innerHTML = `<p class="semibold1" style="flex: 1">Font</p><button type='button' class="row default-icon-btn box24 action-button" style="padding: 0.7rem">${MoreSkins()}</button>`
   editContainer.appendChild(header)
-  let title = document.createElement('p')
-  title.innerHTML = 'Text'
-  header.appendChild(title)
-
-  let btnSelectSkin = createButtonAction(
-    'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/buttonStyle.svg',
-    null,
-    function () {
-      let offset = header.getBoundingClientRect()
-      createDropdownTableSkin({ cate: EnumCate.typography, offset: offset })
-    }
-  )
 
   let listTypoSkin = listTextStyle.filterAndMap(wb => {
     let fontSt =
@@ -1616,9 +1613,7 @@ function EditTypoBlock() {
       let colorSkin = StyleDA.listSkin.find(skin => wbColor[0] === skin.GID)
       if (colorSkin) {
         if (colorSkin.CateID !== EnumCate.color) {
-          var cateItem = CateDA.list_color_cate.find(
-            e => e.ID == colorSkin.CateID
-          )
+          var cateItem = CateDA.list_color_cate.find(e => e.ID === colorSkin.CateID)
         }
         var editColor = wbaseSkinTile({
           cate: EnumCate.color,
@@ -1626,29 +1621,18 @@ function EditTypoBlock() {
           title: (cateItem ? `${cateItem.Name}/` : '') + colorSkin.Name,
           onClick: function () {
             let offset = header.getBoundingClientRect()
-            createDropdownTableSkin({
-              cate: EnumCate.color,
-              offset: offset,
-              currentSkinID: colorSkin.GID,
-              cssText: colorSkin.Css
-            })
+            showTableSkin({ cate: EnumCate.color, offset: offset, cssText: colorSkin.Css, selectedSkinId: colorSkin.GID })
             document.body.querySelector('.tb-skins-popup-body').setAttribute('edit-type', 'typo')
           },
           handleUnlinkSkin: function () {
-            handleEditTypo({
-              hexCode: Ultis.rgbToHex(
-                window.getComputedStyle(listTextStyle[0].value).color
-              )
-            })
+            handleEditTypo({ hexCode: Ultis.rgbToHex(window.getComputedStyle(listTextStyle[0].value).color) })
             reloadEditTypoBlock()
           }
         })
       }
     } else {
       editColor = createEditColorForm({
-        value: Ultis.rgbToHex(
-          window.getComputedStyle(listTextStyle[0].value).color
-        ),
+        value: Ultis.rgbToHex(window.getComputedStyle(listTextStyle[0].value).color),
         onchange: params => {
           handleEditTypo({ color: params, onSubmit: false })
         },
@@ -1658,13 +1642,7 @@ function EditTypoBlock() {
         },
         suffixAction: function () {
           let offset = editColor.getBoundingClientRect()
-          createDropdownTableSkin({
-            cate: EnumCate.color,
-            offset: offset,
-            cssText: Ultis.rgbToHex(
-              window.getComputedStyle(listTextStyle[0].value).color
-            )
-          })
+          showTableSkin({ cate: EnumCate.color, offset: offset, cssText: Ultis.rgbToHex(window.getComputedStyle(listTextStyle[0].value).color) })
           document.body.querySelector('.tb-skins-popup-body').setAttribute('edit-type', 'typo')
         }
       })
@@ -1674,24 +1652,19 @@ function EditTypoBlock() {
   if (listTypoSkin.length === 1 && listTypoSkin[0]?.length === 36) {
     let typoSkin = StyleDA.listSkin.find(skin => listTypoSkin[0] == skin.GID)
     let cateItem = CateDA.list_typo_cate.find(e => e.ID == typoSkin.CateID)
-    let wbComputeSt = window.getComputedStyle(listTextStyle[0].value)
+    const wbComputeSt = window.getComputedStyle(listTextStyle[0].value)
     let skin_tile = wbaseSkinTile({
       cate: EnumCate.typography,
       prefixValue: `${wbComputeSt.fontSize}/${wbComputeSt.lineHeight}`,
       title: (cateItem ? `${cateItem.Name}/` : '') + typoSkin.Name,
       onClick: function () {
         let offset = header.getBoundingClientRect()
-        createDropdownTableSkin({
-          cate: EnumCate.typography,
-          offset: offset,
-          currentSkinID: typoSkin.GID,
-          cssText: typoSkin.Css
-        })
+        showTableSkin({ cate: EnumCate.typography, offset: offset, cssText: typoSkin.Css, selectedSkinId: typoSkin.GID })
       }
     })
     skin_tile.querySelector('p').style.fontWeight = typoSkin.FontWeight
     if (editColor) {
-      editColor.style.marginBottom = '6px'
+      editColor.style.marginBottom = '0.6rem'
       editContainer.appendChild(editColor)
     }
     editContainer.appendChild(skin_tile)
@@ -1699,93 +1672,106 @@ function EditTypoBlock() {
     header.appendChild(btnSelectSkin)
     let notiText = document.createElement('p')
     notiText.className = 'regular1'
-    notiText.style.margin = '4px 8px'
+    notiText.style.margin = '0.4rem 0.8rem'
     notiText.innerHTML = 'choose a typogrphy skin to replace mixed content'
     editContainer.appendChild(notiText)
   } else {
     header.appendChild(btnSelectSkin)
     let text_style_attribute = document.createElement('div')
-    text_style_attribute.className = 'col'
-    $(text_style_attribute).css({ width: '100%', 'box-sizing': 'border-box' })
-    editContainer.appendChild(text_style_attribute)
-    if (editColor) text_style_attribute.appendChild(editColor)
-    // select font-family
-    let fontFamilyValues = listTextStyle.filterAndMap(
-      wb => window.getComputedStyle(wb.value).fontFamily
-    )
-    let btn_select_font_family = _btnInputSelect({
-      initvalue: fontFamilyValues.length === 1 ? fontFamilyValues[0] : 'mixed',
-      listvalue:
-        fontFamilyValues.length === 1
-          ? list_font_family
-          : ['mixed', ...list_font_family],
-      onselect: option => {
-        handleEditTypo({ fontFamily: option })
-      }
-    })
-    $(btn_select_font_family).css({
-      'margin-top': '8px',
-      'margin-bottom': '8px'
-    })
-    text_style_attribute.appendChild(btn_select_font_family)
-    //
-    let div_font_size_weight = document.createElement('div')
-    div_font_size_weight.className = 'row'
-    $(div_font_size_weight).css({ width: '100%', 'box-sizing': 'border-box' })
-    text_style_attribute.appendChild(div_font_size_weight)
-    // select font-weight
-    let fWeightValues = listTextStyle.filterAndMap(
-      wb => window.getComputedStyle(wb.value).fontWeight
-    )
-    let btn_select_font_weight = _btnDropDownSelect({
-      initvalue: fWeightValues.length === 1 ? fWeightValues[0] : 'mixed',
-      listvalue:
-        fWeightValues.length === 1
-          ? list_font_weight
-          : ['mixed', ...list_font_weight],
-      onselect: value => {
-        handleEditTypo({ fontWeight: value })
-      }
-    })
-    div_font_size_weight.appendChild(btn_select_font_weight)
-    // select font-size
-    let fSizeValues = listTextStyle.filterAndMap(wb =>
-      parseFloat(window.getComputedStyle(wb.value).fontSize.replace('px', ''))
-    )
-    let btn_select_font_size = _btnInputSelect({
-      initvalue: fSizeValues.length === 1 ? fSizeValues[0] : 'mixed',
-      listvalue:
-        fSizeValues.length === 1
-          ? list_font_size
-          : ['mixed', ...list_font_size],
-      onselect: option => {
-        if (!isNaN(parseFloat(option))) {
-          handleEditTypo({ fontSize: parseFloat(option) })
+    text_style_attribute.className = 'row'
+    text_style_attribute.style.cssText = 'flex-wrap: wrap; width: 100%; padding: 0.4rem 1.2rem; gap: 0.6rem'
+    const fontFamilyValues = listTextStyle.filterAndMap(wb => window.getComputedStyle(wb.value).fontFamily)
+    const familyValue = fontFamilyValues.length === 1 ? fontFamilyValues[0] : 'mixed'
+    const selectFontFamily = TextField({
+      returnType: 'string',
+      className: 'col24 right-view-input',
+      value: familyValue,
+      suffix: Select1({
+        returnType: 'string',
+        className: 'box24 action-button',
+        dropdownStyle: 'background-color: #000000; width: 24rem !important',
+        options: [
+          { id: 'mixed', name: 'mixed', prefix: `<div class="box12 row center"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${familyValue === 'mixed' ? '' : 'display: none'}` },
+          ...list_font_family.map(e => {
+            return {
+              id: e,
+              name: e,
+            }
+          })
+        ],
+        onChange: (vl) => {
+          handleEditTypo({ fontFamily: vl.id })
         }
-      },
-      extend: true
+      }),
+      onBlur: ev => {
+        const newValue = list_font_family.find(e => e.toLowerCase() === ev.target.value.trim().toLowerCase())
+        if (newValue) {
+          handleEditTypo({ fontFamily: newValue })
+        } else {
+          ev.target.value = familyValue
+        }
+      }
     })
-    btn_select_font_size.style.flex = 1
-    div_font_size_weight.appendChild(btn_select_font_size)
-    // if (listTextStyle.some(e => e.CateID !== EnumCate.chart)) {
-    // row contain edit line-height & letter spacing
-    let div_height_spacing = document.createElement('div')
-    div_height_spacing.className = 'row'
-    $(div_height_spacing).css({
-      width: '100%',
-      'box-sizing': 'border-box',
-      padding: '8px 4px 0 0'
+
+    const fWeightValues = listTextStyle.filterAndMap(wb => window.getComputedStyle(wb.value).fontWeight)
+    const weightValue = fWeightValues.length === 1 ? fWeightValues[0] : 'mixed'
+    const selectFontWeight = Select1({
+      returnType: 'string',
+      className: 'col12',
+      dropdownStyle: 'background-color: #000000',
+      options: [
+        { id: 'mixed', name: 'mixed', prefix: `<div class="box12 row center"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${weightValue === 'mixed' ? '' : 'display: none'}` },
+        ...list_font_weight.map(e => {
+          return {
+            id: e,
+            name: e,
+          }
+        })
+      ],
+      onChange: (vl) => {
+        handleEditTypo({ fontWeight: vl.id })
+      }
     })
-    text_style_attribute.appendChild(div_height_spacing)
-    // input line-height
-    let lineHeightValues = listTextStyle.filterAndMap(wb =>
-      window.getComputedStyle(wb.value).lineHeight.replace('px', '')
-    )
-    let input_line_height = TextField({
-      className: 'right-view-input regular1',
-      style: 'width: 100%',
-      icon: '<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/line-height.svg" />',
-      value: lineHeightValues.length === 1 ? lineHeightValues[0] : 'mixed',
+    const fSizeValues = listTextStyle.filterAndMap(wb => parseFloat(window.getComputedStyle(wb.value).fontSize.replace('px', '')))
+    const sizeValue = fSizeValues.length === 1 ? fSizeValues[0] : 'mixed'
+    const selectFontSize = TextField({
+      returnType: 'string',
+      className: 'col12 right-view-input',
+      type: 'number',
+      value: sizeValue,
+      suffix: Select1({
+        returnType: 'string',
+        className: 'box24 action-button',
+        dropdownStyle: 'background-color: #000000; width: 8rem !important',
+        options: [
+          { id: 'mixed', name: 'mixed', prefix: `<div class="box12 row center"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${sizeValue === 'mixed' ? '' : 'display: none'}` },
+          ...list_font_size.map(e => {
+            return {
+              id: e,
+              name: e,
+            }
+          })
+        ],
+        onChange: (vl) => {
+          handleEditTypo({ fontSize: vl.id })
+        }
+      }),
+      onBlur: ev => {
+        const newValue = ev.target.value.trim()
+        if (!isNaN(parseFloat(newValue))) {
+          handleEditTypo({ fontSize: parseFloat(newValue) })
+        } else {
+          ev.target.value = sizeValue
+        }
+      }
+    })
+    const lineHeightValues = listTextStyle.filterAndMap(wb => window.getComputedStyle(wb.value).lineHeight.replace('px', ''))
+    const heightValue = lineHeightValues.length === 1 ? lineHeightValues[0] : 'mixed'
+    const inputlHeight = TextField({
+      returnType: 'string',
+      className: 'col12 right-view-input',
+      prefix: '<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/line-height.svg"/>',
+      value: heightValue,
       onBlur: function (ev) {
         if (ev.target.value.toLowerCase() === 'auto' || ev.target.value.toLowerCase() === 'normal') {
           handleEditTypo({ height: null })
@@ -1794,17 +1780,13 @@ function EditTypoBlock() {
         }
       }
     })
-    $(input_line_height).css({ flex: 1, 'margin-right': '8px' })
-    div_height_spacing.appendChild(input_line_height)
-    // input letter spacing
-    let lSpacingValues = listTextStyle.filterAndMap(wb =>
-      window.getComputedStyle(wb.value).letterSpacing.replace('px', '')
-    )
-    let input_letter_spacing = TextField({
-      className: 'right-view-input regular1',
-      style: 'width: 100%',
-      icon: '<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/letter-spacing.svg" />',
-      value: lSpacingValues.length === 1 ? lSpacingValues[0] : 'mixed',
+    const lSpacingValues = listTextStyle.filterAndMap(wb => window.getComputedStyle(wb.value).letterSpacing.replace('px', ''))
+    const spacingValue = lSpacingValues.length === 1 ? lSpacingValues[0] : 'mixed'
+    const inputlSpacing = TextField({
+      returnType: 'string',
+      className: 'col12 right-view-input',
+      prefix: '<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/letter-spacing.svg"/>',
+      value: spacingValue,
       onBlur: function (ev) {
         if (ev.target.value.toLowerCase() === 'auto' || ev.target.value.toLowerCase() === 'normal') {
           handleEditTypo({ letterSpacing: null })
@@ -1813,13 +1795,13 @@ function EditTypoBlock() {
         }
       }
     })
-    input_letter_spacing.style.flex = 1
-    div_height_spacing.appendChild(input_letter_spacing)
-    // }
+
+    text_style_attribute.innerHTML = `${selectFontFamily}${selectFontWeight}${selectFontSize}${inputlHeight}${inputlSpacing}`
+    editContainer.appendChild(text_style_attribute)
   }
   // if (listTextStyle.some(e => e.CateID !== EnumCate.chart)) {
   // group btn select text auto size
-  let autoSizeValues = listTextStyle.filterAndMap(wb => {
+  const autoSizeValues = listTextStyle.filterAndMap(wb => {
     switch (wb.value.getAttribute('width-type')) {
       case 'fit':
         return TextAutoSize.autoWidth
@@ -1831,24 +1813,24 @@ function EditTypoBlock() {
         }
     }
   })
-  let group_btn_auto_size = _groupBtnSelect({
-    initvalue: autoSizeValues.length > 1 ? 'mixed' : autoSizeValues[0],
-    listvalue: [
+  const group_btn_auto_size = GroupButtonOptions({
+    value: autoSizeValues.length > 1 ? 'mixed' : autoSizeValues[0],
+    options: [
       {
-        attribute: TextAutoSize.autoWidth,
-        src: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/auto-width.svg'
+        id: TextAutoSize.autoWidth,
+        icon: AutoWidth()
       },
       {
-        attribute: TextAutoSize.autoHeight,
-        src: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/auto-height.svg'
+        id: TextAutoSize.autoHeight,
+        icon: AutoHeight()
       },
       {
-        attribute: TextAutoSize.fixedSize,
-        src: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/fixed-size.svg'
+        id: TextAutoSize.fixedSize,
+        icon: FixedSize()
       }
     ],
-    onselect: value => {
-      switch (value) {
+    onselect: (vl) => {
+      switch (vl.id) {
         case TextAutoSize.autoWidth:
           handleEditOffset({ width: null, height: null })
           break
@@ -1865,92 +1847,66 @@ function EditTypoBlock() {
       updateUISelectBox()
     }
   })
-  group_btn_auto_size.id = 'group_btn_text_auto_size'
-  group_btn_auto_size.style.margin = '8px'
   editContainer.appendChild(group_btn_auto_size)
   let _row = document.createElement('div')
   _row.className = 'row'
-  _row.style.padding = '0 8px 8px 8px'
+  _row.style.cssText = 'padding: 0.8rem; width: 100%'
   editContainer.appendChild(_row)
   // group btn select text align
-  let textAlignValues = listTextStyle.filterAndMap(
-    wb => window.getComputedStyle(wb.value).textAlign
-  )
-  let group_btn_text_align = _groupBtnSelect({
-    initvalue: textAlignValues.length > 1 ? 'mixed' : textAlignValues[0],
-    listvalue: [
+  const textAlignValues = listTextStyle.filterAndMap(wb => window.getComputedStyle(wb.value).textAlign)
+  const group_btn_text_align = GroupButtonOptions({
+    value: textAlignValues.length > 1 ? 'mixed' : textAlignValues[0],
+    style: 'flex: 1; width: 100%',
+    options: [
       {
-        attribute: TextAlign.left,
-        src: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/text-align-left.svg'
+        id: TextAlign.left,
+        img: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/text-align-left.svg'
       },
       {
-        attribute: TextAlign.center,
-        src: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/text-align-center.svg'
+        id: TextAlign.center,
+        img: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/text-align-center.svg'
       },
       {
-        attribute: TextAlign.right,
-        src: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/text-align-right.svg'
+        id: TextAlign.right,
+        img: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/text-align-right.svg'
       }
     ],
-    onselect: value => {
-      handleEditTypo({ textAlign: value })
+    onselect: vl => {
+      handleEditTypo({ textAlign: vl.id })
       reloadEditTypoBlock()
     }
   })
-  _row.appendChild(group_btn_text_align)
+  _row.appendChild()
   // group btn select text align vertical
-  let alignVerticalValues = listTextStyle.filterAndMap(
-    wb => window.getComputedStyle(wb.value).alignItems
-  )
-  let group_btn_text_align_vertical = _groupBtnSelect({
-    initvalue:
-      alignVerticalValues.length > 1 ? 'mixed' : alignVerticalValues[0],
-    listvalue: [
+  const alignVerticalValues = listTextStyle.filterAndMap(wb => window.getComputedStyle(wb.value).alignItems)
+  const group_btn_text_align_vertical = GroupButtonOptions({
+    value: alignVerticalValues.length > 1 ? 'mixed' : alignVerticalValues[0],
+    options: [
       {
-        attribute: TextAlignVertical.top,
-        src: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/text-align-vertical-top.svg'
+        id: TextAlignVertical.top,
+        img: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/text-align-vertical-top.svg'
       },
       {
-        attribute: TextAlignVertical.middle,
-        src: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/text-align-vertical-center.svg'
+        id: TextAlignVertical.middle,
+        img: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/text-align-vertical-center.svg'
       },
       {
-        attribute: TextAlignVertical.bottom,
-        src: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/text-align-vertical-bottom.svg'
+        id: TextAlignVertical.bottom,
+        img: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/text-align-vertical-bottom.svg'
       }
     ],
-    onselect: value => {
-      handleEditTypo({ alignVertical: value })
+    onselect: vl => {
+      handleEditTypo({ alignVertical: vl.id })
       reloadEditTypoBlock()
     }
   })
-  group_btn_text_align_vertical.style.marginLeft = '42px'
-  _row.appendChild(group_btn_text_align_vertical)
-  // }
-  return editContainer
-}
+  _row.replaceChildren(group_btn_text_align, group_btn_text_align_vertical)
+  $(header).on('click', '.action-button', function () {
+    const offset = header.getBoundingClientRect()
+    showTableSkin({ cate: EnumCate.typography, offset: offset })
+  })
 
-function _groupBtnSelect({ initvalue, listvalue = [], onselect }) {
-  let group_btn_select = document.createElement('div')
-  group_btn_select.className = 'group_btn_select'
-  group_btn_select.replaceChildren(
-    ...listvalue.map(vl => {
-      let option = document.createElement('img')
-      option.src = vl.src
-      option.style.width = '24px'
-      option.style.height = '24px'
-      if (initvalue === vl.attribute) option.style.backgroundColor = '#e5e5e5'
-      option.onclick = function () {
-        onselect(vl.attribute)
-        group_btn_select.querySelectorAll('img').forEach(e => {
-          if (e !== option) e.style.backgroundColor = null
-          else e.style.backgroundColor = '#e5e5e5'
-        })
-      }
-      return option
-    })
-  )
-  return group_btn_select
+  return editContainer
 }
 
 function reloadEditTypoBlock() {

@@ -1,27 +1,31 @@
-const Select1 = ({ id, value, onChange, placeholder = '', disabled, className, helperText, helperTextColor, style, type = 'button', returnType = 'object', options, dropdownStyle, dropdownClass }) => {
+const Select1 = ({ id, value, onChange, placeholder = '', disabled, className, helperText, helperTextColor, style, type = 'button', returnType = 'object', options, dropdownStyle, dropdownClass, iconOnly = false }) => {
     if (returnType === 'string') {
         const selectedValue = (options ?? []).find(e => e.id === value)
         const dataId = uuidv4()
+        let popup = null
         switch (type) {
             case 'button':
-                $('body').on('focus', `.select1-container[slct1-id="${dataId}"]`, function (ev) { showSelect1Options({ dropdownStyle: dropdownStyle, dropdownClass: dropdownClass, value: value, options: options, parent: ev.target.closest('.select1-container'), hiddenSearch: true, onChange: onChange }) })
+                $('body').on('focus', `.select1-container[slct1-id="${dataId}"]`, function (ev) { popup = showSelect1Options({ dropdownStyle: dropdownStyle, dropdownClass: dropdownClass, value: value, options: options, parent: ev.target.closest('.select1-container'), hiddenSearch: true, onChange: onChange }) })
+                $('body').on('blur', `.select1-container[slct1-id="${dataId}"]`, function () { popup?.remove() })
                 return `<button ${id?.length ? `id="${id}"` : ''} ${dataId ? `slct1-id="${dataId}"` : ''}  class="select1-container row ${className ?? 'regular1'} ${helperText?.length && 'helper-text'} ${disabled ? 'disabled' : ''}" style="--helper-text-color: ${helperTextColor ?? '#e14337'};${style ?? ''}" ${helperText?.length ? `helper-text="${helperText}"` : ''}>
-                    ${selectedValue?.name ? `<div class="select1-value-name">${selectedValue.name}</div>` : `<div class="select1-placeholder">${placeholder ?? ''}</div>`}
+                    ${iconOnly ? '' : selectedValue?.name ? `<div class="select1-value-name">${selectedValue.name}</div>` : `<div class="select1-placeholder">${placeholder ?? ''}</div>`}
                     <i class="fa-solid fa-chevron-down" style="font-size: 1.2rem;color: #888"></i>
                 </button>`
             default:
                 $('body').on('click', `.select1-container[slct1-id="${dataId}"]`, function (ev) { showSelect1Options({ dropdownStyle: dropdownStyle, dropdownClass: dropdownClass, options: options, parent: ev.target.closest('.select1-container'), onChange: onChange }) })
                 return `<div ${id?.length ? `id="${id}"` : ''} ${dataId ? `slct1-id="${dataId}"` : ''} class="select1-container row ${className ?? 'regular1'} ${helperText?.length && 'helper-text'} ${disabled ? 'disabled' : ''}" style="--helper-text-color: ${helperTextColor ?? '#e14337'};${style ?? ''}" ${helperText?.length ? `helper-text="${helperText}"` : ''}>
-                    ${selectedValue?.name ? `<div class="select1-value-name">${selectedValue.name}</div>` : `<div class="select1-placeholder">${placeholder ?? ''}</div>`}
+                    ${iconOnly ? '' : selectedValue?.name ? `<div class="select1-value-name">${selectedValue.name}</div>` : `<div class="select1-placeholder">${placeholder ?? ''}</div>`}
                     <i class="fa-solid fa-chevron-down" style="font-size: 1.2rem;color: #888"></i>
                 </div>`
         }
     } else {
+        let popup = null
         switch (type) {
             case 'button':
                 var newElement = document.createElement('button')
                 newElement.type = 'button'
-                newElement.onfocus = function (ev) { showSelect1Options({ dropdownStyle: dropdownStyle, dropdownClass: dropdownClass, value: value, options: options, parent: ev.target.closest('.select1-container'), hiddenSearch: true, onChange: onChange }) }
+                newElement.onfocus = function (ev) { popup = showSelect1Options({ dropdownStyle: dropdownStyle, dropdownClass: dropdownClass, value: value, options: options, parent: ev.target.closest('.select1-container'), hiddenSearch: true, onChange: onChange }) }
+                newElement.onblur = function () { popup?.remove() }
                 break;
             default:
                 newElement = document.createElement('div')
@@ -32,7 +36,7 @@ const Select1 = ({ id, value, onChange, placeholder = '', disabled, className, h
         newElement.className = `select1-container row ${className ?? 'regular1'} ${helperText?.length && 'helper-text'} ${disabled ? 'disabled' : ''}" style="--helper-text-color: ${helperTextColor ?? '#e14337'};${style ?? ''}`
         newElement.style.cssText = `--helper-text-color: ${helperTextColor ?? '#e14337'};${style ?? ''}`
         if (helperText?.length) newElement.setAttribute('helper-text', helperText)
-        newElement.innerHTML = `${selectedValue?.name ? `<div class="select1-value-name">${selectedValue.name}</div>` : `<div class="select1-placeholder">${placeholder ?? ''}</div>`}<i class="fa-solid fa-chevron-down" style="font-size: 1.2rem;color: #888"></i>`
+        newElement.innerHTML = `${iconOnly ? '' : selectedValue?.name ? `<div class="select1-value-name">${selectedValue.name}</div>` : `<div class="select1-placeholder">${placeholder ?? ''}</div>`}<i class="fa-solid fa-chevron-down" style="font-size: 1.2rem;color: #888"></i>`
         return newElement
     }
 }
@@ -86,4 +90,7 @@ function showSelect1Options({ hiddenSearch = false, parent, options = [], value,
             }))
         }
     }
+    renderOptions()
+    document.body.appendChild(popup)
+    return popup
 }

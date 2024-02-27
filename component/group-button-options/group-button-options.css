@@ -1,0 +1,31 @@
+.group-button-options {
+    gap: 0.2rem;
+}
+
+.group-button-options.disabled {
+    background-color: var(--disabled-background);
+    pointer-events: none !important;
+}
+
+.group-button-options>button[img-bg]::after {
+    width: 100%;
+    height: 100%;
+    content: '';
+    background-image: var(--img-bg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.group-button-options>button {
+    padding: 0.6rem;
+    border-radius: 0.2rem;
+}
+
+.group-button-options>button:hover {
+    background-color: #f1f1f1;
+}
+
+.group-button-options>button.selected {
+    background-color: var(--active-color);
+}
