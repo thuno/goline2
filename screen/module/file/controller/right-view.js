@@ -1676,7 +1676,6 @@ function EditTypoBlock() {
     notiText.innerHTML = 'choose a typogrphy skin to replace mixed content'
     editContainer.appendChild(notiText)
   } else {
-    header.appendChild(btnSelectSkin)
     let text_style_attribute = document.createElement('div')
     text_style_attribute.className = 'row'
     text_style_attribute.style.cssText = 'flex-wrap: wrap; width: 100%; padding: 0.4rem 1.2rem; gap: 0.6rem'
