@@ -1,7 +1,7 @@
-function showPopup({ children, hiddenOverlay = false, style }) {
+function showPopup({ id, children, hiddenOverlay = false, style }) {
     let popupOverlay = document.createElement('div')
     popupOverlay.className = `popup-overlay ${hiddenOverlay ? 'hidden-overlay' : ''}`
-    popupOverlay.innerHTML = `<div class="popup-container col" ${style?.length ? `style="${style}"` : ''}></div>`
+    popupOverlay.innerHTML = `<div ${id?.length ? `id="${id}"` : ''} class="popup-container col" ${style?.length ? `style="${style}"` : ''}></div>`
     let popupContainer = popupOverlay.querySelector('.popup-container')
     if (typeof children === 'string') {
         popupContainer.innerHTML = children
@@ -36,4 +36,5 @@ function showPopup({ children, hiddenOverlay = false, style }) {
             popupContainer.style.bottom = '0.4rem'
         }
     }
+    return popupOverlay
 }

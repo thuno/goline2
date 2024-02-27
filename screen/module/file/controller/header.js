@@ -10,62 +10,7 @@ pHeader.onkeydown = function (e) {
 // $(create_skin_popup).on('click', '.popup-close', function closePopupSkin() {
 //   create_skin_popup.style.display = 'none'
 // })
-function createNewSkin(skinType, skinValue) {
-  let input_new_skin_name = document.getElementById('input_new_skin_name')
-  let input_value = input_new_skin_name.querySelector('input').value
-  CateDA.createSkin(
-    {
-      GID: uuidv4(),
-      ProjectID: ProjectDA.obj.ID,
-      Css: skinValue.length === 7 ? `${skinValue}ff` : skinValue,
-      Type: skinType
-    },
-    input_value.replace('\\', '/').split('/'),
-    skinType
-  ).then(skin => {
-    if (skin) {
-      document.documentElement.style.setProperty(`--${skin.GID}`, skin.Css)
-      switch (skinType) {
-        case EnumCate.color:
-          const editType = document
-            .getElementById('popup_table_skin')
-            .getAttribute('edit-type')
-          switch (editType) {
-            case 'typo':
-              handleEditTypo({ colorSkin: skin })
-              reloadEditTypoBlock()
-              break
-            default:
-              if (editType) {
-                handleEditIconColor({ prop: editType, colorSkin: jsonSkin })
-                reloadEditIconColorBlock()
-              } else {
-                handleEditBackground({ colorSkin: jsonSkin })
-                reloadEditBackgroundBlock()
-              }
-              break
-          }
-          break
-        case EnumCate.typography:
-          handleEditTypo({ typoSkin: skin })
-          reloadEditTypoBlock()
-          break
-        case EnumCate.border:
-          handleEditBorder({ borderSkin: skin })
-          reloadEditBorderBlock()
-          break
-        case EnumCate.effect:
-          handleEditEffect({ effectSkin: skin })
-          reloadEditEffectBlock()
-          break
-        default:
-          break
-      }
-      document.querySelectorAll('.popup_remove').forEach(e => e.remove())
-      create_skin_popup.style.display = 'none'
-    }
-  })
-}
+
 // setup create obj tool
 let create_obj_tool = document.getElementById('create_tool')
 let list_tool = [

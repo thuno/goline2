@@ -1440,7 +1440,7 @@ function EditBackgroundBlock() {
     //   offset: offset,
     //   cssText: bgColor ? `#${bgColor}` : null
     // })
-    showTableSkin({ cate: EnumCate.color, offset: offset })
+    showTableSkin({ cate: EnumCate.color, offset: offset, cssText: bgColor ? `#${bgColor}` : null })
   })
   $(header).on('click', '.fa-image', function () {
     if (!document.getElementById('popup_img_document')) FileDA.init()
@@ -2733,160 +2733,115 @@ function createButtonAction(src1, src2, action) {
   return button
 }
 
-function showTableSkin({ cate, offset, selectedSkinId }) {
+function showTableSkin({ cate, offset, selectedSkinId, cssText }) {
   switch (cate) {
     case EnumCate.color:
       var title = 'Color skin'
+      var titleAddSkin = 'Create new color skin'
+      var prefix = `<div class"box20" style="border-radius: 50%; background-color: ${cssText}"></div>`
       break
     case EnumCate.typography:
       title = 'Typography skin'
+      titleAddSkin = 'Create new typography skin'
+      prefix = `<div style="${cssText};font-size: 1.4rem">Ag</div>`
       break
     case EnumCate.border:
       title = 'Border skin'
+      titleAddSkin = 'Create new border skin'
+      prefix = `<div class"box20" style="border-radius: 50%; background-color: #f1f1f1;border: 1.5px solid ${window.getComputedStyle(selected_list[0].value).borderColor}"></div>`
       break
     case EnumCate.effect:
       title = 'Effect skin'
+      titleAddSkin = 'Create new effect skin'
+      prefix = `<div class"box20">${EffectSettings()}</div>`
       break
     default:
       return
   }
-  showPopup({
+  let popupTbSkins = showPopup({
     hiddenOverlay: true,
     style: `left: ${offset.x}px; top: ${offset.y}px`,
     children: `<div class="popup-header col">
-      <div class="heading-8 row" style="justify-content: space-between">${title}<i class="fa-solid fa-plus center box24" style="font-size: 1.4rem"></i></div>
-      ${TextField({ returnType: 'string', placeholder: 'Search skins...', className: 'search-skins', style: 'width:100% ', prefix: `<i class="fa-solid fa-magnifying-glass"></i>`, onChange: () => { } })}
+      <div class="heading-9 row" style="width: 100%; justify-content: space-between">${title}<i class="fa-solid fa-plus center box24" style="font-size: 1.2rem"></i></div>
+      ${TextField({ returnType: 'string', placeholder: 'Search skins...', className: 'search-skins regular11', style: 'width:100%; height: fit-content', prefix: `<i class="fa-solid fa-magnifying-glass" style="font-size: 1rem; color: #bfbfbf"></i>`, onChange: () => { } })}
     </div>
     <div class="col tb-skins-popup-body"></div>`
+  })
+  $(popupTbSkins).on('click', 'popup-header .fa-plus', function () {
+    let popupAddSkin = showPopup({
+      style: 'width: 60%',
+      children: `<div class="popup-header row heading-8">${titleAddSkin}</div>
+      <div class="popup-body row">
+      ${prefix}
+      ${TextField({ returnType: 'string', placeholder: 'New skin name', className: 'regular1', style: 'width:100%; flex: 1', onChange: () => { } })}
+      </div>
+      <div class="popup-footer row">
+        <button type='button' className='popup-action close-popup'>Cancel</button>
+        <button type='button' className='popup-action popup-submit'>Create skin</button>
+      </div>`
+    })
+    $(popupAddSkin).on('click', '.popup-footer > .close-popup', function () { popupAddSkin.remove() })
+    $(popupAddSkin).on('click', '.popup-footer > .popup-submit', function () {
+      createNewSkin(cate, cssText)
+      popupAddSkin.remove()
+      popupTbSkins.remove()
+    })
   })
   updateTableSkinBody(cate, selectedSkinId)
 }
 
-function createDropdownTableSkin({ cate, offset, currentSkinID, cssText }) {
-  let dropdown = document.createElement('div')
-  dropdown.onclick = function (e) {
-    e.stopPropagation()
-    document
-      .getElementById('body')
-      .querySelector(':scope > .popupEditOrDelete')
-      ?.remove()
-  }
-  dropdown.id = 'popup_table_skin'
-  dropdown.className = 'wini_popup col popup_remove'
-  dropdown.style.left = offset.x + 'px'
-  dropdown.style.top = offset.y - 56 + 'px'
-  switch (cate) {
-    case EnumCate.color:
-      var title = 'Color skin'
-      break
-    case EnumCate.typography:
-      title = 'Typography skin'
-      break
-    case EnumCate.border:
-      title = 'Border skin'
-      break
-    case EnumCate.effect:
-      title = 'Effect skin'
-      break
-    default:
-      return
-  }
-  dropdown.innerHTML = `<div class="col header_popup_skin">
-  <div class="row title"><span>${title}</span><button class="action-button sort-btn"></button><button class="action-button add-skin-btn"></button></div>
-  <div class="row search-skins"><i class="fa-solid fa-magnifying-glass fa-xs"></i><input placeholder="Search skins..."/></div>
-  </div>`
-  if (cssText) {
-    $(dropdown).on('click', '.header_popup_skin .add-skin-btn', function () {
-      setTimeout(function () {
-        let popupAddSkin = document.getElementById('create_skin_popup')
-        popupAddSkin.style.display = 'flex'
-        popupAddSkin.querySelector('.popup-input').value = ''
-        let prefixInput = popupAddSkin.querySelector(
-          '.popup-body .box20.semibold4'
-        )
-        prefixInput.innerHTML = ''
-        switch (cate) {
-          case EnumCate.color:
-            popupAddSkin.querySelector('.title_create_skin').innerHTML =
-              'Create new color skin'
-            prefixInput.style.backgroundColor = cssText
-            break
-          case EnumCate.typography:
-            popupAddSkin.querySelector('.title_create_skin').innerHTML =
-              'Create new typography skin'
-            prefixInput.innerHTML = 'Ag'
-            prefixInput.style.cssText = cssText
-            prefixInput.style.fontSize = '14px'
-            break
-          case EnumCate.border:
-            popupAddSkin.querySelector('.title_create_skin').innerHTML =
-              'Create new border skin'
-            prefixInput.style.backgroundColor = window.getComputedStyle(
-              selected_list[0].value
-            ).borderColor
-            break
-          case EnumCate.effect:
-            popupAddSkin.querySelector('.title_create_skin').innerHTML =
-              'Create new effect skin'
-            prefixInput.style.backgroundImage =
-              'url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/effect-settings.svg)'
-            break
-          default:
-            break
-        }
-        $(popupAddSkin).on('click', '.confirm-button', () =>
-          createNewSkin(cate, cssText)
-        )
-      }, 200)
-    })
-  } else {
-    dropdown.querySelector('.header_popup_skin .add-skin-btn').remove()
-  }
-  $(dropdown).on('input', '.header_popup_skin input', function (e) {
-    e.stopPropagation()
-    searchSkins()
-  })
-  function searchSkins() {
-    let searchContent = inputSearch.value.toLowerCase()
-    if (searchContent.trim() == '') {
-      let listTile = body.querySelectorAll('.cate-skin-tile, .skin_tile_option')
-      listTile.forEach(tile => {
-        tile.style.display = 'flex'
-      })
-    } else {
-      body.querySelectorAll('.cate-skin-tile').forEach(cateSkTile => {
-        let listSkinTile = cateSkTile.querySelectorAll('.skin_tile_option')
-        let cateName = cateSkTile.querySelector(':scope > p')?.innerHTML
-        if (cateName && cateName.toLowerCase().includes(searchContent)) {
-          cateSkTile.style.display = 'flex'
-        } else {
-          let numberResult = 0
-          listSkinTile.forEach(skinTile => {
-            let skinName = skinTile.querySelector('.skin-name').innerHTML
-            if (skinName.toLowerCase().includes(searchContent)) {
-              skinTile.style.display = 'flex'
-              numberResult++
-            } else {
-              skinTile.style.display = 'none'
-            }
-          })
-          cateSkTile.style.display = numberResult ? 'flex' : 'none'
-        }
-      })
+function createNewSkin({ cate, cssText, name }) {
+  debugger
+  CateDA.createSkin({
+    GID: uuidv4(),
+    ProjectID: ProjectDA.obj.ID,
+    Css: cssText.length === 7 ? `${cssText}ff` : cssText,
+    Type: skinType
+  },
+    name.replace('\\', '/').split('/'),
+    cate
+  ).then(skin => {
+    if (skin) {
+      debugger
+      document.documentElement.style.setProperty(`--${skin.GID}`, skin.Css)
+      switch (skinType) {
+        case EnumCate.color:
+          const editType = document
+            .getElementById('popup_table_skin')
+            .getAttribute('edit-type')
+          switch (editType) {
+            case 'typo':
+              handleEditTypo({ colorSkin: skin })
+              reloadEditTypoBlock()
+              break
+            default:
+              if (editType) {
+                handleEditIconColor({ prop: editType, colorSkin: skin })
+                reloadEditIconColorBlock()
+              } else {
+                handleEditBackground({ colorSkin: skin })
+                reloadEditBackgroundBlock()
+              }
+              break
+          }
+          break
+        case EnumCate.typography:
+          handleEditTypo({ typoSkin: skin })
+          reloadEditTypoBlock()
+          break
+        case EnumCate.border:
+          handleEditBorder({ borderSkin: skin })
+          reloadEditBorderBlock()
+          break
+        case EnumCate.effect:
+          handleEditEffect({ effectSkin: skin })
+          reloadEditEffectBlock()
+          break
+        default:
+          break
+      }
     }
-  }
-  document.getElementById('body').appendChild(dropdown)
-
-  updateTableSkinBody(cate, currentSkinID)
-  let dropdownRect = dropdown.getBoundingClientRect()
-  if (dropdownRect.bottom > document.body.offsetHeight) {
-    dropdown.style.top =
-      offset.y -
-      56 -
-      (dropdownRect.bottom - document.body.offsetHeight) -
-      2 +
-      'px'
-  }
+  })
 }
 
 function updateTableSkinBody(enumCate, currentSkinID) {
