@@ -1688,6 +1688,7 @@ function EditTypoBlock() {
       style: '--gutter: 0.6rem',
       suffix: Select1({
         returnType: 'string',
+        value: familyValue,
         iconOnly: true,
         style: 'border: none',
         className: 'box24 action-button center',
@@ -1749,6 +1750,7 @@ function EditTypoBlock() {
       suffix: Select1({
         returnType: 'string',
         iconOnly: true,
+        value: sizeValue,
         style: 'border: none',
         className: 'box24 action-button center',
         dropdownStyle: 'background-color: #000000; width: 8rem !important',
