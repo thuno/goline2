@@ -245,7 +245,7 @@ function EditOffsetBlock() {
   const parentHTML = divSection.querySelector(`.wbaseItem-value.w-container[id="${select_box_parentID}"]`)
   if (parentHTML && window.getComputedStyle(parentHTML).display.match('flex')) {
     const isFixPos = selected_list.every(e => e.value.classList.contains('fixed-position'))
-    var iconFixPos = `<button type="button" class="toogle-fix-position box24 default-icon-btn center row ${isFixPos ? 'toggle' : ''} ${selected_list.some(wb => !wb.value.classList.contains('w-variant') && wb.value.closest('.wbaseItem-value[iswini]')) ? ' disabled' : ''}" style="padding: 0.6rem">${FixPosition}</button>`
+    var iconFixPos = `<button type="button" class="toogle-fix-position box24 default-icon-btn center row ${isFixPos ? 'toggle' : ''} ${selected_list.some(wb => !wb.value.classList.contains('w-variant') && wb.value.closest('.wbaseItem-value[iswini]')) ? ' disabled' : ''}" style="padding: 0.6rem">${IconFixPosition()}</button>`
     $(editContainer).on('click', '.toogle-fix-position', function () { handleEditOffset({ fixPosition: !isFixPos }) })
   }
 
@@ -279,7 +279,7 @@ function EditOffsetBlock() {
       (computeSt.display.match(/(flex|table)/g) || computeSt.position !== 'absolute')
   })
   const isRatio = selected_list.some(wb => window.getComputedStyle(wb.value).aspectRatio !== 'auto')
-  let iconRatioWH = `<button type="button" class="toggle-ratioWH box24 default-icon-btn center row ${isRatio ? 'toggle' : ''}" style="padding: 0.5rem">${RatioWH({ toggle: isRatio })}</button>`
+  let iconRatioWH = `<button type="button" class="toggle-ratioWH box24 default-icon-btn center row ${isRatio ? 'toggle' : ''}" style="padding: 0.5rem">${IconRatioWH({ toggle: isRatio })}</button>`
   if (isFlexBox) {
     var disabledInputW = false
     var disabledInputH = false
@@ -299,9 +299,9 @@ function EditOffsetBlock() {
       dropdownStyle: 'background-color: #000000; width: fit-content; padding: 0',
       options: [
         { id: 'mixed', title: '<div class="box14 row center" style="margin-right: 0.6rem"></div>mixed', name: 'mixed', prefix: `<div class="box14 row center"></div>`, style: `color: #ffffff;pointer-events: none;border-bottom: 1px inset #ffffff;${wValue === 'mixed' ? '' : 'display: none'}` },
-        { id: 'hug', title: 'hug-content', name: `<div class="box14 row center" style="margin-right: 0.6rem">${HugContent()}</div>hug`, prefix: `<div class="box14 row center">${HugContent({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fit' }) ? '' : 'display: none'}` },
-        { id: 'fixed', title: 'fixed-size', name: `<div class="box14 row center" style="margin-right: 0.6rem">${FixedSize()}</div>fixed`, prefix: `<div class="box14 row center">${FixedSize({ color: '#ffffff' })}</div>`, style: 'color: #ffffff' },
-        { id: 'fill', title: 'fill-container', name: `<div class="box14 row center" style="margin-right: 0.6rem">${FillContainer()}</div>fill`, prefix: `<div class="box14 row center">${FillContainer({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fill' }) ? '' : 'display: none'}` },
+        { id: 'hug', title: 'hug-content', name: `<div class="box14 row center" style="margin-right: 0.6rem">${IconHugContent()}</div>hug`, prefix: `<div class="box14 row center">${IconHugContent({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fit' }) ? '' : 'display: none'}` },
+        { id: 'fixed', title: 'fixed-size', name: `<div class="box14 row center" style="margin-right: 0.6rem">${IconFixedSize()}</div>fixed`, prefix: `<div class="box14 row center">${IconFixedSize({ color: '#ffffff' })}</div>`, style: 'color: #ffffff' },
+        { id: 'fill', title: 'fill-container', name: `<div class="box14 row center" style="margin-right: 0.6rem">${IconFillContainer()}</div>fill`, prefix: `<div class="box14 row center">${IconFillContainer({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fill' }) ? '' : 'display: none'}` },
       ],
       onChange: (value) => {
         handleEditOffset({ width: value.id === 'hug' ? null : value.id === 'fill' ? -1 : value.id })
@@ -323,9 +323,9 @@ function EditOffsetBlock() {
       dropdownStyle: 'background-color: #000000; width: fit-content; padding: 0',
       options: [
         { id: 'mixed', title: 'mixed', name: '<div class="box14 row center" style="margin-right: 0.6rem"></div>mixed', prefix: `<div class="box14 row center"></div>`, style: `color: #ffffff;pointer-events: none;border-bottom: 1px inset #ffffff;${hValue === 'mixed' ? '' : 'display: none'}` },
-        { id: 'hug', title: 'hug-content', name: `<div class="box14 row center" style="transform: rotate(90deg);margin-right: 0.6rem">${HugContent()}</div>hug`, prefix: `<div class="box14 row center" style="transform: rotate(90deg);">${HugContent({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fit' }) ? '' : 'display: none'}` },
-        { id: 'fixed', title: 'fixed-size', name: `<div class="box14 row center" style="transform: rotate(90deg);margin-right: 0.6rem">${FixedSize()}</div>fixed`, prefix: `<div class="box14 row center" style="transform: rotate(90deg);">${FixedSize({ color: '#ffffff' })}</div>`, style: `color: #ffffff;` },
-        { id: 'fill', title: 'fill-container', name: `<div class="box14 row center" style="transform: rotate(90deg);margin-right: 0.6rem">${FillContainer()}</div>fill`, prefix: `<div class="box14 row center" style="transform: rotate(90deg);">${FillContainer({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fill' }) ? '' : 'display: none'}` },
+        { id: 'hug', title: 'hug-content', name: `<div class="box14 row center" style="transform: rotate(90deg);margin-right: 0.6rem">${IconHugContent()}</div>hug`, prefix: `<div class="box14 row center" style="transform: rotate(90deg);">${IconHugContent({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fit' }) ? '' : 'display: none'}` },
+        { id: 'fixed', title: 'fixed-size', name: `<div class="box14 row center" style="transform: rotate(90deg);margin-right: 0.6rem">${IconFixedSize()}</div>fixed`, prefix: `<div class="box14 row center" style="transform: rotate(90deg);">${IconFixedSize({ color: '#ffffff' })}</div>`, style: `color: #ffffff;` },
+        { id: 'fill', title: 'fill-container', name: `<div class="box14 row center" style="transform: rotate(90deg);margin-right: 0.6rem">${IconFillContainer()}</div>fill`, prefix: `<div class="box14 row center" style="transform: rotate(90deg);">${IconFillContainer({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fill' }) ? '' : 'display: none'}` },
       ],
       onChange: (value) => {
         handleEditOffset({ height: value.id === 'hug' ? null : value.id === 'fill' ? -1 : value.id })
@@ -394,7 +394,7 @@ function EditOffsetBlock() {
         }
       }
     })
-    const iconRadiusDetails = `<button type="button" class="radius-details box24 row ${isRadiusDetails ? 'toggle' : ''}" style="padding: 0.4rem">${RadiusDetails()}</button>`
+    const iconRadiusDetails = `<button type="button" class="radius-details box24 row ${isRadiusDetails ? 'toggle' : ''}" style="padding: 0.4rem">${IconRadiusDetails()}</button>`
     $(editContainer).on('click', '.radius-details', function (ev) {
       isRadiusDetails = !isRadiusDetails
       editContainer.querySelector('.radius-all').style.visibility = isRadiusDetails ? 'hidden' : null
@@ -1309,7 +1309,7 @@ function EditBackgroundBlock() {
   header.className = 'ds-block-header row'
   let scaleWb = selected_list.every(wb => WbClass.scale.some(e => wb.value.classList.contains(e)))
   header.innerHTML = `<p class="semibold1" style="flex: 1">${scaleWb ? 'Checked primary color' : 'Background'}</p>
-  <button type='button' class="row default-icon-btn box24 action-button" style="padding: 0.7rem">${MoreSkins()}</button>
+  <button type='button' class="row default-icon-btn box24 action-button" style="padding: 0.7rem">${IconMoreSkins()}</button>
   <i class="fa-regular fa-image center box24" style="font-size: 1.2rem"></i>
   <i class="fa-solid fa-plus center box24" style="font-size: 1.4rem"></i>`
   editContainer.appendChild(header)
@@ -1552,7 +1552,7 @@ function EditTypoBlock() {
   editContainer.className = 'edit-container col'
   let header = document.createElement('div')
   header.className = 'ds-block-header row'
-  header.innerHTML = `<p class="semibold1" style="flex: 1">Font</p><button type='button' class="row default-icon-btn box24 action-button" style="padding: 0.7rem">${MoreSkins()}</button>`
+  header.innerHTML = `<p class="semibold1" style="flex: 1">Font</p><button type='button' class="row default-icon-btn box24 action-button" style="padding: 0.7rem">${IconMoreSkins()}</button>`
   editContainer.appendChild(header)
 
   let listTypoSkin = listTextStyle.filterAndMap(wb => {
@@ -1804,16 +1804,16 @@ function EditTypoBlock() {
     options: [
       {
         id: TextAutoSize.autoWidth,
-        icon: AutoWidth(),
+        icon: IconAutoWidth(),
         style: 'padding: 0.2rem'
       },
       {
         id: TextAutoSize.autoHeight,
-        icon: AutoHeight()
+        icon: IconAutoHeight()
       },
       {
         id: TextAutoSize.fixedSize,
-        icon: FixedSize(),
+        icon: IconFixedSize(),
         style: 'padding: 0.2rem'
       }
     ],
@@ -2022,20 +2022,16 @@ let list_border_style = [
 
 //! border
 function EditBorderBlock() {
-  let listBorder = selected_list.filter(wb =>
-    ['w-checkbox', ...WbClass.borderEffect].some(e =>
-      wb.value.classList.contains(e)
-    )
-  )
+  let listBorder = selected_list.filter(wb => ['w-checkbox', ...WbClass.borderEffect].some(e => wb.value.classList.contains(e)))
   let editContainer = document.createElement('div')
   editContainer.id = 'edit-border'
   editContainer.className = 'edit-container col'
 
   let header = document.createElement('div')
   header.className = 'ds-block-header row'
-  header.innerHTML = `<p>Border</p>
-  <button class="action-button skin-btn bg-header-action"></button>
-  <i class="fa-solid fa-plus fa-sm bg-header-action"></i>`
+  header.innerHTML = `<p class="semibold1" style="flex: 1">Border</p>
+  <button type='button' class="row default-icon-btn box24 action-button" style="padding: 0.7rem">${IconMoreSkins()}</button>
+  <i class="fa-solid fa-plus center box24" style="font-size: 1.4rem"></i>`
   editContainer.appendChild(header)
 
   //
@@ -2046,7 +2042,7 @@ function EditBorderBlock() {
     'border-bottom',
     'border-left'
   ]
-  let listBorderSkin = listBorder.filterAndMap(wb => {
+  const listBorderSkin = listBorder.filterAndMap(wb => {
     for (let side of borderSide) {
       if (wb.value.style[side]) {
         return wb.value.style[side].match(uuid4Regex)
@@ -2069,10 +2065,8 @@ function EditBorderBlock() {
   })
   if (listBorderSkin.length === 1 && listBorderSkin[0]?.length === 36) {
     header.querySelector('.fa-plus').remove()
-    header.querySelector('.skin-btn').remove()
-    let borderItem = StyleDA.listSkin.find(
-      skin => listBorderSkin[0] === skin.GID
-    )
+    header.querySelector('.action-button').remove()
+    let borderItem = StyleDA.listSkin.find(skin => listBorderSkin[0] === skin.GID)
     let cateItem = CateDA.list_border_cate.find(e => e.ID === borderItem.CateID)
     let skin_tile = wbaseSkinTile({
       cate: EnumCate.border,
@@ -2082,10 +2076,10 @@ function EditBorderBlock() {
       title: (cateItem ? `${cateItem.Name}/` : '') + borderItem.Name,
       onClick: function () {
         let offset = header.getBoundingClientRect()
-        createDropdownTableSkin({
+        showTableSkin({
           cate: EnumCate.border,
           offset: offset,
-          currentSkinID: borderItem.GID,
+          selectedSkinId: borderItem.GID,
           cssText: borderItem.Css
         })
       },
@@ -2106,9 +2100,7 @@ function EditBorderBlock() {
     //
     if (listBorderSkin.length > 0) {
       header.querySelector('.fa-plus').remove()
-      let borderColorValues = listBorder.filterAndMap(wb =>
-        Ultis.rgbToHex(window.getComputedStyle(wb.value).borderColor)
-      )
+      let borderColorValues = listBorder.filterAndMap(wb => Ultis.rgbToHex(window.getComputedStyle(wb.value).borderColor))
       if (borderColorValues.length == 1) {
         let formEditColor = createEditColorForm({
           value: borderColorValues[0],
@@ -2128,45 +2120,39 @@ function EditBorderBlock() {
       }
 
       let formEditLine = document.createElement('div')
-      formEditLine.id = 'form-edit-style'
       formEditLine.className = 'row'
-      formEditLine.style.paddingLeft = '4px'
-      formEditLine.style.justifyContent = 'space-between'
-      editContainer.appendChild(formEditLine)
-      let borderStyles = listBorder.filterAndMap(
-        wb =>
-          window
-            .getComputedStyle(wb.value)
-            .borderStyle.split(' ')
-            .filter(e => e !== 'none')[0]
-      )
-      let btnSelectStyle = _btnDropDownSelect({
-        initvalue: borderStyles.length > 1 ? 'mixed' : borderStyles[0],
-        listvalue:
-          borderStyles.length === 1
-            ? list_border_style
-            : ['mixed', ...list_border_style],
-        onselect: value => {
-          handleEditBorder({ style: value })
+      formEditLine.style.cssText = 'gap: 0.8rem'
+      const borderStyles = listBorder.filterAndMap(wb => window.getComputedStyle(wb.value).borderStyle.split(' ').filter(e => e !== 'none')[0])
+      const bStyleValue = borderStyles.length > 1 ? 'mixed' : borderStyles[0]
+      const selectBStyle = Select1({
+        returnType: 'string',
+        className: 'right-view-input regular1',
+        style: '--gutter: 0.6rem; text-align: start',
+        value: bStyleValue,
+        dropdownStyle: 'background-color: #000000',
+        options: [
+          { id: 'mixed', name: 'mixed', prefix: `<div class="box12 row center"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${bStyleValue === 'mixed' ? '' : 'display: none'}` },
+          list_border_style.map(e => {
+            return {
+              id: e,
+              name: e,
+              style: 'color: #ffffff'
+            }
+          })
+        ],
+        onChange: vl => {
+          handleEditBorder({ style: vl.id })
           reloadEditBorderBlock()
         }
       })
-      btnSelectStyle.style.width = '88px'
-      formEditLine.appendChild(btnSelectStyle)
-      //
-      let widthValues = listBorder.filterAndMap(
-        wb =>
-          window
-            .getComputedStyle(wb.value)
-            .borderWidth.split(' ')
-            .map(e => parseFloat(e.replace('px', '')))
-            .sort((a, b) => b - a)[0]
-      )
-      let edit_stroke_width = TextField({
-        className: 'right-view-input regular1',
-        style: 'width: 6rem',
-        prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/stroke-width.svg"/>`,
-        value: widthValues.length > 1 ? 'mixed' : widthValues[0],
+      const widthValues = listBorder.filterAndMap(wb => window.getComputedStyle(wb.value).borderWidth.split(' ').map(e => parseFloat(e.replace('px', ''))).sort((a, b) => b - a)[0])
+      const bWidthValue = widthValues.length > 1 ? 'mixed' : widthValues[0]
+      const editStrokeWidth = TextField({
+        returnType: 'string',
+        style: '--gutter: 0.6rem',
+        className: 'col12 right-view-input regular1',
+        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/stroke-width.svg"/>`,
+        value: bWidthValue,
         onBlur: function (ev) {
           let newValue = parseFloat(ev.target.value)
           if (!isNaN(newValue)) {
@@ -2174,13 +2160,7 @@ function EditBorderBlock() {
           }
         }
       })
-      formEditLine.appendChild(edit_stroke_width)
-
-      let action_edit_line_container = document.createElement('div')
-      action_edit_line_container.className = 'action-container'
-      formEditLine.appendChild(action_edit_line_container)
-
-      let sideValues = listBorder.filterAndMap(wb => {
+      const sideValues = listBorder.filterAndMap(wb => {
         let borderW = window.getComputedStyle(wb.value).borderWidth.split(' ')
         switch (borderW.length) {
           case 1:
@@ -2203,72 +2183,57 @@ function EditBorderBlock() {
             }
         }
       })
-
-      const listBorderSide = [
-        BorderSide.all,
-        BorderSide.top,
-        BorderSide.left,
-        BorderSide.bottom,
-        BorderSide.right,
-        BorderSide.left_right,
-        BorderSide.top_bottom
-      ]
-
-      let btnSelectBorderSide = document.createElement('button')
-      btnSelectBorderSide.className = 'action-button'
-      btnSelectBorderSide.onclick = function () {
-        setTimeout(function () {
-          document.body
-            .querySelectorAll('div[id="body"] > .popup_select')
-            .forEach(popup => popup.remove())
-          let popupOffset = btnSelectBorderSide.getBoundingClientRect()
-          let popup_select_option = document.createElement('div')
-          popup_select_option.className =
-            'popup_select col wini_popup popup_remove'
-          popup_select_option.style.left = popupOffset.x + 'px'
-          popup_select_option.style.top = popupOffset.y + 'px'
-          popup_select_option.style.transform = 'translateX(-100%)'
-          popup_select_option.replaceChildren(
-            ...(sideValues.length === 1
-              ? listBorderSide
-              : ['mixed', ...listBorderSide]
-            ).map(vl => {
-              let option = document.createElement('div')
-              if (vl != 'mixed')
-                option.onclick = function (e) {
-                  e.stopPropagation()
-                  if (
-                    selected_list.every(
-                      wb => !wb.classList.contains('w-checkbox')
-                    )
-                  )
-                    handleEditBorder({ side: vl })
-                  popup_select_option.remove()
-                }
-              option.innerHTML = `<i class="fa-solid fa-check" style="color: #ffffff;margin-right: 8px;opacity: ${vl === sideValues[0] ? 1 : 0
-                }"></i><div style="height: 16px; margin: 4px; background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/border-${vl === 'mixed' ? 'all' : vl
-                }.svg)"></div><span class="semibold2" style="color: #ffffff; width: max-content">${vl}</span>`
-              return option
-            })
-          )
-          document.getElementById('body').appendChild(popup_select_option)
-        }, 200)
+      const sideValue = sideValues.length === 1 ? sideValues[0] : 'mixed'
+      const getIconBorderSide = (color) => {
+        switch (sideValue) {
+          case BorderSide.top:
+            var ic = IconBorderTop({ color: color });
+            break
+          case BorderSide.bottom:
+            ic = IconBorderBottom({ color: color });
+            break
+          case BorderSide.top_bottom:
+            ic = IconBorderTopBottom({ color: color });
+            break
+          case BorderSide.left:
+            ic = IconBorderLeft({ color: color });
+            break
+          case BorderSide.right:
+            ic = IconBorderRight({ color: color });
+            break
+          case BorderSide.left_right:
+            ic = IconBorderLeftRight({ color: color });
+            break
+          default:
+            ic = IconBorderAll({ color: color });
+            break
+        }
+        return `<div class="box14">${ic}</div>`
       }
-      btnSelectBorderSide.style.backgroundImage = `url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/border-${sideValues.length > 1 ? 'all' : sideValues[0]
-        }-black.svg)`
-      action_edit_line_container.appendChild(btnSelectBorderSide)
-
-      // let edit_line_action2 = createButtonAction(
-      //   'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/more-horizontal.svg',
-      //   null,
-      //   function () {}
-      // )
-      // action_edit_line_container.appendChild(edit_line_action2)
+      const selectBSide = Select1({
+        returnType: 'string',
+        value: sideValue,
+        iconOnly: true,
+        icon: getIconBorderSide(),
+        style: 'border: none',
+        className: 'box24 action-button center',
+        dropdownStyle: 'background-color: #000000; width: fit-content',
+        options: [
+          { id: 'mixed', name: 'mixed', prefix: `<div class="box14 row center"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${sideValue === 'mixed' ? '' : 'display: none'}` },
+          ...listBorderSide.map(e => {
+            return {
+              id: e,
+              name: getIconBorderSide({ color: '#ffffff' })
+            }
+          })]
+      })
+      formEditLine.innerHTML = `${selectBStyle}${editStrokeWidth}${selectBSide}`
+      editContainer.appendChild(formEditLine)
     }
   }
-  $(header).on('click', '.skin-btn', function () {
+  $(header).on('click', '.action-button', function () {
     let offset = header.getBoundingClientRect()
-    createDropdownTableSkin({
+    showTableSkin({
       cate: EnumCate.border,
       offset: offset,
       cssText: listBorderSkin[0]
@@ -2556,7 +2521,7 @@ function createEditColorForm({ id, value = '#000000ff', onchange, onsubmit, onde
     <input type="color" value=${value.substring(0, 7)} class="color-picker box20"/>
     <input value="${value.replace('#', '').substring(0, 6).toUpperCase()}" class="input-color-value regular1"/><input value="${Ultis.hexToPercent(value.replace('#', '').substring(6))}%" class="input-opacity-value regular1"/>
   </div>
-  ${suffixAction ? `<button type='button' class="row default-icon-btn box24" style="padding: 0.4rem">${MoreSkins()}</button>` : `<i class="fa-solid fa-minus box24 center" style="font-size: 1.4rem;${!ondelete && !suffixAction ? 'display: none' : ''}"></i>`}`
+  ${suffixAction ? `<button type='button' class="row default-icon-btn box24" style="padding: 0.4rem">${IconMoreSkins()}</button>` : `<i class="fa-solid fa-minus box24 center" style="font-size: 1.4rem;${!ondelete && !suffixAction ? 'display: none' : ''}"></i>`}`
   if (returnType === 'string') {
     const dataId = uuidv4()
     $('body').on('input', `.edit-color-tile[data-id="${dataId}"] .color-picker`, function (ev) {
@@ -2677,7 +2642,7 @@ function showTableSkin({ cate, offset, selectedSkinId, cssText }) {
     case EnumCate.effect:
       title = 'Effect skin'
       titleAddSkin = 'Create new effect skin'
-      prefix = `<div class="box24">${EffectSettings()}</div>`
+      prefix = `<div class="box24">${IconEffectSettings()}</div>`
       break
     default:
       return
@@ -3027,7 +2992,7 @@ function createSkinTileHTML(enumCate, jsonSkin) {
           reloadEditEffectBlock()
         }
       }
-      skin_tile.innerHTML = `<div class="box20">${EffectSettings()}</div><div class="skin-name regular1">${jsonSkin.Name}</div>${action_edit}`
+      skin_tile.innerHTML = `<div class="box20">${IconEffectSettings()}</div><div class="skin-name regular1">${jsonSkin.Name}</div>${action_edit}`
       break
     default:
       break
@@ -3823,7 +3788,7 @@ function wbaseSkinTile({
         })
       break
     case EnumCate.effect:
-      htmlText += `<div class="box20">${EffectSettings()}</div><div class="skin-name regular1">${title}</div>`
+      htmlText += `<div class="box20">${IconEffectSettings()}</div><div class="skin-name regular1">${title}</div>`
       if (handleUnlinkSkin)
         $(wbase_skin_tile).on('click', '.unlink-action', handleUnlinkSkin)
       else
@@ -3835,7 +3800,7 @@ function wbaseSkinTile({
     default:
       break
   }
-  wbase_skin_tile.innerHTML = `<div class="row skin-details">${htmlText}</div><button type="button" class="box24 center row action-button unlink-action">${UnlinkSkin()}</button>${onRemove ? `<i class="fa-solid fa-minus box24 center" style="display: flex; font-size: 1.2rem"></i>` : ''}`
+  wbase_skin_tile.innerHTML = `<div class="row skin-details">${htmlText}</div><button type="button" class="box24 center row action-button unlink-action">${IconUnlinkSkin()}</button>${onRemove ? `<i class="fa-solid fa-minus box24 center" style="display: flex; font-size: 1.2rem"></i>` : ''}`
   $(wbase_skin_tile).on('click', '.skin-details', onClick)
   if (onRemove)
     $(wbase_skin_tile).on('click', '.fa-minus', onRemove)

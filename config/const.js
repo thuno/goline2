@@ -379,6 +379,15 @@ const svgRegex = /(fill|stroke)(="[^none](\w|\d|#){1,}"|:[^none](\w|\d|#){1,})/g
 const brpRegex = /\(([^)-]+)\)/g
 const spChaRegex = /[!@#\$%\^\&*\)\(+=._-]/g
 const classRegex = /\.([^\s{}]+)/g
+const listBorderSide = [
+    BorderSide.all,
+    BorderSide.top,
+    BorderSide.left,
+    BorderSide.bottom,
+    BorderSide.right,
+    BorderSide.left_right,
+    BorderSide.top_bottom
+]
 const listDevice = [
     [
         {
