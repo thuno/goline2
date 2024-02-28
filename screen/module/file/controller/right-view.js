@@ -300,12 +300,12 @@ function EditOffsetBlock() {
       dropdownStyle: 'background-color: #000000; width: fit-content; padding: 0',
       options: [
         { id: 'mixed', title: '<div class="box14 row center" style="margin-right: 0.6rem"></div>mixed', name: 'mixed', prefix: `<div class="box14 row center"></div>`, style: `color: #ffffff;pointer-events: none;border-bottom: 1px inset #ffffff;${wValue === 'mixed' ? '' : 'display: none'}` },
-        { id: 'hug', title: 'hug-content', name: `<div class="box14 row center" style="margin-right: 0.6rem">${IconHugContent()}</div>hug`, prefix: `<div class="box14 row center">${IconHugContent({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fit' }) ? '' : 'display: none'}` },
+        { id: 'fit', title: 'hug-content', name: `<div class="box14 row center" style="margin-right: 0.6rem">${IconHugContent()}</div>hug`, prefix: `<div class="box14 row center">${IconHugContent({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fit' }) ? '' : 'display: none'}` },
         { id: 'fixed', title: 'fixed-size', name: `<div class="box14 row center" style="margin-right: 0.6rem">${IconFixedSize()}</div>fixed`, prefix: `<div class="box14 row center">${IconFixedSize({ color: '#ffffff' })}</div>`, style: 'color: #ffffff' },
         { id: 'fill', title: 'fill-container', name: `<div class="box14 row center" style="margin-right: 0.6rem">${IconFillContainer()}</div>fill`, prefix: `<div class="box14 row center">${IconFillContainer({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fill' }) ? '' : 'display: none'}` },
       ],
       onChange: (value) => {
-        handleEditOffset({ width: value.id === 'hug' ? null : value.id === 'fill' ? -1 : value.id })
+        handleEditOffset({ width: value.id === 'fit' ? null : value.id === 'fill' ? -1 : value.id })
       }
     })
     const hValue = (() => {
@@ -324,12 +324,12 @@ function EditOffsetBlock() {
       dropdownStyle: 'background-color: #000000; width: fit-content; padding: 0',
       options: [
         { id: 'mixed', title: 'mixed', name: '<div class="box14 row center" style="margin-right: 0.6rem"></div>mixed', prefix: `<div class="box14 row center"></div>`, style: `color: #ffffff;pointer-events: none;border-bottom: 1px inset #ffffff;${hValue === 'mixed' ? '' : 'display: none'}` },
-        { id: 'hug', title: 'hug-content', name: `<div class="box14 row center" style="transform: rotate(90deg);margin-right: 0.6rem">${IconHugContent()}</div>hug`, prefix: `<div class="box14 row center" style="transform: rotate(90deg);">${IconHugContent({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fit' }) ? '' : 'display: none'}` },
+        { id: 'fit', title: 'hug-content', name: `<div class="box14 row center" style="transform: rotate(90deg);margin-right: 0.6rem">${IconHugContent()}</div>hug`, prefix: `<div class="box14 row center" style="transform: rotate(90deg);">${IconHugContent({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fit' }) ? '' : 'display: none'}` },
         { id: 'fixed', title: 'fixed-size', name: `<div class="box14 row center" style="transform: rotate(90deg);margin-right: 0.6rem">${IconFixedSize()}</div>fixed`, prefix: `<div class="box14 row center" style="transform: rotate(90deg);">${IconFixedSize({ color: '#ffffff' })}</div>`, style: `color: #ffffff;` },
         { id: 'fill', title: 'fill-container', name: `<div class="box14 row center" style="transform: rotate(90deg);margin-right: 0.6rem">${IconFillContainer()}</div>fill`, prefix: `<div class="box14 row center" style="transform: rotate(90deg);">${IconFillContainer({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fill' }) ? '' : 'display: none'}` },
       ],
       onChange: (value) => {
-        handleEditOffset({ height: value.id === 'hug' ? null : value.id === 'fill' ? -1 : value.id })
+        handleEditOffset({ height: value.id === 'fit' ? null : value.id === 'fill' ? -1 : value.id })
       }
     })
   }
@@ -541,9 +541,7 @@ function reloadEditOffsetBlock() {
 
 // edit auto layout
 function EditLayoutBlock() {
-  let wbList = selected_list.filter(wb =>
-    WbClass.parent.some(e => wb.value.classList.contains(e))
-  )
+  let wbList = selected_list.filter(wb => WbClass.parent.some(e => wb.value.classList.contains(e)))
   let isEditTable =
     wbList.length > 0 &&
     wbList.every(wb => wb.value.classList.contains('w-table'))
@@ -551,21 +549,17 @@ function EditLayoutBlock() {
   editContainer.id = 'edit_auto_layout_div'
   editContainer.className = 'edit-container col'
   let header = document.createElement('div')
-  header.id = 'edit-layout-header'
   header.className = `ds-block-header`
-  header.innerHTML = `<p>${isEditTable ? 'Table layout' : 'Auto layout'
-    }</p><i class="fa-solid fa-minus fa-sm"></i><i class="fa-solid fa-plus fa-sm"></i>`
+  header.innerHTML = `<p class="semibold1" style="flex: 1">${isEditTable ? 'Table layout' : 'Auto layout'}</p>
+  <i class="fa-solid fa-minus center box24" style="font-size: 1.4rem"></i>
+  <i class="fa-solid fa-plus center box24" style="font-size: 1.4rem"></i>`
   editContainer.appendChild(header)
   let showDetails = selected_list.every(wb =>
     window.getComputedStyle(wb.value).display.match(/(flex|table)/g)
   )
   if (showDetails) {
-    if (
-      selected_list.some(wb =>
-        wb.value.closest('.wbaseItem-value[iswini]:not(.w-variant)')
-      )
-    )
-      header.classList.add('disable')
+    // if (selected_list.some(wb => wb.value.closest('.wbaseItem-value[iswini]:not(.w-variant)')))
+    //   header.classList.add('disable')
     header.querySelector('.fa-plus').remove()
     let body = document.createElement('div')
     editContainer.appendChild(body)
@@ -573,36 +567,26 @@ function EditLayoutBlock() {
     let isVertical = wbList.every(wb =>
       ['w-col', 'w-table'].some(e => wb.value.classList.contains(e))
     )
-    let selectDirection = document.createElement('div')
+    const selectDirection = GroupButtonOptions({
+      value: isVertical ? 'Vertical' : 'Horizontal',
+      options: [
+        { id: 'Vertical', icon: `<i class="fa-solid fa-arrow-down" style="font-size: 1.4rem"></i>` },
+        { id: 'Horizontal', icon: `<i class="fa-solid fa-arrow-right" style="font-size: 1.4rem"></i>` },
+      ],
+      onselect: (vl) => {
+        handleEditLayout({ direction: vl.id })
+        reloadEditLayoutBlock()
+      }
+    })
+
     selectDirection.className = 'group_btn_direction uneditable-instance'
     selectDirection.innerHTML = `<i class="fa-solid fa-arrow-down fa-xs" style="background-color: ${isVertical ? '#e5e5e5' : 'transparent'
       }"></i><i class="fa-solid fa-arrow-right fa-xs" style="background-color: ${isVertical ? 'transparent' : '#e5e5e5'
       }"></i>`
-    if (
-      wbList.every(
-        wb =>
-          ['w-textformfield', 'w-table'].every(
-            e => !wb.value.classList.contains(e)
-          ) &&
-          !wb.IsInstance &&
-          !wb.value.closest('.wbaseItem-value[iswini]')
-      )
-    ) {
+    if (wbList.every(wb => ['w-textformfield', 'w-table'].every(e => !wb.value.classList.contains(e)) && !wb.IsInstance && !wb.value.closest('.wbaseItem-value[iswini]'))) {
       $(header).on('click', '.fa-minus', function () {
         removeLayout()
         reloadEditLayoutBlock()
-      })
-      $(selectDirection).on('click', '.fa-arrow-down', function () {
-        if (!isVertical) {
-          handleEditLayout({ direction: 'Vertical' })
-          reloadEditLayoutBlock()
-        }
-      })
-      $(selectDirection).on('click', '.fa-arrow-right', function () {
-        if (isVertical) {
-          handleEditLayout({ direction: 'Horizontal' })
-          reloadEditLayoutBlock()
-        }
       })
     } else {
       header.querySelector('.fa-minus').remove()
@@ -635,18 +619,10 @@ function EditLayoutBlock() {
 
     // input edit child space
     if (!isEditTable) {
-      let childSpaceValues = wbList.filterAndMap(wb =>
-        parseFloat(
-          window
-            .getComputedStyle(wb.value)
-          [
-            wb.value.classList.contains('w-col') ? 'row-gap' : 'column-gap'
-          ].replace('px', '')
-        )
-      )
+      let childSpaceValues = wbList.filterAndMap(wb => parseFloat(window.getComputedStyle(wb.value)[wb.value.classList.contains('w-col') ? 'row-gap' : 'column-gap'].replace('px', '')))
       let inputChildSpace = TextField({
         className: 'right-view-input regular1',
-        style: 'width: 8.8rem',
+        style: 'width: 8.8rem;position: absolute; left: 0; bottom: 0',
         prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/${isVertical ? 'vertical' : 'horizontal'} child spacing.svg"/>`,
         value: childSpaceValues.length == 1 ? childSpaceValues[0] : 'mixed',
         onBlur: function (ev) {
@@ -660,7 +636,6 @@ function EditLayoutBlock() {
           }
         }
       })
-      $(inputChildSpace).css({ position: 'absolute', left: '0', bottom: '0' })
       body.appendChild(inputChildSpace)
       if (wbList.every(wb => !wb.value.classList.contains('w-textformfield'))) {
         let isWrapRow = document.createElement('div')
@@ -1283,11 +1258,8 @@ function _alignTable({ isVertical = true, value }) {
     AlignmentType.bottom_right
   ]
     .map(
-      vl =>
-        `<div class='align-option' alignvl="${vl}" style='opacity: ${vl === value ? 1 : 0.05
-        }'></div>`
-    )
-    .join('')
+      vl => `<div class='align-option' alignvl="${vl}" style='opacity: ${vl === value ? 1 : 0.05}'></div>`
+    ).join('')
   $(alignContainer).on('click', '.align-option', function (ev) {
     alignContainer.querySelectorAll('.align-option').forEach(e => {
       if (e === ev.target) {

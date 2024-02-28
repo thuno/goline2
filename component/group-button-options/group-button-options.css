@@ -28,4 +28,5 @@
 
 .group-button-options>button.selected {
     background-color: var(--active-color);
+    pointer-events: none !important;
 }

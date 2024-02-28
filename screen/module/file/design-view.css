@@ -796,3 +796,124 @@ i.center[class*="box"]:hover {
     padding: 0.8rem 1.2rem;
     gap: 0.8rem;
 }
+
+.row:has(> .alignment-container) {
+    position: relative;
+    align-items: start;
+}
+
+.alignment-container {
+    width: 64px;
+    height: 64px;
+    margin: 0 32px 0 56px;
+    border: 1.5px solid #e5e5e5;
+    border-radius: 4px;
+    position: relative;
+}
+
+.alignment-container>.align-option {
+    position: absolute;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 16px;
+    height: 16px;
+}
+
+.alignment-container>.align-option:hover {
+    opacity: 1 !important;
+}
+
+.alignment-container>.align-option[alignvl="TopLeft"] {
+    top: 2px;
+    left: 2px;
+    background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/top%20horizontal.svg);
+}
+
+.alignment-container[oy="true"]>.align-option[alignvl="TopLeft"] {
+    background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/left%20vertical.svg);
+}
+
+.alignment-container>.align-option[alignvl="TopCenter"] {
+    top: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/top%20horizontal.svg);
+}
+
+.alignment-container[oy="true"]>.align-option[alignvl="TopCenter"] {
+    background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/center%20vertical.svg);
+}
+
+.alignment-container>.align-option[alignvl="TopRight"] {
+    top: 2px;
+    right: 2px;
+    background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/top%20horizontal.svg);
+}
+
+.alignment-container[oy="true"]>.align-option[alignvl="TopRight"] {
+    background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/right%20vertical.svg);
+}
+
+.alignment-container>.align-option[alignvl="LeftCenter"] {
+    left: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/center%20horizontal.svg);
+}
+
+.alignment-container[oy="true"]>.align-option[alignvl="LeftCenter"] {
+    background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/left%20vertical.svg);
+}
+
+.alignment-container>.align-option[alignvl="Center"] {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/center%20horizontal.svg);
+}
+
+.alignment-container[oy="true"]>.align-option[alignvl="Center"] {
+    background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/center%20vertical.svg);
+}
+
+.alignment-container>.align-option[alignvl="RightCenter"] {
+    right: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/center%20horizontal.svg);
+}
+
+.alignment-container[oy="true"]>.align-option[alignvl="RightCenter"] {
+    background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/right%20vertical.svg);
+}
+
+.alignment-container>.align-option[alignvl="BottomLeft"] {
+    bottom: 2px;
+    left: 2px;
+    background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/bottom%20horizontal.svg);
+}
+
+.alignment-container[oy="true"]>.align-option[alignvl="BottomLeft"] {
+    background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/left%20vertical.svg);
+}
+
+.alignment-container>.align-option[alignvl="BottomCenter"] {
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/bottom%20horizontal.svg);
+}
+
+.alignment-container[oy="true"]>.align-option[alignvl="BottomCenter"] {
+    background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/center%20vertical.svg);
+}
+
+.alignment-container>.align-option[alignvl="BottomRight"] {
+    bottom: 2px;
+    right: 2px;
+    background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/bottom%20horizontal.svg);
+}
+
+.alignment-container[oy="true"]>.align-option[alignvl="BottomRight"] {
+    background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/right%20vertical.svg);
+}
