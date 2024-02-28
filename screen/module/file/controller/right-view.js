@@ -2213,7 +2213,7 @@ function EditBorderBlock() {
           ...listBorderSide.map(e => {
             return {
               id: e,
-              name: `<div class="20">${getIconBorderSide(e, '#ffffff')}</div>`,
+              name: `<div class="box20">${getIconBorderSide(e, '#ffffff')}</div>`,
             }
           })]
       })
