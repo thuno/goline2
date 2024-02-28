@@ -12,7 +12,7 @@ const Select1 = ({ id, value, onChange, placeholder = '', disabled, className, h
                         popup?.remove()
                 })
                 return `<button ${id?.length ? `id="${id}"` : ''} ${dataId ? `slct1-id="${dataId}"` : ''}  class="select1-container row ${className ?? 'regular1'} ${helperText?.length && 'helper-text'} ${disabled ? 'disabled' : ''}" style="--helper-text-color: ${helperTextColor ?? '#e14337'};${style ?? ''}" ${helperText?.length ? `helper-text="${helperText}"` : ''}>
-                    ${iconOnly ? '' : selectedValue?.name ? `<div class="select1-value-name">${selectedValue.name}</div>` : `<div class="select1-placeholder">${placeholder ?? ''}</div>`}
+                    ${iconOnly ? '' : selectedValue?.name ? `<div class="select1-value-name row">${selectedValue.name}</div>` : `<div class="select1-placeholder">${placeholder ?? ''}</div>`}
                     <i class="fa-solid fa-chevron-down" style="font-size: 1.2rem;color: #888"></i>
                 </button>`
             default:

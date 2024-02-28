@@ -221,8 +221,9 @@ function EditOffsetBlock() {
       ${Select1({
       returnType: 'string',
       value: deviceValue,
-      style: '12.4rem',
-      className: 'right-view-input regular1',
+      placeholder: '<div class="semibold1">Device name</div>',
+      style: 'width: 12.4rem',
+      className: 'right-view-input semibold1',
       dropdownStyle: 'width: fit-content; background-color: #000000',
       options: listDevice.map(item => {
         return item.map((device, i) => {
@@ -233,7 +234,6 @@ function EditOffsetBlock() {
           }
         })
       }).reduce((a, b) => a.concat(b)),
-      placeholder: 'Device name',
       onChange: device => {
         handleEditOffset({ width: device.Width, height: device.Height })
         reloadEditOffsetBlock()
