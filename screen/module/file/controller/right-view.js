@@ -2203,7 +2203,6 @@ function EditBorderBlock() {
       }
       const selectBSide = Select1({
         returnType: 'string',
-        value: sideValue,
         iconOnly: true,
         icon: getIconBorderSide(sideValue),
         style: 'border: none; padding: 0.4rem',
@@ -2214,8 +2213,7 @@ function EditBorderBlock() {
           ...listBorderSide.map(e => {
             return {
               id: e,
-              name: getIconBorderSide(e, '#ffffff'),
-              style: 'width: 2.4rem; height: 2.4rem; padding: 0.4rem'
+              name: `<div class="20">${getIconBorderSide(e, '#ffffff')}</div>`,
             }
           })]
       })
@@ -2320,6 +2318,7 @@ function EditEffectBlock() {
       header.querySelector('.fa-plus').remove()
       let div_select_eType = document.createElement('div')
       div_select_eType.className = 'row dropdown-effect-tile'
+      div_select_eType.style.gap = '0.8rem'
       editContainer.appendChild(div_select_eType)
       // popup edit effect type attribute
       const showEditSettings = `<button type="button" class="box24 row center action-button" style="padding: 0.4rem">${IconEffectSettings()}</button>`
@@ -2327,7 +2326,7 @@ function EditEffectBlock() {
       const eTypeValue = eTypeValues.length > 1 ? 'mixed' : eTypeValues[0]
       const selectEType = Select1({
         returnType: 'string',
-        style: 'flex: 1; width: 100%; border-width: 2px; border-radius: 0.2rem',
+        style: 'flex: 1; width: 100%; border-width: 0.2rem; border-radius: 0.2rem; padding: 0.2rem 0.8rem',
         value: eTypeValue,
         className: 'regular1',
         dropdownStyle: 'background-color: #000000',
