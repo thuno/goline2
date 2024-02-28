@@ -1,5 +1,5 @@
 var left_view, right_view, layer_view, assets_view, design_view, prototype_view, state_view, divMain, divSection, prototypePoint, prototype_selected_page, selectPath;
-var canvas, ctx, canvasr, ctxr, scrollTop, scrollLeft
+var canvas, ctx, canvasr, ctxr, scrollTop, scrollLeft, parent
 var scale = 1;
 var topx = 0,
     leftx = 0,
@@ -117,6 +117,7 @@ $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@36713b4/projec
         scrollTop.style.right = reightw + 'px'
         scrollLeft = document.getElementById('f01230bb-83e6-4320-b642-33f65c0f8696')
         scrollLeft.style.left = leftw + 'px'
+        parent = divSection
         //
         if (!PageDA.obj.scale) {
             topx = PageDA.obj.topx ?? 0

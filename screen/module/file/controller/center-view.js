@@ -492,8 +492,7 @@ function offsetConvertScale(x, y) {
 
 document.addEventListener('contextmenu', event => event.preventDefault())
 
-var parent = divSection,
-  offsetp = { x: 0, y: 0 },
+var  offsetp = { x: 0, y: 0 },
   parent_offset1 = { x: 0, y: 0 }
 let listWbOnScreen = []
 function selectParent(event) {
