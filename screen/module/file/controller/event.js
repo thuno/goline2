@@ -5074,38 +5074,30 @@ function handleEditBorder({
             [...wb.value.classList].find(cls => cls.startsWith('w-st'))
           )
         )
+        cssRule.style.border = null
         switch (side) {
           case BorderSide.top:
-            cssRule.style.borderTop = `${wbBorderW}px ${wbComputeSt.borderStyle
-              } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+            cssRule.style.borderTop = `${wbBorderW}px ${wbComputeSt.borderStyle} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
             break
           case BorderSide.right:
-            cssRule.style.borderRight = `${wbBorderW}px ${wbComputeSt.borderStyle
-              } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+            cssRule.style.borderRight = `${wbBorderW}px ${wbComputeSt.borderStyle} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
             break
           case BorderSide.bottom:
-            cssRule.style.borderBottom = `${wbBorderW}px ${wbComputeSt.borderStyle
-              } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+            cssRule.style.borderBottom = `${wbBorderW}px ${wbComputeSt.borderStyle} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
             break
           case BorderSide.left:
-            cssRule.style.borderLeft = `${wbBorderW}px ${wbComputeSt.borderStyle
-              } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+            cssRule.style.borderLeft = `${wbBorderW}px ${wbComputeSt.borderStyle} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
             break
           case BorderSide.left_right:
-            cssRule.style.borderLeft = `${wbBorderW}px ${wbComputeSt.borderStyle
-              } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
-            cssRule.style.borderRight = `${wbBorderW}px ${wbComputeSt.borderStyle
-              } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+            cssRule.style.borderLeft = `${wbBorderW}px ${wbComputeSt.borderStyle} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+            cssRule.style.borderRight = `${wbBorderW}px ${wbComputeSt.borderStyle} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
             break
           case BorderSide.top_bottom:
-            cssRule.style.borderTop = `${wbBorderW}px ${wbComputeSt.borderStyle
-              } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
-            cssRule.style.borderBottom = `${wbBorderW}px ${wbComputeSt.borderStyle
-              } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+            cssRule.style.borderTop = `${wbBorderW}px ${wbComputeSt.borderStyle} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+            cssRule.style.borderBottom = `${wbBorderW}px ${wbComputeSt.borderStyle} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
             break
           default: // case all
-            cssRule.style.border = `${wbBorderW}px ${wbComputeSt.borderStyle
-              } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+            cssRule.style.border = `${wbBorderW}px ${wbComputeSt.borderStyle} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
             break
         }
         cssItem.Css = cssItem.Css.replace(
