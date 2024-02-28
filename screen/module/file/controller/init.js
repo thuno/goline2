@@ -1,4 +1,5 @@
 var left_view, right_view, layer_view, assets_view, design_view, prototype_view, state_view, divMain, divSection, prototypePoint, prototype_selected_page, selectPath;
+var canvas, ctx, canvasr, ctxr, scrollTop, scrollLeft
 var scale = 1;
 var topx = 0,
     leftx = 0,
@@ -14,6 +15,20 @@ var width = document.body?.clientWidth
 var height = document.body?.clientHeight
 var totalH = height + scale
 var totalW = width + scale
+var objr, objscroll = {
+    x: 0,
+    y: 0,
+    x1: 0,
+    y1: 0,
+    w: width - leftw - reightw,
+    h: height - 48,
+    wc: 1,
+    hc: 1,
+    xo: 0,
+    yo: 0,
+    xo1: 0,
+    yo1: 0
+}
 var showF12 = false
 var design_view_index = 0
 const isMac = navigator.userAgent.indexOf('Mac OS X') != -1
@@ -78,16 +93,31 @@ $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@ead813a/projec
         }
         StyleDA.docStyleSheets.forEach(cssRuleItem => {
             if (cssRuleItem.style.length > 0) {
-                divSection
-                    .querySelectorAll(cssRuleItem.selectorText)
-                    .forEach(wbHTML => setAttributeByStyle(wbHTML, cssRuleItem.style))
+                divSection.querySelectorAll(cssRuleItem.selectorText).forEach(wbHTML => setAttributeByStyle(wbHTML, cssRuleItem.style))
             }
         })
-        divSection
-            .querySelectorAll('.wbaseItem-value[isinstance][class*="w-st0"]')
-            .forEach(wbHTML => setAttributeByStyle(wbHTML))
+        divSection.querySelectorAll('.wbaseItem-value[isinstance][class*="w-st0"]').forEach(wbHTML => setAttributeByStyle(wbHTML))
         setupRightView()
         setupLeftView()
+        //
+        canvas = document.getElementById('canvas_line')
+        ctx = canvas.getContext('2d')
+        canvasr = document.getElementById('canvas_rect')
+        ctxr = canvasr.getContext('2d')
+
+        canvas.width = totalW
+        canvas.height = totalH
+        canvas.style.top = t * scale + 'px'
+        canvas.style.left = l * scale + 'px'
+        canvasr.width = width
+        canvasr.height = height
+
+        scrollTop = document.getElementById('e060a4db-2b24-4ca6-89ea-0ff75d4fc79e')
+        scrollTop.style.top = objscroll.y + 'px'
+        scrollTop.style.right = reightw + 'px'
+        scrollLeft = document.getElementById('f01230bb-83e6-4320-b642-33f65c0f8696')
+        scrollLeft.style.left = leftw + 'px'
+        //
         if (!PageDA.obj.scale) {
             topx = PageDA.obj.topx ?? 0
             leftx = PageDA.obj.leftx ?? 0
@@ -403,12 +433,6 @@ async function callAPI(request) {
     return response
 }
 
-function addStyleComponents(item, elements) {
-    if (item.IsWini == true) {
-        elements.setAttribute('class', item.StyleItem.Name)
-    }
-}
-
 function handleListInput(listInput) {
     let _obj = {}
     listInput.forEach(function (item) {
@@ -559,7 +583,6 @@ function crossAxisToAlign(key, isHorizontal) {
 }
 
 // 
-// 
 function input_scale_set(value) {
     settingsPage = true
     share_tool.querySelector('div:last-child > input').innerHTML = `${Math.floor(value)}%`
@@ -567,11 +590,7 @@ function input_scale_set(value) {
 
 function toolStateChange(toolState) {
     if (tool_state != toolState) {
-        if (
-            ToolState.resize_type.every(
-                tool => tool !== toolState && tool_state !== tool
-            )
-        ) {
+        if (ToolState.resize_type.every(tool => tool !== toolState && tool_state !== tool)) {
             let current_tool_state = document.getElementById(`${tool_state}`)
             $(current_tool_state).removeClass('on-select')
             let new_tool_state = document.getElementById(`${toolState}`)
@@ -618,11 +637,7 @@ function toolStateChange(toolState) {
                 break
         }
     }
-    if (
-        [ToolState.hand_tool, ...ToolState.create_new_type].some(
-            tool => tool_state == tool
-        )
-    ) {
+    if ([ToolState.hand_tool, ...ToolState.create_new_type].some(tool => tool_state == tool)) {
         handleWbSelectedList()
         listLine = []
         listText = []

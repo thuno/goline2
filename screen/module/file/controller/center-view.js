@@ -240,52 +240,13 @@ var line = 1,
   t = 0,
   l = 0
 let previousX, previousY
-var canvas = document.getElementById('canvas_line')
-var ctx = canvas.getContext('2d')
-var canvasr = document.getElementById('canvas_rect')
-var ctxr = canvasr.getContext('2d')
-
-canvas.width = totalW
-canvas.height = totalH
-canvas.style.top = t * scale + 'px'
-canvas.style.left = l * scale + 'px'
-canvasr.width = width
-canvasr.height = height
-
-var objr,
-  objscroll = {
-    x: 0,
-    y: 0,
-    x1: 0,
-    y1: 0,
-    w: width - leftw - reightw,
-    h: height - 48,
-    wc: 1,
-    hc: 1,
-    xo: 0,
-    yo: 0,
-    xo1: 0,
-    yo1: 0
-  }
-var scrollTop = document.getElementById('e060a4db-2b24-4ca6-89ea-0ff75d4fc79e')
-scrollTop.style.top = objscroll.y + 'px'
-scrollTop.style.right = reightw + 'px'
-
-var scrollLeft = document.getElementById('f01230bb-83e6-4320-b642-33f65c0f8696')
-scrollLeft.style.left = leftw + 'px'
 
 function initScroll(listp) {
   if (listp.length > 0) {
-    var psition = listp.map(m => m.PositionItem)
-    var psitionw = listp.map(
-      m => parseFloat(m.PositionItem.Left.replace('px', '')) + m.FrameItem.Width
-    )
-    var psitionh = listp.map(
-      m => parseFloat(m.PositionItem.Top.replace('px', '')) + m.FrameItem.Height
-    )
-    objscroll.xo = objscroll.x = Math.min(
-      ...psition.map(m => parseFloat(m.Left.replace('px', '')))
-    )
+    let psition = listp.map(m => m.PositionItem)
+    let psitionw = listp.map(m => parseFloat(m.PositionItem.Left.replace('px', '')) + m.FrameItem.Width)
+    let psitionh = listp.map(m => parseFloat(m.PositionItem.Top.replace('px', '')) + m.FrameItem.Height)
+    objscroll.xo = objscroll.x = Math.min(...psition.map(m => parseFloat(m.Left.replace('px', ''))))
     objscroll.yo = objscroll.y = Math.min(
       ...psition.map(m => parseFloat(m.Top.replace('px', '')))
     )
@@ -315,7 +276,6 @@ function initScroll(listp) {
     input_scale_set(scale * 100)
     positionScrollLeft()
     positionScrollTop()
-    //var divd = document.getElementById();
   }
 }
 
