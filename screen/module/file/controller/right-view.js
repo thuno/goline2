@@ -1666,7 +1666,7 @@ function EditTypoBlock() {
         className: 'box24 action-button center',
         dropdownStyle: 'background-color: #000000; width: 24rem !important',
         options: [
-          { id: 'mixed', name: 'mixed', prefix: `<div class="box12 row center"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${familyValue === 'mixed' ? '' : 'display: none'}` },
+          { id: 'mixed', name: 'mixed', style: `pointer-events: none;border-bottom: 1px inset #ffffff;${familyValue === 'mixed' ? '' : 'display: none'}` },
           ...list_font_family.map(e => {
             return {
               id: e,
@@ -1698,7 +1698,7 @@ function EditTypoBlock() {
       value: weightValue,
       dropdownStyle: 'background-color: #000000',
       options: [
-        { id: 'mixed', name: 'mixed', prefix: `<div class="box12 row center"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${weightValue === 'mixed' ? '' : 'display: none'}` },
+        { id: 'mixed', name: 'mixed', style: `pointer-events: none;border-bottom: 1px inset #ffffff;${weightValue === 'mixed' ? '' : 'display: none'}` },
         ...list_font_weight.map(e => {
           return {
             id: e,
@@ -1727,7 +1727,7 @@ function EditTypoBlock() {
         className: 'box24 action-button center',
         dropdownStyle: 'background-color: #000000; width: 8rem !important',
         options: [
-          { id: 'mixed', name: 'mixed', prefix: `<div class="box12 row center"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${sizeValue === 'mixed' ? '' : 'display: none'}` },
+          { id: 'mixed', name: 'mixed', style: `pointer-events: none;border-bottom: 1px inset #ffffff;${sizeValue === 'mixed' ? '' : 'display: none'}` },
           ...list_font_size.map(e => {
             return {
               id: e,
@@ -2091,7 +2091,7 @@ function EditBorderBlock() {
   } else if (listBorderSkin.some(vl => vl?.length === 36)) {
     let notiText = document.createElement('span')
     notiText.className = 'regular1'
-    notiText.style.margin = '4px 8px'
+    notiText.style.margin = '0.4rem 0.8rem'
     notiText.innerHTML = 'Choose a border skin to replace mixed content'
     editContainer.appendChild(notiText)
   } else {
@@ -2130,7 +2130,7 @@ function EditBorderBlock() {
         value: bStyleValue,
         dropdownStyle: 'background-color: #000000; width: fit-content',
         options: [
-          { id: 'mixed', name: 'mixed', prefix: `<div class="box12 row center"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${bStyleValue === 'mixed' ? '' : 'display: none'}` },
+          { id: 'mixed', name: 'mixed', style: `pointer-events: none;border-bottom: 1px inset #ffffff;${bStyleValue === 'mixed' ? '' : 'display: none'}` },
           ...list_border_style.map(e => {
             return {
               id: e,
@@ -2183,8 +2183,8 @@ function EditBorderBlock() {
         }
       })
       const sideValue = sideValues.length === 1 ? sideValues[0] : 'mixed'
-      const getIconBorderSide = (color) => {
-        switch (sideValue) {
+      const getIconBorderSide = (side, color) => {
+        switch (side) {
           case BorderSide.top:
             return IconBorderTop({ color: color });
           case BorderSide.bottom:
@@ -2205,16 +2205,17 @@ function EditBorderBlock() {
         returnType: 'string',
         value: sideValue,
         iconOnly: true,
-        icon: getIconBorderSide(),
+        icon: getIconBorderSide(sideValue),
         style: 'border: none; padding: 0.4rem',
         className: 'box24 action-button center',
         dropdownStyle: 'background-color: #000000; width: fit-content',
         options: [
-          { id: 'mixed', name: 'mixed', prefix: `<div class="box14 row center"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${sideValue === 'mixed' ? '' : 'display: none'}` },
+          { id: 'mixed', name: 'mixed', style: `pointer-events: none;border-bottom: 1px inset #ffffff;${sideValue === 'mixed' ? '' : 'display: none'}` },
           ...listBorderSide.map(e => {
             return {
               id: e,
-              name: getIconBorderSide({ color: '#ffffff' })
+              name: getIconBorderSide(e, '#ffffff'),
+              style: 'width: 2.4rem; height: 2.4rem; padding: 0.4rem'
             }
           })]
       })
@@ -2249,18 +2250,16 @@ function reloadEditBorderBlock() {
 // ]
 // ! effect
 function EditEffectBlock() {
-  let listEffect = selected_list.filter(wb =>
-    WbClass.borderEffect.some(e => wb.value.classList.contains(e))
-  )
+  let listEffect = selected_list.filter(wb => WbClass.borderEffect.some(e => wb.value.classList.contains(e)))
   let editContainer = document.createElement('div')
   editContainer.id = 'edit-effect'
   editContainer.className = 'edit-container col'
 
   let header = document.createElement('div')
   header.className = 'ds-block-header row'
-  header.innerHTML = `<p>Effect</p>
-  <button class="action-button skin-btn bg-header-action"></button>
-  <i class="fa-solid fa-plus fa-sm bg-header-action"></i>`
+  header.innerHTML = `<p class="semibold1" style="flex: 1">Effect</p>
+  <button type='button' class="row default-icon-btn box24 action-button" style="padding: 0.7rem">${IconMoreSkins()}</button>
+  <i class="fa-solid fa-plus center box24" style="font-size: 1.4rem"></i>`
   editContainer.appendChild(header)
 
   //
@@ -2288,17 +2287,20 @@ function EditEffectBlock() {
   })
   if (listEffectSkin.length === 1 && listEffectSkin[0]?.length === 36) {
     header.querySelector('.fa-plus').remove()
-    header.querySelector('.skin-btn').remove()
-    let effectItem = StyleDA.listSkin.find(
-      skin => listEffectSkin[0] === skin.GID
-    )
+    header.querySelector('.action-button').remove()
+    let effectItem = StyleDA.listSkin.find(skin => listEffectSkin[0] === skin.GID)
     let cateItem = CateDA.list_effect_cate.find(e => e.ID === effectItem.CateID)
     let skin_tile = wbaseSkinTile({
       cate: EnumCate.effect,
       title: (cateItem ? `${cateItem.Name}/` : '') + effectItem.Name,
       onClick: function () {
         let offset = header.getBoundingClientRect()
-        createDropdownTableSkin(EnumCate.effect, offset, effectItem.GID)
+        showTableSkin({
+          cate: EnumCate.effect,
+          offset: offset,
+          selectedSkinId: effectItem.GID,
+          cssText: effectItem.Css
+        })
       },
       onRemove: function () {
         deleteEffect()
@@ -2309,7 +2311,7 @@ function EditEffectBlock() {
   } else if (listEffectSkin.some(vl => vl?.length === 36)) {
     let notiText = document.createElement('span')
     notiText.className = 'regular1'
-    notiText.style.margin = '4px 8px'
+    notiText.style.margin = '0.4rem 0.8rem'
     notiText.innerHTML = 'Choose a border skin to replace mixed content'
     editContainer.appendChild(notiText)
   } else {
@@ -2320,175 +2322,168 @@ function EditEffectBlock() {
       div_select_eType.className = 'row dropdown-effect-tile'
       editContainer.appendChild(div_select_eType)
       // popup edit effect type attribute
-      let effect_setting = createButtonAction(
-        'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/effect-settings.svg',
-        null,
-        function () {
-          setTimeout(setEffectValue, 200)
-        }
-      )
-      let popupEditEffect = document.createElement('div')
-      popupEditEffect.className = 'popup-edit-effect col wini_popup'
-      effect_setting.appendChild(popupEditEffect)
-      let popup_title = document.createElement('span')
-      popup_title.innerHTML = 'Drop shadow'
-      popupEditEffect.appendChild(popup_title)
-      let div_attribute = document.createElement('div')
-      popupEditEffect.appendChild(div_attribute)
-      let input_offsetX = TextField({
-        id: 'edit_effect_offsetX',
-        className: 'right-view-input regular1',
-        style: 'width: 8.4rem',
-        prefix: `<div class="label-5" style="color: #b5b5b5">X</div>`,
-        value: '0',
-        onBlur: function () {
-          if (!isNaN(parseFloat(this.value))) {
-            handleEditEffect({ offX: parseFloat(this.value) })
-          }
-        }
-      })
-      let input_blur = TextField({
-        id: 'edit_effect_blur',
-        className: 'right-view-input regular1',
-        style: 'width: 8.4rem',
-        prefix: `<div class="label-5" style="color: #b5b5b5">Blur</div>`,
-        value: '0',
-        onBlur: function () {
-          if (!isNaN(parseFloat(this.value))) {
-            handleEditEffect({ blurRadius: parseFloat(this.value) })
-          }
-        }
-      })
-      let input_offsetY = TextField({
-        id: 'edit_effect_offsetY',
-        className: 'right-view-input regular1',
-        style: 'width: 8.4rem',
-        prefix: `<div class="label-5" style="color: #b5b5b5">Y</div>`,
-        value: '0',
-        onBlur: function () {
-          if (!isNaN(parseFloat(this.value))) {
-            handleEditEffect({ offY: parseFloat(this.value) })
-          }
-        }
-      })
-      let input_spread = TextField({
-        id: 'edit_effect_spread',
-        className: 'right-view-input regular1',
-        style: 'width: 8.4rem',
-        prefix: `<div class="label-5" style="color: #b5b5b5">Spread</div>`,
-        value: '0',
-        onBlur: function () {
-          if (!isNaN(parseFloat(this.value))) {
-            handleEditEffect({ spreadRadius: parseFloat(this.value) })
-          }
-        }
-      })
-      let input_color = document.createElement('div')
-      input_color.style.margin = '4px'
-      div_attribute.replaceChildren(
-        input_offsetX,
-        input_blur,
-        input_offsetY,
-        input_spread,
-        input_color
-      )
-
-      //
-      function setEffectValue() {
-        popupEditEffect.style.display = 'flex'
-        if (eTypeValues === 'filter') {
-          input_offsetX.style.display = 'none'
-          input_offsetY.style.display = 'none'
-          input_spread.style.display = 'none'
-          input_color.style.display = 'none'
-          input_color.replaceChildren()
-          let blurValues = listEffect
-            .filter(wb => window.getComputedStyle(wb.value).filter !== 'none')
-            .filterAndMap(wb =>
-              window.getComputedStyle(wb.value).filter.replace(/(blur\(|px\))/g, '')
-            )
-          input_blur.querySelector('input').value =
-            blurValues.length > 1 ? 'mixed' : blurValues[0]
-        } else {
-          let boxShadowList = listEffect
-            .filter(wb => window.getComputedStyle(wb.value).boxShadow !== 'none')
-            .map(wb => {
-              let wbShadow = window.getComputedStyle(wb.value).boxShadow
-              let color = wbShadow.match(/(rgba|rgb)\(.*\)/g)[0]
-              wbShadow = wbShadow.replace(color, '').trim().split(' ')
-              return {
-                x: parseFloat(wbShadow[0].replace('px')),
-                y: parseFloat(wbShadow[1].replace('px')),
-                blur: parseFloat(wbShadow[2].replace('px')),
-                spread: parseFloat(wbShadow[3].replace('px')),
-                color: Ultis.rgbToHex(color)
-              }
-            })
-          let offXValues = boxShadowList.filterAndMap(vl => vl.x)
-          let offYValues = boxShadowList.filterAndMap(vl => vl.y)
-          let blurValues = boxShadowList.filterAndMap(vl => vl.blur)
-          let spreadValues = boxShadowList.filterAndMap(vl => vl.spread)
-          let colorValues = boxShadowList.filterAndMap(vl => vl.color)
-          input_offsetX.style.display = null
-          input_offsetY.style.display = null
-          input_spread.style.display = null
-          input_offsetX.querySelector('input').value =
-            offXValues.length > 1 ? 'mixed' : offXValues[0]
-          input_offsetY.querySelector('input').value =
-            offYValues.length > 1 ? 'mixed' : offYValues[0]
-          input_blur.querySelector('input').value =
-            blurValues.length > 1 ? 'mixed' : blurValues[0]
-          input_spread.querySelector('input').value =
-            spreadValues.length > 1 ? 'mixed' : spreadValues[0]
-          if (colorValues.length === 1) {
-            input_color.replaceChildren(
-              createEditColorForm({
-                id: 'edit-effect-color',
-                value: colorValues[0],
-                onchange: params => {
-                  handleEditEffect({ color: params, onSubmit: false })
-                },
-                onsubmit: params => {
-                  handleEditEffect({ color: params })
-                }
-              })
-            )
-          } else input_color.replaceChildren()
-        }
-      }
-      //
-
-      let eTypeValues = listEffect.filterAndMap(wb =>
-        window.getComputedStyle(wb.value).filter === 'none'
-          ? 'box-shadow'
-          : 'filter'
-      )
-      let btn_select_eType = _btnDropDownSelect({
-        initvalue: eTypeValues.length > 1 ? 'mixed' : eTypeValues[0],
-        listvalue:
-          eTypeValues.length == 1 ? effectType : ['mixed', ...effectType],
-        onselect: function (option) {
-          handleEditEffect({ type: option })
+      const showEditSettings = `<button type="button" class="box24 row center action-button" style="padding: 0.4rem">${IconEffectSettings()}</button>`
+      const eTypeValues = listEffect.filterAndMap(wb => window.getComputedStyle(wb.value).filter === 'none' ? 'box-shadow' : 'filter')
+      const eTypeValue = eTypeValues.length > 1 ? 'mixed' : eTypeValues[0]
+      const selectEType = Select1({
+        returnType: 'string',
+        style: 'flex: 1; width: 100%; border-width: 2px; border-radius: 0.2rem',
+        value: eTypeValue,
+        className: 'regular1',
+        dropdownStyle: 'background-color: #000000',
+        options: [
+          { id: 'mixed', name: 'mixed', style: `pointer-events: none;border-bottom: 1px inset #ffffff;${eTypeValue === 'mixed' ? '' : 'display: none'}` },
+          { id: 'box-shadow', name: 'box-shadow', style: 'color: #ffffff' },
+          { id: 'filter', name: 'filter', style: 'color: #ffffff' }
+        ],
+        onChange: (vl) => {
+          handleEditEffect({ type: vl.id })
           reloadEditEffectBlock()
         }
       })
-
-      let btn_delete = document.createElement('i')
-      btn_delete.className = 'fa-solid fa-minus row'
-      btn_delete.onclick = function () {
+      div_select_eType.innerHTML = `${showEditSettings}${selectEType}<i class="fa-solid fa-minus box24 row center" style="font-size: 1.4rem; display: flex"></i>`
+      if (eTypeValue === 'filter') {
+        const blurValues = listEffect
+          .filter(wb => window.getComputedStyle(wb.value).filter !== 'none')
+          .filterAndMap(wb =>
+            window.getComputedStyle(wb.value).filter.replace(/(blur\(|px\))/g, '')
+          )
+        const blurValue = blurValues.length > 1 ? 'mixed' : blurValues[0]
+        var inputBlur = `<div class="row" style="gap: 0.4rem">
+          <div class="label-5" style="width: 4rem">Blur</div>
+          ${TextField({
+          returnType: 'string',
+          style: '--gutter: 1.2rem',
+          className: 'regular1 right-view-input',
+          value: blurValue,
+          onChange: (ev) => {
+            if (!isNaN(parseFloat(ev.target.value))) {
+              handleEditEffect({ blurRadius: parseFloat(ev.target.value) })
+            } else {
+              ev.target.value = blurValue
+            }
+          }
+        })}
+        </div>`
+      } else {
+        const boxShadowList = listEffect
+          .filter(wb => window.getComputedStyle(wb.value).boxShadow !== 'none')
+          .map(wb => {
+            let wbShadow = window.getComputedStyle(wb.value).boxShadow
+            let color = wbShadow.match(/(rgba|rgb)\(.*\)/g)[0]
+            wbShadow = wbShadow.replace(color, '').trim().split(' ')
+            return {
+              x: parseFloat(wbShadow[0].replace('px')),
+              y: parseFloat(wbShadow[1].replace('px')),
+              blur: parseFloat(wbShadow[2].replace('px')),
+              spread: parseFloat(wbShadow[3].replace('px')),
+              color: Ultis.rgbToHex(color)
+            }
+          })
+        const offXValues = boxShadowList.filterAndMap(vl => vl.x)
+        const xValue = offXValues.length > 1 ? 'mixed' : offXValues[0]
+        var inputX = `<div class="row" style="gap: 0.4rem">
+          <div class="label-5" style="width: 4rem">X</div>
+          ${TextField({
+          returnType: 'string',
+          style: '--gutter: 1.2rem',
+          className: 'regular1 right-view-input',
+          value: xValue,
+          onChange: (ev) => {
+            if (!isNaN(parseFloat(ev.target.value))) {
+              handleEditEffect({ blurRadius: parseFloat(ev.target.value) })
+            } else {
+              ev.target.value = xValue
+            }
+          }
+        })}
+        </div>`
+        const offYValues = boxShadowList.filterAndMap(vl => vl.y)
+        const yValue = offYValues.length > 1 ? 'mixed' : offYValues[0]
+        var inputY = `<div class="row" style="gap: 0.4rem">
+          <div class="label-5" style="width: 4rem">Y</div>
+          ${TextField({
+          returnType: 'string',
+          style: '--gutter: 1.2rem',
+          className: 'regular1 right-view-input',
+          value: yValue,
+          onChange: (ev) => {
+            if (!isNaN(parseFloat(ev.target.value))) {
+              handleEditEffect({ offY: parseFloat(ev.target.value) })
+            } else {
+              ev.target.value = yValue
+            }
+          }
+        })}
+        </div>`
+        const blurValues = boxShadowList.filterAndMap(vl => vl.blur)
+        const blurValue = blurValues.length > 1 ? 'mixed' : blurValues[0]
+        var inputBlur = `<div class="row" style="gap: 0.4rem">
+          <div class="label-5" style="width: 4rem">Blur</div>
+          ${TextField({
+          returnType: 'string',
+          style: '--gutter: 1.2rem',
+          className: 'regular1 right-view-input',
+          value: blurValue,
+          onChange: (ev) => {
+            if (!isNaN(parseFloat(ev.target.value))) {
+              handleEditEffect({ blurRadius: parseFloat(ev.target.value) })
+            } else {
+              ev.target.value = blurValue
+            }
+          }
+        })}
+        </div>`
+        const spreadValues = boxShadowList.filterAndMap(vl => vl.spread)
+        const spreadValue = spreadValues.length > 1 ? 'mixed' : spreadValues[0]
+        var inputSpread = `<div class="row" style="gap: 0.4rem">
+          <div class="label-5" style="width: 4rem">Blur</div>
+          ${TextField({
+          returnType: 'string',
+          style: '--gutter: 1.2rem',
+          className: 'regular1 right-view-input',
+          value: spreadValue,
+          onChange: (ev) => {
+            if (!isNaN(parseFloat(ev.target.value))) {
+              handleEditEffect({ spreadRadius: parseFloat(ev.target.value) })
+            } else {
+              ev.target.value = spreadValue
+            }
+          }
+        })}
+        </div>`
+        const colorValues = boxShadowList.filterAndMap(vl => vl.color)
+        if (colorValues.length === 1) {
+          var inputColor = createEditColorForm({
+            returnType: 'string',
+            value: colorValues[0],
+            onchange: params => {
+              handleEditEffect({ color: params, onSubmit: false })
+            },
+            onsubmit: params => {
+              handleEditEffect({ color: params })
+            }
+          })
+        }
+      }
+      $(div_select_eType).on('click', '.action-button', function (ev) {
+        showPopup({
+          hiddenOverlay: true,
+          style: 'width: fit-content;transform: translateX(-100%)',
+          children: `<div class="popup-body row" style="flex-wrap: wrap; gap: 0.8rem 1.2rem; width: 23.2rem; min-height: 12.2rem">
+            ${inputX ?? ''}${inputBlur ?? ''}${inputY ?? ''}${inputSpread ?? ''}${inputColor ?? ''}
+          </div>`
+        })
+      })
+      $(div_select_eType).on('click', '.fa-minus', function () {
         deleteEffect()
         reloadEditEffectBlock()
-      }
-      div_select_eType.replaceChildren(
-        effect_setting,
-        btn_select_eType,
-        btn_delete
-      )
+      })
     }
   }
-  $(header).on('click', '.skin-btn', function () {
+  $(header).on('click', '.action-button', function () {
     let offset = header.getBoundingClientRect()
-    createDropdownTableSkin({
+    showTableSkin({
       cate: EnumCate.effect,
       offset: offset,
       cssText: listEffectSkin[0]
@@ -2662,9 +2657,11 @@ function showTableSkin({ cate, offset, selectedSkinId, cssText }) {
     })
     $(popupAddSkin).on('click', '.popup-footer > .close-popup', function () { popupAddSkin.remove() })
     $(popupAddSkin).on('click', '.popup-footer > .popup-submit', async function () {
-      await createNewSkin({ cate: cate, name: popupAddSkin.querySelector('.input-skin-name input').value.trim(), cssText: cssText })
-      popupAddSkin.remove()
-      popupTbSkins.remove()
+      const res = await createNewSkin({ cate: cate, name: popupAddSkin.querySelector('.input-skin-name input').value.trim(), cssText: cssText })
+      if (res) {
+        popupAddSkin.remove()
+        popupTbSkins.remove()
+      }
     })
     popupAddSkin.querySelector('.popup-close-btn').remove()
   })
@@ -2718,6 +2715,7 @@ async function createNewSkin({ cate, cssText, name }) {
         break
     }
   }
+  return skin
 }
 
 function updateTableSkinBody(enumCate, currentSkinID) {

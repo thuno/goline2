@@ -4538,9 +4538,7 @@ function unlinkBorderSkin() {
       WbClass.borderEffect.some(e => wb.value.classList.contains(e)) &&
       window.getComputedStyle(wb.value).borderStyle !== 'none'
   )
-  const pWbComponent = document
-    .getElementById(select_box_parentID)
-    ?.closest(`.wbaseItem-value[iswini]:not(.w-variant)`)
+  const pWbComponent = document.getElementById(select_box_parentID)?.closest(`.wbaseItem-value[iswini]:not(.w-variant)`)
   const borderSide = [
     'border',
     'border-top',
@@ -4552,10 +4550,7 @@ function unlinkBorderSkin() {
     let cssItem = StyleDA.cssStyleSheets.find(e => e.GID === pWbComponent.id)
     for (let wb of listUpdate) {
       let wbComputeSt = window.getComputedStyle(wb.value)
-      let wbBorderW = wbComputeSt.borderWidth
-        .split(' ')
-        .map(e => parseFloat(e.replace('px', '')))
-        .sort((a, b) => b - a)[0]
+      let wbBorderW = wbComputeSt.borderWidth.split(' ').map(e => parseFloat(e.replace('px', ''))).sort((a, b) => b - a)[0]
       let cssRule = StyleDA.docStyleSheets.find(e =>
         e.selectorText.endsWith(
           [...wb.value.classList].find(cls => cls.startsWith('w-st'))
@@ -4563,8 +4558,7 @@ function unlinkBorderSkin() {
       )
       for (let vl of borderSide) {
         if (cssRule.style[vl]?.length > 0) {
-          cssRule.style[vl] = `${wbBorderW}px ${wbComputeSt.borderStyle
-            } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+          cssRule.style[vl] = `${wbBorderW}px ${wbComputeSt.borderStyle} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
           if (vl === 'border') break
         }
       }
