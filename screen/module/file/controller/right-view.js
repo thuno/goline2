@@ -2132,7 +2132,7 @@ function EditBorderBlock() {
         dropdownStyle: 'background-color: #000000',
         options: [
           { id: 'mixed', name: 'mixed', prefix: `<div class="box12 row center"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${bStyleValue === 'mixed' ? '' : 'display: none'}` },
-          list_border_style.map(e => {
+          ...list_border_style.map(e => {
             return {
               id: e,
               name: e,
