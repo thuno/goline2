@@ -3628,13 +3628,9 @@ function unlinkColorSkin() {
         )
       )
       if (wb.value.classList.contains('w-text')) {
-        cssRule.style.backgroundColor = Ultis.rgbToHex(
-          window.getComputedStyle(wb.value).backgroundColor
-        )
+        cssRule.style.color = Ultis.rgbToHex(window.getComputedStyle(wb.value).color)
       } else {
-        cssRule.style.color = Ultis.rgbToHex(
-          window.getComputedStyle(wb.value).color
-        )
+        cssRule.style.backgroundColor = Ultis.rgbToHex(window.getComputedStyle(wb.value).backgroundColor)
       }
       cssItem.Css = cssItem.Css.replace(
         new RegExp(`${cssRule.selectorText} {[^}]*}`, 'g'),
@@ -3652,13 +3648,9 @@ function unlinkColorSkin() {
           )
         )
         if (wb.value.classList.contains('w-text')) {
-          cssRule.style.backgroundColor = Ultis.rgbToHex(
-            window.getComputedStyle(wb.value).backgroundColor
-          )
+          cssRule.style.color = Ultis.rgbToHex(window.getComputedStyle(wb.value).color)
         } else {
-          cssRule.style.color = Ultis.rgbToHex(
-            window.getComputedStyle(wb.value).color
-          )
+          cssRule.style.backgroundColor = Ultis.rgbToHex(window.getComputedStyle(wb.value).backgroundColor)
         }
         cssItem.Css = cssItem.Css.replace(
           new RegExp(`${cssRule.selectorText} {[^}]*}`, 'g'),
@@ -3668,13 +3660,9 @@ function unlinkColorSkin() {
         if (listUpdate.length) WBaseDA.edit(listUpdate, EnumObj.wBase)
       } else {
         if (wb.value.classList.contains('w-text')) {
-          wb.value.style.backgroundColor = Ultis.rgbToHex(
-            window.getComputedStyle(wb.value).backgroundColor
-          )
+          wb.value.style.color = Ultis.rgbToHex(window.getComputedStyle(wb.value).color)
         } else {
-          wb.value.style.color = Ultis.rgbToHex(
-            window.getComputedStyle(wb.value).color
-          )
+          wb.value.style.backgroundColor = Ultis.rgbToHex(window.getComputedStyle(wb.value).backgroundColor)
         }
         wb.Css = wb.value.style.cssText
       }
