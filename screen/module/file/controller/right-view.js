@@ -2145,7 +2145,7 @@ function EditBorderBlock() {
           reloadEditBorderBlock()
         }
       })
-      const widthValues = listBorder.filterAndMap(wb => window.getComputedStyle(wb.value).borderWidth.split(' ').map(e => parseFloat(e.replace('px', ''))).sort((a, b) => b - a)[0])
+      const widthValues = listBorderSkin.filterAndMap(cssValue => parseFloat(cssValue.split(' ')[0].replace('px')))
       const bWidthValue = widthValues.length > 1 ? 'mixed' : widthValues[0]
       const editStrokeWidth = TextField({
         returnType: 'string',
@@ -2187,35 +2187,27 @@ function EditBorderBlock() {
       const getIconBorderSide = (color) => {
         switch (sideValue) {
           case BorderSide.top:
-            var ic = IconBorderTop({ color: color });
-            break
+            return IconBorderTop({ color: color });
           case BorderSide.bottom:
-            ic = IconBorderBottom({ color: color });
-            break
+            return IconBorderBottom({ color: color });
           case BorderSide.top_bottom:
-            ic = IconBorderTopBottom({ color: color });
-            break
+            return IconBorderTopBottom({ color: color });
           case BorderSide.left:
-            ic = IconBorderLeft({ color: color });
-            break
+            return IconBorderLeft({ color: color });
           case BorderSide.right:
-            ic = IconBorderRight({ color: color });
-            break
+            return IconBorderRight({ color: color });
           case BorderSide.left_right:
-            ic = IconBorderLeftRight({ color: color });
-            break
+            return IconBorderLeftRight({ color: color });
           default:
-            ic = IconBorderAll({ color: color });
-            break
+            return IconBorderAll({ color: color });
         }
-        return `<div class="box14">${ic}</div>`
       }
       const selectBSide = Select1({
         returnType: 'string',
         value: sideValue,
         iconOnly: true,
         icon: getIconBorderSide(),
-        style: 'border: none',
+        style: 'border: none; padding: 0.4rem',
         className: 'box24 action-button center',
         dropdownStyle: 'background-color: #000000; width: fit-content',
         options: [
