@@ -14,12 +14,12 @@
 Toastr is hosted at CDN JS
 
 #### Debug
-- [//cdnjs.cloudflare.com/ajax/libs/toastr.js/f71ad52/js/toastr.js](//cdnjs.cloudflare.com/ajax/libs/toastr.js/f71ad52/js/toastr.js)
-- [//cdnjs.cloudflare.com/ajax/libs/toastr.js/f71ad52/css/toastr.css](//cdnjs.cloudflare.com/ajax/libs/toastr.js/f71ad52/css/toastr.css)
+- [//cdnjs.cloudflare.com/ajax/libs/toastr.js/8f6ef48/js/toastr.js](//cdnjs.cloudflare.com/ajax/libs/toastr.js/8f6ef48/js/toastr.js)
+- [//cdnjs.cloudflare.com/ajax/libs/toastr.js/8f6ef48/css/toastr.css](//cdnjs.cloudflare.com/ajax/libs/toastr.js/8f6ef48/css/toastr.css)
 
 #### Minified
-- [//cdnjs.cloudflare.com/ajax/libs/toastr.js/f71ad52/js/toastr.min.js](//cdnjs.cloudflare.com/ajax/libs/toastr.js/f71ad52/js/toastr.min.js) 
-- [//cdnjs.cloudflare.com/ajax/libs/toastr.js/f71ad52/css/toastr.css](//cdnjs.cloudflare.com/ajax/libs/toastr.js/f71ad52/css/toastr.css)
+- [//cdnjs.cloudflare.com/ajax/libs/toastr.js/8f6ef48/js/toastr.min.js](//cdnjs.cloudflare.com/ajax/libs/toastr.js/8f6ef48/js/toastr.min.js) 
+- [//cdnjs.cloudflare.com/ajax/libs/toastr.js/8f6ef48/css/toastr.css](//cdnjs.cloudflare.com/ajax/libs/toastr.js/8f6ef48/css/toastr.css)
 
 ## NuGet Gallery
 http://nuget.org/packages/toastr
