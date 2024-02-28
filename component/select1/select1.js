@@ -8,8 +8,11 @@ const Select1 = ({ id, value, onChange, placeholder = '', disabled, className, h
                 $('body').on('focus', `.select1-container[slct1-id="${dataId}"]`, function (ev) { popup = showSelect1Options({ dropdownStyle: dropdownStyle, dropdownClass: dropdownClass, value: value, options: options, parent: ev.target.closest('.select1-container'), hiddenSearch: true, onChange: onChange }) })
                 if (onHover) $('body').on('mouseover', `.select1-container[slct1-id="${dataId}"]`, function (ev) { onHover(ev) })
                 $('body').on('blur', `.select1-container[slct1-id="${dataId}"]`, function () {
-                    if (!popup.onOverOption)
-                        popup?.remove()
+                    if (popup?.onOverOption) {
+                        let selectItem = popup.onOverOption
+                        onChange(selectItem)
+                    } 
+                    popup?.remove()
                 })
                 return `<button ${id?.length ? `id="${id}"` : ''} ${dataId ? `slct1-id="${dataId}"` : ''}  class="select1-container row ${className ?? 'regular1'} ${helperText?.length && 'helper-text'} ${disabled ? 'disabled' : ''}" style="--helper-text-color: ${helperTextColor ?? '#e14337'};${style ?? ''}" ${helperText?.length ? `helper-text="${helperText}"` : ''}>
                     ${iconOnly ? '' : selectedValue?.name ? `<div class="select1-value-name row">${selectedValue.name}</div>` : `<div class="select1-placeholder">${placeholder ?? ''}</div>`}
@@ -31,8 +34,11 @@ const Select1 = ({ id, value, onChange, placeholder = '', disabled, className, h
                 newElement.type = 'button'
                 newElement.onfocus = function (ev) { popup = showSelect1Options({ dropdownStyle: dropdownStyle, dropdownClass: dropdownClass, value: value, options: options, parent: ev.target.closest('.select1-container'), hiddenSearch: true, onChange: onChange }) }
                 newElement.onblur = function () {
-                    if (!popup.onOverOption)
-                        popup?.remove()
+                    if (popup?.onOverOption) {
+                        let selectItem = popup.onOverOption
+                        onChange(selectItem)
+                    } 
+                    popup?.remove()
                 }
                 if (onHover) newElement.onmouseover = onHover
                 break;
@@ -53,15 +59,15 @@ const Select1 = ({ id, value, onChange, placeholder = '', disabled, className, h
 
 function showSelect1Options({ hiddenSearch = false, parent, options = [], value, onChange, dropdownStyle, dropdownClass }) {
     const offset = parent.getBoundingClientRect()
-    let onSelect = null
     let search = null
     let popup = document.createElement('div')
     popup.className = `select1-popup col ${dropdownClass ?? ''}`
     popup.style.cssText = `top: ${offset.y + offset.height + 2}px; left: ${offset.x}px; width: ${offset.width / 10}rem;${dropdownStyle ?? ''}`
     let htmlText = ''
-    popup.onmouseover = function (ev) { onSelect = ev.target }
-    popup.onmouseout = function () { onSelect = null }
     if (!hiddenSearch) {
+        let onSelect = null
+        popup.onmouseover = function (ev) { onSelect = ev.target }
+        popup.onmouseout = function () { onSelect = null }
         htmlText += `<div class="row header-search"><input autoFocus placeholder="Tìm kiếm" /></div>`
         $(popup).on('change', '.header-search > input', function (ev) {
             if (ev.target.value.trim().length) {
@@ -72,7 +78,11 @@ function showSelect1Options({ hiddenSearch = false, parent, options = [], value,
             renderOptions()
         })
         $(popup).on('blur', '.header-search > input', function (ev) {
-            if (onSelect) {
+            if (popup.onOverOption) {
+                let selectItem = popup.onOverOption
+                onChange(selectItem)
+                popup.remove()
+            } else if (onSelect) {
                 ev.target.focus()
             } else {
                 popup.remove()
@@ -93,15 +103,10 @@ function showSelect1Options({ hiddenSearch = false, parent, options = [], value,
                 option.style.cssText = `color: #262626;${item.style ?? ''}`
                 option.innerHTML = `${value != null ? `<i class="fa-solid fa-check" style="font-size: 1.2rem; color: inherit !important; visibility: ${item.id === value ? 'visible' : 'hidden'}"></i>` : ''}${typeof item.prefix === 'string' ? item.prefix : ''}${item.title ?? item.name ?? ''}`
                 option.onmouseover = function () {
-                    popup.onOverOption = true
+                    popup.onOverOption = item
                 }
                 option.onmouseout = function () {
                     delete popup.onOverOption
-                }
-                option.onclick = function (e) {
-                    e.stopPropagation()
-                    onChange(item)
-                    popup.remove()
                 }
                 return option
             }))

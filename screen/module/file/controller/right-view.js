@@ -225,12 +225,12 @@ function EditOffsetBlock() {
       style: 'width: 12.4rem',
       className: 'right-view-input semibold1',
       dropdownStyle: 'width: fit-content; background-color: #000000',
-      options: listDevice.map(item => {
-        return item.map((device, i) => {
+      options: listDevice.map((item, i) => {
+        return item.map((device, j) => {
           return {
             id: `${device.Width}x${device.Height}`,
             name: `${device.Name} - ${device.Width}x${device.Height}`,
-            style: `color: #ffffff;${i === (item.length - 1) ? 'border-bottom: 1px inset #ffffff' : ''}`
+            style: `color: #ffffff;${j === (item.length - 1) && i !== (listDevice.length - 1) ? 'border-bottom: 1px inset #ffffff' : ''}`
           }
         })
       }).reduce((a, b) => a.concat(b)),
@@ -297,10 +297,10 @@ function EditOffsetBlock() {
       style: 'width: 9.8rem; padding: 0.8rem',
       dropdownStyle: 'background-color: #000000; width: fit-content; padding: 0',
       options: [
-        { id: 'mixed', title: '<div class="box14 row center"></div>mixed', name: 'mixed', prefix: `<div class="box14 row center"></div>`, style: `color: #ffffff;pointer-events: none;border-bottom: 1px inset #ffffff;${wValue === 'mixed' ? '' : 'display: none'}` },
-        { id: 'hug', title: 'hug-content', name: `<div class="box14 row center" style="margin-right: 0.4rem">${HugContent()}</div>hug`, prefix: `<div class="box14 row center">${HugContent({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fit' }) ? '' : 'display: none'}` },
-        { id: 'fixed', title: 'fixed-size', name: `<div class="box14 row center" style="margin-right: 0.4rem">${FixedSize()}</div>fixed`, prefix: `<div class="box14 row center">${FixedSize({ color: '#ffffff' })}</div>`, style: 'color: #ffffff' },
-        { id: 'fill', title: 'fill-container', name: `<div class="box14 row center" style="margin-right: 0.4rem">${FillContainer()}</div>fill`, prefix: `<div class="box14 row center">${FillContainer({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fill' }) ? '' : 'display: none'}` },
+        { id: 'mixed', title: '<div class="box14 row center" style="margin-right: 0.6rem"></div>mixed', name: 'mixed', prefix: `<div class="box14 row center"></div>`, style: `color: #ffffff;pointer-events: none;border-bottom: 1px inset #ffffff;${wValue === 'mixed' ? '' : 'display: none'}` },
+        { id: 'hug', title: 'hug-content', name: `<div class="box14 row center" style="margin-right: 0.6rem">${HugContent()}</div>hug`, prefix: `<div class="box14 row center">${HugContent({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fit' }) ? '' : 'display: none'}` },
+        { id: 'fixed', title: 'fixed-size', name: `<div class="box14 row center" style="margin-right: 0.6rem">${FixedSize()}</div>fixed`, prefix: `<div class="box14 row center">${FixedSize({ color: '#ffffff' })}</div>`, style: 'color: #ffffff' },
+        { id: 'fill', title: 'fill-container', name: `<div class="box14 row center" style="margin-right: 0.6rem">${FillContainer()}</div>fill`, prefix: `<div class="box14 row center">${FillContainer({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fill' }) ? '' : 'display: none'}` },
       ],
       onChange: (value) => {
         handleEditOffset({ width: value.id === 'hug' ? null : value.id === 'fill' ? -1 : value.id })
@@ -321,10 +321,10 @@ function EditOffsetBlock() {
       style: 'width: 9.8rem; padding: 0.8rem',
       dropdownStyle: 'background-color: #000000; width: fit-content; padding: 0',
       options: [
-        { id: 'mixed', title: 'mixed', name: '<div class="box14 row center"></div>mixed', prefix: `<div class="box14 row center"></div>`, style: `color: #ffffff;pointer-events: none;border-bottom: 1px inset #ffffff;${hValue === 'mixed' ? '' : 'display: none'}` },
-        { id: 'hug', title: 'hug-content', name: `<div class="box14 row center" style="transform: rotate(90deg);margin-right: 0.4rem">${HugContent()}</div>hug`, prefix: `<div class="box14 row center" style="transform: rotate(90deg);">${HugContent({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fit' }) ? '' : 'display: none'}` },
-        { id: 'fixed', title: 'fixed-size', name: `<div class="box14 row center" style="transform: rotate(90deg);margin-right: 0.4rem">${FixedSize()}</div>fixed`, prefix: `<div class="box14 row center" style="transform: rotate(90deg);">${FixedSize({ color: '#ffffff' })}</div>`, style: `color: #ffffff;` },
-        { id: 'fill', title: 'fill-container', name: `<div class="box14 row center" style="transform: rotate(90deg);margin-right: 0.4rem">${FillContainer()}</div>fill`, prefix: `<div class="box14 row center" style="transform: rotate(90deg);">${FillContainer({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fill' }) ? '' : 'display: none'}` },
+        { id: 'mixed', title: 'mixed', name: '<div class="box14 row center" style="margin-right: 0.6rem"></div>mixed', prefix: `<div class="box14 row center"></div>`, style: `color: #ffffff;pointer-events: none;border-bottom: 1px inset #ffffff;${hValue === 'mixed' ? '' : 'display: none'}` },
+        { id: 'hug', title: 'hug-content', name: `<div class="box14 row center" style="transform: rotate(90deg);margin-right: 0.6rem">${HugContent()}</div>hug`, prefix: `<div class="box14 row center" style="transform: rotate(90deg);">${HugContent({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fit' }) ? '' : 'display: none'}` },
+        { id: 'fixed', title: 'fixed-size', name: `<div class="box14 row center" style="transform: rotate(90deg);margin-right: 0.6rem">${FixedSize()}</div>fixed`, prefix: `<div class="box14 row center" style="transform: rotate(90deg);">${FixedSize({ color: '#ffffff' })}</div>`, style: `color: #ffffff;` },
+        { id: 'fill', title: 'fill-container', name: `<div class="box14 row center" style="transform: rotate(90deg);margin-right: 0.6rem">${FillContainer()}</div>fill`, prefix: `<div class="box14 row center" style="transform: rotate(90deg);">${FillContainer({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fill' }) ? '' : 'display: none'}` },
       ],
       onChange: (value) => {
         handleEditOffset({ height: value.id === 'hug' ? null : value.id === 'fill' ? -1 : value.id })
@@ -516,7 +516,7 @@ function EditOffsetBlock() {
   const enableClipContentList = ['w-container', 'w-button', 'w-textformfield', 'w-variant']
   if (selected_list.filter(wb => enableClipContentList.some(e => wb.value.classList.contains(e))).length > 0) {
     // sixth line is btn checkboc clip content (overflow)
-    var btn_clip_content = `<div class="row regular1" style="0.4rem; padding: 0.2rem 0.8rem">${Checkbox({
+    var btn_clip_content = `<div class="row regular1" style="gap: 0.4rem; padding: 0.2rem 0.8rem">${Checkbox({
       returnType: 'string',
       size: '1.6rem',
       value: selected_list.filter(wb => enableClipContentList.some(e => wb.value.classList.contains(e))).every(wb => window.getComputedStyle(wb.value).overflow.includes('hidden')),
