@@ -228,6 +228,7 @@ function EditOffsetBlock() {
       options: listDevice.map((item, i) => {
         return item.map((device, j) => {
           return {
+            ...device,
             id: `${device.Width}x${device.Height}`,
             name: `${device.Name} - ${device.Width}x${device.Height}`,
             style: `color: #ffffff;${j === (item.length - 1) && i !== (listDevice.length - 1) ? 'border-bottom: 1px inset #ffffff' : ''}`
