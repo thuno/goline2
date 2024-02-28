@@ -221,8 +221,9 @@ function EditOffsetBlock() {
       ${Select1({
       returnType: 'string',
       value: deviceValue,
+      style: '12.4rem',
       className: 'right-view-input regular1',
-      dropdownStyle: 'width: fit-content',
+      dropdownStyle: 'width: fit-content; background-color: #000000',
       options: listDevice.map(item => {
         return item.map((device, i) => {
           return {
