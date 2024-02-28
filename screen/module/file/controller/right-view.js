@@ -2215,7 +2215,10 @@ function EditBorderBlock() {
               id: e,
               name: `<div class="box20">${getIconBorderSide(e, '#ffffff')}</div>`,
             }
-          })]
+          })],
+        onChange: (vl) => {
+          handleEditBorder({ side: vl.id })
+        }
       })
       formEditLine.innerHTML = `${selectBStyle}${editStrokeWidth}${selectBSide}`
       editContainer.appendChild(formEditLine)
