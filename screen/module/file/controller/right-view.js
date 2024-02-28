@@ -1244,7 +1244,7 @@ function checkActiveFillHug({ type = 'fill', isW = true }) {
 function _alignTable({ isVertical = true, value }) {
   value = value === 'CenterCenter' ? 'Center' : value
   let alignContainer = document.createElement('div')
-  alignContainer.className = 'alignment-container'
+  alignContainer.className = 'alignment-container box64'
   alignContainer.setAttribute('oy', isVertical)
   alignContainer.innerHTML = [
     AlignmentType.top_left,
@@ -1258,7 +1258,7 @@ function _alignTable({ isVertical = true, value }) {
     AlignmentType.bottom_right
   ]
     .map(
-      vl => `<div class='align-option' alignvl="${vl}" style='opacity: ${vl === value ? 1 : 0.05}'></div>`
+      vl => `<div class='align-option box16' alignvl="${vl}" style='opacity: ${vl === value ? 1 : 0.05}'></div>`
     ).join('')
   $(alignContainer).on('click', '.align-option', function (ev) {
     alignContainer.querySelectorAll('.align-option').forEach(e => {

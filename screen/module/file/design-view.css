@@ -803,11 +803,9 @@ i.center[class*="box"]:hover {
 }
 
 .alignment-container {
-    width: 64px;
-    height: 64px;
-    margin: 0 32px 0 56px;
+    margin: 0 3.2rem 0 5.6rem;
     border: 1.5px solid #e5e5e5;
-    border-radius: 4px;
+    border-radius: 0.4rem;
     position: relative;
 }
 
@@ -815,8 +813,6 @@ i.center[class*="box"]:hover {
     position: absolute;
     background-position: center;
     background-repeat: no-repeat;
-    width: 16px;
-    height: 16px;
 }
 
 .alignment-container>.align-option:hover {
