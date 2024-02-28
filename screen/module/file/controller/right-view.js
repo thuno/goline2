@@ -549,7 +549,7 @@ function EditLayoutBlock() {
   editContainer.id = 'edit_auto_layout_div'
   editContainer.className = 'edit-container col'
   let header = document.createElement('div')
-  header.className = `ds-block-header`
+  header.className = `ds-block-header row`
   header.innerHTML = `<p class="semibold1" style="flex: 1">${isEditTable ? 'Table layout' : 'Auto layout'}</p>
   <i class="fa-solid fa-minus center box24" style="font-size: 1.4rem"></i>
   <i class="fa-solid fa-plus center box24" style="font-size: 1.4rem"></i>`
