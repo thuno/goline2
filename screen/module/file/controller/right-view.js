@@ -217,68 +217,29 @@ function EditOffsetBlock() {
   if (select_box_parentID === wbase_parentID && selected_list.every(e => !e.IsInstance && e.value.classList.contains('w-container'))) {
     const listSize = selected_list.filter(wb => wb.value.classList.contains('w-container')).filterAndMap(wb => `${parseInt(wb.value.offsetWidth)}x${parseInt(wb.value.offsetHeight)}`)
     const deviceValue = listSize[0]
-    var selectWHDevice = Select1({
+    var selectWHDevice = `<div class="row" style="width: 20.4rem">
+      ${Select1({
       returnType: 'string',
       value: deviceValue,
-      style: 'width: 20.4rem'
-    })
+      className: 'right-view-input regular1',
+      dropdownStyle: 'width: fit-content',
+      options: listDevice.map(item => {
+        return item.map((device, i) => {
+          return {
+            id: `${device.Width}x${device.Height}`,
+            name: `${device.Name} - ${device.Width}x${device.Height}`,
+            style: `color: #ffffff;${i === (item.length - 1) ? 'border-bottom: 1px inset #ffffff' : ''}`
+          }
+        })
+      }).reduce((a, b) => a.concat(b)),
+      placeholder: 'Device name',
+      onChange: device => {
+        handleEditOffset({ width: device.Width, height: device.Height })
+        reloadEditOffsetBlock()
+      }
+    })}
+    </div>`
   }
-  //   let pageDeviceContainer = document.createElement('div')
-  //   pageDeviceContainer.className = 'page-device-container row'
-  //   let btn_select_frame_size = document.createElement('button')
-  //   pageDeviceContainer.appendChild(btn_select_frame_size)
-  //   btn_select_frame_size.onclick = function (e) {
-  //     e.stopPropagation()
-  //     let popup = document.createElement('div')
-  //     popup.className = 'popup_select_device col wini_popup popup_remove'
-  //     for (let i = 0; i < listDevice.length; i++) {
-  //       let col = document.createElement('nav')
-  //       col.className = 'col'
-  //       if (i + 1 != listDevice.length)
-  //         col.style.borderBottom = '0.5px solid #e5e5e5'
-  //       for (let device of listDevice[i]) {
-  //         let option = document.createElement('div')
-  //         option.className = 'w-device-option-tile'
-  //         option.onclick = function (ev) {
-  //           ev.stopPropagation()
-  //           handleEditOffset({ width: device.Width, height: device.Height })
-  //           popup.remove()
-  //           reloadEditOffsetBlock()
-  //         }
-  //         option.innerHTML = `<i class="fa-solid fa-check" style="visibility: ${btn_title.innerHTML === device.Name ? 'visible' : 'hidden'
-  //           }"></i><span>${device.Name}</span><span>${device.Width}x${device.Height
-  //           }</span>`
-  //         col.appendChild(option)
-  //       }
-  //       popup.appendChild(col)
-  //     }
-  //     document.getElementById('body').appendChild(popup)
-  //     if (
-  //       popup.getBoundingClientRect().bottom >
-  //       document.body.getBoundingClientRect().bottom
-  //     ) {
-  //       popup.style.height = `${document.body.getBoundingClientRect().bottom -
-  //         popup.getBoundingClientRect().y
-  //         }px`
-  //     }
-  //   }
-  //   let listSize = selected_list
-  //     .filter(wb => wb.value.classList.contains('w-container'))
-  //     .filterAndMap(
-  //       wb =>
-  //         `${parseInt(wb.value.offsetWidth)}x${parseInt(wb.value.offsetHeight)}`
-  //     )
-  // btn_select_frame_size.innerHTML = `<p class="semibold1">${listSize.length === 1
-  //   ? listDevice
-  //     .reduce((a, b) => a.concat(b))
-  //     .find(device => `${device.Width}x${device.Height}` === listSize[0])
-  //     ?.Name ?? 'Device size'
-  //   : 'Device size'
-  //   }</p><i class="fa-solid fa-chevron-down fa-2xs"></i>`
-  //   editContainer.appendChild(pageDeviceContainer)
-  // }
-
-  //
   const parentHTML = divSection.querySelector(`.wbaseItem-value.w-container[id="${select_box_parentID}"]`)
   if (parentHTML && window.getComputedStyle(parentHTML).display.match('flex')) {
     const isFixPos = selected_list.every(e => e.value.classList.contains('fixed-position'))
@@ -335,7 +296,7 @@ function EditOffsetBlock() {
       style: 'width: 9.8rem; padding: 0.8rem',
       dropdownStyle: 'background-color: #000000; width: fit-content; padding: 0',
       options: [
-        { id: 'mixed', title: 'mixed', name: 'mixed', prefix: `<div class="box14 row center"></div>`, style: `color: #ffffff;pointer-events: none;border-bottom: 1px inset #ffffff;${wValue === 'mixed' ? '' : 'display: none'}` },
+        { id: 'mixed', title: '<div class="box14 row center"></div>mixed', name: 'mixed', prefix: `<div class="box14 row center"></div>`, style: `color: #ffffff;pointer-events: none;border-bottom: 1px inset #ffffff;${wValue === 'mixed' ? '' : 'display: none'}` },
         { id: 'hug', title: 'hug-content', name: `<div class="box14 row center" style="margin-right: 0.4rem">${HugContent()}</div>hug`, prefix: `<div class="box14 row center">${HugContent({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fit' }) ? '' : 'display: none'}` },
         { id: 'fixed', title: 'fixed-size', name: `<div class="box14 row center" style="margin-right: 0.4rem">${FixedSize()}</div>fixed`, prefix: `<div class="box14 row center">${FixedSize({ color: '#ffffff' })}</div>`, style: 'color: #ffffff' },
         { id: 'fill', title: 'fill-container', name: `<div class="box14 row center" style="margin-right: 0.4rem">${FillContainer()}</div>fill`, prefix: `<div class="box14 row center">${FillContainer({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fill' }) ? '' : 'display: none'}` },
@@ -359,7 +320,7 @@ function EditOffsetBlock() {
       style: 'width: 9.8rem; padding: 0.8rem',
       dropdownStyle: 'background-color: #000000; width: fit-content; padding: 0',
       options: [
-        { id: 'mixed', title: 'mixed', name: 'mixed', prefix: `<div class="box14 row center"></div>`, style: `color: #ffffff;pointer-events: none;border-bottom: 1px inset #ffffff;${hValue === 'mixed' ? '' : 'display: none'}` },
+        { id: 'mixed', title: 'mixed', name: '<div class="box14 row center"></div>mixed', prefix: `<div class="box14 row center"></div>`, style: `color: #ffffff;pointer-events: none;border-bottom: 1px inset #ffffff;${hValue === 'mixed' ? '' : 'display: none'}` },
         { id: 'hug', title: 'hug-content', name: `<div class="box14 row center" style="transform: rotate(90deg);margin-right: 0.4rem">${HugContent()}</div>hug`, prefix: `<div class="box14 row center" style="transform: rotate(90deg);">${HugContent({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fit' }) ? '' : 'display: none'}` },
         { id: 'fixed', title: 'fixed-size', name: `<div class="box14 row center" style="transform: rotate(90deg);margin-right: 0.4rem">${FixedSize()}</div>fixed`, prefix: `<div class="box14 row center" style="transform: rotate(90deg);">${FixedSize({ color: '#ffffff' })}</div>`, style: `color: #ffffff;` },
         { id: 'fill', title: 'fill-container', name: `<div class="box14 row center" style="transform: rotate(90deg);margin-right: 0.4rem">${FillContainer()}</div>fill`, prefix: `<div class="box14 row center" style="transform: rotate(90deg);">${FillContainer({ color: '#ffffff' })}</div>`, style: `color: #ffffff;${checkActiveFillHug({ type: 'fill' }) ? '' : 'display: none'}` },
@@ -563,7 +524,7 @@ function EditOffsetBlock() {
       }
     })} Clip content</div>`
   }
-  editContainer.innerHTML = `<div class="row" style="gap: 1.2rem 0.8rem; flex-wrap: wrap">${editX}${editY}${iconFixPos ?? ''}${editW}${editH}${iconRatioWH ?? ''}${selectTypeW ?? ''}${selectTypeH ?? ''}${edit_rotate}${editR ?? ''}${btn_clip_content ?? ''}</div>`
+  editContainer.innerHTML = `<div class="row" style="gap: 1.2rem 0.8rem; flex-wrap: wrap">${selectWHDevice ?? ''}${editX}${editY}${iconFixPos ?? ''}${editW}${editH}${iconRatioWH ?? ''}${selectTypeW ?? ''}${selectTypeH ?? ''}${edit_rotate}${editR ?? ''}${btn_clip_content ?? ''}</div>`
   return editContainer
 }
 
