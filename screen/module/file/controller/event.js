@@ -1,3 +1,4 @@
+console.log('event')
 function handleEditAlign(newValue) {
   let is_edit_children = selected_list.every(
     wb =>
@@ -5074,30 +5075,31 @@ function handleEditBorder({
             [...wb.value.classList].find(cls => cls.startsWith('w-st'))
           )
         )
+        const newValue = `${wbBorderW}px ${wbComputeSt.borderStyle} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
         cssRule.style.border = null
         switch (side) {
           case BorderSide.top:
-            cssRule.style.borderTop = `${wbBorderW}px ${wbComputeSt.borderStyle} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+            cssRule.style.borderTop = newValue
             break
           case BorderSide.right:
-            cssRule.style.borderRight = `${wbBorderW}px ${wbComputeSt.borderStyle} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+            cssRule.style.borderRight = newValue
             break
           case BorderSide.bottom:
-            cssRule.style.borderBottom = `${wbBorderW}px ${wbComputeSt.borderStyle} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+            cssRule.style.borderBottom = newValue
             break
           case BorderSide.left:
-            cssRule.style.borderLeft = `${wbBorderW}px ${wbComputeSt.borderStyle} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+            cssRule.style.borderLeft = newValue
             break
           case BorderSide.left_right:
-            cssRule.style.borderLeft = `${wbBorderW}px ${wbComputeSt.borderStyle} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
-            cssRule.style.borderRight = `${wbBorderW}px ${wbComputeSt.borderStyle} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+            cssRule.style.borderLeft = newValue
+            cssRule.style.borderRight = newValue
             break
           case BorderSide.top_bottom:
-            cssRule.style.borderTop = `${wbBorderW}px ${wbComputeSt.borderStyle} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
-            cssRule.style.borderBottom = `${wbBorderW}px ${wbComputeSt.borderStyle} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+            cssRule.style.borderTop = newValue
+            cssRule.style.borderBottom = newValue
             break
           default: // case all
-            cssRule.style.border = `${wbBorderW}px ${wbComputeSt.borderStyle} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+            cssRule.style.border = newValue
             break
         }
         cssItem.Css = cssItem.Css.replace(
@@ -5113,6 +5115,7 @@ function handleEditBorder({
           .split(' ')
           .map(e => parseFloat(e.replace('px', '')))
           .sort((a, b) => b - a)[0]
+        const newValue = `${wbBorderW}px ${wbComputeSt.borderStyle} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
         if (wb.IsWini && !wb.value.classList.contains('w-variant')) {
           let cssItem = StyleDA.cssStyleSheets.find(e => e.GID === wb.GID)
           let cssRule = StyleDA.docStyleSheets.find(e =>
@@ -5123,36 +5126,27 @@ function handleEditBorder({
           cssRule.style.border = null
           switch (side) {
             case BorderSide.top:
-              cssRule.style.borderTop = `${wbBorderW}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              cssRule.style.borderTop = newValue
               break
             case BorderSide.right:
-              cssRule.style.borderRight = `${wbBorderW}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              cssRule.style.borderRight = newValue
               break
             case BorderSide.bottom:
-              cssRule.style.borderBottom = `${wbBorderW}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              cssRule.style.borderBottom = newValue
               break
             case BorderSide.left:
-              cssRule.style.borderLeft = `${wbBorderW}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              cssRule.style.borderLeft = newValue
               break
             case BorderSide.left_right:
-              cssRule.style.borderLeft = `${wbBorderW}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
-              cssRule.style.borderRight = `${wbBorderW}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              cssRule.style.borderLeft = newValue
+              cssRule.style.borderRight = newValue
               break
             case BorderSide.top_bottom:
-              cssRule.style.borderTop = `${wbBorderW}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
-              cssRule.style.borderBottom = `${wbBorderW}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              cssRule.style.borderTop = newValue
+              cssRule.style.borderBottom = newValue
               break
             default: // case all
-              cssRule.style.border = `${wbBorderW}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              cssRule.style.border = newValue
               break
           }
           cssItem.Css = cssItem.Css.replace(
@@ -5165,36 +5159,27 @@ function handleEditBorder({
           wb.value.style.border = null
           switch (side) {
             case BorderSide.top:
-              wb.value.style.borderTop = `${wbBorderW}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              wb.value.style.borderTop = newValue
               break
             case BorderSide.right:
-              wb.value.style.borderRight = `${wbBorderW}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              wb.value.style.borderRight = newValue
               break
             case BorderSide.bottom:
-              wb.value.style.borderBottom = `${wbBorderW}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              wb.value.style.borderBottom = newValue
               break
             case BorderSide.left:
-              wb.value.style.borderLeft = `${wbBorderW}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              wb.value.style.borderLeft = newValue
               break
             case BorderSide.left_right:
-              wb.value.style.borderLeft = `${wbBorderW}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
-              wb.value.style.borderRight = `${wbBorderW}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              wb.value.style.borderLeft = newValue
+              wb.value.style.borderRight = newValue
               break
             case BorderSide.top_bottom:
-              wb.value.style.borderTop = `${wbBorderW}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
-              wb.value.style.borderBottom = `${wbBorderW}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              wb.value.style.borderTop = newValue
+              wb.value.style.borderBottom = newValue
               break
             default: // case all
-              wb.value.style.border = `${wbBorderW}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              wb.value.style.border = newValue
               break
           }
           wb.Css = wb.value.style.cssText
@@ -5217,36 +5202,26 @@ function handleEditBorder({
         )
         switch (wbBorderW.length) {
           case 1:
-            cssRule.style.border = `${wbBorderW[0]}px ${style} ${Ultis.rgbToHex(
-              wbComputeSt.borderColor
-            )}`
+            cssRule.style.border = `${wbBorderW[0]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
             break
           case 2:
             if (wbBorderW[0] > 0) {
-              cssRule.style.borderTop = `${wbBorderW[0]
-                }px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
-              cssRule.style.borderBottom = `${wbBorderW[0]
-                }px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              cssRule.style.borderTop = `${wbBorderW[0]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              cssRule.style.borderBottom = `${wbBorderW[0]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
             } else {
-              cssRule.style.borderLeft = `${wbBorderW[1]
-                }px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
-              cssRule.style.borderRight = `${wbBorderW[1]
-                }px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              cssRule.style.borderLeft = `${wbBorderW[1]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              cssRule.style.borderRight = `${wbBorderW[1]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
             }
             break
           default: // case 4
             if (wbBorderW[0] > 0) {
-              cssRule.style.borderTop = `${wbBorderW[0]
-                }px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              cssRule.style.borderTop = `${wbBorderW[0]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
             } else if (wbBorderW[1] > 0) {
-              cssRule.style.borderRight = `${wbBorderW[1]
-                }px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              cssRule.style.borderRight = `${wbBorderW[1]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
             } else if (wbBorderW[2] > 0) {
-              cssRule.style.borderBottom = `${wbBorderW[2]
-                }px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              cssRule.style.borderBottom = `${wbBorderW[2]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
             } else {
-              cssRule.style.borderLeft = `${wbBorderW[3]
-                }px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              cssRule.style.borderLeft = `${wbBorderW[3]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
             }
             break
         }
@@ -5271,35 +5246,26 @@ function handleEditBorder({
           )
           switch (wbBorderW.length) {
             case 1:
-              cssRule.style.border = `${wbBorderW[0]
-                }px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              cssRule.style.border = `${wbBorderW[0]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               break
             case 2:
               if (wbBorderW[0] > 0) {
-                cssRule.style.borderTop = `${wbBorderW[0]
-                  }px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
-                cssRule.style.borderBottom = `${wbBorderW[0]
-                  }px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                cssRule.style.borderTop = `${wbBorderW[0]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                cssRule.style.borderBottom = `${wbBorderW[0]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               } else {
-                cssRule.style.borderLeft = `${wbBorderW[1]
-                  }px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
-                cssRule.style.borderRight = `${wbBorderW[1]
-                  }px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                cssRule.style.borderLeft = `${wbBorderW[1]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                cssRule.style.borderRight = `${wbBorderW[1]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               }
               break
             default: // case 4
               if (wbBorderW[0] > 0) {
-                cssRule.style.borderTop = `${wbBorderW[0]
-                  }px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                cssRule.style.borderTop = `${wbBorderW[0]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               } else if (wbBorderW[1] > 0) {
-                cssRule.style.borderRight = `${wbBorderW[1]
-                  }px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                cssRule.style.borderRight = `${wbBorderW[1]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               } else if (wbBorderW[2] > 0) {
-                cssRule.style.borderBottom = `${wbBorderW[2]
-                  }px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                cssRule.style.borderBottom = `${wbBorderW[2]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               } else {
-                cssRule.style.borderLeft = `${wbBorderW[3]
-                  }px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                cssRule.style.borderLeft = `${wbBorderW[3]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               }
               break
           }
@@ -5312,35 +5278,26 @@ function handleEditBorder({
         } else {
           switch (wbBorderW.length) {
             case 1:
-              wb.value.style.border = `${wbBorderW[0]
-                }px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              wb.value.style.border = `${wbBorderW[0]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               break
             case 2:
               if (wbBorderW[0] > 0) {
-                wb.value.style.borderTop = `${wbBorderW[0]
-                  }px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
-                wb.value.style.borderBottom = `${wbBorderW[0]
-                  }px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                wb.value.style.borderTop = `${wbBorderW[0]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                wb.value.style.borderBottom = `${wbBorderW[0]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               } else {
-                wb.value.style.borderLeft = `${wbBorderW[1]
-                  }px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
-                wb.value.style.borderRight = `${wbBorderW[1]
-                  }px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                wb.value.style.borderLeft = `${wbBorderW[1]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                wb.value.style.borderRight = `${wbBorderW[1]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               }
               break
             default: // case 4
               if (wbBorderW[0] > 0) {
-                wb.value.style.borderTop = `${wbBorderW[0]
-                  }px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                wb.value.style.borderTop = `${wbBorderW[0]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               } else if (wbBorderW[1] > 0) {
-                wb.value.style.borderRight = `${wbBorderW[1]
-                  }px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                wb.value.style.borderRight = `${wbBorderW[1]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               } else if (wbBorderW[2] > 0) {
-                wb.value.style.borderBottom = `${wbBorderW[2]
-                  }px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                wb.value.style.borderBottom = `${wbBorderW[2]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               } else {
-                wb.value.style.borderLeft = `${wbBorderW[3]
-                  }px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                wb.value.style.borderLeft = `${wbBorderW[3]}px ${style} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               }
               break
           }
