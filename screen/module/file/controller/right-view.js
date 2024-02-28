@@ -2071,9 +2071,7 @@ function EditBorderBlock() {
     let cateItem = CateDA.list_border_cate.find(e => e.ID === borderItem.CateID)
     let skin_tile = wbaseSkinTile({
       cate: EnumCate.border,
-      prefixValue: Ultis.rgbToHex(
-        window.getComputedStyle(listBorder[0].value).borderColor
-      ),
+      prefixValue: borderItem.Css,
       title: (cateItem ? `${cateItem.Name}/` : '') + borderItem.Name,
       onClick: function () {
         let offset = header.getBoundingClientRect()
@@ -2968,7 +2966,7 @@ function createSkinTileHTML(enumCate, jsonSkin) {
           reloadEditBorderBlock()
         }
       }
-      skin_tile.innerHTML = `<div class="box20" style="border-radius: 50%; background-color: #f1f1f1;border: min(0.6rem, ${jsonSkin.Css.split(' ')[0]}) ${jsonSkin.Css.split(' ').slice(1).join(' ')};border-width: 0.5rem !important"></div><div class="skin-name regular1">${jsonSkin.Name}</div>${action_edit}`
+      skin_tile.innerHTML = `<div class="box20" style="border-radius: 50%; background-color: #f1f1f1;border: min(0.6rem, ${jsonSkin.Css.split(' ')[0]}) ${jsonSkin.Css.split(' ').slice(1).join(' ')}"></div><div class="skin-name regular1">${jsonSkin.Name}</div>${action_edit}`
       break
     case EnumCate.effect:
       skin_tile.onclick = function (e) {
