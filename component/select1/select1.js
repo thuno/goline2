@@ -94,7 +94,7 @@ function showSelect1Options({ hiddenSearch = false, parent, options = [], value,
     let search = null
     let popup = document.createElement('div')
     popup.className = `select1-popup col ${dropdownClass ?? ''}`
-    popup.style.cssText = `top: ${offset.y + offset.height + 2}px; left: ${offset.x}px; width: ${offset.width / 10}rem;${dropdownStyle ?? ''}`
+    popup.style.cssText = `top: ${offset.y + offset.height + 2}px; left: ${offset.x}px; width: ${offset.width}px;${dropdownStyle ?? ''}`
     let htmlText = ''
     if (!hiddenSearch) {
         let onSelect = null

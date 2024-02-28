@@ -1,3 +1,4 @@
+console.log('right-view')
 function setupRightView() {
   // setup tab change
   // create elements in design view
@@ -2129,7 +2130,7 @@ function EditBorderBlock() {
         className: 'right-view-input regular1',
         style: '--gutter: 0.6rem; text-align: start',
         value: bStyleValue,
-        dropdownStyle: 'background-color: #000000',
+        dropdownStyle: 'background-color: #000000; width: fit-content',
         options: [
           { id: 'mixed', name: 'mixed', prefix: `<div class="box12 row center"></div>`, style: `pointer-events: none;border-bottom: 1px inset #ffffff;${bStyleValue === 'mixed' ? '' : 'display: none'}` },
           ...list_border_style.map(e => {
@@ -2629,7 +2630,7 @@ function showTableSkin({ cate, offset, selectedSkinId, cssText }) {
     case EnumCate.border:
       title = 'Border skin'
       titleAddSkin = 'Create new border skin'
-      prefix = `<div class="box24" style="border-radius: 50%; background-color: #f1f1f1;border: 1.5px solid ${window.getComputedStyle(selected_list[0].value).borderColor}"></div>`
+      prefix = `<div class="box24" style="border-radius: 50%; background-color: #f1f1f1;border: min(0.6rem, ${cssText.split(' ')[0]}) ${cssText.split(' ').slice(1).join(' ')}"></div>`
       break
     case EnumCate.effect:
       title = 'Effect skin'
@@ -2746,9 +2747,7 @@ function updateTableSkinBody(enumCate, currentSkinID) {
       }
       break
     case EnumCate.typography:
-      if (
-        StyleDA.listSkin.filter(e => e.Type === EnumCate.typography).length == 0
-      ) {
+      if (StyleDA.listSkin.filter(e => e.Type === EnumCate.typography).length == 0) {
         noti_empty_skin.innerHTML = 'No typography skins.'
         dropdown.replaceChildren(noti_empty_skin)
       } else {
@@ -2765,9 +2764,7 @@ function updateTableSkinBody(enumCate, currentSkinID) {
 
       break
     case EnumCate.border:
-      if (
-        StyleDA.listSkin.filter(e => e.Type === EnumCate.border).length == 0
-      ) {
+      if (StyleDA.listSkin.filter(e => e.Type === EnumCate.border).length == 0) {
         noti_empty_skin.innerHTML = 'No border skins.'
         dropdown.replaceChildren(noti_empty_skin)
       } else {
@@ -2784,9 +2781,7 @@ function updateTableSkinBody(enumCate, currentSkinID) {
 
       break
     case EnumCate.effect:
-      if (
-        StyleDA.listSkin.filter(e => e.Type === EnumCate.effect).length == 0
-      ) {
+      if (StyleDA.listSkin.filter(e => e.Type === EnumCate.effect).length == 0) {
         noti_empty_skin.innerHTML = 'No effect skins.'
         dropdown.replaceChildren(noti_empty_skin)
       } else {
@@ -2973,7 +2968,7 @@ function createSkinTileHTML(enumCate, jsonSkin) {
           reloadEditBorderBlock()
         }
       }
-      skin_tile.innerHTML = `<div class="box20" style="border-radius: 50%; background-color: #f1f1f1;border: ${jsonSkin.Css};border-width: 0.5rem !important"></div><div class="skin-name regular1">${jsonSkin.Name}</div>${action_edit}`
+      skin_tile.innerHTML = `<div class="box20" style="border-radius: 50%; background-color: #f1f1f1;border: min(0.6rem, ${jsonSkin.Css.split(' ')[0]}) ${jsonSkin.Css.split(' ').slice(1).join(' ')};border-width: 0.5rem !important"></div><div class="skin-name regular1">${jsonSkin.Name}</div>${action_edit}`
       break
     case EnumCate.effect:
       skin_tile.onclick = function (e) {
@@ -3770,7 +3765,7 @@ function wbaseSkinTile({
         })
       break
     case EnumCate.border:
-      htmlText += `<div class="box20" style="border-radius: 50%; background-color: #f1f1f1;border: ${prefixValue};border-width: 0.5rem !important"></div><div class="skin-name regular1">${title}</div>`
+      htmlText += `<div class="box20" style="border-radius: 50%; background-color: #f1f1f1;border: min(0.6rem, ${prefixValue.split(' ')[0]}) ${prefixValue.split(' ').slice(1).join(' ')}"></div><div class="skin-name regular1">${title}</div>`
       if (handleUnlinkSkin)
         $(wbase_skin_tile).on('click', '.unlink-action', handleUnlinkSkin)
       else
