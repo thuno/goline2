@@ -5120,6 +5120,7 @@ function handleEditBorder({
               [...wb.value.classList].find(cls => cls.startsWith('w-st'))
             )
           )
+          cssRule.style.border = null
           switch (side) {
             case BorderSide.top:
               cssRule.style.borderTop = `${wbBorderW}px ${wbComputeSt.borderStyle
@@ -5161,6 +5162,7 @@ function handleEditBorder({
           StyleDA.editStyleSheet(cssItem)
           listUpdate = listUpdate.filter(e => e !== wb)
         } else {
+          wb.value.style.border = null
           switch (side) {
             case BorderSide.top:
               wb.value.style.borderTop = `${wbBorderW}px ${wbComputeSt.borderStyle
