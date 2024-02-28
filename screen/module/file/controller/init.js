@@ -43,6 +43,7 @@ $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@2ab1b9b/projec
             PageDA.checkEditPermission(PageDA.obj.Permission)
         }
     }
+    let wbaseResponse = await WBaseDA.apiGetInitWbase()
     $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@2ab1b9b/screen/module/file/local-component/body-layout.html', async function () {
         permissionTool()
         customerList()
@@ -59,7 +60,6 @@ $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@2ab1b9b/projec
         leftw = left_view?.offsetWidth ?? 0
         reightw = right_view?.offsetWidth ?? 0
         divSection.replaceChildren()
-        let wbaseResponse = await WBaseDA.apiGetInitWbase()
         StyleDA.initSkin(ProjectDA.obj.ID).then(skinResponse => {
             CateDA.initCate()
             StyleDA.listSkin = skinResponse
