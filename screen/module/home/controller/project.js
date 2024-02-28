@@ -134,7 +134,7 @@ $("body").on("click", ".project-card, .project-tile", async function (ev) {
 
 });
 
-$("body").on("blclick", ".project-card", async function (ev) {
+$("body").on("dblclick", ".project-card", async function (ev) {
     const pId = parseInt(ev.target.closest('.project-card').getAttribute('data-id'))
     let newTitleList = TitleBarDA.list()
     if (newTitleList.every(e => e.ID !== pId)) newTitleList.push(ProjectDA.list.find(e => e.ID === pId))
