@@ -569,20 +569,16 @@ function EditLayoutBlock() {
     )
     const selectDirection = GroupButtonOptions({
       value: isVertical ? 'Vertical' : 'Horizontal',
+      style: 'padding: 0 0.8rem',
       options: [
-        { id: 'Vertical', icon: `<i class="fa-solid fa-arrow-down" style="font-size: 1.4rem"></i>` },
-        { id: 'Horizontal', icon: `<i class="fa-solid fa-arrow-right" style="font-size: 1.4rem"></i>` },
+        { id: 'Vertical', icon: `<i class="fa-solid fa-arrow-down" style="font-size: 1.4rem"></i>`, style: 'padding: 0.2rem' },
+        { id: 'Horizontal', icon: `<i class="fa-solid fa-arrow-right" style="font-size: 1.4rem"></i>`, style: 'padding: 0.2rem' },
       ],
       onselect: (vl) => {
         handleEditLayout({ direction: vl.id })
         reloadEditLayoutBlock()
       }
     })
-
-    selectDirection.className = 'group_btn_direction uneditable-instance'
-    selectDirection.innerHTML = `<i class="fa-solid fa-arrow-down fa-xs" style="background-color: ${isVertical ? '#e5e5e5' : 'transparent'
-      }"></i><i class="fa-solid fa-arrow-right fa-xs" style="background-color: ${isVertical ? 'transparent' : '#e5e5e5'
-      }"></i>`
     if (wbList.every(wb => ['w-textformfield', 'w-table'].every(e => !wb.value.classList.contains(e)) && !wb.IsInstance && !wb.value.closest('.wbaseItem-value[iswini]'))) {
       $(header).on('click', '.fa-minus', function () {
         removeLayout()
