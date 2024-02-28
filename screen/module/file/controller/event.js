@@ -4811,26 +4811,26 @@ function handleEditBorder({
         )
         switch (wbBorderW.length) {
           case 1:
-            cssRule.style.border = `${wbBorderW[0]}px ${wbComputeSt.borderStyle} ${color}`
+            cssRule.style.border = `${wbBorderW[0]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
             break
           case 2:
             if (wbBorderW[0] > 0) {
-              cssRule.style.borderTop = `${wbBorderW[0]}px ${wbComputeSt.borderStyle} ${color}`
-              cssRule.style.borderBottom = `${wbBorderW[0]}px ${wbComputeSt.borderStyle} ${color}`
+              cssRule.style.borderTop = `${wbBorderW[0]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
+              cssRule.style.borderBottom = `${wbBorderW[0]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
             } else {
-              cssRule.style.borderLeft = `${wbBorderW[1]}px ${wbComputeSt.borderStyle} ${color}`
-              cssRule.style.borderRight = `${wbBorderW[1]}px ${wbComputeSt.borderStyle} ${color}`
+              cssRule.style.borderLeft = `${wbBorderW[1]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
+              cssRule.style.borderRight = `${wbBorderW[1]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
             }
             break
           default: // case 4
             if (wbBorderW[0] > 0) {
-              cssRule.style.borderTop = `${wbBorderW[0]}px ${wbComputeSt.borderStyle} ${color}`
+              cssRule.style.borderTop = `${wbBorderW[0]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
             } else if (wbBorderW[1] > 0) {
-              cssRule.style.borderRight = `${wbBorderW[1]}px ${wbComputeSt.borderStyle} ${color}`
+              cssRule.style.borderRight = `${wbBorderW[1]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
             } else if (wbBorderW[2] > 0) {
-              cssRule.style.borderBottom = `${wbBorderW[2]}px ${wbComputeSt.borderStyle} ${color}`
+              cssRule.style.borderBottom = `${wbBorderW[2]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
             } else {
-              cssRule.style.borderLeft = `${wbBorderW[3]}px ${wbComputeSt.borderStyle} ${color}`
+              cssRule.style.borderLeft = `${wbBorderW[3]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
             }
             break
         }
@@ -4855,26 +4855,26 @@ function handleEditBorder({
           )
           switch (wbBorderW.length) {
             case 1:
-              cssRule.style.border = `${wbBorderW[0]}px ${wbComputeSt.borderStyle} ${color}`
+              cssRule.style.border = `${wbBorderW[0]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
               break
             case 2:
               if (wbBorderW[0] > 0) {
-                cssRule.style.borderTop = `${wbBorderW[0]}px ${wbComputeSt.borderStyle} ${color}`
-                cssRule.style.borderBottom = `${wbBorderW[0]}px ${wbComputeSt.borderStyle} ${color}`
+                cssRule.style.borderTop = `${wbBorderW[0]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
+                cssRule.style.borderBottom = `${wbBorderW[0]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
               } else {
-                cssRule.style.borderLeft = `${wbBorderW[1]}px ${wbComputeSt.borderStyle} ${color}`
-                cssRule.style.borderRight = `${wbBorderW[1]}px ${wbComputeSt.borderStyle} ${color}`
+                cssRule.style.borderLeft = `${wbBorderW[1]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
+                cssRule.style.borderRight = `${wbBorderW[1]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
               }
               break
             default: // case 4
               if (wbBorderW[0] > 0) {
-                cssRule.style.borderTop = `${wbBorderW[0]}px ${wbComputeSt.borderStyle} ${color}`
+                cssRule.style.borderTop = `${wbBorderW[0]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
               } else if (wbBorderW[1] > 0) {
-                cssRule.style.borderRight = `${wbBorderW[1]}px ${wbComputeSt.borderStyle} ${color}`
+                cssRule.style.borderRight = `${wbBorderW[1]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
               } else if (wbBorderW[2] > 0) {
-                cssRule.style.borderBottom = `${wbBorderW[2]}px ${wbComputeSt.borderStyle} ${color}`
+                cssRule.style.borderBottom = `${wbBorderW[2]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
               } else {
-                cssRule.style.borderLeft = `${wbBorderW[3]}px ${wbComputeSt.borderStyle} ${color}`
+                cssRule.style.borderLeft = `${wbBorderW[3]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
               }
               break
           }
@@ -4887,26 +4887,26 @@ function handleEditBorder({
         } else {
           switch (wbBorderW.length) {
             case 1:
-              wb.value.style.border = `${wbBorderW[0]}px ${wbComputeSt.borderStyle} ${color}`
+              wb.value.style.border = `${wbBorderW[0]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
               break
             case 2:
               if (wbBorderW[0] > 0) {
-                wb.value.style.borderTop = `${wbBorderW[0]}px ${wbComputeSt.borderStyle} ${color}`
-                wb.value.style.borderBottom = `${wbBorderW[0]}px ${wbComputeSt.borderStyle} ${color}`
+                wb.value.style.borderTop = `${wbBorderW[0]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
+                wb.value.style.borderBottom = `${wbBorderW[0]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
               } else {
-                wb.value.style.borderLeft = `${wbBorderW[1]}px ${wbComputeSt.borderStyle} ${color}`
-                wb.value.style.borderRight = `${wbBorderW[1]}px ${wbComputeSt.borderStyle} ${color}`
+                wb.value.style.borderLeft = `${wbBorderW[1]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
+                wb.value.style.borderRight = `${wbBorderW[1]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
               }
               break
             default: // case 4
               if (wbBorderW[0] > 0) {
-                wb.value.style.borderTop = `${wbBorderW[0]}px ${wbComputeSt.borderStyle} ${color}`
+                wb.value.style.borderTop = `${wbBorderW[0]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
               } else if (wbBorderW[1] > 0) {
-                wb.value.style.borderRight = `${wbBorderW[1]}px ${wbComputeSt.borderStyle} ${color}`
+                wb.value.style.borderRight = `${wbBorderW[1]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
               } else if (wbBorderW[2] > 0) {
-                wb.value.style.borderBottom = `${wbBorderW[2]}px ${wbComputeSt.borderStyle} ${color}`
+                wb.value.style.borderBottom = `${wbBorderW[2]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
               } else {
-                wb.value.style.borderLeft = `${wbBorderW[3]}px ${wbComputeSt.borderStyle} ${color}`
+                wb.value.style.borderLeft = `${wbBorderW[3]}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${color}`
               }
               break
           }
@@ -4930,35 +4930,26 @@ function handleEditBorder({
         )
         switch (wbBorderW.length) {
           case 1:
-            cssRule.style.border = `${width}px ${wbComputeSt.borderStyle
-              } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+            cssRule.style.border = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
             break
           case 2:
             if (wbBorderW[0] > 0) {
-              cssRule.style.borderTop = `${width}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
-              cssRule.style.borderBottom = `${width}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              cssRule.style.borderTop = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              cssRule.style.borderBottom = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
             } else {
-              cssRule.style.borderLeft = `${width}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
-              cssRule.style.borderRight = `${width}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              cssRule.style.borderLeft = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              cssRule.style.borderRight = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
             }
             break
           default: // case 4
             if (wbBorderW[0] > 0) {
-              cssRule.style.borderTop = `${width}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              cssRule.style.borderTop = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
             } else if (wbBorderW[1] > 0) {
-              cssRule.style.borderRight = `${width}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              cssRule.style.borderRight = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
             } else if (wbBorderW[2] > 0) {
-              cssRule.style.borderBottom = `${width}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              cssRule.style.borderBottom = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
             } else {
-              cssRule.style.borderLeft = `${width}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              cssRule.style.borderLeft = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
             }
             break
         }
@@ -4983,35 +4974,26 @@ function handleEditBorder({
           )
           switch (wbBorderW.length) {
             case 1:
-              cssRule.style.border = `${width}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              cssRule.style.border = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               break
             case 2:
               if (wbBorderW[0] > 0) {
-                cssRule.style.borderTop = `${width}px ${wbComputeSt.borderStyle
-                  } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
-                cssRule.style.borderBottom = `${width}px ${wbComputeSt.borderStyle
-                  } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                cssRule.style.borderTop = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                cssRule.style.borderBottom = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               } else {
-                cssRule.style.borderLeft = `${width}px ${wbComputeSt.borderStyle
-                  } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
-                cssRule.style.borderRight = `${width}px ${wbComputeSt.borderStyle
-                  } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                cssRule.style.borderLeft = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                cssRule.style.borderRight = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               }
               break
             default: // case 4
               if (wbBorderW[0] > 0) {
-                cssRule.style.borderTop = `${width}px ${wbComputeSt.borderStyle
-                  } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                cssRule.style.borderTop = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               } else if (wbBorderW[1] > 0) {
-                cssRule.style.borderRight = `${width}px ${wbComputeSt.borderStyle
-                  } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                cssRule.style.borderRight = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               } else if (wbBorderW[2] > 0) {
-                cssRule.style.borderBottom = `${width}px ${wbComputeSt.borderStyle
-                  } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                cssRule.style.borderBottom = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               } else {
-                cssRule.style.borderLeft = `${width}px ${wbComputeSt.borderStyle
-                  } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                cssRule.style.borderLeft = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               }
               break
           }
@@ -5024,35 +5006,26 @@ function handleEditBorder({
         } else {
           switch (wbBorderW.length) {
             case 1:
-              wb.value.style.border = `${width}px ${wbComputeSt.borderStyle
-                } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+              wb.value.style.border = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               break
             case 2:
               if (wbBorderW[0] > 0) {
-                wb.value.style.borderTop = `${width}px ${wbComputeSt.borderStyle
-                  } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
-                wb.value.style.borderBottom = `${width}px ${wbComputeSt.borderStyle
-                  } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                wb.value.style.borderTop = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                wb.value.style.borderBottom = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               } else {
-                wb.value.style.borderLeft = `${width}px ${wbComputeSt.borderStyle
-                  } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
-                wb.value.style.borderRight = `${width}px ${wbComputeSt.borderStyle
-                  } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                wb.value.style.borderLeft = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                wb.value.style.borderRight = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               }
               break
             default: // case 4
               if (wbBorderW[0] > 0) {
-                wb.value.style.borderTop = `${width}px ${wbComputeSt.borderStyle
-                  } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                wb.value.style.borderTop = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               } else if (wbBorderW[1] > 0) {
-                wb.value.style.borderRight = `${width}px ${wbComputeSt.borderStyle
-                  } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                wb.value.style.borderRight = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               } else if (wbBorderW[2] > 0) {
-                wb.value.style.borderBottom = `${width}px ${wbComputeSt.borderStyle
-                  } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                wb.value.style.borderBottom = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               } else {
-                wb.value.style.borderLeft = `${width}px ${wbComputeSt.borderStyle
-                  } ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+                wb.value.style.borderLeft = `${width}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
               }
               break
           }
@@ -5075,7 +5048,7 @@ function handleEditBorder({
             [...wb.value.classList].find(cls => cls.startsWith('w-st'))
           )
         )
-        const newValue = `${wbBorderW}px ${wbComputeSt.borderStyle} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+        const newValue = `${wbBorderW}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
         cssRule.style.border = null
         switch (side) {
           case BorderSide.top:
@@ -5115,7 +5088,7 @@ function handleEditBorder({
           .split(' ')
           .map(e => parseFloat(e.replace('px', '')))
           .sort((a, b) => b - a)[0]
-        const newValue = `${wbBorderW}px ${wbComputeSt.borderStyle} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
+        const newValue = `${wbBorderW}px ${wbComputeSt.borderStyle.replaceAll('none', '').trim()} ${Ultis.rgbToHex(wbComputeSt.borderColor)}`
         if (wb.IsWini && !wb.value.classList.contains('w-variant')) {
           let cssItem = StyleDA.cssStyleSheets.find(e => e.GID === wb.GID)
           let cssRule = StyleDA.docStyleSheets.find(e =>
