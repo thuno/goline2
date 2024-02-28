@@ -2042,7 +2042,7 @@ function EditBorderBlock() {
     'border-bottom',
     'border-left'
   ]
-  const listBorderSkin = listBorder.filterAndMap(wb => {
+  let listBorderSkin = listBorder.filterAndMap(wb => {
     for (let side of borderSide) {
       if (wb.value.style[side]) {
         return wb.value.style[side].match(uuid4Regex)
