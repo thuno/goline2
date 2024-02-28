@@ -48,7 +48,7 @@ For other API calls, see the [demo](http://codeseven.github.io/toastr/demo.html)
 
 1. Link to toastr.css `<link href="toastr.css" rel="stylesheet"/>`
 
-2. Link to toastr.js `<script src="toastr.js"></script>`
+2. Link to toastr.js `<script async type="module" src="toastr.js"></script>`
 
 3. use toastr to display a toast for info, success, warning or error
 
