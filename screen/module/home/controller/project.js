@@ -108,31 +108,40 @@ class ProjectView {
 }
 
 
-$("body").on("mousedown", ".project-card, .project-tile", async function (ev) {
+$("body").on("click", ".project-card, .project-tile", async function (ev) {
     ev.stopPropagation();
     $(".project-card, .project-tile").removeClass("selected");
-    $(`.project-card[data-id=${$(this).data('id')}], .project-tile[data-id=${$(this).data('id')}]`).addClass("selected");
-    ProjectDA.selected = ProjectDA.list.find(e => e.ID == $(this).data("id"));
+    ev.target.closest('.project-card, .project-tile').classList.add('selected')
+    // ProjectDA.selected = ProjectDA.list.find(e => e.ID == $(this).data("id"));
 
-    ProjectDA.getByID(ProjectDA.selected.ID);
-    if (ev.button == 0 && ev.detail == 2) {
-        window.location.href = homeUrl + "project-design-view.html?id=" + $(this).data("id");
-    }
-    else if (ev.button == 2) {
-        $(".home-popup").hide();
-        ProjectView.show_option = true;
-        ProjectView.mouserEvent = ev;
-    }
+    // ProjectDA.getByID(ProjectDA.selected.ID);
+    // if (ev.button == 0 && ev.detail == 2) {
+    //     window.location.href = homeUrl + "project-design-view.html?id=" + $(this).data("id");
+    // }
+    // else if (ev.button == 2) {
+    //     $(".home-popup").hide();
+    //     ProjectView.show_option = true;
+    //     ProjectView.mouserEvent = ev;
+    // }
 
-    $(".domain-container").css("display", "flex");
-    $('#info-container').removeClass("team");
-    $('#info-container').addClass("project");
+    // $(".domain-container").css("display", "flex");
+    // $('#info-container').removeClass("team");
+    // $('#info-container').addClass("project");
 
-    // debugger
-    await ProjectView.update_infoView(ProjectDA.selected);
+    // // debugger
+    // await ProjectView.update_infoView(ProjectDA.selected);
 
 
 });
+
+$("body").on("blclick", ".project-card", async function (ev) {
+    const pId = parseInt(ev.target.closest('.project-card').getAttribute('data-id'))
+    let newTitleList = TitleBarDA.list()
+    if (newTitleList.every(e => e.ID !== pId)) newTitleList.push(ProjectDA.list.find(e => e.ID === pId))
+    TitleBarDA.setList(newTitleList)
+    window.location.replace(`/#/file?id=${pId}`);
+    window.location.reload()
+})
 
 $('body').on(`click`, `.add-project-container .button-add-project`, function (ev) {
     debugger

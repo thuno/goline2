@@ -195,3 +195,7 @@
     background-color: var(--primary-color);
     border-radius: 2px;
 }
+
+.project-card.selected {
+    border-color: var(--primary-color);
+}
