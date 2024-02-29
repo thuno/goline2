@@ -850,6 +850,7 @@ function EditConstraintsBlock() {
   //
   let editConstContainer = document.createElement('div')
   editConstContainer.className = 'row'
+  editConstContainer.style.cssText = 'justify-content: space-between;padding: 0.2rem 0.8rem'
   bodyContainer.appendChild(editConstContainer)
   const constraintsXValues = selected_list.filterAndMap(e => e.value.getAttribute('constx'))
   const constraintsX = constraintsXValues.length === 1 ? constraintsXValues[0] : 'mixed'
@@ -891,9 +892,9 @@ function EditConstraintsBlock() {
         break
       case Constraints.center:
         selectBtn.style.top = '50%'
-        selectBtn.style.padding = '2px'
+        selectBtn.style.padding = '0.2rem'
         selectBtn.style.transform = 'translate(-50%, -50%)'
-        typeLine.style.height = '12px'
+        typeLine.style.height = '1.2rem'
         break
       case Constraints.bottom:
         selectBtn.style.bottom = '0px'
@@ -925,9 +926,9 @@ function EditConstraintsBlock() {
         break
       case Constraints.center:
         selectBtn.style.left = '50%'
-        selectBtn.style.padding = '2px'
+        selectBtn.style.padding = '0.2rem'
         selectBtn.style.transform = 'translate(-50%, -50%)'
-        typeLine.style.width = '12px'
+        typeLine.style.width = '1.2rem'
         break
       case Constraints.right:
         selectBtn.style.right = '0px'
