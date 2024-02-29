@@ -391,7 +391,6 @@ function EditOffsetBlock() {
             list_radius_value.length == 1 ? list_radius_value[0] : 'mixed'
         } else {
           handleEditOffset({ radius: newValue })
-          _row_radius_detail.querySelectorAll(':scope > input').forEach(i => (i.value = newValue))
         }
       }
     })
@@ -431,19 +430,11 @@ function EditOffsetBlock() {
           .filter(e => e.StyleItem.FrameItem?.TopLeft != undefined)
           .map(e => e.StyleItem.FrameItem.TopLeft)
         let top_left_value = list_top_left_value[0]
-        list_top_left_value = list_top_left_value.filter(
-          e => e != top_left_value
-        )
+        list_top_left_value = list_top_left_value.filter(e => e != top_left_value)
         this.value =
           list_top_left_value.length == 0 ? top_left_value : 'mixed'
       } else {
         handleEditOffset({ radiusTL: newValue })
-        edit_radius.lastChild.value =
-          [
-            ..._row_radius_detail.querySelectorAll(':scope > input')
-          ].filterAndMap(i => i.value).length > 1
-            ? 'mixed'
-            : this.value
       }
     })
     $(editContainer).on('blur', '.radius-details-input > .br-tr', function () {
@@ -453,19 +444,11 @@ function EditOffsetBlock() {
           .filter(e => e.StyleItem.FrameItem?.Topright != undefined)
           .map(e => e.StyleItem.FrameItem.TopRight)
         let top_right_value = list_top_right_value[0]
-        list_top_right_value = list_top_right_value.filter(
-          e => e != top_right_value
-        )
+        list_top_right_value = list_top_right_value.filter(e => e != top_right_value)
         this.value =
           list_top_right_value.length == 0 ? top_right_value : 'mixed'
       } else {
         handleEditOffset({ radiusTR: newValue })
-        edit_radius.lastChild.value =
-          [
-            ..._row_radius_detail.querySelectorAll(':scope > input')
-          ].filterAndMap(i => i.value).length > 1
-            ? 'mixed'
-            : this.value
       }
     })
     $(editContainer).on('blur', '.radius-details-input > .br-bl', function () {
@@ -475,19 +458,11 @@ function EditOffsetBlock() {
           .filter(e => e.StyleItem.FrameItem?.BottomLeft != undefined)
           .map(e => e.StyleItem.FrameItem.BottomLeft)
         let bot_left_value = list_bot_left_value[0]
-        list_bot_left_value = list_bot_left_value.filter(
-          e => e != bot_left_value
-        )
+        list_bot_left_value = list_bot_left_value.filter(e => e != bot_left_value)
         this.value =
           list_bot_left_value.length == 0 ? bot_left_value : 'mixed'
       } else {
         handleEditOffset({ radiusBL: newValue })
-        edit_radius.lastChild.value =
-          [
-            ..._row_radius_detail.querySelectorAll(':scope > input')
-          ].filterAndMap(i => i.value).length > 1
-            ? 'mixed'
-            : this.value
       }
     })
     $(editContainer).on('blur', '.radius-details-input > .br-br', function () {
@@ -497,19 +472,11 @@ function EditOffsetBlock() {
           .filter(e => e.StyleItem.FrameItem?.BottomRight != undefined)
           .map(e => e.StyleItem.FrameItem.BottomRight)
         let bot_right_value = list_bot_right_value[0]
-        list_bot_right_value = list_bot_right_value.filter(
-          e => e != bot_right_value
-        )
+        list_bot_right_value = list_bot_right_value.filter(e => e != bot_right_value)
         this.value =
           list_bot_right_value.length == 0 ? bot_right_value : 'mixed'
       } else {
         handleEditOffset({ radiusBR: newValue })
-        edit_radius.lastChild.value =
-          [
-            ..._row_radius_detail.querySelectorAll(':scope > input')
-          ].filterAndMap(i => i.value).length > 1
-            ? 'mixed'
-            : this.value
       }
     })
     var editR = edit_radius + iconRadiusDetails + editRadiusDetails
