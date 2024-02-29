@@ -590,7 +590,7 @@ function EditLayoutBlock() {
       alignValue = ev.target.getAttribute('alignvl')
       handleEditLayout({ alignment: ev.target.getAttribute('alignvl') })
     })
-    const alignmentTable = `<div class="alignment-container box64" ${isVertical ? 'oy' : ''} >${listFlexAlignment.map(e => `<div class='align-option box16 ${e === alignValue ? 'selected' : ''}' alignvl="${e}"></div>`)}</div>`
+    const alignmentTable = `<div class="alignment-container box64" ${isVertical ? 'oy' : ''} >${listFlexAlignment.map(e => `<div class='align-option box16 ${e === alignValue ? 'selected' : ''}' alignvl="${e}"></div>`).join('')}</div>`
 
     // input edit child space
     if (!isEditTable) {
@@ -623,6 +623,7 @@ function EditLayoutBlock() {
         })} Wrap content</div>`
         const runSpaceValues = wbList.filterAndMap(wb => parseFloat((wb.value.style.getPropertyValue('--run-space') ?? StyleDA.docStyleSheets.find(cssRule => [...divSection.querySelectorAll(cssRule.selectorText)].includes(wbList[0].value))?.style?.getPropertyValue('--run-space')).replace('px', '')))
         const inputRunSpace = TextField({
+          returnType: 'string',
           className: 'right-view-input regular1',
           prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/${isVertical ? 'horizontal' : 'vertical'} child spacing.svg"/>`,
           value: runSpaceValues.length == 1 ? runSpaceValues[0] : 'mixed',
@@ -650,9 +651,9 @@ function EditLayoutBlock() {
       }
     }
 
-    editLayoutBody.innerHTML = `<div class="row" style="position: relative; justify-content: space-between">
+    editLayoutBody.innerHTML = `<div class="row" style="position: relative; justify-content: space-between; align-items: start">
       ${selectDirection}
-      <div class="row" style="gap: 0.6rem">${alignmentTable}<i class="fa-solid fa-ellipsis box24 center" style="display: flex; font-size: 1.4rem"></i></div>
+      <div class="row" style="gap: 0.6rem; align-items: start">${alignmentTable}<i class="fa-solid fa-ellipsis box24 center" style="display: flex; font-size: 1.4rem"></i></div>
       ${inputChildSpace ?? ''}
       </div>
       ${layoutOption ?? ''}
@@ -668,43 +669,45 @@ function EditLayoutBlock() {
     let padRightValue = paddingRights.length == 1 ? paddingRights[0] : 'mixed'
     let paddingBots = wbList.filterAndMap(e => window.getComputedStyle(e.value).paddingBottom.replace('px', ''))
     let padBotValue = paddingBots.length == 1 ? paddingBots[0] : 'mixed'
-    const input_padding_horizontal = TextField({
+    const inputPadX = TextField({
       className: 'right-view-input regular1',
+      style: isShowPadDetails ? 'display: none' : '',
       prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding horizontal.svg" />`,
       value: padLeftValue == padRightValue ? padLeftValue : 'mixed',
       onBlur: function (ev) {
         let newValue = parseFloat(ev.target.value)
         if (newValue != undefined) {
           handleEditPadding({ left: newValue, right: newValue })
-          input_padding_left.lastChild.value = ev.target.value
+          inputPadLeft.lastChild.value = ev.target.value
           padLeftValue = ev.target.value
-          input_padding_right.lastChild.value = ev.target.value
+          inputPadRight.lastChild.value = ev.target.value
           padRightValue = ev.target.value
         } else {
-          ev.target.value =
-            padLeftValue == padRightValue ? padLeftValue : 'mixed'
+          ev.target.value = padLeftValue == padRightValue ? padLeftValue : 'mixed'
         }
       }
     })
-    const input_padding_vertical = TextField({
+    const inputPadY = TextField({
       className: 'right-view-input regular1',
+      style: isShowPadDetails ? 'display: none' : '',
       prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding vertical.svg" />`,
       value: padTopValue == padBotValue ? padTopValue : 'mixed',
       onBlur: function (ev) {
         let newValue = parseFloat(ev.target.value)
         if (newValue != undefined) {
           handleEditPadding({ top: newValue, bottom: newValue })
-          input_padding_top.lastChild.value = ev.target.value
+          inputPadTop.lastChild.value = ev.target.value
           padTopValue = ev.target.value
-          input_padding_bottom.lastChild.value = ev.target.value
+          inputPadBot.lastChild.value = ev.target.value
           padBotValue = ev.target.value
         } else {
           ev.target.value = padTopValue == padBotValue ? padTopValue : 'mixed'
         }
       }
     })
-    const input_padding_left = TextField({
+    const inputPadLeft = TextField({
       className: 'right-view-input regular1',
+      style: isShowPadDetails ? '' : 'display: none',
       prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding left.svg" />`,
       value: padLeftValue,
       onBlur: function (ev) {
@@ -712,15 +715,15 @@ function EditLayoutBlock() {
         if (!isNaN(newValue)) {
           handleEditPadding({ left: newValue })
           padLeftValue = ev.target.value
-          input_padding_horizontal.lastChild.value =
-            padLeftValue == padRightValue ? padLeftValue : 'mixed'
+          inputPadX.lastChild.value = padLeftValue == padRightValue ? padLeftValue : 'mixed'
         } else {
           ev.target.value = padLeftValue
         }
       }
     })
-    const input_padding_top = TextField({
+    const inputPadTop = TextField({
       className: 'right-view-input regular1',
+      style: isShowPadDetails ? '' : 'display: none',
       prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding top.svg" />`,
       value: padTopValue,
       onBlur: function (ev) {
@@ -728,20 +731,15 @@ function EditLayoutBlock() {
         if (!isNaN(newValue)) {
           handleEditPadding({ top: newValue })
           padTopValue = ev.target.value
-          input_padding_vertical.lastChild.value =
-            padTopValue == padBotValue ? padTopValue : 'mixed'
+          inputPadY.lastChild.value = padTopValue == padBotValue ? padTopValue : 'mixed'
         } else {
           ev.target.value = padTopValue
         }
       }
     })
-    let icon_padding_details = document.createElement('img')
-    icon_padding_details.className = 'img-button size-24'
-    icon_padding_details.style.borderRadius = '2px'
-    icon_padding_details.style.margin = '4px 0 0 6px'
-    icon_padding_details.src = 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding details.svg'
-    const input_padding_right = TextField({
+    const inputPadRight = TextField({
       className: 'right-view-input regular1',
+      style: isShowPadDetails ? '' : 'display: none',
       prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding right.svg" />`,
       value: padRightValue,
       onBlur: function (ev) {
@@ -749,16 +747,16 @@ function EditLayoutBlock() {
         if (!isNaN(newValue)) {
           handleEditPadding({ right: newValue })
           padRightValue = ev.target.value
-          input_padding_horizontal.lastChild.value =
-            padLeftValue == padRightValue ? padLeftValue : 'mixed'
+          inputPadX.lastChild.value = padLeftValue == padRightValue ? padLeftValue : 'mixed'
         } else {
           ev.target.value = padRightValue
         }
       }
     })
 
-    const input_padding_bottom = TextField({
+    const inputPadBot = TextField({
       className: 'right-view-input regular1',
+      style: isShowPadDetails ? '' : 'display: none',
       prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding bottom.svg" />`,
       value: padBotValue,
       onBlur: function (ev) {
@@ -766,8 +764,7 @@ function EditLayoutBlock() {
         if (!isNaN(newValue)) {
           handleEditPadding({ bottom: newValue })
           padBotValue = ev.target.value
-          input_padding_vertical.lastChild.value =
-            padTopValue == padBotValue ? padTopValue : 'mixed'
+          inputPadY.lastChild.value = padTopValue == padBotValue ? padTopValue : 'mixed'
         } else {
           ev.target.value = padBotValue
         }
@@ -781,31 +778,31 @@ function EditLayoutBlock() {
     btnPaddingDetails.onclick = function () {
       isShowPadDetails = !isShowPadDetails
       if (isShowPadDetails) {
-        input_padding_horizontal.style.display = 'none'
-        input_padding_vertical.style.display = 'none'
-        input_padding_left.style.display = 'flex'
-        input_padding_top.style.display = 'flex'
-        input_padding_right.style.display = 'flex'
-        input_padding_bottom.style.display = 'flex'
+        inputPadX.style.display = 'none'
+        inputPadY.style.display = 'none'
+        inputPadLeft.style.display = 'flex'
+        inputPadTop.style.display = 'flex'
+        inputPadRight.style.display = 'flex'
+        inputPadBot.style.display = 'flex'
         btnPaddingDetails.classList.add('toggle')
       } else {
-        input_padding_horizontal.style.display = 'flex'
-        input_padding_vertical.style.display = 'flex'
-        input_padding_left.style.display = 'none'
-        input_padding_top.style.display = 'none'
-        input_padding_right.style.display = 'none'
-        input_padding_bottom.style.display = 'none'
+        inputPadX.style.display = 'flex'
+        inputPadY.style.display = 'flex'
+        inputPadLeft.style.display = 'none'
+        inputPadTop.style.display = 'none'
+        inputPadRight.style.display = 'none'
+        inputPadBot.style.display = 'none'
         btnPaddingDetails.classList.remove('toggle')
       }
     }
     editLayoutBody.querySelector('.edit-padding-container').replaceChildren(
-      input_padding_vertical,
-      input_padding_horizontal,
-      input_padding_top,
-      input_padding_right,
+      inputPadY,
+      inputPadX,
+      inputPadTop,
+      inputPadRight,
       btnPaddingDetails,
-      input_padding_bottom,
-      input_padding_left
+      inputPadBot,
+      inputPadLeft
     )
     if (wbList.every(wb => ['w-textformfield', 'w-table'].every(e => !wb.value.classList.contains(e)) && !wb.IsInstance && !wb.value.closest('.wbaseItem-value[iswini]'))) {
       $(header).on('click', '.fa-minus', function () {

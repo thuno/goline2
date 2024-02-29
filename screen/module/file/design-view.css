@@ -797,13 +797,7 @@ i.center[class*="box"]:hover {
     gap: 0.8rem;
 }
 
-.row:has(> .alignment-container) {
-    position: relative;
-    align-items: start;
-}
-
 .alignment-container {
-    margin: 0 3.2rem 0 5.6rem;
     border: 1.5px solid #e5e5e5;
     border-radius: 0.4rem;
     position: relative;
