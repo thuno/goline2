@@ -112,14 +112,14 @@ let feature_list = [
 function popupRightClick(event) {
     let popup = showPopup({
         id: 'wini_features',
+        hiddenOverlay: true,
         style: `left: ${event.pageX}px; top: ${event.pageY}px; width: 24rem`,
         children: feature_list.map(element => {
             if (element.isShow()) {
                 let option = document.createElement('button')
                 option.type = 'button'
                 option.className = 'popup-function-option row'
-                title.innerHTML = `<p class="regular1">${element.title}</p>`
-                option.appendChild(title)
+                option.innerHTML = `<p class="regular1">${element.title}</p>`
                 if (element.more) {
                     let btn_more_option = document.createElement('i')
                     btn_more_option.className = 'fa-solid fa-caret-right box24 center'

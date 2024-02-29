@@ -399,6 +399,16 @@ const listFlexAlignment = [
     AlignmentType.bottom_center,
     AlignmentType.bottom_right
 ]
+const listContraintsX = [
+    Constraints.left,
+    Constraints.right,
+    Constraints.center
+]
+const listContraintsY = [
+    Constraints.top,
+    Constraints.bottom,
+    Constraints.center
+]
 const listDevice = [
     [
         {

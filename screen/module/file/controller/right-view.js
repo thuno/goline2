@@ -840,11 +840,8 @@ function EditConstraintsBlock() {
 
   let header = document.createElement('div')
   header.className = 'ds-block-header row'
+  header.innerHTML = `<p class="semibold1" style="flex: 1">Constraints</p>`
   editContainer.appendChild(header)
-
-  let title = document.createElement('p')
-  title.innerHTML = 'Constraints'
-  header.appendChild(title)
 
   let bodyContainer = document.createElement('div')
   bodyContainer.className = 'col'
@@ -854,16 +851,10 @@ function EditConstraintsBlock() {
   let editConstContainer = document.createElement('div')
   editConstContainer.className = 'row'
   bodyContainer.appendChild(editConstContainer)
-  let constraintsXValues = selected_list.filterAndMap(e =>
-    e.value.getAttribute('constx')
-  )
-  let constraintsX =
-    constraintsXValues.length === 1 ? constraintsXValues[0] : 'mixed'
-  let constraintsYValues = selected_list.filterAndMap(e =>
-    e.value.getAttribute('consty')
-  )
-  let constraintsY =
-    constraintsYValues.length === 1 ? constraintsYValues[0] : 'mixed'
+  const constraintsXValues = selected_list.filterAndMap(e => e.value.getAttribute('constx'))
+  const constraintsX = constraintsXValues.length === 1 ? constraintsXValues[0] : 'mixed'
+  const constraintsYValues = selected_list.filterAndMap(e => e.value.getAttribute('consty'))
+  const constraintsY = constraintsYValues.length === 1 ? constraintsYValues[0] : 'mixed'
 
   let constraintsRect = document.createElement('div')
   constraintsRect.className = 'connstraints-rect'
@@ -871,30 +862,12 @@ function EditConstraintsBlock() {
   selectConstraintsCol.className = 'col'
   editConstContainer.replaceChildren(constraintsRect, selectConstraintsCol)
 
-  let listContraintsX = [
-    Constraints.left,
-    Constraints.right,
-    Constraints.center
-  ]
-  let listContraintsY = [
-    Constraints.top,
-    Constraints.bottom,
-    Constraints.center
-  ]
-  if (
-    selected_list.every(wb =>
-      WbClass.scale.every(e => !wb.value.classList.contains(e))
-    )
-  ) {
-    if (
-      selected_list.every(wb => wb.value.getAttribute('width-type') !== 'fit')
-    ) {
-      listContraintsX.push(Constraints.left_right, Constraints.scale)
+  if (selected_list.every(wb => WbClass.scale.every(e => !wb.value.classList.contains(e)))) {
+    if (selected_list.every(wb => wb.value.getAttribute('width-type') !== 'fit')) {
+      var extendConstX = [...listContraintsX, Constraints.left_right, Constraints.scale]
     }
-    if (
-      selected_list.every(wb => wb.value.getAttribute('height-type') !== 'fit')
-    ) {
-      listContraintsY.push(Constraints.top_bottom, Constraints.scale)
+    if (selected_list.every(wb => wb.value.getAttribute('height-type') !== 'fit')) {
+      var extendConstY = [...listContraintsY, Constraints.top_bottom, Constraints.scale]
     }
   }
 
@@ -969,26 +942,42 @@ function EditConstraintsBlock() {
     constraintsRect.appendChild(selectBtn)
   }
 
-  let dropdownConstX = _btnDropDownSelect({
-    initvalue: constraintsX,
-    listvalue:
-      constraintsX !== 'mixed'
-        ? listContraintsX
-        : ['mixed', ...listContraintsX],
-    onselect: value => {
-      handleEditConstraints({ constX: value })
+  let dropdownConstX = Select1({
+    value: constraintsX,
+    className: 'right-view-input regular1',
+    dropdownStyle: 'background-color: #000000',
+    options: [
+      { id: 'mixed', name: 'mixed', style: `pointer-events: none;border-bottom: 1px inset #ffffff;${constraintsX === 'mixed' ? '' : 'display: none'}` },
+      ...(extendConstX ?? listContraintsX).map(e => {
+        return {
+          id: e,
+          name: e,
+          style: 'color: #ffffff'
+        }
+      })
+    ],
+    onChange: vl => {
+      handleEditConstraints({ constX: vl.id })
       reloadEditConstraintsBlock()
     }
   })
 
-  let dropdownConstY = _btnDropDownSelect({
-    initvalue: constraintsY,
-    listvalue:
-      constraintsY !== 'mixed'
-        ? listContraintsY
-        : ['mixed', ...listContraintsY],
-    onselect: value => {
-      handleEditConstraints({ constY: value })
+  let dropdownConstY = Select1({
+    value: constraintsY,
+    className: 'right-view-input regular1',
+    dropdownStyle: 'background-color: #000000',
+    options: [
+      { id: 'mixed', name: 'mixed', style: `pointer-events: none;border-bottom: 1px inset #ffffff;${constraintsY === 'mixed' ? '' : 'display: none'}` },
+      ...(extendConstY ?? listContraintsY).map(e => {
+        return {
+          id: e,
+          name: e,
+          style: 'color: #ffffff'
+        }
+      })
+    ],
+    onselect: vl => {
+      handleEditConstraints({ constY: vl.id })
       reloadEditConstraintsBlock()
     }
   })
