@@ -619,13 +619,8 @@ body:has(#history-view) :is(.btn-tool-state:nth-child(1), .btn-history) {
     border-radius: 2px;
 }
 
-.toogle-fix-position.toggle {
-    border: 1px inset #262626;
-    border-radius: 0.4rem;
-}
-
-.toogle-ratioWH.toggle {
-    border: 1px inset #262626;
+.action-button.toggle {
+    border: 1px inset #00358033;
     border-radius: 0.4rem;
 }
 
@@ -911,4 +906,19 @@ i.center[class*="box"]:hover {
 
 .alignment-container[oy]>.align-option[alignvl="BottomRight"] {
     background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/right%20vertical.svg);
+}
+
+.popup-function-option {
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 1.6rem;
+    width: 100%;
+}
+
+.popup-function-option * {
+    color: #ffffff !important;
+}
+
+.popup-function-option:hover {
+    background-color: var(--primary-color);
 }

@@ -110,43 +110,38 @@ let feature_list = [
 ]
 
 function popupRightClick(event) {
-    document.getElementById('wini_features')?.remove()
-    let popup = document.createElement('div')
-    popup.id = 'wini_features'
-    popup.className = 'wini_popup col popup_remove'
-    popup.style.top = `${event.pageY}px`
-    popup.style.left = `${event.pageX}px`
-    document.getElementById('body').appendChild(popup)
-    for (let element of feature_list) {
-        if (element.isShow()) {
-            let option = document.createElement('div')
-            option.className = 'popup_function_option'
-            popup.appendChild(option)
-            let title = document.createElement('p')
-            title.style.padding = '0'
-            title.innerHTML = element.title
-            option.appendChild(title)
-            if (element.more) {
-                let btn_more_option = document.createElement('i')
-                btn_more_option.className = 'fa-solid fa-caret-right'
-                option.appendChild(btn_more_option)
-                btn_more_option.style.marginRight = '4px'
-            } else {
-                let shortKey = document.createElement('p')
-                option.appendChild(shortKey)
-                shortKey.style.padding = '0'
-                shortKey.innerHTML = element.shortKey ?? ''
-                option.onclick = function () {
-                    element.onclick()
-                    popup.remove()
+    let popup = showPopup({
+        id: 'wini_features',
+        style: `left: ${event.pageX}px; top: ${event.pageY}px; width: 24rem`,
+        children: feature_list.map(element => {
+            if (element.isShow()) {
+                let option = document.createElement('button')
+                option.type = 'button'
+                option.className = 'popup-function-option row'
+                title.innerHTML = `<p class="regular1">${element.title}</p>`
+                option.appendChild(title)
+                if (element.more) {
+                    let btn_more_option = document.createElement('i')
+                    btn_more_option.className = 'fa-solid fa-caret-right box24 center'
+                    btn_more_option.style.fontSize = '1.4rem'
+                    option.appendChild(btn_more_option)
+                } else {
+                    let shortKey = document.createElement('p')
+                    shortKey.className = 'regular1'
+                    shortKey.innerHTML = element.shortKey ?? ''
+                    option.onclick = function (ev) {
+                        ev.stopPropagation()
+                        element.onclick()
+                        popup.remove()
+                    }
+                    option.appendChild(shortKey)
                 }
-            }
-            if (element.spaceLine) {
-                option.style.borderBottom = '1px solid #e5e5e5'
-            }
-        }
-    }
-    showPopupObserver.observe(popup)
+                if (element.spaceLine) {
+                    option.style.borderBottom = '1px solid #ffffff'
+                }
+            } else return null
+        }).filter(e => e !== null)
+    })
 }
 
 function showOnOffUI() {

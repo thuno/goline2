@@ -653,11 +653,11 @@ function EditLayoutBlock() {
 
     editLayoutBody.innerHTML = `<div class="row" style="position: relative; justify-content: space-between; align-items: start">
       ${selectDirection}
-      <div class="row" style="gap: 0.6rem; align-items: start">${alignmentTable}<i class="fa-solid fa-ellipsis box24 center" style="display: flex; font-size: 1.4rem"></i></div>
+      <div class="row" style="gap: 2.4rem; align-items: start">${alignmentTable}<i class="fa-solid fa-ellipsis box24 center" style="display: flex; font-size: 1.4rem"></i></div>
       ${inputChildSpace ?? ''}
       </div>
       ${layoutOption ?? ''}
-      <div class="row edit-padding-container" style="gap: 1.2rem 0.8rem; flex-wrap: wrap"></div>`
+      <div class="row edit-padding-container" style="gap: 0.8rem 1.2rem; flex-wrap: wrap"></div>`
 
     // input padding
     let isShowPadDetails = false
@@ -772,8 +772,8 @@ function EditLayoutBlock() {
     })
     const btnPaddingDetails = document.createElement('button')
     btnPaddingDetails.type = 'button'
-    btnPaddingDetails.className = `radius-details box24 row ${isShowPadDetails ? 'toggle' : ''}`
-    btnPaddingDetails.style.padding = '0.4rem'
+    btnPaddingDetails.className = `radius-details action-button box24 row ${isShowPadDetails ? 'toggle' : ''}`
+    btnPaddingDetails.style.padding = '0.5rem'
     btnPaddingDetails.innerHTML = IconPaddingDetails()
     btnPaddingDetails.onclick = function () {
       isShowPadDetails = !isShowPadDetails

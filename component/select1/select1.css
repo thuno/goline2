@@ -136,8 +136,8 @@
     justify-content: start;
     align-items: center;
     padding: 1.2rem 1.6rem;
-    column-gap: 6px;
     width: 100%;
+    column-gap: 0.6rem;
     cursor: context-menu;
     border: none;
     outline: none;
