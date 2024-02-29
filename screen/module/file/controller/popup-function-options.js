@@ -113,7 +113,7 @@ function popupRightClick(event) {
     let popup = showPopup({
         id: 'wini_features',
         hiddenOverlay: true,
-        style: `left: ${event.pageX}px; top: ${event.pageY}px; width: 24rem`,
+        style: `left: ${event.pageX}px; top: ${event.pageY}px; width: 24rem; background-color: #000000`,
         children: feature_list.map(element => {
             if (element.isShow()) {
                 let option = document.createElement('button')
@@ -139,6 +139,7 @@ function popupRightClick(event) {
                 if (element.spaceLine) {
                     option.style.borderBottom = '1px solid #ffffff'
                 }
+                return option
             } else return null
         }).filter(e => e !== null)
     })

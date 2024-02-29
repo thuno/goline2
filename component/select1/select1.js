@@ -1,6 +1,6 @@
 const Select1 = ({ id, value, onChange, placeholder = '', disabled, className, helperText, helperTextColor, style, type = 'button', returnType = 'object', options, dropdownStyle, dropdownClass, iconOnly = false, onHover, icon }) => {
+    const selectedValue = (options ?? []).find(e => e.id === value)
     if (returnType === 'string') {
-        const selectedValue = (options ?? []).find(e => e.id === value)
         const dataId = uuidv4()
         let popup = null
         switch (type) {
