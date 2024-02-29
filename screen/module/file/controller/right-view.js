@@ -877,7 +877,7 @@ function EditConstraintsBlock() {
 
   for (let constY of listContraintsY.slice(0, 3)) {
     let selectBtn = document.createElement('div')
-    selectBtn.className = 'constraint-selector-outerVertical'
+    selectBtn.className = 'constraint-selector-outerVertical row'
     let typeLine = document.createElement('div')
     if (constY === constraintsY.toLowerCase()) {
       typeLine.style.backgroundColor = '#007be5'
@@ -911,7 +911,7 @@ function EditConstraintsBlock() {
 
   for (let constX of listContraintsX.slice(0, 3)) {
     let selectBtn = document.createElement('div')
-    selectBtn.className = 'constraint-selector-outerHorizontal'
+    selectBtn.className = 'constraint-selector-outerHorizontal row'
     let typeLine = document.createElement('div')
     if (constX === constraintsX.toLowerCase()) {
       typeLine.style.backgroundColor = '#007be5'
