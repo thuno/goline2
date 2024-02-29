@@ -182,7 +182,7 @@ class ProjectDA {
     static async getByID(id) {
         const res = await getData('/view/project-getById', { params: { pid: id } })
         if (res.Code === 200) {
-            this.obj = res.Data
+            ProjectDA.obj = res.Data
         } else {
             toastr["error"](res.message);
         }

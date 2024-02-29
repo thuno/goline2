@@ -813,6 +813,11 @@ i.center[class*="box"]:hover {
     position: absolute;
     background-position: center;
     background-repeat: no-repeat;
+    opacity: 0.05;
+}
+
+.alignment-container>.align-option.selected {
+    opacity: 1 !important;
 }
 
 .alignment-container>.align-option:hover {
@@ -820,44 +825,44 @@ i.center[class*="box"]:hover {
 }
 
 .alignment-container>.align-option[alignvl="TopLeft"] {
-    top: 2px;
-    left: 2px;
+    top: 0.2rem;
+    left: 0.2rem;
     background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/top%20horizontal.svg);
 }
 
-.alignment-container[oy="true"]>.align-option[alignvl="TopLeft"] {
+.alignment-container[oy]>.align-option[alignvl="TopLeft"] {
     background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/left%20vertical.svg);
 }
 
 .alignment-container>.align-option[alignvl="TopCenter"] {
-    top: 2px;
+    top: 0.2rem;
     left: 50%;
     transform: translateX(-50%);
     background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/top%20horizontal.svg);
 }
 
-.alignment-container[oy="true"]>.align-option[alignvl="TopCenter"] {
+.alignment-container[oy]>.align-option[alignvl="TopCenter"] {
     background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/center%20vertical.svg);
 }
 
 .alignment-container>.align-option[alignvl="TopRight"] {
-    top: 2px;
-    right: 2px;
+    top: 0.2rem;
+    right: 0.2rem;
     background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/top%20horizontal.svg);
 }
 
-.alignment-container[oy="true"]>.align-option[alignvl="TopRight"] {
+.alignment-container[oy]>.align-option[alignvl="TopRight"] {
     background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/right%20vertical.svg);
 }
 
 .alignment-container>.align-option[alignvl="LeftCenter"] {
-    left: 2px;
+    left: 0.2rem;
     top: 50%;
     transform: translateY(-50%);
     background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/center%20horizontal.svg);
 }
 
-.alignment-container[oy="true"]>.align-option[alignvl="LeftCenter"] {
+.alignment-container[oy]>.align-option[alignvl="LeftCenter"] {
     background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/left%20vertical.svg);
 }
 
@@ -868,48 +873,48 @@ i.center[class*="box"]:hover {
     background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/center%20horizontal.svg);
 }
 
-.alignment-container[oy="true"]>.align-option[alignvl="Center"] {
+.alignment-container[oy]>.align-option[alignvl="Center"] {
     background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/center%20vertical.svg);
 }
 
 .alignment-container>.align-option[alignvl="RightCenter"] {
-    right: 2px;
+    right: 0.2rem;
     top: 50%;
     transform: translateY(-50%);
     background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/center%20horizontal.svg);
 }
 
-.alignment-container[oy="true"]>.align-option[alignvl="RightCenter"] {
+.alignment-container[oy]>.align-option[alignvl="RightCenter"] {
     background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/right%20vertical.svg);
 }
 
 .alignment-container>.align-option[alignvl="BottomLeft"] {
-    bottom: 2px;
-    left: 2px;
+    bottom: 0.2rem;
+    left: 0.2rem;
     background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/bottom%20horizontal.svg);
 }
 
-.alignment-container[oy="true"]>.align-option[alignvl="BottomLeft"] {
+.alignment-container[oy]>.align-option[alignvl="BottomLeft"] {
     background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/left%20vertical.svg);
 }
 
 .alignment-container>.align-option[alignvl="BottomCenter"] {
-    bottom: 2px;
+    bottom: 0.2rem;
     left: 50%;
     transform: translateX(-50%);
     background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/bottom%20horizontal.svg);
 }
 
-.alignment-container[oy="true"]>.align-option[alignvl="BottomCenter"] {
+.alignment-container[oy]>.align-option[alignvl="BottomCenter"] {
     background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/center%20vertical.svg);
 }
 
 .alignment-container>.align-option[alignvl="BottomRight"] {
-    bottom: 2px;
-    right: 2px;
+    bottom: 0.2rem;
+    right: 0.2rem;
     background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/bottom%20horizontal.svg);
 }
 
-.alignment-container[oy="true"]>.align-option[alignvl="BottomRight"] {
+.alignment-container[oy]>.align-option[alignvl="BottomRight"] {
     background-image: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/right%20vertical.svg);
 }

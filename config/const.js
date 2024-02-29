@@ -388,6 +388,17 @@ const listBorderSide = [
     BorderSide.left_right,
     BorderSide.top_bottom
 ]
+const listFlexAlignment = [
+    AlignmentType.top_left,
+    AlignmentType.top_center,
+    AlignmentType.top_right,
+    AlignmentType.left_center,
+    AlignmentType.center,
+    AlignmentType.right_center,
+    AlignmentType.bottom_left,
+    AlignmentType.bottom_center,
+    AlignmentType.bottom_right
+]
 const listDevice = [
     [
         {

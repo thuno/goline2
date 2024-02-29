@@ -554,72 +554,52 @@ function EditLayoutBlock() {
   <i class="fa-solid fa-minus center box24" style="font-size: 1.4rem"></i>
   <i class="fa-solid fa-plus center box24" style="font-size: 1.4rem"></i>`
   editContainer.appendChild(header)
-  let showDetails = selected_list.every(wb =>
-    window.getComputedStyle(wb.value).display.match(/(flex|table)/g)
-  )
+  const showDetails = selected_list.every(wb => window.getComputedStyle(wb.value).display.match(/(flex|table)/g))
   if (showDetails) {
     // if (selected_list.some(wb => wb.value.closest('.wbaseItem-value[iswini]:not(.w-variant)')))
     //   header.classList.add('disable')
     header.querySelector('.fa-plus').remove()
-    let body = document.createElement('div')
-    editContainer.appendChild(body)
-    body.className = 'row'
-    let isVertical = wbList.every(wb =>
-      ['w-col', 'w-table'].some(e => wb.value.classList.contains(e))
-    )
+    let editLayoutBody = document.createElement('div')
+    editLayoutBody.className = 'col'
+    editLayoutBody.style.gap = '0.8rem'
+    editContainer.appendChild(editLayoutBody)
+    const isVertical = wbList.every(wb => ['w-col', 'w-table'].some(e => wb.value.classList.contains(e)))
     const selectDirection = GroupButtonOptions({
+      returnType: 'string',
       value: isVertical ? 'Vertical' : 'Horizontal',
       style: 'padding: 0 0.8rem',
       options: [
-        { id: 'Vertical', icon: `<i class="fa-solid fa-arrow-down" style="font-size: 1.4rem"></i>`, style: 'padding: 0.2rem' },
-        { id: 'Horizontal', icon: `<i class="fa-solid fa-arrow-right" style="font-size: 1.4rem"></i>`, style: 'padding: 0.2rem' },
+        { id: 'Vertical', icon: `<i class="fa-solid fa-arrow-down" style="font-size: 1.2rem"></i>`, style: 'padding: 0.2rem' },
+        { id: 'Horizontal', icon: `<i class="fa-solid fa-arrow-right" style="font-size: 1.2rem"></i>`, style: 'padding: 0.2rem' },
       ],
       onselect: (vl) => {
         handleEditLayout({ direction: vl.id })
         reloadEditLayoutBlock()
       }
     })
-    if (wbList.every(wb => ['w-textformfield', 'w-table'].every(e => !wb.value.classList.contains(e)) && !wb.IsInstance && !wb.value.closest('.wbaseItem-value[iswini]'))) {
-      $(header).on('click', '.fa-minus', function () {
-        removeLayout()
-        reloadEditLayoutBlock()
-      })
-    } else {
-      header.querySelector('.fa-minus').remove()
-    }
-    let alignContainer = _alignTable({
-      isVertical: isVertical,
-      value:
-        mainAxisToAlign(
-          wbList[0].value.style.justifyContent ??
-          StyleDA.docStyleSheets.find(cssRule =>
-            [...divSection.querySelectorAll(cssRule.selectorText)].includes(
-              wbList[0].value
-            )
-          )?.style?.justifyContent,
-          !isVertical
-        ) +
-        crossAxisToAlign(
-          wbList[0].value.style.alignItems ??
-          StyleDA.docStyleSheets.find(cssRule =>
-            [...divSection.querySelectorAll(cssRule.selectorText)].includes(
-              wbList[0].value
-            )
-          )?.style?.alignItems,
-          !isVertical
-        )
+    let alignValue = mainAxisToAlign(
+      wbList[0].value.style.justifyContent ?? StyleDA.docStyleSheets.find(cssRule => [...divSection.querySelectorAll(cssRule.selectorText)].includes(wbList[0].value))?.style?.justifyContent,
+      !isVertical) +
+      crossAxisToAlign(wbList[0].value.style.alignItems ?? StyleDA.docStyleSheets.find(cssRule => [...divSection.querySelectorAll(cssRule.selectorText)].includes(wbList[0].value))?.style?.alignItems,
+        !isVertical)
+    alignValue = alignValue === 'CenterCenter' ? 'Center' : alignValue
+    //
+    $(editLayoutBody).on('click', '.alignment-container .align-option', function (ev) {
+      $('.alignment-container .align-option').removeClass('selected')
+      ev.target.closest('.align-option').classList.add('selected')
+      alignValue = ev.target.getAttribute('alignvl')
+      handleEditLayout({ alignment: ev.target.getAttribute('alignvl') })
     })
-    let btn_extension = document.createElement('i')
-    btn_extension.className = 'fa-solid fa-ellipsis icon_btn_default_style'
-    body.replaceChildren(selectDirection, alignContainer, btn_extension)
+    const alignmentTable = `<div class="alignment-container box64" ${isVertical ? 'oy' : ''} >${listFlexAlignment.map(e => `<div class='align-option box16 ${e === alignValue ? 'selected' : ''}' alignvl="${e}"></div>`)}</div>`
 
     // input edit child space
     if (!isEditTable) {
-      let childSpaceValues = wbList.filterAndMap(wb => parseFloat(window.getComputedStyle(wb.value)[wb.value.classList.contains('w-col') ? 'row-gap' : 'column-gap'].replace('px', '')))
-      let inputChildSpace = TextField({
+      const childSpaceValues = wbList.filterAndMap(wb => parseFloat(window.getComputedStyle(wb.value)[wb.value.classList.contains('w-col') ? 'row-gap' : 'column-gap'].replace('px', '')))
+      var inputChildSpace = TextField({
+        returnType: 'string',
         className: 'right-view-input regular1',
-        style: 'width: 8.8rem;position: absolute; left: 0; bottom: 0',
-        prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/${isVertical ? 'vertical' : 'horizontal'} child spacing.svg"/>`,
+        style: 'position: absolute; left: 0.4rem; bottom: 0',
+        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/${isVertical ? 'vertical' : 'horizontal'} child spacing.svg"/>`,
         value: childSpaceValues.length == 1 ? childSpaceValues[0] : 'mixed',
         onBlur: function (ev) {
           let newValue = parseFloat(ev.target.value)
@@ -632,35 +612,19 @@ function EditLayoutBlock() {
           }
         }
       })
-      body.appendChild(inputChildSpace)
       if (wbList.every(wb => !wb.value.classList.contains('w-textformfield'))) {
-        let isWrapRow = document.createElement('div')
-        isWrapRow.className = 'row'
-        isWrapRow.style.width = '100%'
-        let btnIsWarp = document.createElement('label')
-        btnIsWarp.className = 'row regular1 check-box-label uneditable-instance'
-        btnIsWarp.innerHTML = `<input type="checkbox"${wbList.filterAndMap(wb => window.getComputedStyle(wb.value).flexWrap).every(e => e === 'wrap') ? ' checked' : ''} />Wrap content`
-        btnIsWarp.firstChild.onchange = function (ev) {
-          handleEditLayout({ isWrap: ev.target.checked })
-        }
-        let runSpaceValues = wbList.filterAndMap(wb =>
-          parseFloat(
-            (
-              wb.value.style.getPropertyValue('--run-space') ??
-              StyleDA.docStyleSheets
-                .find(cssRule =>
-                  [
-                    ...divSection.querySelectorAll(cssRule.selectorText)
-                  ].includes(wbList[0].value)
-                )
-                ?.style?.getPropertyValue('--run-space')
-            ).replace('px', '')
-          )
-        )
-        let inputRunSpace = TextField({
+        const checkFlexWrap = `<div class="row regular1 col12" style="gap: 0.4rem; padding: 0.2rem 0.8rem; width: 9.8rem">${Checkbox({
+          returnType: 'string',
+          size: '1.6rem',
+          value: wbList.filterAndMap(wb => window.getComputedStyle(wb.value).flexWrap).every(e => e === 'wrap'),
+          onChange: (ev) => {
+            handleEditLayout({ isWrap: ev.target.checked })
+          }
+        })} Wrap content</div>`
+        const runSpaceValues = wbList.filterAndMap(wb => parseFloat((wb.value.style.getPropertyValue('--run-space') ?? StyleDA.docStyleSheets.find(cssRule => [...divSection.querySelectorAll(cssRule.selectorText)].includes(wbList[0].value))?.style?.getPropertyValue('--run-space')).replace('px', '')))
+        const inputRunSpace = TextField({
           className: 'right-view-input regular1',
-          style: 'width: 8.8rem',
-          prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/${isVertical ? 'horizontal' : 'vertical'} child spacing.svg"/>`,
+          prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/${isVertical ? 'horizontal' : 'vertical'} child spacing.svg"/>`,
           value: runSpaceValues.length == 1 ? runSpaceValues[0] : 'mixed',
           onBlur: function (ev) {
             let newValue = parseFloat(ev.target.value)
@@ -673,59 +637,40 @@ function EditLayoutBlock() {
             }
           }
         })
-        isWrapRow.replaceChildren(btnIsWarp, inputRunSpace)
-        let btnIsScroll = document.createElement('label')
-        btnIsScroll.className =
-          'row regular1 check-box-label uneditable-instance'
-        btnIsScroll.innerHTML = `<input type="checkbox"${wbList
-          .filterAndMap(wb => window.getComputedStyle(wb.value).overflow)
-          .every(e => e.includes('scroll'))
-          ? ' checked'
-          : ''
-          }/>Overflow scroll`
-        if (wbList.some(wb => (wb.value.classList.contains('w-col') && wb.value.getAttribute('height-type') === 'fit') || (wb.value.classList.contains('w-row') && wb.value.getAttribute('width-type') === 'fit'))) {
-          btnIsScroll.setAttribute('disabled', 'true')
-        } else {
-          btnIsScroll.firstChild.onchange = function (ev) {
+        const checkScroll = `<div class="row regular1 col12" style="gap: 0.4rem; padding: 0.2rem 0.8rem; width: 9.8rem">${Checkbox({
+          returnType: 'string',
+          size: '1.6rem',
+          disabled: wbList.some(wb => (wb.value.classList.contains('w-col') && wb.value.getAttribute('height-type') === 'fit') || (wb.value.classList.contains('w-row') && wb.value.getAttribute('width-type') === 'fit')),
+          value: wbList.filterAndMap(wb => window.getComputedStyle(wb.value).overflow).every(e => e.includes('scroll')),
+          onChange: (ev) => {
             handleEditLayout({ isScroll: ev.target.checked })
           }
-        }
-        editContainer.replaceChildren(
-          ...editContainer.children,
-          isWrapRow,
-          btnIsScroll
-        )
+        })} Scroll content</div>`
+        var layoutOption = `<div class="row" style="flex-wrap: wrap; gap: 0.8rem 1.2rem">${checkFlexWrap}${inputRunSpace}${checkScroll}</div>`
       }
     }
 
+    editLayoutBody.innerHTML = `<div class="row" style="position: relative; justify-content: space-between">
+      ${selectDirection}
+      <div class="row" style="gap: 0.6rem">${alignmentTable}<i class="fa-solid fa-ellipsis box24 center" style="display: flex; font-size: 1.4rem"></i></div>
+      ${inputChildSpace ?? ''}
+      </div>
+      ${layoutOption ?? ''}
+      <div class="row edit-padding-container" style="gap: 1.2rem 0.8rem; flex-wrap: wrap"></div>`
+
     // input padding
     let isShowPadDetails = false
-    let paddingLefts = wbList.filterAndMap(e =>
-      window.getComputedStyle(e.value).paddingLeft.replace('px', '')
-    )
+    let paddingLefts = wbList.filterAndMap(e => window.getComputedStyle(e.value).paddingLeft.replace('px', ''))
     let padLeftValue = paddingLefts.length == 1 ? paddingLefts[0] : 'mixed'
-    let paddingTops = wbList.filterAndMap(e =>
-      window.getComputedStyle(e.value).paddingTop.replace('px', '')
-    )
+    let paddingTops = wbList.filterAndMap(e => window.getComputedStyle(e.value).paddingTop.replace('px', ''))
     let padTopValue = paddingTops.length == 1 ? paddingTops[0] : 'mixed'
-    let paddingRights = wbList.filterAndMap(e =>
-      window.getComputedStyle(e.value).paddingRight.replace('px', '')
-    )
+    let paddingRights = wbList.filterAndMap(e => window.getComputedStyle(e.value).paddingRight.replace('px', ''))
     let padRightValue = paddingRights.length == 1 ? paddingRights[0] : 'mixed'
-    let paddingBots = wbList.filterAndMap(e =>
-      window.getComputedStyle(e.value).paddingBottom.replace('px', '')
-    )
+    let paddingBots = wbList.filterAndMap(e => window.getComputedStyle(e.value).paddingBottom.replace('px', ''))
     let padBotValue = paddingBots.length == 1 ? paddingBots[0] : 'mixed'
-    let paddingContainer = document.createElement('div')
-    paddingContainer.className = 'row'
-    paddingContainer.style.flexWrap = 'wrap'
-    paddingContainer.style.gap = '4px'
-    paddingContainer.style.marginTop = '6px'
-    editContainer.appendChild(paddingContainer)
-    let input_padding_horizontal = TextField({
+    const input_padding_horizontal = TextField({
       className: 'right-view-input regular1',
-      style: 'width: 8.8rem',
-      prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding horizontal.svg" />`,
+      prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding horizontal.svg" />`,
       value: padLeftValue == padRightValue ? padLeftValue : 'mixed',
       onBlur: function (ev) {
         let newValue = parseFloat(ev.target.value)
@@ -741,10 +686,9 @@ function EditLayoutBlock() {
         }
       }
     })
-    let input_padding_vertical = TextField({
+    const input_padding_vertical = TextField({
       className: 'right-view-input regular1',
-      style: 'width: 8.8rem',
-      prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding vertical.svg" />`,
+      prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding vertical.svg" />`,
       value: padTopValue == padBotValue ? padTopValue : 'mixed',
       onBlur: function (ev) {
         let newValue = parseFloat(ev.target.value)
@@ -759,11 +703,9 @@ function EditLayoutBlock() {
         }
       }
     })
-    input_padding_vertical.style.marginLeft = '6px'
-    let input_padding_left = TextField({
+    const input_padding_left = TextField({
       className: 'right-view-input regular1',
-      style: 'width: 8.8rem',
-      prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding left.svg" />`,
+      prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding left.svg" />`,
       value: padLeftValue,
       onBlur: function (ev) {
         let newValue = parseFloat(ev.target.value)
@@ -777,10 +719,9 @@ function EditLayoutBlock() {
         }
       }
     })
-    let input_padding_top = TextField({
+    const input_padding_top = TextField({
       className: 'right-view-input regular1',
-      style: 'width: 8.8rem',
-      prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding top.svg" />`,
+      prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding top.svg" />`,
       value: padTopValue,
       onBlur: function (ev) {
         let newValue = parseFloat(ev.target.value)
@@ -794,16 +735,14 @@ function EditLayoutBlock() {
         }
       }
     })
-    input_padding_top.style.marginLeft = '6px'
     let icon_padding_details = document.createElement('img')
     icon_padding_details.className = 'img-button size-24'
     icon_padding_details.style.borderRadius = '2px'
     icon_padding_details.style.margin = '4px 0 0 6px'
     icon_padding_details.src = 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding details.svg'
-    let input_padding_right = TextField({
+    const input_padding_right = TextField({
       className: 'right-view-input regular1',
-      style: 'width: 8.8rem',
-      prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding right.svg" />`,
+      prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding right.svg" />`,
       value: padRightValue,
       onBlur: function (ev) {
         let newValue = parseFloat(ev.target.value)
@@ -818,10 +757,9 @@ function EditLayoutBlock() {
       }
     })
 
-    let input_padding_bottom = TextField({
+    const input_padding_bottom = TextField({
       className: 'right-view-input regular1',
-      style: 'width: 8.8rem',
-      prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding bottom.svg" />`,
+      prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding bottom.svg" />`,
       value: padBotValue,
       onBlur: function (ev) {
         let newValue = parseFloat(ev.target.value)
@@ -835,22 +773,13 @@ function EditLayoutBlock() {
         }
       }
     })
-    input_padding_bottom.style.marginLeft = '6px'
-    paddingContainer.replaceChildren(
-      input_padding_horizontal,
-      input_padding_vertical,
-      input_padding_left,
-      input_padding_top,
-      icon_padding_details,
-      input_padding_right,
-      input_padding_bottom
-    )
-    icon_padding_details.onclick = function () {
+    const btnPaddingDetails = document.createElement('button')
+    btnPaddingDetails.type = 'button'
+    btnPaddingDetails.className = `radius-details box24 row ${isShowPadDetails ? 'toggle' : ''}`
+    btnPaddingDetails.style.padding = '0.4rem'
+    btnPaddingDetails.innerHTML = IconPaddingDetails()
+    btnPaddingDetails.onclick = function () {
       isShowPadDetails = !isShowPadDetails
-      toggleShowDetails()
-    }
-    toggleShowDetails()
-    function toggleShowDetails() {
       if (isShowPadDetails) {
         input_padding_horizontal.style.display = 'none'
         input_padding_vertical.style.display = 'none'
@@ -858,7 +787,7 @@ function EditLayoutBlock() {
         input_padding_top.style.display = 'flex'
         input_padding_right.style.display = 'flex'
         input_padding_bottom.style.display = 'flex'
-        icon_padding_details.style.borderColor = '#e5e5e5'
+        btnPaddingDetails.classList.add('toggle')
       } else {
         input_padding_horizontal.style.display = 'flex'
         input_padding_vertical.style.display = 'flex'
@@ -866,8 +795,25 @@ function EditLayoutBlock() {
         input_padding_top.style.display = 'none'
         input_padding_right.style.display = 'none'
         input_padding_bottom.style.display = 'none'
-        icon_padding_details.style.borderColor = 'transparent'
+        btnPaddingDetails.classList.remove('toggle')
       }
+    }
+    editLayoutBody.querySelector('.edit-padding-container').replaceChildren(
+      input_padding_vertical,
+      input_padding_horizontal,
+      input_padding_top,
+      input_padding_right,
+      btnPaddingDetails,
+      input_padding_bottom,
+      input_padding_left
+    )
+    if (wbList.every(wb => ['w-textformfield', 'w-table'].every(e => !wb.value.classList.contains(e)) && !wb.IsInstance && !wb.value.closest('.wbaseItem-value[iswini]'))) {
+      $(header).on('click', '.fa-minus', function () {
+        removeLayout()
+        reloadEditLayoutBlock()
+      })
+    } else {
+      header.querySelector('.fa-minus').remove()
     }
   } else {
     header.querySelector('.fa-minus').remove()
@@ -1234,39 +1180,6 @@ function checkActiveFillHug({ type = 'fill', isW = true }) {
     default:
       return true
   }
-}
-
-// create alignment type table UI
-function _alignTable({ isVertical = true, value }) {
-  value = value === 'CenterCenter' ? 'Center' : value
-  let alignContainer = document.createElement('div')
-  alignContainer.className = 'alignment-container box64'
-  alignContainer.setAttribute('oy', isVertical)
-  alignContainer.innerHTML = [
-    AlignmentType.top_left,
-    AlignmentType.top_center,
-    AlignmentType.top_right,
-    AlignmentType.left_center,
-    AlignmentType.center,
-    AlignmentType.right_center,
-    AlignmentType.bottom_left,
-    AlignmentType.bottom_center,
-    AlignmentType.bottom_right
-  ]
-    .map(
-      vl => `<div class='align-option box16' alignvl="${vl}" style='opacity: ${vl === value ? 1 : 0.05}'></div>`
-    ).join('')
-  $(alignContainer).on('click', '.align-option', function (ev) {
-    alignContainer.querySelectorAll('.align-option').forEach(e => {
-      if (e === ev.target) {
-        ev.target.style.opacity = 1
-      } else {
-        e.style.opacity = 0.05
-      }
-    })
-    handleEditLayout({ alignment: ev.target.getAttribute('alignvl') })
-  })
-  return alignContainer
 }
 
 //! background-color || img

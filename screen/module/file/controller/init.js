@@ -35,106 +35,108 @@ const isMac = navigator.userAgent.indexOf('Mac OS X') != -1
 var select_component
 $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@ba8da95/project-component/loading.html', async function () {
     const pId = location.hash.match(/file\?id\=[\d]*/g)[0].replace('file?id=', "")
-    await ProjectDA.getByID(parseInt(pId))
-    let openingProjects = TitleBarDA.list()
-    const findIndex = openingProjects.findIndex(e => e.ID === ProjectDA.obj.ID)
-    if (findIndex === -1)
-        openingProjects.push(ProjectDA.obj)
-    else
-        openingProjects[findIndex] = { ...ProjectDA.obj, ...openingProjects[findIndex] }
-    TitleBarDA.setList(openingProjects)
-    TitleBarDA.updateTitleBar(parseInt(pId))
-    const res = await ProjectDA.getPermission()
-    if (res.Code === 200) {
-        for (let wpageItem of res.Data.WPageItems) {
-            if (wpageItem.Name == undefined) {
-                wpageItem.Name = `Page ${i + 1}`
+    const pInforRes = await ProjectDA.getByID(parseInt(pId))
+    if (pInforRes.Code === 200) {
+        let openingProjects = TitleBarDA.list()
+        const findIndex = openingProjects.findIndex(e => e.ID === ProjectDA.obj.ID)
+        if (findIndex === -1)
+            openingProjects.push(ProjectDA.obj)
+        else
+            openingProjects[findIndex] = { ...ProjectDA.obj, ...openingProjects[findIndex] }
+        TitleBarDA.setList(openingProjects)
+        TitleBarDA.updateTitleBar(parseInt(pId))
+        const res = await ProjectDA.getPermission()
+        if (res.Code === 200) {
+            for (let wpageItem of res.Data.WPageItems) {
+                if (wpageItem.Name == undefined) {
+                    wpageItem.Name = `Page ${i + 1}`
+                }
+            }
+            PageDA.list.push(...res.Data.WPageItems)
+            if (PageDA.list.length > 0) {
+                PageDA.obj = PageDA.list.find(e => e.ID === PageDA.obj.ID) ?? PageDA.list.find(e => e.ID === ProjectDA.obj.PageDefaultID) ?? PageDA.list[0]
+                PageDA.setSelected(PageDA.obj)
+                PageDA.checkEditPermission(PageDA.obj.Permission)
             }
         }
-        PageDA.list.push(...res.Data.WPageItems)
-        if (PageDA.list.length > 0) {
-            PageDA.obj = PageDA.list.find(e => e.ID === PageDA.obj.ID) ?? PageDA.list.find(e => e.ID === ProjectDA.obj.PageDefaultID) ?? PageDA.list[0]
-            PageDA.setSelected(PageDA.obj)
-            PageDA.checkEditPermission(PageDA.obj.Permission)
-        }
-    }
-    let wbaseResponse = await WBaseDA.apiGetInitWbase()
-    $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@ba8da95/screen/module/file/local-component/body-layout.html', async function () {
-        permissionTool()
-        customerList()
-        left_view = document.getElementById('left_view')
-        right_view = document.getElementById('right_view')
-        layer_view = document.getElementById('Layer')
-        assets_view = document.getElementById('Assets')
-        design_view = document.getElementById('Design')
-        prototype_view = document.getElementById('Prototype')
-        state_view = document.getElementById('State')
-        divMain = document.getElementById('canvas_view')
-        divSection = document.getElementById('divSection')
-        divSection.style.transform = `scale(${scale}, ${scale})`
-        leftw = left_view?.offsetWidth ?? 0
-        reightw = right_view?.offsetWidth ?? 0
-        divSection.replaceChildren()
-        StyleDA.initSkin(ProjectDA.obj.ID).then(skinResponse => {
-            CateDA.initCate()
-            StyleDA.listSkin = skinResponse
-            StyleDA.listSkin.forEach(skin => {
-                document.documentElement.style.setProperty(`--${skin.GID}`, skin.Css)
-            })
-        })
-        // PropertyDA.list = skinResponse.Data.WPropertyItems
-        console.log('get server done: ', Date.now())
-        wbase_list = initDOM(wbaseResponse)
-        arrange()
-        for (let wb of wbase_list) {
-            wb.value = null
-            initComponents(wb)
-            if (wb.Level === 1) divSection.appendChild(wb.value)
-        }
-        StyleDA.docStyleSheets.forEach(cssRuleItem => {
-            if (cssRuleItem.style.length > 0) {
-                divSection.querySelectorAll(cssRuleItem.selectorText).forEach(wbHTML => setAttributeByStyle(wbHTML, cssRuleItem.style))
-            }
-        })
-        divSection.querySelectorAll('.wbaseItem-value[isinstance][class*="w-st0"]').forEach(wbHTML => setAttributeByStyle(wbHTML))
-        setupRightView()
-        setupLeftView()
-        //
-        canvas = document.getElementById('canvas_line')
-        ctx = canvas.getContext('2d')
-        canvasr = document.getElementById('canvas_rect')
-        ctxr = canvasr.getContext('2d')
-
-        canvas.width = totalW
-        canvas.height = totalH
-        canvas.style.top = t * scale + 'px'
-        canvas.style.left = l * scale + 'px'
-        canvasr.width = width
-        canvasr.height = height
-
-        scrollTop = document.getElementById('e060a4db-2b24-4ca6-89ea-0ff75d4fc79e')
-        scrollTop.style.top = objscroll.y + 'px'
-        scrollTop.style.right = reightw + 'px'
-        scrollLeft = document.getElementById('f01230bb-83e6-4320-b642-33f65c0f8696')
-        scrollLeft.style.left = leftw + 'px'
-        parent = divSection
-        //
-        if (!PageDA.obj.scale) {
-            topx = PageDA.obj.topx ?? 0
-            leftx = PageDA.obj.leftx ?? 0
-            scale = PageDA.obj.scale ?? 1
-            divSection.style.top = topx + 'px'
-            divSection.style.left = leftx + 'px'
+        let wbaseResponse = await WBaseDA.apiGetInitWbase()
+        $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@ba8da95/screen/module/file/local-component/body-layout.html', async function () {
+            permissionTool()
+            customerList()
+            left_view = document.getElementById('left_view')
+            right_view = document.getElementById('right_view')
+            layer_view = document.getElementById('Layer')
+            assets_view = document.getElementById('Assets')
+            design_view = document.getElementById('Design')
+            prototype_view = document.getElementById('Prototype')
+            state_view = document.getElementById('State')
+            divMain = document.getElementById('canvas_view')
+            divSection = document.getElementById('divSection')
             divSection.style.transform = `scale(${scale}, ${scale})`
-            input_scale_set(scale * 100)
-            positionScrollLeft()
-            positionScrollTop()
-        } else {
-            initScroll(wbase_list.filter(m => m.ParentID === wbase_parentID).map(m => m.StyleItem))
-        }
-        centerViewInitListener()
-        WiniIO.emitInit()
-    })
+            leftw = left_view?.offsetWidth ?? 0
+            reightw = right_view?.offsetWidth ?? 0
+            divSection.replaceChildren()
+            StyleDA.initSkin(ProjectDA.obj.ID).then(skinResponse => {
+                CateDA.initCate()
+                StyleDA.listSkin = skinResponse
+                StyleDA.listSkin.forEach(skin => {
+                    document.documentElement.style.setProperty(`--${skin.GID}`, skin.Css)
+                })
+            })
+            // PropertyDA.list = skinResponse.Data.WPropertyItems
+            console.log('get server done: ', Date.now())
+            wbase_list = initDOM(wbaseResponse)
+            arrange()
+            for (let wb of wbase_list) {
+                wb.value = null
+                initComponents(wb)
+                if (wb.Level === 1) divSection.appendChild(wb.value)
+            }
+            StyleDA.docStyleSheets.forEach(cssRuleItem => {
+                if (cssRuleItem.style.length > 0) {
+                    divSection.querySelectorAll(cssRuleItem.selectorText).forEach(wbHTML => setAttributeByStyle(wbHTML, cssRuleItem.style))
+                }
+            })
+            divSection.querySelectorAll('.wbaseItem-value[isinstance][class*="w-st0"]').forEach(wbHTML => setAttributeByStyle(wbHTML))
+            setupRightView()
+            setupLeftView()
+            //
+            canvas = document.getElementById('canvas_line')
+            ctx = canvas.getContext('2d')
+            canvasr = document.getElementById('canvas_rect')
+            ctxr = canvasr.getContext('2d')
+
+            canvas.width = totalW
+            canvas.height = totalH
+            canvas.style.top = t * scale + 'px'
+            canvas.style.left = l * scale + 'px'
+            canvasr.width = width
+            canvasr.height = height
+
+            scrollTop = document.getElementById('e060a4db-2b24-4ca6-89ea-0ff75d4fc79e')
+            scrollTop.style.top = objscroll.y + 'px'
+            scrollTop.style.right = reightw + 'px'
+            scrollLeft = document.getElementById('f01230bb-83e6-4320-b642-33f65c0f8696')
+            scrollLeft.style.left = leftw + 'px'
+            parent = divSection
+            //
+            if (!PageDA.obj.scale) {
+                topx = PageDA.obj.topx ?? 0
+                leftx = PageDA.obj.leftx ?? 0
+                scale = PageDA.obj.scale ?? 1
+                divSection.style.top = topx + 'px'
+                divSection.style.left = leftx + 'px'
+                divSection.style.transform = `scale(${scale}, ${scale})`
+                input_scale_set(scale * 100)
+                positionScrollLeft()
+                positionScrollTop()
+            } else {
+                initScroll(wbase_list.filter(m => m.ParentID === wbase_parentID).map(m => m.StyleItem))
+            }
+            centerViewInitListener()
+            WiniIO.emitInit()
+        })
+    }
 });
 
 function initDOM(list) {

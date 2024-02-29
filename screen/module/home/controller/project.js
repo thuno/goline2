@@ -15,7 +15,7 @@ class ProjectView {
 
     static create_projectCard(item) {
         let project_card =
-            `<div data-id=${item.ID} class="project-card col col4-xxl col8-xl col12  ${item.ID == ProjectDA.selected?.ID ? "selected" : ""}">
+            `<div data-id=${item.ID} class="project-card col col6-xxl col8-xl col12  ${item.ID == ProjectDA.selected?.ID ? "selected" : ""}">
                 <div class="project-bg"></div>    
                 <div class="project-card-info row">
                     <div class="box24 center row"><i class="fa-solid fa-pen-nib" style="font-size: 1.2rem;color: #ffffff"></i></div>
