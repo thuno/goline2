@@ -858,7 +858,7 @@ function EditConstraintsBlock() {
   const constraintsY = constraintsYValues.length === 1 ? constraintsYValues[0] : 'mixed'
 
   let constraintsRect = document.createElement('div')
-  constraintsRect.className = 'connstraints-rect'
+  constraintsRect.className = 'connstraints-rect box66'
   let selectConstraintsCol = document.createElement('div')
   selectConstraintsCol.className = 'col'
   editConstContainer.replaceChildren(constraintsRect, selectConstraintsCol)
