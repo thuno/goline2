@@ -861,6 +861,7 @@ function EditConstraintsBlock() {
   constraintsRect.className = 'connstraints-rect box66'
   let selectConstraintsCol = document.createElement('div')
   selectConstraintsCol.className = 'col'
+  selectConstraintsCol.style.cssText = 'width: 100%;flex: 1;gap:0.8rem;padding: 0 1.6rem'
   editConstContainer.replaceChildren(constraintsRect, selectConstraintsCol)
 
   if (selected_list.every(wb => WbClass.scale.every(e => !wb.value.classList.contains(e)))) {
@@ -946,6 +947,7 @@ function EditConstraintsBlock() {
   let dropdownConstX = Select1({
     value: constraintsX,
     className: 'right-view-input regular1',
+    style: 'width: 100%',
     dropdownStyle: 'background-color: #000000',
     options: [
       { id: 'mixed', name: 'mixed', style: `pointer-events: none;border-bottom: 1px inset #ffffff;${constraintsX === 'mixed' ? '' : 'display: none'}` },
@@ -966,6 +968,7 @@ function EditConstraintsBlock() {
   let dropdownConstY = Select1({
     value: constraintsY,
     className: 'right-view-input regular1',
+    style: 'width: 100%',
     dropdownStyle: 'background-color: #000000',
     options: [
       { id: 'mixed', name: 'mixed', style: `pointer-events: none;border-bottom: 1px inset #ffffff;${constraintsY === 'mixed' ? '' : 'display: none'}` },
