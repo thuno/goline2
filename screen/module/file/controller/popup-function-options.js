@@ -602,10 +602,20 @@ function createComponent() {
 }
 
 function showImgDocument() {
-    CollectionDA.getListDocument().then(res => {
-        debugger
-        let imgDocument = createImgDocument()
-        document.getElementById('body').appendChild(imgDocument)
+    CollectionDA.getListDocument().then(async (res) => {
+        if (res.Code === 200) {
+            if (CollectionDA.documentList.length === 0) {
+                const newDocRes = await CollectionDA.addDocument({
+                    ID: 0,
+                    Name: 'default folder',
+                    Type: ApiSelection.document
+                })
+                if (newDocRes.Code == 200) {
+                    let imgDocument = createImgDocument()
+                    document.body.appendChild(imgDocument)
+                }
+            }
+        }
     })
 }
 

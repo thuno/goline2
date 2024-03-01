@@ -30,9 +30,8 @@ class CollectionDA {
     }
 
     static async getListDocument() {
-        const res = await getData('/view/collection-getall', { params: { pid: ProjectDA.obj.ID } })
+        const res = await getData('/view/collection-getall', { params: { pid: ProjectDA.obj.ID, type: ApiSelection.document } })
         if (res.Code === 200) {
-            debugger
             this.documentList = res.Data
         } else {
             toastr["error"](res.Message);
