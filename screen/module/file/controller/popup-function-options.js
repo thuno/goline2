@@ -850,10 +850,12 @@ function createImgDocument() {
 function selectFolder(collectionItem, search = '') {
     CollectionDA.selectedDocument = collectionItem
     const oldSelectedTile = document.querySelector('.folder-tile.selected')
-    oldSelectedTile.querySelector('i.box24').classList.remove('fa-folder-open')
-    oldSelectedTile.querySelector('i.box24').classList.add('fa-folder')
-    oldSelectedTile.classList.remove('selected')
-    const selectedTile = document.querySelector(`.folder-tile[folder-${collectionItem.ID}]`)
+    if(oldSelectedTile) {
+        oldSelectedTile.querySelector('i.box24').classList.remove('fa-folder-open')
+        oldSelectedTile.querySelector('i.box24').classList.add('fa-folder')
+        oldSelectedTile.classList.remove('selected')
+    }
+    const selectedTile = document.querySelector(`.folder-tile[id="folder-${collectionItem.ID}"]`)
     selectedTile.classList.add('selected')
     selectedTile.querySelector('i.box24').classList.remove('fa-folder')
     selectedTile.querySelector('i.box24').classList.add('fa-folder-open')
