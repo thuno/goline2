@@ -743,7 +743,7 @@ function createImgDocument() {
     })}
                 <i class="fa-solid fa-arrow-up-from-bracket box24 center" style="font-size: 1.4rem; display: flex; color: var(--primary-color)"></i>
             </div>
-        <div class="row list-img-container" style="flex-wrap: wrap; gap: 0.8rem; flex: 1; height: 100%; width: 100%"><p class="semibold1">Select a folder</p></div>
+        <div class="row list-img-container"><p class="semibold1">Select a folder</p></div>
         </div>
     </div>`
 
