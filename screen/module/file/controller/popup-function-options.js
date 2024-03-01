@@ -153,7 +153,7 @@ function showOnOffUI() {
     } else {
         left_view.style.display = 'block'
         right_view.style.display = 'block'
-        scrollTop.style.right = '260px'
+        scrollTop.style.right = '26rem'
     }
 }
 
@@ -606,12 +606,12 @@ function showImgDocument() {
     document.getElementById('body').appendChild(imgDocument)
 }
 
-let imgDocumentOffset = { x: 320, y: 320 }
+let imgDocumentOffset = { x: 32, y: 32 }
 function createImgDocument() {
     let divImgDoc = document.createElement('div')
     divImgDoc.id = 'popup_img_document'
-    divImgDoc.style.left = imgDocumentOffset.x + 'px'
-    divImgDoc.style.top = imgDocumentOffset.y + 'px'
+    divImgDoc.style.left = imgDocumentOffset.x + 'rem'
+    divImgDoc.style.top = imgDocumentOffset.y + 'rem'
     divImgDoc.onclick = function () {
         document.getElementById('popup_img_options')?.remove()
         FileDA.selectFile()
@@ -635,10 +635,7 @@ function createImgDocument() {
     header.onmousedown = function (e) {
         e.stopPropagation()
         if (e.buttons == 1) {
-            divImgDoc.setAttribute(
-                'offset',
-                JSON.stringify({ x: e.clientX, y: e.clientY })
-            )
+            divImgDoc.setAttribute('offset', JSON.stringify({ x: e.clientX, y: e.clientY }))
         }
     }
     header.onmouseup = function (e) {

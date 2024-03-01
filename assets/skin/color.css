@@ -17,5 +17,5 @@
     --overlay-color: rgba(0, 53, 128, 0.04);
     --overlay-selected-color: rgba(0, 53, 128, 0.08);
 
-    --disable-color: rgb(0, 32, 77, 0.25);
+    --disabled-color: rgb(0, 32, 77, 0.25);
 }

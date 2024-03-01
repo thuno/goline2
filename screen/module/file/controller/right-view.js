@@ -246,8 +246,11 @@ function EditOffsetBlock() {
   const parentHTML = divSection.querySelector(`.wbaseItem-value.w-container[id="${select_box_parentID}"]`)
   if (parentHTML && window.getComputedStyle(parentHTML).display.match('flex')) {
     const isFixPos = selected_list.every(e => e.value.classList.contains('fixed-position'))
-    var iconFixPos = `<button type="button" class="toogle-fix-position box24 default-icon-btn center row ${isFixPos ? 'toggle' : ''} ${selected_list.some(wb => !wb.value.classList.contains('w-variant') && wb.value.closest('.wbaseItem-value[iswini]')) ? ' disabled' : ''}" style="padding: 0.6rem">${IconFixPosition()}</button>`
-    $(editContainer).on('click', '.toogle-fix-position', function () { handleEditOffset({ fixPosition: !isFixPos }) })
+    var iconFixPos = `<button type="button" class="toogle-fix-position box24 action-button center row ${isFixPos ? 'toggle' : ''} ${selected_list.some(wb => !wb.value.classList.contains('w-variant') && wb.value.closest('.wbaseItem-value[iswini]')) ? ' disabled' : ''}" style="padding: 0.6rem">${IconFixPosition()}</button>`
+    $(editContainer).on('click', '.toogle-fix-position', function () {
+      handleEditOffset({ fixPosition: !isFixPos })
+      updateUIDesignView()
+    })
   }
 
   const list_offsetX = selected_list.filterAndMap(wb => `${getWBaseOffset(wb).x}`.replace('.00', ''))
@@ -280,7 +283,11 @@ function EditOffsetBlock() {
       (computeSt.display.match(/(flex|table)/g) || computeSt.position !== 'absolute')
   })
   const isRatio = selected_list.some(wb => window.getComputedStyle(wb.value).aspectRatio !== 'auto')
-  let iconRatioWH = `<button type="button" class="toggle-ratioWH box24 default-icon-btn center row ${isRatio ? 'toggle' : ''}" style="padding: 0.5rem">${IconRatioWH({ toggle: isRatio })}</button>`
+  let iconRatioWH = `<button type="button" class="toggle-ratioWH box24 action-button center row ${isRatio ? 'toggle' : ''}" style="padding: 0.5rem">${IconRatioWH({ toggle: isRatio })}</button>`
+  $(editContainer).on('click', '.toggle-ratioWH', function () {
+    handleEditOffset({ ratioWH: !isRatio })
+    reloadEditOffsetBlock()
+  })
   if (isFlexBox) {
     var disabledInputW = false
     var disabledInputH = false
@@ -306,6 +313,7 @@ function EditOffsetBlock() {
       ],
       onChange: (value) => {
         handleEditOffset({ width: value.id === 'fit' ? null : value.id === 'fill' ? -1 : value.id })
+        updateUIDesignView()
       }
     })
     const hValue = (() => {
@@ -330,10 +338,10 @@ function EditOffsetBlock() {
       ],
       onChange: (value) => {
         handleEditOffset({ height: value.id === 'fit' ? null : value.id === 'fill' ? -1 : value.id })
+        updateUIDesignView()
       }
     })
   }
-  if (iconRatioWH) $(editContainer).on('click', '.toggle-ratioWH', function () { })
   const list_width = selected_list.filterAndMap(e => e.value.offsetWidth)
   const editW = TextField({
     returnType: 'string',
@@ -343,7 +351,7 @@ function EditOffsetBlock() {
     value: list_width.length === 1 ? list_width[0] : 'mixed',
     onBlur: function (ev) {
       let newValue = parseFloat(ev.target.value)
-      if (!isNaN(newValue)) handleEditOffset({ width: newValue, ratioWH: isRatio })
+      if (!isNaN(newValue)) handleEditOffset({ width: newValue, ratioWH: isRatio ? null : false })
     }
   })
   const list_height = selected_list.filterAndMap(e => e.value.offsetHeight)
@@ -355,7 +363,7 @@ function EditOffsetBlock() {
     value: list_height.length == 1 ? list_height[0] : 'mixed',
     onBlur: function (ev) {
       let newValue = parseFloat(ev.target.value)
-      if (!isNaN(newValue)) handleEditOffset({ height: newValue, ratioWH: isRatio })
+      if (!isNaN(newValue)) handleEditOffset({ height: newValue, ratioWH: isRatio ? null : false })
     }
   })
   const edit_rotate = TextField({
@@ -368,7 +376,7 @@ function EditOffsetBlock() {
   const allowRadius = ['w-container', 'w-button', 'w-rect', 'w-textformfield']
   const showInputRadius = selected_list.filter(wb => allowRadius.some(cls => wb.value.classList.contains(cls)))
   if (showInputRadius.length > 0) {
-    let isRadiusDetails = false
+    const isRadiusDetails = design_view.querySelector('.radius-details.toggle') != null
     let list_radius_value = showInputRadius.map(e => window.getComputedStyle(e.value).borderRadius.split(' ').map(brvl => parseFloat(brvl.replace('px'))))
     list_radius_value = [].concat(...list_radius_value).filterAndMap()
     const edit_radius = TextField({
@@ -380,106 +388,79 @@ function EditOffsetBlock() {
       onBlur: function (ev) {
         let newValue = parseFloat(ev.target.value)
         if (isNaN(newValue)) {
-          let list_radius_value = list_seleted_radius.map(e => [
-            e.StyleItem.FrameItem.TopLeft,
-            e.StyleItem.FrameItem.TopRight,
-            e.StyleItem.FrameItem.BottomLeft,
-            e.StyleItem.FrameItem.BottomRight
-          ])
-          list_radius_value = [].concat(...list_radius_value).filterAndMap()
-          ev.target.value =
-            list_radius_value.length == 1 ? list_radius_value[0] : 'mixed'
+          ev.target.value = list_radius_value.length == 1 ? list_radius_value[0] : 'mixed'
         } else {
           handleEditOffset({ radius: newValue })
+          reloadEditOffsetBlock()
         }
       }
     })
     const iconRadiusDetails = `<button type="button" class="radius-details box24 row ${isRadiusDetails ? 'toggle' : ''}" style="padding: 0.4rem">${IconRadiusDetails()}</button>`
     $(editContainer).on('click', '.radius-details', function (ev) {
-      isRadiusDetails = !isRadiusDetails
-      editContainer.querySelector('.radius-all').style.visibility = isRadiusDetails ? 'hidden' : null
-      editContainer.querySelector('.radius-details-input').style.display = isRadiusDetails ? 'flex' : 'none'
       if (isRadiusDetails)
-        ev.target.closest('.radius-details').classList.add('toggle')
-      else
         ev.target.closest('.radius-details').classList.remove('toggle')
+      else
+        ev.target.closest('.radius-details').classList.add('toggle')
+      reloadEditOffsetBlock()
     })
-    const editRadiusDetails = `<div class="row radius-details-input" style="gap: 0.4rem;display: ${isRadiusDetails ? 'flex' : 'none'}">
+
+    if (isRadiusDetails) {
+      $(editContainer).on('focus', '.radius-details-input > input', function (ev) {
+        ev.target.select()
+      })
+      let brtlValue = showInputRadius.filterAndMap(e => window.getComputedStyle(e.value).borderTopLeftRadius.replace('px', ''))
+      brtlValue = brtlValue.length === 1 ? brtlValue[0] : 'mixed'
+      $(editContainer).on('blur', '.radius-details-input > .br-tl', function () {
+        let newValue = parseFloat(this.value)
+        if (isNaN(newValue)) {
+          this.value = brtlValue
+        } else {
+          handleEditOffset({ radiusTL: newValue })
+          reloadEditOffsetBlock()
+        }
+      })
+      let brtrValue = showInputRadius.filterAndMap(e => window.getComputedStyle(e.value).borderTopRightRadius.replace('px', ''))
+      brtrValue = brtrValue.length === 1 ? brtrValue[0] : 'mixed'
+      $(editContainer).on('blur', '.radius-details-input > .br-tr', function () {
+        let newValue = parseFloat(this.value)
+        if (isNaN(newValue)) {
+          this.value = brtrValue
+        } else {
+          handleEditOffset({ radiusTR: newValue })
+          reloadEditOffsetBlock()
+        }
+      })
+      let brblValue = showInputRadius.filterAndMap(e => window.getComputedStyle(e.value).borderBottomLeftRadius.replace('px', ''))
+      brblValue = brblValue.length === 1 ? brblValue[0] : 'mixed'
+      $(editContainer).on('blur', '.radius-details-input > .br-bl', function () {
+        let newValue = parseFloat(this.value)
+        if (isNaN(newValue)) {
+          this.value = brblValue
+        } else {
+          handleEditOffset({ radiusBL: newValue })
+          reloadEditOffsetBlock()
+        }
+      })
+      let brbrValue = showInputRadius.filterAndMap(e => window.getComputedStyle(e.value).borderBottomRightRadius.replace('px', ''))
+      brbrValue = brbrValue.length === 1 ? brbrValue[0] : 'mixed'
+      $(editContainer).on('blur', '.radius-details-input > .br-br', function () {
+        let newValue = parseFloat(this.value)
+        if (isNaN(newValue)) {
+          this.value = brbrValue
+        } else {
+          handleEditOffset({ radiusBR: newValue })
+          reloadEditOffsetBlock()
+        }
+      })
+      var editRadiusDetails = `<div class="row radius-details-input" style="gap: 0.4rem">
       <img class="box12" src ='https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/radius_rect.svg' />
-      <input class="regular1 br-tl" value="${(() => {
-        let rvalue = showInputRadius.filterAndMap(e => window.getComputedStyle(e.value).borderTopLeftRadius.replace('px', ''))
-        return rvalue.length === 1 ? rvalue[0] : 'mixed'
-      })()}"/>
-      <input class="regular1 br-tr" value="${(() => {
-        let rvalue = showInputRadius.filterAndMap(e => window.getComputedStyle(e.value).borderTopRightRadius.replace('px', ''))
-        return rvalue.length === 1 ? rvalue[0] : 'mixed'
-      })()}"/>
-      <input class="regular1 br-bl" value="${(() => {
-        let rvalue = showInputRadius.filterAndMap(e => window.getComputedStyle(e.value).borderBottomLeftRadius.replace('px', ''))
-        return rvalue.length === 1 ? rvalue[0] : 'mixed'
-      })()}"/>
-      <input class="regular1 br-br" value="${(() => {
-        let rvalue = showInputRadius.filterAndMap(e => window.getComputedStyle(e.value).borderBottomRightRadius.replace('px', ''))
-        return rvalue.length === 1 ? rvalue[0] : 'mixed'
-      })()}"/>
+      <input class="regular1 br-tl" value="${brtlValue}"/>
+      <input class="regular1 br-tr" value="${brtrValue}"/>
+      <input class="regular1 br-bl" value="${brblValue}"/>
+      <input class="regular1 br-br" value="${brbrValue}"/>
     </div>`
-    $(editContainer).on('blur', '.radius-details-input > .br-tl', function () {
-      let newValue = parseFloat(this.value)
-      if (isNaN(newValue)) {
-        let list_top_left_value = selected_list
-          .filter(e => e.StyleItem.FrameItem?.TopLeft != undefined)
-          .map(e => e.StyleItem.FrameItem.TopLeft)
-        let top_left_value = list_top_left_value[0]
-        list_top_left_value = list_top_left_value.filter(e => e != top_left_value)
-        this.value =
-          list_top_left_value.length == 0 ? top_left_value : 'mixed'
-      } else {
-        handleEditOffset({ radiusTL: newValue })
-      }
-    })
-    $(editContainer).on('blur', '.radius-details-input > .br-tr', function () {
-      let newValue = parseFloat(this.value)
-      if (isNaN(newValue)) {
-        let list_top_right_value = selected_list
-          .filter(e => e.StyleItem.FrameItem?.Topright != undefined)
-          .map(e => e.StyleItem.FrameItem.TopRight)
-        let top_right_value = list_top_right_value[0]
-        list_top_right_value = list_top_right_value.filter(e => e != top_right_value)
-        this.value =
-          list_top_right_value.length == 0 ? top_right_value : 'mixed'
-      } else {
-        handleEditOffset({ radiusTR: newValue })
-      }
-    })
-    $(editContainer).on('blur', '.radius-details-input > .br-bl', function () {
-      let newValue = parseFloat(this.value)
-      if (isNaN(newValue)) {
-        let list_bot_left_value = selected_list
-          .filter(e => e.StyleItem.FrameItem?.BottomLeft != undefined)
-          .map(e => e.StyleItem.FrameItem.BottomLeft)
-        let bot_left_value = list_bot_left_value[0]
-        list_bot_left_value = list_bot_left_value.filter(e => e != bot_left_value)
-        this.value =
-          list_bot_left_value.length == 0 ? bot_left_value : 'mixed'
-      } else {
-        handleEditOffset({ radiusBL: newValue })
-      }
-    })
-    $(editContainer).on('blur', '.radius-details-input > .br-br', function () {
-      let newValue = parseFloat(this.value)
-      if (isNaN(newValue)) {
-        let list_bot_right_value = selected_list
-          .filter(e => e.StyleItem.FrameItem?.BottomRight != undefined)
-          .map(e => e.StyleItem.FrameItem.BottomRight)
-        let bot_right_value = list_bot_right_value[0]
-        list_bot_right_value = list_bot_right_value.filter(e => e != bot_right_value)
-        this.value =
-          list_bot_right_value.length == 0 ? bot_right_value : 'mixed'
-      } else {
-        handleEditOffset({ radiusBR: newValue })
-      }
-    })
-    var editR = edit_radius + iconRadiusDetails + editRadiusDetails
+    }
+    var editR = edit_radius + iconRadiusDetails + (editRadiusDetails ?? '')
   }
 
   const enableClipContentList = ['w-container', 'w-button', 'w-textformfield', 'w-variant']
@@ -501,31 +482,35 @@ function EditOffsetBlock() {
 // update style HTML edit position UI
 function reloadEditOffsetBlock() {
   let newEditSizePositionForm = EditOffsetBlock()
-  document
-    .getElementById('edit_size_position_div')
-    .replaceWith(newEditSizePositionForm)
+  document.getElementById('edit_size_position_div').replaceWith(newEditSizePositionForm)
 }
 
 // edit auto layout
 function EditLayoutBlock() {
   let wbList = selected_list.filter(wb => WbClass.parent.some(e => wb.value.classList.contains(e)))
-  let isEditTable =
-    wbList.length > 0 &&
-    wbList.every(wb => wb.value.classList.contains('w-table'))
+  const isDisabled = selected_list.every(wb => wb.value.closest('.wbaseItem-value[iswini]:not(.w-variant)'))
+  let isEditTable = wbList.length > 0 && wbList.every(wb => wb.value.classList.contains('w-table'))
   let editContainer = document.createElement('div')
   editContainer.id = 'edit_auto_layout_div'
   editContainer.className = 'edit-container col'
   let header = document.createElement('div')
   header.className = `ds-block-header row`
   header.innerHTML = `<p class="semibold1" style="flex: 1">${isEditTable ? 'Table layout' : 'Auto layout'}</p>
-  <i class="fa-solid fa-minus center box24" style="font-size: 1.4rem"></i>
-  <i class="fa-solid fa-plus center box24" style="font-size: 1.4rem"></i>`
+  <i class="fa-solid fa-minus center box24 ${isDisabled ? 'disabled' : ''}" style="font-size: 1.4rem"></i>
+  <i class="fa-solid fa-plus center box24 ${isDisabled ? 'disabled' : ''}" style="font-size: 1.4rem"></i>`
   editContainer.appendChild(header)
   const showDetails = selected_list.every(wb => window.getComputedStyle(wb.value).display.match(/(flex|table)/g))
   if (showDetails) {
-    // if (selected_list.some(wb => wb.value.closest('.wbaseItem-value[iswini]:not(.w-variant)')))
-    //   header.classList.add('disable')
     header.querySelector('.fa-plus').remove()
+    if (wbList.every(wb => ['w-textformfield', 'w-table'].every(e => !wb.value.classList.contains(e)) && !wb.IsInstance && !wb.value.closest('.wbaseItem-value[iswini]'))) {
+      $(header).on('click', '.fa-minus', function () {
+        removeLayout()
+        reloadEditOffsetBlock()
+        reloadEditLayoutBlock()
+      })
+    } else {
+      header.querySelector('.fa-minus').remove()
+    }
     let editLayoutBody = document.createElement('div')
     editLayoutBody.className = 'col'
     editLayoutBody.style.gap = '0.8rem'
@@ -541,6 +526,7 @@ function EditLayoutBlock() {
       ],
       onselect: (vl) => {
         handleEditLayout({ direction: vl.id })
+        reloadEditOffsetBlock()
         reloadEditLayoutBlock()
       }
     })
@@ -572,6 +558,7 @@ function EditLayoutBlock() {
           let newValue = parseFloat(ev.target.value)
           if (!isNaN(newValue)) {
             handleEditLayout({ childSpace: newValue })
+            reloadEditOffsetBlock()
             reloadEditLayoutBlock()
           } else {
             ev.target.value =
@@ -585,6 +572,7 @@ function EditLayoutBlock() {
           size: '1.6rem',
           value: wbList.filterAndMap(wb => window.getComputedStyle(wb.value).flexWrap).every(e => e === 'wrap'),
           onChange: (ev) => {
+            reloadEditOffsetBlock()
             handleEditLayout({ isWrap: ev.target.checked })
           }
         })} Wrap content</div>`
@@ -598,6 +586,7 @@ function EditLayoutBlock() {
             let newValue = parseFloat(ev.target.value)
             if (!isNaN(newValue)) {
               handleEditLayout({ runSpace: newValue })
+              reloadEditOffsetBlock()
               reloadEditLayoutBlock()
             } else {
               ev.target.value =
@@ -611,23 +600,22 @@ function EditLayoutBlock() {
           disabled: wbList.some(wb => (wb.value.classList.contains('w-col') && wb.value.getAttribute('height-type') === 'fit') || (wb.value.classList.contains('w-row') && wb.value.getAttribute('width-type') === 'fit')),
           value: wbList.filterAndMap(wb => window.getComputedStyle(wb.value).overflow).every(e => e.includes('scroll')),
           onChange: (ev) => {
+            reloadEditOffsetBlock()
             handleEditLayout({ isScroll: ev.target.checked })
           }
         })} Scroll content</div>`
         var layoutOption = `<div class="row" style="flex-wrap: wrap; gap: 0.8rem 1.2rem">${checkFlexWrap}${inputRunSpace}${checkScroll}</div>`
       }
     }
-
-    editLayoutBody.innerHTML = `<div class="row" style="position: relative; justify-content: space-between; align-items: start">
-      ${selectDirection}
-      <div class="row" style="gap: 2.4rem; align-items: start">${alignmentTable}<i class="fa-solid fa-ellipsis box24 center" style="display: flex; font-size: 1.4rem"></i></div>
-      ${inputChildSpace ?? ''}
-      </div>
-      ${layoutOption ?? ''}
-      <div class="row edit-padding-container" style="gap: 0.8rem 1.2rem; flex-wrap: wrap"></div>`
-
-    // input padding
-    let isShowPadDetails = false
+    const isShowPadDetails = design_view.querySelector('.padding-details.toggle') != null
+    $(editLayoutBody).on('click', '.padding-details', function (ev) {
+      if (isShowPadDetails) {
+        ev.target.closest('.padding-details').classList.remove('.toggle')
+      } else {
+        ev.target.closest('.padding-details').classList.add('.toggle')
+      }
+      reloadEditLayoutBlock()
+    })
     let paddingLefts = wbList.filterAndMap(e => window.getComputedStyle(e.value).paddingLeft.replace('px', ''))
     let padLeftValue = paddingLefts.length == 1 ? paddingLefts[0] : 'mixed'
     let paddingTops = wbList.filterAndMap(e => window.getComputedStyle(e.value).paddingTop.replace('px', ''))
@@ -636,154 +624,123 @@ function EditLayoutBlock() {
     let padRightValue = paddingRights.length == 1 ? paddingRights[0] : 'mixed'
     let paddingBots = wbList.filterAndMap(e => window.getComputedStyle(e.value).paddingBottom.replace('px', ''))
     let padBotValue = paddingBots.length == 1 ? paddingBots[0] : 'mixed'
-    const inputPadX = TextField({
-      className: 'right-view-input regular1',
-      style: isShowPadDetails ? 'display: none' : '',
-      prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding horizontal.svg" />`,
-      value: padLeftValue == padRightValue ? padLeftValue : 'mixed',
-      onBlur: function (ev) {
-        let newValue = parseFloat(ev.target.value)
-        if (newValue != undefined) {
-          handleEditPadding({ left: newValue, right: newValue })
-          inputPadLeft.lastChild.value = ev.target.value
-          padLeftValue = ev.target.value
-          inputPadRight.lastChild.value = ev.target.value
-          padRightValue = ev.target.value
-        } else {
-          ev.target.value = padLeftValue == padRightValue ? padLeftValue : 'mixed'
+    if (isShowPadDetails) {
+      var inputPadLeft = TextField({
+        returnType: 'string',
+        className: 'right-view-input regular1',
+        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding left.svg" />`,
+        value: padLeftValue,
+        onBlur: function (ev) {
+          let newValue = parseFloat(ev.target.value)
+          if (!isNaN(newValue)) {
+            padLeftValue = newValue
+            handleEditPadding({ left: newValue })
+            reloadEditOffsetBlock()
+          } else {
+            ev.target.value = padLeftValue
+          }
         }
-      }
-    })
-    const inputPadY = TextField({
-      className: 'right-view-input regular1',
-      style: isShowPadDetails ? 'display: none' : '',
-      prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding vertical.svg" />`,
-      value: padTopValue == padBotValue ? padTopValue : 'mixed',
-      onBlur: function (ev) {
-        let newValue = parseFloat(ev.target.value)
-        if (newValue != undefined) {
-          handleEditPadding({ top: newValue, bottom: newValue })
-          inputPadTop.lastChild.value = ev.target.value
-          padTopValue = ev.target.value
-          inputPadBot.lastChild.value = ev.target.value
-          padBotValue = ev.target.value
-        } else {
-          ev.target.value = padTopValue == padBotValue ? padTopValue : 'mixed'
+      })
+      var inputPadTop = TextField({
+        returnType: 'string',
+        className: 'right-view-input regular1',
+        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding top.svg" />`,
+        value: padTopValue,
+        onBlur: function (ev) {
+          let newValue = parseFloat(ev.target.value)
+          if (!isNaN(newValue)) {
+            padTopValue = newValue
+            handleEditPadding({ top: newValue })
+            reloadEditOffsetBlock()
+          } else {
+            ev.target.value = padTopValue
+          }
         }
-      }
-    })
-    const inputPadLeft = TextField({
-      className: 'right-view-input regular1',
-      style: isShowPadDetails ? '' : 'display: none',
-      prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding left.svg" />`,
-      value: padLeftValue,
-      onBlur: function (ev) {
-        let newValue = parseFloat(ev.target.value)
-        if (!isNaN(newValue)) {
-          handleEditPadding({ left: newValue })
-          padLeftValue = ev.target.value
-          inputPadX.lastChild.value = padLeftValue == padRightValue ? padLeftValue : 'mixed'
-        } else {
-          ev.target.value = padLeftValue
+      })
+      var inputPadRight = TextField({
+        returnType: 'string',
+        className: 'right-view-input regular1',
+        style: isShowPadDetails ? '' : 'display: none',
+        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding right.svg" />`,
+        value: padRightValue,
+        onBlur: function (ev) {
+          let newValue = parseFloat(ev.target.value)
+          if (!isNaN(newValue)) {
+            padRightValue = newValue
+            handleEditPadding({ right: newValue })
+            reloadEditOffsetBlock()
+          } else {
+            ev.target.value = padRightValue
+          }
         }
-      }
-    })
-    const inputPadTop = TextField({
-      className: 'right-view-input regular1',
-      style: isShowPadDetails ? '' : 'display: none',
-      prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding top.svg" />`,
-      value: padTopValue,
-      onBlur: function (ev) {
-        let newValue = parseFloat(ev.target.value)
-        if (!isNaN(newValue)) {
-          handleEditPadding({ top: newValue })
-          padTopValue = ev.target.value
-          inputPadY.lastChild.value = padTopValue == padBotValue ? padTopValue : 'mixed'
-        } else {
-          ev.target.value = padTopValue
+      })
+      var inputPadBot = TextField({
+        returnType: 'string',
+        className: 'right-view-input regular1',
+        style: isShowPadDetails ? '' : 'display: none',
+        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding bottom.svg" />`,
+        value: padBotValue,
+        onBlur: function (ev) {
+          let newValue = parseFloat(ev.target.value)
+          if (!isNaN(newValue)) {
+            padBotValue = newValue
+            handleEditPadding({ bottom: newValue })
+            reloadEditOffsetBlock()
+          } else {
+            ev.target.value = padBotValue
+          }
         }
-      }
-    })
-    const inputPadRight = TextField({
-      className: 'right-view-input regular1',
-      style: isShowPadDetails ? '' : 'display: none',
-      prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding right.svg" />`,
-      value: padRightValue,
-      onBlur: function (ev) {
-        let newValue = parseFloat(ev.target.value)
-        if (!isNaN(newValue)) {
-          handleEditPadding({ right: newValue })
-          padRightValue = ev.target.value
-          inputPadX.lastChild.value = padLeftValue == padRightValue ? padLeftValue : 'mixed'
-        } else {
-          ev.target.value = padRightValue
-        }
-      }
-    })
-
-    const inputPadBot = TextField({
-      className: 'right-view-input regular1',
-      style: isShowPadDetails ? '' : 'display: none',
-      prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding bottom.svg" />`,
-      value: padBotValue,
-      onBlur: function (ev) {
-        let newValue = parseFloat(ev.target.value)
-        if (!isNaN(newValue)) {
-          handleEditPadding({ bottom: newValue })
-          padBotValue = ev.target.value
-          inputPadY.lastChild.value = padTopValue == padBotValue ? padTopValue : 'mixed'
-        } else {
-          ev.target.value = padBotValue
-        }
-      }
-    })
-    const btnPaddingDetails = document.createElement('button')
-    btnPaddingDetails.type = 'button'
-    btnPaddingDetails.className = `radius-details action-button box24 row ${isShowPadDetails ? 'toggle' : ''}`
-    btnPaddingDetails.style.padding = '0.5rem'
-    btnPaddingDetails.innerHTML = IconPaddingDetails()
-    btnPaddingDetails.onclick = function () {
-      isShowPadDetails = !isShowPadDetails
-      if (isShowPadDetails) {
-        inputPadX.style.display = 'none'
-        inputPadY.style.display = 'none'
-        inputPadLeft.style.display = 'flex'
-        inputPadTop.style.display = 'flex'
-        inputPadRight.style.display = 'flex'
-        inputPadBot.style.display = 'flex'
-        btnPaddingDetails.classList.add('toggle')
-      } else {
-        inputPadX.style.display = 'flex'
-        inputPadY.style.display = 'flex'
-        inputPadLeft.style.display = 'none'
-        inputPadTop.style.display = 'none'
-        inputPadRight.style.display = 'none'
-        inputPadBot.style.display = 'none'
-        btnPaddingDetails.classList.remove('toggle')
-      }
-    }
-    editLayoutBody.querySelector('.edit-padding-container').replaceChildren(
-      inputPadY,
-      inputPadX,
-      inputPadTop,
-      inputPadRight,
-      btnPaddingDetails,
-      inputPadBot,
-      inputPadLeft
-    )
-    if (wbList.every(wb => ['w-textformfield', 'w-table'].every(e => !wb.value.classList.contains(e)) && !wb.IsInstance && !wb.value.closest('.wbaseItem-value[iswini]'))) {
-      $(header).on('click', '.fa-minus', function () {
-        removeLayout()
-        reloadEditLayoutBlock()
       })
     } else {
-      header.querySelector('.fa-minus').remove()
+      var inputPadX = TextField({
+        returnType: 'string',
+        className: 'right-view-input regular1',
+        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding horizontal.svg" />`,
+        value: padLeftValue == padRightValue ? padLeftValue : 'mixed',
+        onBlur: function (ev) {
+          let newValue = parseFloat(ev.target.value)
+          if (isNaN(newValue)) {
+            ev.target.value = padLeftValue == padRightValue ? padLeftValue : 'mixed'
+          } else {
+            padLeftValue = newValue
+            padRightValue = newValue
+            handleEditPadding({ left: newValue, right: newValue })
+            reloadEditOffsetBlock()
+          }
+        }
+      })
+      var inputPadY = TextField({
+        returnType: 'string',
+        className: 'right-view-input regular1',
+        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/padding vertical.svg" />`,
+        value: padTopValue == padBotValue ? padTopValue : 'mixed',
+        onBlur: function (ev) {
+          let newValue = parseFloat(ev.target.value)
+          if (isNaN(newValue)) {
+            ev.target.value = padTopValue == padBotValue ? padTopValue : 'mixed'
+          } else {
+            padTopValue = newValue
+            padBotValue = newValue
+            handleEditPadding({ top: newValue, bottom: newValue })
+            reloadEditOffsetBlock()
+          }
+        }
+      })
     }
+    editLayoutBody.innerHTML = `<div class="row" style="position: relative; justify-content: space-between; align-items: start">
+      ${selectDirection}
+      <div class="row" style="gap: 2.4rem; align-items: start">${alignmentTable}<i class="fa-solid fa-ellipsis box24 center" style="display: flex; font-size: 1.4rem"></i></div>
+      ${inputChildSpace ?? ''}
+      </div>
+      ${layoutOption ?? ''}
+      <div class="row edit-padding-container" style="gap: 0.8rem 1.2rem; flex-wrap: wrap">
+      ${inputPadX ?? ''}${inputPadY ?? ''}${inputPadTop ?? ''}${inputPadRight}
+      <button type="button" class="padding-details action-button box24 row ${isShowPadDetails ? 'toggle' : ''}" style="padding: 0.5rem">${IconPaddingDetails()}</button>
+      ${inputPadBot ?? ''}${inputPadLeft ?? ''}
+      </div>`
   } else {
     header.querySelector('.fa-minus').remove()
-    if (selected_list.every(wb => wb.value.closest('.wbaseItem-value[iswini]:not(.w-variant)'))) {
-      header.classList.add('disable')
-    } else {
+    if (!isDisabled) {
       $(header).on('click', '.fa-plus', function () {
         addAutoLayout()
         reloadEditLayoutBlock()
@@ -965,88 +922,6 @@ function reloadEditConstraintsBlock() {
   }
 }
 
-//create button select resizing type
-function _btnSelectResizeType(isW = true, type) {
-  type = type.toLowerCase()
-  let btn_resize = document.createElement('div')
-  btn_resize.className = 'btn_resize' + (isW ? ' width' : ' height')
-  let icon_resize = document.createElement('span')
-  btn_resize.appendChild(icon_resize)
-  if (!isW) {
-    icon_resize.style.transform = 'rotate(90deg)'
-  }
-  let title = document.createElement('p')
-  title.innerHTML = type
-  btn_resize.appendChild(title)
-  switch (type) {
-    case 'hug':
-      icon_resize.innerHTML = SVGIcon.hug_content
-      break
-    case 'fill':
-      icon_resize.innerHTML = SVGIcon.fill_container
-      break
-    default:
-      icon_resize.innerHTML = SVGIcon.fixed_size
-      break
-  }
-  let icon_down = document.createElement('i')
-  btn_resize.appendChild(icon_down)
-  icon_down.className = 'fa-solid fa-chevron-down fa-2xs'
-  icon_down.style.opacity = 0.8
-  btn_resize.onclick = function () {
-    document.querySelector('#body > .popup_list_resize_type')?.remove()
-    let popup_list_resize_type = document.createElement('div')
-    popup_list_resize_type.className =
-      'popup_list_resize_type col wini_popup popup_remove'
-    let resizeType = ['fixed', 'hug', 'fill']
-    if (type === 'mixed') resizeType.unshift('mixed')
-    popup_list_resize_type.replaceChildren(
-      ...resizeType.map(vl => {
-        let option = document.createElement('div')
-        option.className = 'resize-option'
-        if (vl === 'mixed' || checkActiveFillHug({ type: vl, isW: isW })) {
-          option.innerHTML = `<i class="fa-solid fa-check" style="color: #fff;opacity: ${type === vl ? 1 : 0
-            }"></i><span ${isW ? '' : 'style="transform: rotate(90deg)"'
-            }>${(vl === 'fixed'
-              ? SVGIcon.fixed_size
-              : vl === 'hug'
-                ? SVGIcon.hug_content
-                : SVGIcon.fill_container
-            ).replace('#000', '#fff')}</span>${vl === 'hug'
-              ? 'hug contents'
-              : vl === 'fill'
-                ? 'fill container'
-                : vl
-            }`
-        }
-        if (vl !== 'mixed')
-          option.onclick = function (e) {
-            e.stopPropagation()
-            if (isW)
-              handleEditOffset({
-                width: vl === 'hug' ? null : vl === 'fill' ? -1 : vl
-              })
-            else
-              handleEditOffset({
-                height: vl === 'hug' ? null : vl === 'fill' ? -1 : vl
-              })
-            popup_list_resize_type.remove()
-            reloadEditOffsetBlock()
-          }
-        return option
-      })
-    )
-    let offset = this.getBoundingClientRect()
-    popup_list_resize_type.style.left = offset.x + 'px'
-    popup_list_resize_type.style.top = offset.y + 'px'
-    setTimeout(function () {
-      document.getElementById('body').appendChild(popup_list_resize_type)
-    }, 200)
-  }
-
-  return btn_resize
-}
-
 // fill || hug
 function checkActiveFillHug({ type = 'fill', isW = true }) {
   switch (type) {
@@ -1148,7 +1023,7 @@ function EditBackgroundBlock() {
   header.className = 'ds-block-header row'
   let scaleWb = selected_list.every(wb => WbClass.scale.some(e => wb.value.classList.contains(e)))
   header.innerHTML = `<p class="semibold1" style="flex: 1">${scaleWb ? 'Checked primary color' : 'Background'}</p>
-  <button type='button' class="row default-icon-btn box24 action-button" style="padding: 0.7rem">${IconMoreSkins()}</button>
+  <button type='button' class="row action-button box24 action-button" style="padding: 0.7rem">${IconMoreSkins()}</button>
   <i class="fa-regular fa-image center box24" style="font-size: 1.2rem"></i>
   <i class="fa-solid fa-plus center box24" style="font-size: 1.4rem"></i>`
   editContainer.appendChild(header)
@@ -1391,7 +1266,7 @@ function EditTypoBlock() {
   editContainer.className = 'edit-container col'
   let header = document.createElement('div')
   header.className = 'ds-block-header row'
-  header.innerHTML = `<p class="semibold1" style="flex: 1">Font</p><button type='button' class="row default-icon-btn box24 action-button" style="padding: 0.7rem">${IconMoreSkins()}</button>`
+  header.innerHTML = `<p class="semibold1" style="flex: 1">Font</p><button type='button' class="row action-button box24 action-button" style="padding: 0.7rem">${IconMoreSkins()}</button>`
   editContainer.appendChild(header)
 
   let listTypoSkin = listTextStyle.filterAndMap(wb => {
@@ -1869,7 +1744,7 @@ function EditBorderBlock() {
   let header = document.createElement('div')
   header.className = 'ds-block-header row'
   header.innerHTML = `<p class="semibold1" style="flex: 1">Border</p>
-  <button type='button' class="row default-icon-btn box24 action-button" style="padding: 0.7rem">${IconMoreSkins()}</button>
+  <button type='button' class="row action-button box24 action-button" style="padding: 0.7rem">${IconMoreSkins()}</button>
   <i class="fa-solid fa-plus center box24" style="font-size: 1.4rem"></i>`
   editContainer.appendChild(header)
 
@@ -2097,7 +1972,7 @@ function EditEffectBlock() {
   let header = document.createElement('div')
   header.className = 'ds-block-header row'
   header.innerHTML = `<p class="semibold1" style="flex: 1">Effect</p>
-  <button type='button' class="row default-icon-btn box24 action-button" style="padding: 0.7rem">${IconMoreSkins()}</button>
+  <button type='button' class="row action-button box24 action-button" style="padding: 0.7rem">${IconMoreSkins()}</button>
   <i class="fa-solid fa-plus center box24" style="font-size: 1.4rem"></i>`
   editContainer.appendChild(header)
 
@@ -2347,7 +2222,7 @@ function createEditColorForm({ id, value = '#000000ff', onchange, onsubmit, onde
     <input type="color" value=${value.substring(0, 7)} class="color-picker box20"/>
     <input value="${value.replace('#', '').substring(0, 6).toUpperCase()}" class="input-color-value regular1"/><input value="${Ultis.hexToPercent(value.replace('#', '').substring(6))}%" class="input-opacity-value regular1"/>
   </div>
-  ${suffixAction ? `<button type='button' class="row default-icon-btn box24" style="padding: 0.4rem">${IconMoreSkins()}</button>` : `<i class="fa-solid fa-minus box24 center" style="font-size: 1.4rem;${!ondelete && !suffixAction ? 'display: none' : ''}"></i>`}`
+  ${suffixAction ? `<button type='button' class="row action-button box24" style="padding: 0.4rem">${IconMoreSkins()}</button>` : `<i class="fa-solid fa-minus box24 center" style="font-size: 1.4rem;${!ondelete && !suffixAction ? 'display: none' : ''}"></i>`}`
   if (returnType === 'string') {
     const dataId = uuidv4()
     $('body').on('input', `.edit-color-tile[data-id="${dataId}"] .color-picker`, function (ev) {

@@ -148,7 +148,7 @@
 .w-switch {
   position: relative;
   display: inline-block;
-  width: 36px;
+  width: 3.6rem;
   height: unset !important;
   aspect-ratio: 9 / 5;
   background-color: var(--unchecked-bg) !important;
@@ -167,10 +167,10 @@
 
 .w-switch > .slider {
   position: absolute;
-  height: calc(100% - 4px);
+  height: calc(100% - 0.4rem);
   aspect-ratio: 1 / 1;
-  left: 2px;
-  bottom: 2px;
+  left: 0.2rem;
+  bottom: 0.2rem;
   background-color: var(--dot-color);
   -webkit-transition: 0.4s;
   transition: 0.4s;
@@ -178,18 +178,18 @@
 }
 
 .w-switch > input:checked + .slider {
-  -webkit-transform: translateX(calc(0.8 * (100% + 4px)));
-  -ms-transform: translateX(calc(0.8 * (100% + 4px)));
-  transform: translateX(calc(0.8 * (100% + 4px)));
+  -webkit-transform: translateX(calc(0.8 * (100% + 0.4rem)));
+  -ms-transform: translateX(calc(0.8 * (100% + 0.4rem)));
+  transform: translateX(calc(0.8 * (100% + 0.4rem)));
 }
 
 /*checkbox*/
 .w-checkbox {
   position: relative;
-  width: 24px;
+  width: 2.4rem;
   aspect-ratio: 1 / 1 !important;
   background-color: var(--unchecked-bg) !important;
-  border-radius: 4px;
+  border-radius: 0.4rem;
   display: inline-block;
 }
 
@@ -224,11 +224,11 @@
 }
 
 .w-textformfield {
-  border-radius: 4px;
+  border-radius: 0.4rem;
   display: flex;
   align-items: center;
-  width: 382px;
-  padding: 10px 16px;
+  width: 38.2rem;
+  padding: 0.8rem 1.6rem;
   box-sizing: border-box;
 }
 
@@ -267,7 +267,7 @@
   flex-direction: column;
   align-items: start;
   justify-items: center;
-  gap: 4px;
+  gap: 0.4rem;
   width: 100%;
   background-color: transparent !important;
 }

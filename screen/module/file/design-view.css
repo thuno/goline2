@@ -620,7 +620,7 @@ body:has(#history-view) :is(.btn-tool-state:nth-child(1), .btn-history) {
 }
 
 .action-button.toggle {
-    border: 1px inset #00358033;
+    border: 0.1rem inset #00358033;
     border-radius: 0.4rem;
 }
 
@@ -657,15 +657,6 @@ body:has(#history-view) :is(.btn-tool-state:nth-child(1), .btn-history) {
     border-color: #1890ff !important;
 }
 
-.default-icon-btn {
-    border-radius: 0.2rem;
-    cursor: pointer;
-}
-
-.default-icon-btn:hover {
-    background-color: var(--hover-background);
-}
-
 i.center[class*="box"] {
     display: flex;
     border-radius: 0.2rem;
@@ -674,6 +665,11 @@ i.center[class*="box"] {
 
 i.center[class*="box"]:hover {
     background-color: var(--hover-background);
+}
+
+i.center[class*="box"].disabled {
+    background-color: var(--disabled-color);
+    pointer-events: none;
 }
 
 .edit-color-tile {

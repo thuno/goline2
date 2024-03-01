@@ -932,9 +932,8 @@ function arrange(list) {
 function handleWbSelectedList(newlist = []) {
     newlist = newlist.filter(e => e).slice(0, 10)
     let isChange = false
-    left_view
-        .querySelectorAll('.layer_wbase_tile.selected')
-        .forEach(layerTile => layerTile.classList.remove('selected'))
+    $('.layer_wbase_tile.selected').removeClass('selected')
+    $('#Design .action-button.toggle').removeClass('toggle')
     selectPath?.remove()
     if (newlist.length > 0) {
         isChange = selected_list.some(oldE => newlist.every(newE => oldE !== newE))
