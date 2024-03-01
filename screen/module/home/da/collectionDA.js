@@ -8,7 +8,7 @@ class CollectionDA {
     static selected;
     static element_selected;
 
-    static selectedDocument;
+    static selectedDocument
     static documentList = [];
 
     static urlCtr = "Collection/";

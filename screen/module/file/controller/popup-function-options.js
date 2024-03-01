@@ -624,304 +624,242 @@ let imgDocumentOffset = { x: 32, y: 32 }
 function createImgDocument() {
     let divImgDoc = document.createElement('div')
     divImgDoc.id = 'popup_img_document'
+    divImgDoc.className = 'col'
     divImgDoc.style.left = imgDocumentOffset.x + 'rem'
     divImgDoc.style.top = imgDocumentOffset.y + 'rem'
-    divImgDoc.onclick = function () {
-        document.getElementById('popup_img_options')?.remove()
-        FileDA.selectFile()
-    }
-    let filePicker = document.createElement('input')
-    filePicker.type = 'file'
-    filePicker.accept = FileDA.acceptFileTypes.join(',')
-    filePicker.style.display = 'none'
-    filePicker.multiple = 'multiple'
-    filePicker.onchange = function () {
-        FileDA.add(filePicker.files, CollectionDA.selectedDocument.ID)
-    }
-    divImgDoc.appendChild(filePicker)
     divImgDoc.onkeydown = function (e) {
         if (e.key == 'Enter' && document.activeElement.localName == 'input') {
             document.activeElement.blur()
         }
     }
-    let header = document.createElement('div')
-    header.className = 'row header_popup_skin'
-    header.onmousedown = function (e) {
+    divImgDoc.onclick = function () {
+        document.getElementById('popup_img_options')?.remove()
+        FileDA.selectFile()
+    }
+    $(divImgDoc).on('change', `input[type="file"]`, function () {
+        FileDA.add(filePicker.files, CollectionDA.selectedDocument.ID)
+    })
+    $(divImgDoc).on('mousedown', '.popup-header', function (e) {
         e.stopPropagation()
         if (e.buttons == 1) {
             divImgDoc.setAttribute('offset', JSON.stringify({ x: e.clientX, y: e.clientY }))
         }
-    }
-    header.onmouseup = function (e) {
+    })
+    $(divImgDoc).on('mouseup', '.popup-header', function (e) {
         e.stopPropagation()
         divImgDoc.removeAttribute('offset')
         imgDocumentOffset = { x: divImgDoc.offsetLeft, y: divImgDoc.offsetTop }
-    }
-    divImgDoc.appendChild(header)
-    let title = document.createElement('span')
-    title.style.flex = 1
-    title.innerHTML = 'Image document'
-    title.className = 'semibold2'
-    header.appendChild(title)
-    let btn_close = document.createElement('i')
-    btn_close.className = 'fa-solid fa-xmark'
-    btn_close.style.padding = '12px'
-    btn_close.onclick = function () {
+    })
+    $(divImgDoc).on('click', '.popup-header > .fa-xmark', function () {
         divImgDoc.remove()
         CollectionDA.selectedDocument = undefined
-    }
-    header.appendChild(btn_close)
-    let body = document.createElement('div')
-    body.style.width = '100%'
-    body.style.height = '100%'
-    body.style.flex = 1
-    body.style.display = 'flex'
-    divImgDoc.appendChild(body)
-    let folder = document.createElement('div')
-    folder.id = 'list_folder_container'
-    let folderHeader = document.createElement('div')
-    folderHeader.style.justifyContent = 'space-between'
-    folderHeader.style.margin = '4px 0'
-    folder.appendChild(folderHeader)
-    let folderTitle = document.createElement('p')
-    folderTitle.innerHTML = 'Folder'
-    folderTitle.style.marginLeft = '6px'
-    folderTitle.style.fontWeight = '600'
-    folderHeader.appendChild(folderTitle)
-    let btnAddFolder = document.createElement('i')
-    btnAddFolder.className = 'fa-solid fa-plus fa-sm'
-    btnAddFolder.style.padding = '10px 8px'
-    btnAddFolder.onclick = function () {
+    })
+    $(divImgDoc).on('click', '.img-doc-body .folder-list-container .fa-plus', function () {
         let newFolder = {
             ID: 0,
             Name: 'new folder',
             Type: ApiSelection.document
         }
         CollectionDA.addDocument(newFolder)
-    }
-    folderHeader.appendChild(btnAddFolder)
-    body.appendChild(folder)
-    if (CollectionDA.documentList[0].ID != -1) {
-        CollectionDA.documentList.unshift({
-            ID: -1,
-            Name: 'Recycle bin'
-        })
-    }
-    for (let i of CollectionDA.documentList) {
-        folder.appendChild(createFolderTile(i))
-    }
-    let divImgs = document.createElement('div')
-    divImgs.id = 'list_img_container'
-    divImgs.onauxclick = function (event) {
-        event.stopPropagation()
-        let popupImgOption = document.getElementById('popup_img_options')
-        if (popupImgOption == undefined) {
-            popupImgOption = document.createElement('div')
-            popupImgOption.id = 'popup_img_options'
-            popupImgOption.className = 'wini_popup col popup_remove'
-        }
-        popupImgOption.style.left = event.pageX + 'px'
-        popupImgOption.style.top = event.pageY + 'px'
-        let children = []
-        if (CollectionDA.selectedDocument.ID != -1) {
-            let optionAdd = document.createElement('div')
-            optionAdd.className = 'row'
-            optionAdd.innerHTML = 'add image'
-            optionAdd.onclick = function (e) {
-                e.stopPropagation()
-                popupImgOption.remove()
-                filePicker.showPicker()
-            }
-            children.push(optionAdd)
-            let optionPaste = document.createElement('div')
-            optionPaste.className = 'row'
-            optionPaste.innerHTML = 'paste here'
-            optionPaste.onclick = function (e) { }
-            children.push(optionPaste)
-        }
-        if (event.target.className?.includes('img_folder_demo')) {
-            if (
-                FileDA.selectedFile.every(
-                    e => e.ID != event.target.getAttribute('fileID')
-                )
-            ) {
-                FileDA.selectFile(
-                    FileDA.list.filter(e => e.ID == event.target.getAttribute('fileID'))
-                )
-            }
-        }
-        if (FileDA.selectedFile.length > 0) {
-            if (CollectionDA.selectedDocument.ID == -1) {
-                let optionRecycle = document.createElement('div')
-                optionRecycle.className = 'row'
-                optionRecycle.innerHTML = 'recycle'
-                optionRecycle.onclick = function (e) {
-                    e.stopPropagation()
-                    popupImgOption.remove()
-                    FileDA.recycle(FileDA.selectedFile.map(_file => _file.ID))
-                    selectFolder(CollectionDA.selectedDocument)
-                }
-                children.push(optionRecycle)
-            }
-            let optionDelete = document.createElement('div')
-            optionDelete.className = 'row'
-            optionDelete.innerHTML = 'delete'
-            optionDelete.onclick = function (e) {
-                e.stopPropagation()
-                popupImgOption.remove()
-                if (CollectionDA.selectedDocument.ID == -1) {
-                    FileDA.delete(FileDA.selectedFile.map(_file => _file.ID))
-                } else {
-                    FileDA.recycle(FileDA.selectedFile.map(_file => _file.ID))
-                }
-                selectFolder(CollectionDA.selectedDocument)
-            }
-            children.push(optionDelete)
-        }
-        if (children.length > 0) {
-            popupImgOption.replaceChildren(...children)
-            document.getElementById('body').appendChild(popupImgOption)
-        }
-    }
-    divImgs.onclick = function (event) {
-        event.stopPropagation()
-        document.getElementById('popup_img_options')?.remove()
-        if (event.target.className?.includes('img_folder_demo')) {
-            if (event.shiftKey) {
-                if (
-                    FileDA.selectedFile.every(
-                        e => e.ID != event.target.getAttribute('fileID')
-                    )
-                ) {
-                    FileDA.selectFile([
-                        ...FileDA.selectedFile,
-                        ...FileDA.list.filter(
-                            e => e.ID == event.target.getAttribute('fileID')
-                        )
-                    ])
-                }
-            } else {
-                FileDA.selectFile(
-                    FileDA.list.filter(e => e.ID == event.target.getAttribute('fileID'))
-                )
-            }
-        } else {
-            FileDA.selectFile()
-        }
-    }
-    body.appendChild(divImgs)
-    let inputSearch = document.createElement('div')
-    let inputPrefixIcon = document.createElement('i')
-    inputPrefixIcon.className = 'fa-solid fa-magnifying-glass fa-xs'
-    inputPrefixIcon.style.color = '#8c8c8c'
-    inputPrefixIcon.style.marginLeft = '6px'
-    inputSearch.appendChild(inputPrefixIcon)
-    let input = document.createElement('input')
-    input.placeholder = 'image name...'
-    input.oninput = function (e) {
-        e.stopPropagation()
-        selectFolder(CollectionDA.selectedDocument, this.value)
-        input.focus()
-    }
-    inputSearch.appendChild(input)
-    divImgs.appendChild(inputSearch)
-    let notiText = document.createElement('p')
-    notiText.innerHTML = 'Select a folder.'
-    notiText.style.fontSize = '14px'
-    notiText.style.fontWeight = '600'
-    divImgs.appendChild(notiText)
-    return divImgDoc
-}
-
-function createFolderTile(collectionItem) {
-    let folderTile = document.createElement('div')
-    folderTile.id = `folder:${collectionItem.ID}`
-    folderTile.className = 'folder_tile'
-    folderTile.innerHTML = `<i class="fa-regular fa-folder" style="margin: 2px 6px"></i><input disabled value="${collectionItem.Name}"/>`
-    folderTile.onclick = function (e) {
-        e.stopPropagation()
-        selectFolder(collectionItem)
-    }
-    $(folderTile).on('focus', 'input', function (ev) {
+    })
+    $(divImgDoc).on('focus', '.folder-tile input', function (ev) {
         ev.target.select()
     })
-    if (collectionItem.ID != -1) {
-        folderTile.onauxclick = function (e) {
-            e.stopPropagation()
-            document
-                .querySelectorAll('#body > .popup_remove')
-                .forEach(popupRemove => popupRemove.remove())
-            let editDeletePopup = document.createElement('div')
-            editDeletePopup.className = 'wini_popup popup_remove col'
-            editDeletePopup.style.left = e.pageX + 'px'
-            editDeletePopup.style.top = e.pageY + 'px'
-            let optionEdit = document.createElement('div')
-            optionEdit.className = 'row regular1'
-            optionEdit.style.color = 'white'
-            optionEdit.style.padding = '4px 6px'
-            optionEdit.innerHTML = 'edit'
-            optionEdit.onclick = function (e) {
-                e.stopPropagation()
-                editDeletePopup.remove()
-                folderTile.querySelector('input').disabled = false
-                folderTile.querySelector('input').focus()
-            }
-            let optionDelete = document.createElement('div')
-            optionDelete.className = 'row regular1'
-            optionDelete.style.color = 'white'
-            optionDelete.style.padding = '4px 6px'
-            optionDelete.innerHTML = 'delete'
-            optionDelete.onclick = function (e) {
-                e.stopPropagation()
-                editDeletePopup.remove()
-                if (CollectionDA.selectedDocument.ID === collectionItem.ID) {
-                    let index = CollectionDA.documentList.indexOf(collectionItem)
-                    if (index > 0) index--
-                    selectFolder(CollectionDA.documentList[index])
-                }
-                CollectionDA.deleteDocument(collectionItem)
-                folderTile.remove()
-            }
-            editDeletePopup.replaceChildren(optionEdit, optionDelete)
-            document.getElementById('body').appendChild(editDeletePopup)
-        }
-        folderTile.ondblclick = function (e) {
-            e.stopPropagation()
-            folderTile.querySelector('input').disabled = false
-            folderTile.querySelector('input').focus()
-        }
-        $(folderTile).on('blur', 'input', function () {
-            this.disabled = true
-            collectionItem.Name = this.value
-            window.getSelection().removeAllRanges()
-            CollectionDA.editDocument(collectionItem)
+    $(divImgDoc).on('dblclick', '.folder-tile:has(input)', function (ev) {
+        ev.stopPropagation()
+        ev.target.querySelector('input').disabled = false
+        ev.target.querySelector('input').focus()
+    })
+    $(divImgDoc).on('click', `.recycle-bin`, function (ev) {
+        ev.target.select()
+        selectFolder({ ID: -1, Name: 'Recycle bin' })
+    })
+    $(divImgDoc).on('auxclick', '.folder-tile:has(input)', function (ev) {
+        ev.stopPropagation()
+        let edit_delete_popup = showPopup({
+            hiddenOverlay: true,
+            children: `<div class="edit-skin default-option semibold1 row">Edit</div><div class="delete-skin default-option semibold1 row">Delete</div>`,
+            style: `left: ${ev.pageX}px; top: ${ev.pageY}px; background-color: #000000; width: fit-content; height: fit-content; padding: 0.2rem;border-radius: 0.2rem !important`
         })
-    }
-    return folderTile
+        $(edit_delete_popup).on('click', '.edit-skin', function () {
+            edit_delete_popup.remove()
+            ev.target.querySelector('input').disabled = false
+            ev.target.querySelector('input').focus()
+        })
+        $(edit_delete_popup).on('click', '.delete-skin', function (e) {
+            e.stopPropagation()
+            edit_delete_popup.remove()
+            CollectionDA.deleteDocument(CollectionDA.list.find(docItem => docItem.ID === parseInt(ev.target.id.replace('folder-', ''))))
+            ev.target.remove()
+        })
+    })
+    const renderFolderTile = CollectionDA.documentList.map(e => {
+        $(divImgDoc).on('click', `.folder-tile[id="folder-${e.ID}"]`, function (ev) {
+            ev.target.select()
+            selectFolder(e)
+        })
+        return `<div id="folder-${e.ID}" class="row folder-tile" style="padding: 0.4rem 0.6rem; gap: 0.2rem">
+                        <i class="fa-regular fa-folder box24 center" style="font-size: 1.4rem; pointer-events: none"></i>
+                        ${TextField({
+            returnType: 'string',
+            class: 'regular1',
+            value: e.Name,
+            style: 'flex: 1; width: 100%; padding: 0.4rem 0.8rem',
+            disabled: true,
+            onBlur: function (ev) {
+                ev.target.disabled = true
+                e.Name = ev.target.value
+                window.getSelection().removeAllRanges()
+                CollectionDA.editDocument(e)
+            }
+        })}</div>`
+    }).join('')
+    $(divImgDoc).on('click', '.fa-arrow-up-from-bracket', function () {
+        divImgDoc.querySelector(`input[type="file"]`).showPicker()
+    })
+
+    divImgDoc.innerHTML = `<input type="file" multiple accept="${FileDA.acceptFileTypes.join(',')}" style="display: none"/>
+    <div class="popup-header semibold1" style="justify-content: space-between; padding: 0.8rem 1.6rem">Image document<i class="fa-solid fa-xmark box24 center" style="font-size: 1.4rem; display: flex"></i></div>
+    <div class="img-doc-body row" style="width: 100%; flex: 1; height: 100%">
+        <div class="folder-list-container col" style="flex: 1">
+            <div class="row semibold1" style="padding: 0.4rem 0.6rem;justify-content: space-between">Folder<i class="fa-solid fa-plus box24 center" style="font-size: 1.4rem; display: flex"></i></div>
+            <div id="folder-${-1}" class="row folder-tile regular1 recycle-bin" style="padding: 0.4rem 0.6rem; gap: 0.4rem"><i class="fa-regular fa-folder box24 center" style="font-size: 1.4rem; pointer-events: none"></i>Recycle bin</div>
+            <div class="col" style="flex: 1; height: 100%; overflow: hidden auto">
+                ${renderFolderTile}
+            </div>
+        </div>
+        <div class="col" style="width: 100%; flex: 2; height: 100%; padding: 0.6rem 1.2rem; gap: 1.2rem">
+            <div class="row" style="gap: 0.8rem; width: 100%">
+                ${TextField({
+        returnType: 'string',
+        style: 'width: 100%; flex: 1; background-color: #d1d1d1',
+        class: 'regular1',
+        placeholder: 'Search image...',
+        prefix: '<i class="fa-solid fa-magnifying-glass box24 center" style="font-size: 1.4rem; pointer-events: none"></i>',
+        onChange: ev => {
+            ev.stopPropagation()
+            selectFolder(CollectionDA.selectedDocument, ev.target.value)
+        }
+    })}
+                <i class="fa-solid fa-arrow-up-from-bracket box24 center" style="font-size: 1.4rem; display: flex; color: var(--primary-color)"></i>
+            </div>
+        <div class="row list-img-container" style="flex-wrap: wrap; gap: 0.8rem; flex: 1; height: 100%; width: 100%"><p class="semibold1">Select a folder</p></div>
+        </div>
+    </div>`
+
+    // divImgs.onauxclick = function (event) {
+    //     event.stopPropagation()
+    //     let popupImgOption = document.getElementById('popup_img_options')
+    //     if (popupImgOption == undefined) {
+    //         popupImgOption = document.createElement('div')
+    //         popupImgOption.id = 'popup_img_options'
+    //         popupImgOption.className = 'wini_popup col popup_remove'
+    //     }
+    //     popupImgOption.style.left = event.pageX + 'px'
+    //     popupImgOption.style.top = event.pageY + 'px'
+    //     let children = []
+    //     if (CollectionDA.selectedDocument.ID != -1) {
+    //         let optionAdd = document.createElement('div')
+    //         optionAdd.className = 'row'
+    //         optionAdd.innerHTML = 'add image'
+    //         optionAdd.onclick = function (e) {
+    //             e.stopPropagation()
+    //             popupImgOption.remove()
+    //             filePicker.showPicker()
+    //         }
+    //         children.push(optionAdd)
+    //         let optionPaste = document.createElement('div')
+    //         optionPaste.className = 'row'
+    //         optionPaste.innerHTML = 'paste here'
+    //         optionPaste.onclick = function (e) { }
+    //         children.push(optionPaste)
+    //     }
+    //     if (event.target.className?.includes('img_folder_demo')) {
+    //         if (
+    //             FileDA.selectedFile.every(
+    //                 e => e.ID != event.target.getAttribute('fileID')
+    //             )
+    //         ) {
+    //             FileDA.selectFile(
+    //                 FileDA.list.filter(e => e.ID == event.target.getAttribute('fileID'))
+    //             )
+    //         }
+    //     }
+    //     if (FileDA.selectedFile.length > 0) {
+    //         if (CollectionDA.selectedDocument.ID == -1) {
+    //             let optionRecycle = document.createElement('div')
+    //             optionRecycle.className = 'row'
+    //             optionRecycle.innerHTML = 'recycle'
+    //             optionRecycle.onclick = function (e) {
+    //                 e.stopPropagation()
+    //                 popupImgOption.remove()
+    //                 FileDA.recycle(FileDA.selectedFile.map(_file => _file.ID))
+    //                 selectFolder(CollectionDA.selectedDocument)
+    //             }
+    //             children.push(optionRecycle)
+    //         }
+    //         let optionDelete = document.createElement('div')
+    //         optionDelete.className = 'row'
+    //         optionDelete.innerHTML = 'delete'
+    //         optionDelete.onclick = function (e) {
+    //             e.stopPropagation()
+    //             popupImgOption.remove()
+    //             if (CollectionDA.selectedDocument.ID == -1) {
+    //                 FileDA.delete(FileDA.selectedFile.map(_file => _file.ID))
+    //             } else {
+    //                 FileDA.recycle(FileDA.selectedFile.map(_file => _file.ID))
+    //             }
+    //             selectFolder(CollectionDA.selectedDocument)
+    //         }
+    //         children.push(optionDelete)
+    //     }
+    //     if (children.length > 0) {
+    //         popupImgOption.replaceChildren(...children)
+    //         document.getElementById('body').appendChild(popupImgOption)
+    //     }
+    // }
+    // divImgs.onclick = function (event) {
+    //     event.stopPropagation()
+    //     document.getElementById('popup_img_options')?.remove()
+    //     if (event.target.className?.includes('img_folder_demo')) {
+    //         if (event.shiftKey) {
+    //             if (
+    //                 FileDA.selectedFile.every(
+    //                     e => e.ID != event.target.getAttribute('fileID')
+    //                 )
+    //             ) {
+    //                 FileDA.selectFile([
+    //                     ...FileDA.selectedFile,
+    //                     ...FileDA.list.filter(
+    //                         e => e.ID == event.target.getAttribute('fileID')
+    //                     )
+    //                 ])
+    //             }
+    //         } else {
+    //             FileDA.selectFile(
+    //                 FileDA.list.filter(e => e.ID == event.target.getAttribute('fileID'))
+    //             )
+    //         }
+    //     } else {
+    //         FileDA.selectFile()
+    //     }
+    // }
+    return divImgDoc
 }
 
 function selectFolder(collectionItem, search = '') {
     CollectionDA.selectedDocument = collectionItem
-        ;[...document.getElementsByClassName('folder_tile')].forEach(eHTML => {
-            if (eHTML.id.replace('folder:', '') == collectionItem.ID) {
-                eHTML.style.backgroundColor = '#e6f7ff'
-                let prefixIcon = [...eHTML.childNodes].find(e => e.localName == 'i')
-                prefixIcon.className = 'fa-regular fa-folder-open'
-            } else {
-                eHTML.style.backgroundColor = null
-                let prefixIcon = [...eHTML.childNodes].find(e => e.localName == 'i')
-                prefixIcon.className = 'fa-regular fa-folder'
-            }
-        })
-    let divImgs = document.getElementById('list_img_container')
-    let children = [
-        divImgs.firstChild // input search
-    ]
+    const oldSelectedTile = document.querySelector('.folder-tile.selected')
+    oldSelectedTile.querySelector('i.box24').classList.remove('fa-folder-open')
+    oldSelectedTile.querySelector('i.box24').classList.add('fa-folder')
+    oldSelectedTile.classList.remove('selected')
+    const selectedTile = document.querySelector(`.folder-tile[folder-${collectionItem.ID}]`)
+    selectedTile.classList.add('selected')
+    selectedTile.querySelector('i.box24').classList.remove('fa-folder')
+    selectedTile.querySelector('i.box24').classList.add('fa-folder-open')
+    let divImgs = document.querySelector('.list-img-container')
     let fileList = FileDA.list.filter(e => {
-        if (
-            search.trim() !== '' &&
-            !e.Name.toLowerCase().includes(search.toLowerCase().trim())
-        )
+        if (search.trim() !== '' && !e.Name.toLowerCase().includes(search.toLowerCase().trim()))
             return false
         if (collectionItem.ID != -1) {
             return e.CollectionID == collectionItem.ID && !e.IsDeleted
@@ -933,17 +871,11 @@ function selectFolder(collectionItem, search = '') {
         for (let file of fileList) {
             let _img = document.createElement('div')
             _img.setAttribute('fileID', file.ID)
-            _img.className = 'img_folder_demo'
-            _img.style.backgroundImage = `url(${urlImg + file.Url?.replaceAll(' ', '%20')
-                })`
+            _img.className = 'img_folder_demo col8 col'
+            _img.innerHTML = `<div class="img-value" style="background-image: url(${urlImg + file.Url?.replaceAll(' ', '%20')})"></div><p class="comp-text regular1" style="width: 80%">${file.Url}</p>`
             _img.ondblclick = function (e) {
                 e.stopPropagation()
-                if (
-                    selected_list.length === 1 &&
-                    selected_list[0].value.classList.contains('w-svg') &&
-                    file.Url.endsWith('.svg') &&
-                    file.Size <= 2200
-                ) {
+                if (selected_list.length === 1 && selected_list[0].value.classList.contains('w-svg') && file.Url.endsWith('.svg') && file.Size <= 2200) {
                     handleEditIconColor({ iconValue: file.Url })
                 } else {
                     handleEditBackground({ image: file.Url })
@@ -953,12 +885,8 @@ function selectFolder(collectionItem, search = '') {
         }
     } else {
         let notiText = document.createElement('p')
-        notiText.innerHTML =
-            CollectionDA.selectedDocument == undefined
-                ? 'Select a folder.'
-                : 'There are no images in this folder.'
-        notiText.style.fontSize = '14px'
-        notiText.style.fontWeight = '600'
+        notiText.innerHTML = CollectionDA.selectedDocument ? 'There are no images in this folder.' : 'Select a folder.'
+        notiText.className = 'semibild1'
         children.push(notiText)
     }
     divImgs.replaceChildren(...children)
