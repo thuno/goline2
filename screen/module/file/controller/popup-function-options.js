@@ -10,7 +10,7 @@ let feature_list = [
         onclick: function () {
             if (document.getElementById('popup_img_document') == undefined) {
                 FileDA.init().then(res => {
-                    if(res.Code === 200) showImgDocument()
+                    if (res.Code === 200) showImgDocument()
                 })
             }
         },
@@ -612,11 +612,10 @@ function showImgDocument() {
                     Name: 'default folder',
                     Type: ApiSelection.document
                 })
-                if (newDocRes.Code == 200) {
-                    let imgDocument = createImgDocument()
-                    document.body.appendChild(imgDocument)
-                }
+                if (newDocRes !== 200) return
             }
+            let imgDocument = createImgDocument()
+            document.body.appendChild(imgDocument)
         }
     })
 }
