@@ -966,7 +966,9 @@ i.center[class*="box"].disabled {
 #popup_img_document {
     position: absolute;
     border-radius: 0.8rem;
-    
+    background-color: #ffffff;
+    height: 36rem;
+    width: 40rem;
 }
 
 .folder-content-container {
