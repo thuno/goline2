@@ -671,7 +671,6 @@ function createImgDocument() {
         ev.target.querySelector('input').focus()
     })
     $(divImgDoc).on('click', `.recycle-bin`, function (ev) {
-        ev.target.select()
         selectFolder({ ID: -1, Name: 'Recycle bin' })
     })
     $(divImgDoc).on('auxclick', '.folder-tile:has(input)', function (ev) {
@@ -695,10 +694,9 @@ function createImgDocument() {
     })
     const renderFolderTile = CollectionDA.documentList.map(e => {
         $(divImgDoc).on('click', `.folder-tile[id="folder-${e.ID}"]`, function (ev) {
-            ev.target.select()
             selectFolder(e)
         })
-        return `<div id="folder-${e.ID}" class="row folder-tile" style="padding: 0.4rem 0.6rem; gap: 0.2rem">
+        return `<div id="folder-${e.ID}" class="row folder-tile" style="padding: 0 0.6rem; gap: 0.2rem">
                         <i class="fa-regular fa-folder box24 center" style="font-size: 1.4rem; pointer-events: none"></i>
                         ${TextField({
             returnType: 'string',
