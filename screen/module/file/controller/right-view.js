@@ -734,7 +734,7 @@ function EditLayoutBlock() {
       </div>
       ${layoutOption ?? ''}
       <div class="row edit-padding-container" style="gap: 0.8rem 1.2rem; flex-wrap: wrap">
-      ${inputPadX ?? ''}${inputPadY ?? ''}${inputPadTop ?? ''}${inputPadRight}
+      ${inputPadX ?? ''}${inputPadY ?? ''}${inputPadTop ?? ''}${inputPadRight ?? ''}
       <button type="button" class="padding-details action-button box24 row ${isShowPadDetails ? 'toggle' : ''}" style="padding: 0.5rem">${IconPaddingDetails()}</button>
       ${inputPadBot ?? ''}${inputPadLeft ?? ''}
       </div>`
