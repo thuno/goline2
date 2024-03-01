@@ -7,7 +7,6 @@ class FileDA {
   static async init() {
     const res = await getData('/view/file-getall')
     if (res.Code === 200) {
-      debugger
       this.list = res.Data
     } else {
       toastr["error"](res.Message);

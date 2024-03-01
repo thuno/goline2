@@ -42,7 +42,6 @@ class CollectionDA {
     static async addDocument(item) {
         const res = await postData('/view/add-collection', { data: item, params: { pid: ProjectDA.obj.ID } })
         if (res.Code === 200) {
-            debugger
             this.documentList.push(res.Data)
         } else {
             toastr["error"](res.Message);
