@@ -963,6 +963,21 @@ i.center[class*="box"].disabled {
     background-color: var(--primary-color);
 }
 
+#popup_img_document {
+    position: absolute;
+    border-radius: 0.8rem;
+    
+}
+
+.folder-content-container {
+    width: 100%;
+    flex: 2;
+    height: 100%;
+    padding: 0.6rem 1.2rem;
+    gap: 1.2rem;
+    border-left: 1px solid #00358014;
+}
+
 .list-img-container {
     flex-wrap: wrap;
     gap: 0.8rem;
