@@ -636,8 +636,8 @@ function createImgDocument() {
         document.getElementById('popup_img_options')?.remove()
         FileDA.selectFile()
     }
-    $(divImgDoc).on('change', `input[type="file"]`, function () {
-        FileDA.add(filePicker.files, CollectionDA.selectedDocument.ID)
+    $(divImgDoc).on('change', `input[type="file"]`, function (ev) {
+        FileDA.add(ev.target.files, CollectionDA.selectedDocument.ID)
     })
     $(divImgDoc).on('mousedown', '.popup-header', function (e) {
         e.stopPropagation()
@@ -867,6 +867,7 @@ function selectFolder(collectionItem, search = '') {
             return e.IsDeleted
         }
     })
+    let children = []
     if (fileList.length > 0) {
         for (let file of fileList) {
             let _img = document.createElement('div')
@@ -886,7 +887,7 @@ function selectFolder(collectionItem, search = '') {
     } else {
         let notiText = document.createElement('p')
         notiText.innerHTML = CollectionDA.selectedDocument ? 'There are no images in this folder.' : 'Select a folder.'
-        notiText.className = 'semibild1'
+        notiText.className = 'semibold1'
         children.push(notiText)
     }
     divImgs.replaceChildren(...children)
