@@ -48,7 +48,7 @@ class ProjectDA {
         if (res.Code === 200) {
             this.list = res.Data
         } else {
-            toastr["error"](res.message);
+            toastr["error"](res.Message);
         }
         return res
     }
@@ -59,7 +59,7 @@ class ProjectDA {
             debugger
             // ProjectDA.list = res.data
         } else {
-            toastr["error"](res.message);
+            toastr["error"](res.Message);
         }
         return res
         // let url = ProjectDA.urlCtr + `CheckDomain?domain=${domain}`;
@@ -72,7 +72,7 @@ class ProjectDA {
             res.Data.Name = obj.Name
             ProjectDA.list.push(res.Data)
         } else {
-            toastr["error"](res.message);
+            toastr["error"](res.Message);
         }
         return res
     }
@@ -81,10 +81,9 @@ class ProjectDA {
         const res = await postData('/view/edit-project', { data: obj })
         if (res.Code === 200) {
             debugger
-            ProjectDA.list = ProjectDA.list.filter(e => e.ID !== obj.ID)
-            ProjectDA.list.push(res.data)
+            ProjectDA.list[ProjectDA.list.findIndex(e => e.ID === obj.ID)] = obj
         } else {
-            toastr["error"](res.message);
+            toastr["error"](res.Message);
         }
         return res
     }
@@ -95,7 +94,7 @@ class ProjectDA {
             debugger
             ProjectDA.list = ProjectDA.list.filter(e => e.ID !== obj.ID)
         } else {
-            toastr["error"](res.message);
+            toastr["error"](res.Message);
         }
         return res
     }

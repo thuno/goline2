@@ -602,8 +602,11 @@ function createComponent() {
 }
 
 function showImgDocument() {
-    let imgDocument = createImgDocument()
-    document.getElementById('body').appendChild(imgDocument)
+    CollectionDA.getListDocument().then(res => {
+        debugger
+        let imgDocument = createImgDocument()
+        document.getElementById('body').appendChild(imgDocument)
+    })
 }
 
 let imgDocumentOffset = { x: 32, y: 32 }

@@ -359,7 +359,6 @@ socket.on('server-get', data => {
             WiniIO.emitInit()
             permissionTool()
             initData()
-            CollectionDA.getListDocument()
             // TODO: next vesion code blow
             // InputDA.init();
             // OutputDA.init();
@@ -377,9 +376,7 @@ socket.on('server-get', data => {
       switch (data.enumEvent) {
         case EnumEvent.init:
           CollectionDA.list = data['data']
-          CollectionDA.documentList = CollectionDA.list.filter(
-            e => e.Type == ApiSelection.document
-          )
+          CollectionDA.documentList = CollectionDA.list.filter(e => e.Type == ApiSelection.document)
           if (CollectionDA.documentList.length == 0) {
             let defaultFolder = {
               ID: 0,

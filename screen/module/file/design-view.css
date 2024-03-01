@@ -668,7 +668,7 @@ i.center[class*="box"]:hover {
 }
 
 i.center[class*="box"].disabled {
-    background-color: var(--disabled-color);
+    color: var(--disabled-color) !important;
     pointer-events: none;
 }
 

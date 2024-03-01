@@ -29,25 +29,48 @@ class CollectionDA {
         emitGet(null, url, EnumObj.collection, EnumEvent.init);
     }
 
-    static getListDocument() {
-        let url = CollectionDA.urlCtr + 'ListItem?pid=' + ProjectDA.obj.ID;
-        WiniIO.emitGet(null, url, EnumObj.collection, EnumEvent.init);
+    static async getListDocument() {
+        const res = await getData('/view/collection-getall', { params: { pid: ProjectDA.obj.ID } })
+        if (res.Code === 200) {
+            debugger
+            this.documentList = res.Data
+        } else {
+            toastr["error"](res.Message);
+        }
+        return res
     }
 
-    static addDocument(item) {
-        let url = CollectionDA.urlCtr + 'Add?pid=' + ProjectDA.obj.ID;
-        WiniIO.emitPort(item, url, EnumObj.collection, EnumEvent.add);
+    static async addDocument(item) {
+        const res = await postData('/view/add-collection', { data: item, params: { pid: ProjectDA.obj.ID } })
+        if (res.Code === 200) {
+            debugger
+            this.documentList.push(res.Data)
+        } else {
+            toastr["error"](res.Message);
+        }
+        return res
     }
 
-    static editDocument(item) {
-        let url = CollectionDA.urlCtr + 'Edit?pid=' + ProjectDA.obj.ID;
-        WiniIO.emitPort(item, url, EnumObj.collection, EnumEvent.edit);
+    static async editDocument(item) {
+        const res = await postData('/view/edit-collection', { data: item, params: { pid: ProjectDA.obj.ID } })
+        if (res.Code === 200) {
+            debugger
+            this.documentList[this.documentList.findIndex(e => e.ID === item.ID)] = item
+        } else {
+            toastr["error"](res.Message);
+        }
+        return res
     }
 
-    static deleteDocument(item) {
-        this.documentList = this.documentList.filter(e => e.ID !== item.ID);
-        let url = CollectionDA.urlCtr + 'Delete?pid=' + ProjectDA.obj.ID;
-        WiniIO.emitPort({ 'ID': item.ID }, url, EnumObj.collection, EnumEvent.delete);
+    static async deleteDocument(item) {
+        const res = await postData('/view/delete-collection', { data: item, params: { pid: ProjectDA.obj.ID } })
+        if (res.Code === 200) {
+            debugger
+            this.documentList = this.documentList.filter(e => e.ID !== item.ID)
+        } else {
+            toastr["error"](res.Message);
+        }
+        return res
     }
 
     static add(item) {

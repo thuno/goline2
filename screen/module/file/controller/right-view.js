@@ -395,7 +395,7 @@ function EditOffsetBlock() {
         }
       }
     })
-    const iconRadiusDetails = `<button type="button" class="radius-details box24 row ${isRadiusDetails ? 'toggle' : ''}" style="padding: 0.4rem">${IconRadiusDetails()}</button>`
+    const iconRadiusDetails = `<button type="button" class="radius-details box24 action-button row ${isRadiusDetails ? 'toggle' : ''}" style="padding: 0.4rem">${IconRadiusDetails()}</button>`
     $(editContainer).on('click', '.radius-details', function (ev) {
       if (isRadiusDetails)
         ev.target.closest('.radius-details').classList.remove('toggle')
@@ -610,9 +610,9 @@ function EditLayoutBlock() {
     const isShowPadDetails = design_view.querySelector('.padding-details.toggle') != null
     $(editLayoutBody).on('click', '.padding-details', function (ev) {
       if (isShowPadDetails) {
-        ev.target.closest('.padding-details').classList.remove('.toggle')
+        ev.target.closest('.padding-details').classList.remove('toggle')
       } else {
-        ev.target.closest('.padding-details').classList.add('.toggle')
+        ev.target.closest('.padding-details').classList.add('toggle')
       }
       reloadEditLayoutBlock()
     })
