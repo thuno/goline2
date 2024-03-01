@@ -9,7 +9,9 @@ let feature_list = [
         title: 'Image document',
         onclick: function () {
             if (document.getElementById('popup_img_document') == undefined) {
-                FileDA.init()
+                FileDA.init().then(res => {
+                    if(res.Code === 200) showImgDocument()
+                })
             }
         },
         isShow: () => true,

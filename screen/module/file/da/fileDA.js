@@ -4,9 +4,15 @@ class FileDA {
   static urlCtr = 'WFile/';
   static acceptFileTypes = ["image/png", "image/gif", "image/jpeg", "image/svg", "image/svg+xml"];
 
-  static init() {
-    let url = FileDA.urlCtr + 'ListItem';
-    WiniIO.emitGet(null, url, EnumObj.file, EnumEvent.init);
+  static async init() {
+    const res = await getData('/view/file-getall')
+    if (res.Code === 200) {
+      debugger
+      this.list = res.Data
+    } else {
+      toastr["error"](res.Message);
+    }
+    return res
   }
 
   static async getImageSize(file) {
