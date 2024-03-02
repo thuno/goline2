@@ -504,7 +504,7 @@ async function initUIAssetView() {
       <input class="search-assets semibold1" placeholder="Search assets..."/>
       <i class="fa-solid fa-list-ul row center box20" ></i>
       <i class="fa-brands fa-readme row center box20" ></i>
-    </div><div class="col" style="flex: 1; overflowY: scroll"></div>`
+    </div><div class="col" style="flex: 1; overflow: hidden scroll;"></div>`
   let instContainer = document.createElement('div')
   instContainer.className = 'instance-container'
 
@@ -662,7 +662,7 @@ function createListComponent(projectItem, isShowContent) {
             pageTileContainer.replaceChildren(pageTile, listComp)
             pageTile.onclick = function () {
               showPageCom = !showPageCom
-              if (showPageCom) {
+              if (showPageCom) {  
                 pageTile.querySelector('i').className = 'fa-solid fa-caret-down box24 center'
                 listComp.replaceChildren(...listPageComp.map(comItem => createComponentTile(comItem)))
               } else {

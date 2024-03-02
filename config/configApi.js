@@ -17,8 +17,5 @@ class ConfigApi {
 
     // static urlFile = "http://192.168.1.18:86/";
 
-    static homeUrl = '/View/';
-    // static homeUrl = '/wini-test/home/'
-
     static pathUrl = 'https://customer.wini.vn/api';
 }
