@@ -29,10 +29,8 @@ class BaseDA {
         try {
             if (headers?.params) headers.params = JSON.stringify(headers.params)
             if (headers) {
-                headers = { "Content-Type": "multipart/form-data" }
-            } else {
-                headers["Content-Type"] = "multipart/form-data"
-            }
+                delete headers["Content-Type"]
+            } 
             const response = await fetch(url, {
                 method: 'POST',
                 headers: headers,
