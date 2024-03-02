@@ -28,11 +28,15 @@ class BaseDA {
     static postFile = async (url, { headers, formData }) => {
         try {
             if (headers?.params) headers.params = JSON.stringify(headers.params)
+            if (headers) {
+                headers = { "Content-Type": "multipart/form-data" }
+            } else {
+                headers["Content-Type"] = "multipart/form-data"
+            }
             const response = await fetch(url, {
                 method: 'POST',
-                headers: headers ?? { "Content-Type": "multipart/form-data" },
+                headers: headers,
                 body: formData,
-                // mode:'no-cors'
             })
             if (response.status === 200) {
                 const jsonData = await response.json()
