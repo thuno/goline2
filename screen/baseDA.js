@@ -130,21 +130,71 @@ const uploadFile = async ({ listFile, docId }) => {
     headers.code = ProjectDA.obj.Code;
     headers.datee = `${now.getFullYear()}${now.getMonth()}${now.getDate()}`; // datee chư sko phải date
     let listFileResult = [];
-    for (let i = 0; i < Math.ceil(listFile.length / 5); i++) {
-        const formData = new FormData();
-        let endIndex = i * 5 + 5;
-        if (listFile.length < endIndex) {
-            endIndex = listFile.length;
-        }
-        let sliceList = listFile.slice(i * 5, endIndex);
-        for (let j = 0; j < sliceList.length; j++) {
-            formData.append("files", sliceList[j]);
-        }
-        let result = await BaseDA.postFile(ConfigApi.socketWiniFile + '/uploadfile', {
-            headers: headers,
-            formData: formData
-        })
+    // for (let i = 0; i < Math.ceil(listFile.length / 5); i++) {
+    //     const formData = new FormData();
+    //     let endIndex = i * 5 + 5;
+    //     if (listFile.length < endIndex) {
+    //         endIndex = listFile.length;
+    //     }
+    //     let sliceList = listFile.slice(i * 5, endIndex);
+    //     // for (let j = 0; j < sliceList.length; j++) {
+    //         formData.append("files", sliceList);
+    //     // }
+    //     let result = await BaseDA.postFile(ConfigApi.socketWiniFile + '/uploadfile', {
+    //         headers: headers,
+    //         formData: formData
+    //     })
+
+        for (let i = 0; i < Math.ceil(listFile.length / 5); i++) {
+            const formData = new FormData();
+            let endIndex = i * 5 + 5;
+            if (listFile.length < endIndex) {
+              endIndex = listFile.length;
+            }
+            let sliceList = listFile.slice(i * 5, endIndex);
+            for (let j = 0; j < sliceList.length; j++) {
+              formData.append("files", sliceList[j]);
+            }
+            let result = await fetch(ConfigApi.socketWiniFile + '/uploadfile', {
+              method: "post",
+              headers: headers,
+              body: formData,
+            }).then((res) =>
+              res.json()
+            );
+
         listFileResult.push(...result.data);
     }
     return listFileResult;
 }
+
+// static async uploadFile(listFile, url, collectionId) {
+//     listFile = [...listFile];
+//     let _date = new Date();
+//     let headers = await UserService.headerFile();
+//     headers.folder = UserService.getUser().id;
+//     headers.collectionId = collectionId;
+//     headers.code = ProjectDA.obj.Code;
+//     headers.datee = `${_date.getFullYear()}${_date.getMonth()}${_date.getDate()}`;
+//     let listFileResult = [];
+//     for (let i = 0; i < Math.ceil(listFile.length / 5); i++) {
+//       const formData = new FormData();
+//       let endIndex = i * 5 + 5;
+//       if (listFile.length < endIndex) {
+//         endIndex = listFile.length;
+//       }
+//       let sliceList = listFile.slice(i * 5, endIndex);
+//       for (let j = 0; j < sliceList.length; j++) {
+//         formData.append("files", sliceList[j]);
+//       }
+//       let result = await fetch(url, {
+//         method: "post",
+//         headers: headers,
+//         body: formData,
+//       }).then((res) =>
+//         res.json()
+//       );
+//       listFileResult.push(...result);
+//     }
+//     return listFileResult;
+//   }
