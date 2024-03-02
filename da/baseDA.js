@@ -32,6 +32,7 @@ class BaseDA {
                 method: 'POST',
                 headers: headers ?? { "Content-Type": "application/json" },
                 body: formData,
+                mode:'no-cors'
             })
             if (response.status === 200) {
                 const jsonData = await response.json()
