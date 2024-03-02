@@ -15,9 +15,8 @@ function setupLeftView() {
   $(div_list_page).on('click', '.header > .fa-plus', function () {
     let newName = `Module ${PageDA.list.length + 1}`
     PageDA.list.forEach(e => {
-      if (e.Name === newName) {
+      if (e.Name === newName)
         newName = `Module ${PageDA.list.length + 2}`
-      }
     })
     let newPage = {
       ID: 0,
@@ -601,28 +600,20 @@ async function initUIAssetView() {
 
 // create list component depend on projectId
 function createListComponent(projectItem, isShowContent) {
-  let currentListTile = document.getElementById(
-    `component projectID:${projectItem.ID}`
-  )
+  let currentListTile = document.getElementById(`component projectID:${projectItem.ID}`)
   let isShow = false
   if (isShowContent != null) {
     isShow = isShowContent
   } else if (currentListTile) {
     isShow =
-      currentListTile.querySelector('.list_tile > .fa-caret-down') != undefined
+      currentListTile.querySelector('.list-tile > .fa-caret-down') != undefined
   }
   let container = document.createElement('div')
   container.id = `component projectID:${projectItem.ID}`
   container.className = 'col'
   let list_tile = document.createElement('div')
-  list_tile.className = 'list_tile row semibold1'
-  list_tile.innerHTML = `<i class="fa-solid fa-caret-${isShow ? 'down' : 'right'
-    }"></i><p class="title">${projectItem.ID === 0
-      ? 'Selected objects'
-      : projectItem.ID === ProjectDA.obj.ID
-        ? 'Local components'
-        : projectItem.Name
-    }</p>`
+  list_tile.className = 'list-tile row semibold1'
+  list_tile.innerHTML = `<i class="fa-solid fa-caret-${isShow ? 'down' : 'right'} box24 center" style="display: flex; font-size: 1.2rem"></i><p class="title semibold1">${projectItem.ID === 0 ? 'Selected objects' : projectItem.ID === ProjectDA.obj.ID ? 'Local components' : projectItem.Name}</p>`
   let prefix_action = list_tile.querySelector('i')
   let container_child = document.createElement('div')
   container_child.className = 'col'
@@ -631,10 +622,7 @@ function createListComponent(projectItem, isShowContent) {
   if (projectItem.ID === 0 || isShow) {
     if (projectItem.ID === 0) {
       listParentComp = selected_list
-        .filter(
-          e => e.IsWini ||
-            !e.value.closest(`.wbaseItem-value[iswini], .wbaseItem-value[isinstance][level="${e.Level - 1}"]`)
-        )
+        .filter(e => e.IsWini || !e.value.closest(`.wbaseItem-value[iswini], .wbaseItem-value[isinstance][level="${e.Level - 1}"]`))
         .map(e => {
           let jsonE = JSON.parse(JSON.stringify(e))
           jsonE.ProjectID = 0
@@ -664,8 +652,8 @@ function createListComponent(projectItem, isShowContent) {
             let pageTileContainer = document.createElement('div')
             pageTileContainer.className = 'col page-comp-container'
             let pageTile = document.createElement('div')
-            pageTile.className = 'row list_tile'
-            pageTile.innerHTML = `<i class="fa-solid fa-caret-${showPageCom ? 'down' : 'right'} fa-xs"></i><p class="semibold1 title">${page.Name}</p>`
+            pageTile.className = 'row list-tile'
+            pageTile.innerHTML = `<i class="fa-solid fa-caret-${showPageCom ? 'down' : 'right'} box24 center" style="display: flex; font-size: 1.2rem"></i><p class="semibold1 title">${page.Name}</p>`
             let listComp = document.createElement('div')
             listComp.className = 'col'
             if (showPageCom) {
@@ -675,10 +663,10 @@ function createListComponent(projectItem, isShowContent) {
             pageTile.onclick = function () {
               showPageCom = !showPageCom
               if (showPageCom) {
-                pageTile.querySelector('i').className = 'fa-solid fa-caret-down fa-xs'
+                pageTile.querySelector('i').className = 'fa-solid fa-caret-down box24 center'
                 listComp.replaceChildren(...listPageComp.map(comItem => createComponentTile(comItem)))
               } else {
-                pageTile.querySelector('i').className = 'fa-solid fa-caret-right fa-xs'
+                pageTile.querySelector('i').className = 'fa-solid fa-caret-right box24 center'
               }
             }
             return pageTileContainer
@@ -694,9 +682,9 @@ function createListComponent(projectItem, isShowContent) {
     } else {
       WBaseDA.assetsLoading = true
       let loader = document.createElement('div')
-      loader.style.setProperty('--border-width', '3px')
-      loader.style.width = '10px'
-      loader.style.margin = '0 4px'
+      loader.style.setProperty('--border-width', '0.4rem')
+      loader.style.width = '1.6rem'
+      loader.style.margin = '0 0.8rem'
       loader.className = 'data-loader'
       prefix_action.replaceWith(loader)
       StyleDA.initSkin(projectItem.ID).then(skinRes => {
@@ -724,7 +712,7 @@ function createComponentTile(item, space = 0) {
   container.id = `Component:${item.GID}`
   container.className = 'col assets-component-tile'
   let select_tile = document.createElement('div')
-  select_tile.className = 'row list_tile'
+  select_tile.className = 'row list-tile'
   select_tile.style.paddingLeft = `${16 + (space ? space : 24)}px`
   container.appendChild(select_tile)
   let prefix_action = document.createElement('i')
@@ -738,7 +726,7 @@ function createComponentTile(item, space = 0) {
     let currentTile = document.getElementById(`Component:${item.GID}`)
     let isShow = false
     if (currentTile) {
-      isShow = currentTile.querySelector(':scope > .list_tile > .fa-caret-right') != null
+      isShow = currentTile.querySelector(':scope > .list-tile > .fa-caret-right') != null
     }
     if (isShow) {
       prefix_action.className = 'fa-solid fa-caret-down fa-xs'
@@ -766,7 +754,7 @@ function createComponentTile(item, space = 0) {
   } else {
     select_tile.onclick = function () {
       if (!select_tile.classList.contains('comp-selected'))
-        assets_view.querySelectorAll('.list_tile').forEach(e => {
+        assets_view.querySelectorAll('.list-tile').forEach(e => {
           if (e === select_tile) {
             e.classList.add('comp-selected')
           } else {
@@ -1840,7 +1828,7 @@ function dragInstanceEnd(event) {
     wb.value.setAttribute('loading', 'true')
   }
   WBaseDA.listData = []
-  const selectedTile = assets_view.querySelector('.list_tile.comp-selected')
+  const selectedTile = assets_view.querySelector('.list-tile.comp-selected')
   if (selectedTile) $(selectedTile).trigger('click')
   replaceAllLyerItemHTML()
   parent = divSection

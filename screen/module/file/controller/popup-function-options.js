@@ -702,7 +702,6 @@ function createImgDocument() {
             returnType: 'string',
             className: 'regular1',
             value: e.Name,
-            style: 'flex: 1; width: 100%; padding: 0.2rem 0.4rem; border: none; background-color: transparent !important',
             disabled: true,
             onBlur: function (ev) {
                 ev.target.disabled = true
@@ -717,11 +716,11 @@ function createImgDocument() {
     })
 
     divImgDoc.innerHTML = `<input type="file" multiple accept="${FileDA.acceptFileTypes.join(',')}" style="display: none"/>
-    <div class="popup-header semibold1 row" style="justify-content: space-between; padding: 0.8rem 1.6rem">Image document<i class="fa-solid fa-xmark box24 center" style="font-size: 1.4rem; display: flex"></i></div>
+    <div class="popup-header semibold1 row">Image document<i class="fa-solid fa-xmark box24 center" style="font-size: 1.4rem; display: flex"></i></div>
     <div class="img-doc-body row" style="width: 100%; flex: 1; height: 100%; align-items: start">
         <div class="folder-list-container col" style="flex: 1">
             <div class="row semibold1" style="padding: 0.4rem 0.6rem;justify-content: space-between">Folder<i class="fa-solid fa-plus box24 center" style="font-size: 1.4rem; display: flex"></i></div>
-            <div id="folder-${-1}" class="row folder-tile regular1 recycle-bin" style="padding: 0.4rem 0.6rem; gap: 0.4rem"><i class="fa-regular fa-folder box24 center" style="font-size: 1.4rem; pointer-events: none"></i>Recycle bin</div>
+            <div id="folder-${-1}" class="row folder-tile regular1 recycle-bin" style="padding: 0.4rem 0.6rem; gap: 0.6rem"><i class="fa-regular fa-folder box24 center" style="font-size: 1.4rem; pointer-events: none"></i>Recycle bin</div>
             <div class="col" style="flex: 1; height: 100%; overflow: hidden auto">
                 ${renderFolderTile}
             </div>
