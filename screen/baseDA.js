@@ -124,7 +124,7 @@ const getData = async (url, { params } = {}) => {
 const uploadFile = async ({ listFile, docId }) => {
     listFile = [...listFile];
     const now = new Date();
-    let headers = {};
+    let headers = { "Content-Type": "multipart/form-data" };
     // let headers = await UserService.headers();
     headers.folder = UserService.user().id;
     headers.collectionId = docId;
@@ -143,7 +143,7 @@ const uploadFile = async ({ listFile, docId }) => {
         }
         let result = await BaseDA.postFile('/view/upload-file', {
             headers: headers,
-            formData: formData
+            formData: formData,
         })
 
         // for (let i = 0; i < Math.ceil(listFile.length / 5); i++) {
