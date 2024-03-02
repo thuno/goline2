@@ -124,7 +124,8 @@ const getData = async (url, { params } = {}) => {
 const uploadFile = async ({ listFile, docId }) => {
     listFile = [...listFile];
     const now = new Date();
-    let headers = await UserService.headers();
+    let headers = {};
+    // let headers = await UserService.headers();
     headers.folder = UserService.user().id;
     headers.collectionId = docId;
     headers.code = ProjectDA.obj.Code;
