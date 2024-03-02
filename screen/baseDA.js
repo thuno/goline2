@@ -141,7 +141,7 @@ const uploadFile = async ({ listFile, docId }) => {
         for (let j = 0; j < sliceList.length; j++) {
             formData.append("files", sliceList);
         }
-        let result = await BaseDA.postFile('http://localhost:4000/view/upload-file', {
+        let result = await BaseDA.postFile('https://server.wini.vn/uploadfile', {
             headers: headers,
             formData: formData,
         })
