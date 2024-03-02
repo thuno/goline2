@@ -851,16 +851,6 @@ class WiniIO {
     })
   }
 
-  static async emitFile(listFile, collectionId) {
-    let result = await BaseDA.uploadFile(
-      listFile,
-      // "http://10.15.138.23:4000/uploadfile",
-      socketWiniFile + '/uploadfile',
-      collectionId
-    )
-    return result
-  }
-
   static emitRefreshToken() {
     socket.emit('client-refresh', {
       headers: UserService.headerRefreshSocket(),

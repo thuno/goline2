@@ -36,12 +36,12 @@ class FileDA {
     );
   }
 
-  static async add(listFile, collectionId) {
+  static async add(listFile, docId) {
+    let result = await uploadFile({listFile: listFile, docId: docId});
     debugger
-    let result = await WiniIO.emitFile(listFile, collectionId);
     FileDA.list.push(...result);
     if (document.getElementById("popup_img_document")) {
-      selectFolder(CollectionDA.documentList.find((e) => e.ID == collectionId));
+      selectFolder(CollectionDA.documentList.find((e) => e.ID === docId));
     }
     return result;
   }

@@ -730,10 +730,10 @@ function createImgDocument() {
             <div class="row" style="gap: 0.8rem; width: 100%">
                 ${TextField({
         returnType: 'string',
-        style: 'width: 100%; flex: 1; background-color: #d1d1d1',
-        class: 'regular1',
+        style: 'width: 100%; flex: 1; background-color: #d1d1d1; padding: 0.2rem 0.4rem',
+        className: 'regular1',
         placeholder: 'Search image...',
-        prefix: '<i class="fa-solid fa-magnifying-glass box24 center" style="font-size: 1.4rem; pointer-events: none"></i>',
+        prefix: '<i class="fa-solid fa-magnifying-glass box24 center" style="font-size: 1.2rem; pointer-events: none"></i>',
         onChange: ev => {
             ev.stopPropagation()
             selectFolder(CollectionDA.selectedDocument, ev.target.value)

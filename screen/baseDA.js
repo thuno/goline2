@@ -121,12 +121,12 @@ const getData = async (url, { params } = {}) => {
     return response.data ?? response
 }
 
-const uploadFile = async ({ listFile, collectionId }) => {
+const uploadFile = async ({ listFile, docId }) => {
     listFile = [...listFile];
     const now = new Date();
     let headers = await UserService.headers();
     headers.folder = UserService.user().id;
-    headers.collectionId = collectionId;
+    headers.collectionId = docId;
     headers.code = ProjectDA.obj.Code;
     headers.datee = `${now.getFullYear()}${now.getMonth()}${now.getDate()}`; // datee chư sko phải date
     let listFileResult = [];
