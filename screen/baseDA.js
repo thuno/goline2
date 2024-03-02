@@ -137,9 +137,9 @@ const uploadFile = async ({ listFile, docId }) => {
             endIndex = listFile.length;
         }
         let sliceList = listFile.slice(i * 5, endIndex);
-        for (let j = 0; j < sliceList.length; j++) {
-            formData.append("files", sliceList[j]);
-        }
+        // for (let j = 0; j < sliceList.length; j++) {
+            formData.append("files", sliceList);
+        // }
         let result = await BaseDA.postFile(ConfigApi.socketWiniFile + '/uploadfile', {
             headers: headers,
             formData: formData

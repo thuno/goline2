@@ -29,7 +29,7 @@ class BaseDA {
         try {
             if (headers?.params) headers.params = JSON.stringify(headers.params)
             const response = await fetch(url, {
-                method: 'PUT',
+                method: 'POST',
                 headers: headers ?? { "Content-Type": "application/json" },
                 body: formData,
             })
