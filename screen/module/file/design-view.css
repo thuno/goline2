@@ -989,7 +989,7 @@ i.center[class*="box"].disabled {
     flex: 1;
     width: 100%;
     padding: 0.2rem 0.4rem;
-    border-color: none;
+    border-color: transparent;
     background-color: transparent !important
 }
 

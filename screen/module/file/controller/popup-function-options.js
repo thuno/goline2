@@ -701,6 +701,7 @@ function createImgDocument() {
                         ${TextField({
             returnType: 'string',
             className: 'regular1',
+            style: 'background-color: transparent !important',
             value: e.Name,
             disabled: true,
             onBlur: function (ev) {
