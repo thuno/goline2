@@ -990,7 +990,6 @@ i.center[class*="box"].disabled {
     width: 100%;
     padding: 0.2rem 0.4rem;
     border-color: transparent;
-    background-color: transparent !important
 }
 
 .list-img-container {

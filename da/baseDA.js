@@ -33,7 +33,7 @@ class BaseDA {
             } 
             const response = await fetch(url, {
                 method: 'POST',
-                // headers: headers,
+                headers: headers,
                 body: formData,
             })
             if (response.status === 200) {

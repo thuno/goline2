@@ -140,10 +140,16 @@ const uploadFile = async ({ listFile, docId }) => {
         for (let j = 0; j < sliceList.length; j++) {
             formData.append("files", sliceList);
         }
-        let result = await BaseDA.postFile(ConfigApi.socketWiniFile + '/uploadfile', {
-            headers: headers,
-            formData: formData,
+        $.ajax({
+            url: ConfigApi.socketWiniFile + '/uploadfile',
+            type: 'POST',
+            data: formData,
+            async: true,
         })
+        // let result = await BaseDA.postFile(ConfigApi.socketWiniFile + '/uploadfile', {
+        //     headers: headers,
+        //     formData: formData,
+        // })
         listFileResult.push(...result.data);
     }
     return listFileResult;
