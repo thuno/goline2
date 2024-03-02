@@ -30,9 +30,7 @@ class BaseDA {
             if (headers?.params) headers.params = JSON.stringify(headers.params)
             const response = await fetch(url, {
                 method: 'POST',
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                },
+                headers: headers ?? { "Content-Type": "multipart/form-data" },
                 body: formData,
                 // mode:'no-cors'
             })
