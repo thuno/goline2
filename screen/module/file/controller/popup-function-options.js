@@ -873,7 +873,7 @@ function selectFolder(collectionItem, search = '') {
             let _img = document.createElement('div')
             _img.setAttribute('fileID', file.ID)
             _img.className = 'img_folder_demo col8 col'
-            _img.innerHTML = `<div class="img-value" style="background-image: url(${urlImg + file.Url?.replaceAll(' ', '%20')})"></div><p class="comp-text regular1" style="width: 80%">${file.Url}</p>`
+            _img.innerHTML = `<div class="img-value" style="background-image: url(${ConfigApi.urlFile + file.Url?.replaceAll(' ', '%20')})"></div><p class="comp-text regular1" style="width: 80%">${file.Url}</p>`
             _img.ondblclick = function (e) {
                 e.stopPropagation()
                 if (selected_list.length === 1 && selected_list[0].value.classList.contains('w-svg') && file.Url.endsWith('.svg') && file.Size <= 2200) {
@@ -919,10 +919,10 @@ async function handleImportFile(event) {
                 newRect.AttributesItem.Content = fileItem.Url
             } else {
                 newRect = JSON.parse(JSON.stringify(WbClass.rectangle))
-                newRect.Css = `background-image: url(${urlImg + fileItem.Url.replaceAll(' ', '%20')
+                newRect.Css = `background-image: url(${ConfigApi.urlFile + fileItem.Url.replaceAll(' ', '%20')
                     })`
             }
-            let imgSize = await FileDA.getImageSize(urlImg + fileItem.Url)
+            let imgSize = await FileDA.getImageSize(ConfigApi.urlFile + fileItem.Url)
             let newObj = createWbaseHTML({
                 w: imgSize.w,
                 h: imgSize.h,

@@ -1,6 +1,6 @@
 ﻿// const { data } = require("jquery");
 
-// const urlImg = "http://10.15.138.23:86/";
+// const ConfigApi.urlFile = "http://10.15.138.23:86/";
 // const socket = io("ws://10.15.138.23:4000"
 const socket = io(ConfigApi.socketWini, {
   //reconnectionDelayMax: 1000,

@@ -2065,10 +2065,10 @@ function EditEffectBlock() {
           )
         const blurValue = blurValues.length > 1 ? 'mixed' : blurValues[0]
         var inputBlur = `<div class="row" style="gap: 0.4rem">
-          <div class="label-5" style="width: 4rem">Blur</div>
+          <div class="label-5">Blur</div>
           ${TextField({
           returnType: 'string',
-          style: '--gutter: 1.2rem',
+          style: 'width: 6.8rem',
           className: 'regular1 right-view-input',
           value: blurValue,
           onChange: (ev) => {
@@ -2098,10 +2098,10 @@ function EditEffectBlock() {
         const offXValues = boxShadowList.filterAndMap(vl => vl.x)
         const xValue = offXValues.length > 1 ? 'mixed' : offXValues[0]
         var inputX = `<div class="row" style="gap: 0.4rem">
-          <div class="label-5" style="width: 4rem">X</div>
+          <div class="label-5">X</div>
           ${TextField({
           returnType: 'string',
-          style: '--gutter: 1.2rem',
+          style: 'width: 6.8rem',
           className: 'regular1 right-view-input',
           value: xValue,
           onChange: (ev) => {
@@ -2116,10 +2116,10 @@ function EditEffectBlock() {
         const offYValues = boxShadowList.filterAndMap(vl => vl.y)
         const yValue = offYValues.length > 1 ? 'mixed' : offYValues[0]
         var inputY = `<div class="row" style="gap: 0.4rem">
-          <div class="label-5" style="width: 4rem">Y</div>
+          <div class="label-5">Y</div>
           ${TextField({
           returnType: 'string',
-          style: '--gutter: 1.2rem',
+          style: 'width: 6.8rem',
           className: 'regular1 right-view-input',
           value: yValue,
           onChange: (ev) => {
@@ -2137,7 +2137,7 @@ function EditEffectBlock() {
           <div class="label-5" style="width: 4rem">Blur</div>
           ${TextField({
           returnType: 'string',
-          style: '--gutter: 1.2rem',
+          style: 'width: 6.8rem',
           className: 'regular1 right-view-input',
           value: blurValue,
           onChange: (ev) => {
@@ -2155,7 +2155,7 @@ function EditEffectBlock() {
           <div class="label-5" style="width: 4rem">Spread</div>
           ${TextField({
           returnType: 'string',
-          style: '--gutter: 1.2rem',
+          style: 'width: 6.8rem',
           className: 'regular1 right-view-input',
           value: spreadValue,
           onChange: (ev) => {
@@ -2185,7 +2185,7 @@ function EditEffectBlock() {
         const offset = ev.target.closest('.action-button').getBoundingClientRect()
         showPopup({
           hiddenOverlay: true,
-          style: `width: 32rem; transform: translateX(-100%); left: ${offset.x}px; top: ${offset.y}px`,
+          style: `width: 22.8rem; transform: translateX(-100%); left: ${offset.x}px; top: ${offset.y}px`,
           children: `<div class="popup-body row" style="flex-wrap: wrap; gap: 0.8rem 1.2rem; width: 100%; padding: 0.8rem 1.2rem">
             ${inputX ?? ''}${inputBlur ?? ''}${inputY ?? ''}${inputSpread ?? ''}${inputColor ?? ''}
           </div>`

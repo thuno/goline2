@@ -2344,12 +2344,12 @@ function upListener(event) {
       } else {
         newRect = JSON.parse(JSON.stringify(WbClass.rectangle))
         newRect.Name = 'Rectangle'
-        newRect.Css = `background-image: url(${urlImg + url});`
+        newRect.Css = `background-image: url(${ConfigApi.urlFile + url});`
       }
-      FileDA.getImageSize(urlImg + url).then(async imgSize => {
+      FileDA.getImageSize(ConfigApi.urlFile + url).then(async imgSize => {
         let offset = offsetScale(event.pageX, event.pageY)
         if (url.endsWith('.svg') && fileItem.Size <= 2200) {
-          newRect.Css = (await createIcon({ url: urlImg + url })).style.cssText
+          newRect.Css = (await createIcon({ url: ConfigApi.urlFile + url })).style.cssText
         }
         let newObj = createWbaseHTML({
           w: imgSize.w,

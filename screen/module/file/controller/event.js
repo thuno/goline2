@@ -3814,7 +3814,7 @@ function handleEditBackground({ hexCode, image, colorSkin, onSubmit = true }) {
           )
         )
         cssRule.style.backgroundColor = null
-        cssRule.style.backgroundImage = `url(${urlImg + image.replaceAll(' ', '%20')
+        cssRule.style.backgroundImage = `url(${ConfigApi.urlFile + image.replaceAll(' ', '%20')
           })`
         cssItem.Css = cssItem.Css.replace(
           new RegExp(`${cssRule.selectorText} {[^}]*}`, 'g'),
@@ -3832,7 +3832,7 @@ function handleEditBackground({ hexCode, image, colorSkin, onSubmit = true }) {
             )
           )
           cssRule.style.backgroundColor = null
-          cssRule.style.backgroundImage = `url(${urlImg + image.replaceAll(' ', '%20')
+          cssRule.style.backgroundImage = `url(${ConfigApi.urlFile + image.replaceAll(' ', '%20')
             })`
           cssItem.Css = cssItem.Css.replace(
             new RegExp(`${cssRule.selectorText} {[^}]*}`, 'g'),
@@ -3842,7 +3842,7 @@ function handleEditBackground({ hexCode, image, colorSkin, onSubmit = true }) {
           listUpdate = listUpdate.filter(e => e !== wb)
         } else {
           wb.value.style.backgroundColor = null
-          wb.value.style.backgroundImage = `url(${urlImg + image.replaceAll(' ', '%20')
+          wb.value.style.backgroundImage = `url(${ConfigApi.urlFile + image.replaceAll(' ', '%20')
             })`
           wb.Css = wb.value.style.cssText
         }
@@ -3952,7 +3952,7 @@ function handleEditIconColor({
           )
         )
         createIcon({
-          url: urlImg + iconValue.replaceAll(' ', '%20'),
+          url: ConfigApi.urlFile + iconValue.replaceAll(' ', '%20'),
           GID: wb.GID
         }).then(icon => {
           let usingSkin = []
@@ -3993,7 +3993,7 @@ function handleEditIconColor({
     } else {
       for (let wb of listUpdate) {
         createIcon({
-          url: urlImg + iconValue.replaceAll(' ', '%20'),
+          url: ConfigApi.urlFile + iconValue.replaceAll(' ', '%20'),
           GID: wb.GID
         }).then(icon => {
           let usingSkin = []
