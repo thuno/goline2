@@ -144,7 +144,7 @@ const uploadFile = async ({ listFile, docId }) => {
             headers: headers,
             formData: formData,
         })
-        listFileResult.push(...result.data);
+        listFileResult.push(...result);
     }
     return listFileResult;
 }
