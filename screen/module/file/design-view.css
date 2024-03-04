@@ -405,6 +405,7 @@ body:has(#history-view) :is(.btn-tool-state:nth-child(1), .btn-history) {
     width: 100%;
     height: 3.2rem;
     border: 1px solid transparent;
+    padding-left: var(--spacing);
 }
 
 .layer_wbase_tile>i:last-child {

@@ -355,7 +355,7 @@ function createLayerTile(wb, isShowChildren = false) {
   let wbase_tile = document.createElement('div')
   wbase_tile.id = `wbaseID:${wb.GID}`
   wbase_tile.className = 'layer_wbase_tile row center ' + wb.ListClassName.split(' ')[1]
-  wbase_tile.style.setProperty('--spacing', `${(wb.Level - 1) * 1.6}rem`)
+  wbase_tile.style.setProperty('--spacing', `${(wb.Level - 1) * 1.8}rem`)
   if (wb.IsWini) {
     wbase_tile.setAttribute('iswini', wb.IsWini)
   } else if (wb.IsInstance) {
@@ -438,11 +438,11 @@ function createLayerTile(wb, isShowChildren = false) {
   }
   if (!wbase_tile.classList.contains('w-textfield')) {
     if (wb.IsShow) {
-      wbase_tile.querySelector('.is-lock').className = 'fa-solid fa-lock-open fa-xs is-lock'
+      wbase_tile.querySelector('.is-lock').className = 'fa-solid fa-lock-open is-lock'
     } else {
       layerContainer.querySelectorAll('.is-lock').forEach(lockBtn => {
         if (lockBtn !== wbase_tile.querySelector('.is-lock')) {
-          lockBtn.className = 'fa-solid fa-lock fa-xs is-lock'
+          lockBtn.className = 'fa-solid fa-lock is-lock'
         }
       })
     }
