@@ -1131,11 +1131,11 @@ function moveListener(event) {
         previousX = event.pageX
         previousY = event.pageY
         instance_drag = document.createElement('div')
-        document.body.appendChild(instance_drag)
         let targetComputeStyle = window.getComputedStyle(imgDemoHTML.querySelector('.img-value'))
         let target_rect = imgDemoHTML.querySelector('.img-value').getBoundingClientRect()
-        instance_drag.style.cssText = `background-image: ${targetComputeStyle.backgroundImage}; width: ${target_rect.width}; height: ${target_rect.height}; position: absolute; left: ${target_rect.x}px; top: ${target_rect.y}px; pointer-events: none`
+        instance_drag.style.cssText = `background-image: ${targetComputeStyle.backgroundImage}; width: ${target_rect.width}px; height: ${target_rect.height}px; position: absolute; left: ${target_rect.x}px; top: ${target_rect.y}px; pointer-events: none`
         instance_drag.fileid = parseInt(imgDemoHTML.getAttribute('fileid'))
+        document.body.appendChild(instance_drag)
       }
       break
     default:
