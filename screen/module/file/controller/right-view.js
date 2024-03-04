@@ -2589,7 +2589,7 @@ function createCateSkinHTML(cateItem, currentSkinID) {
   return cateContainer
 }
 
-function createSkinTileHTML(enumCate, jsonSkin) {
+function createSkinTileHTML(enumCate, jsonSkin) {''
   let skin_tile = document.createElement('button')
   skin_tile.id = `skinID:${jsonSkin.GID}`
   skin_tile.className = 'skin_tile_option row'
@@ -2910,7 +2910,7 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
     hiddenOverlay: true,
     style: `left: ${offset.pageX}px; top: ${offset.pageY}px; width: 26rem; transform: translateX(-180%)`,
     children: `<div class="popup-header heading-9 row" style="justify-content: space-between; padding: 0.8rem 0.8rem 0.8rem 1.6rem;">${headingTitle} <i class="fa-solid fa-xmark box24 center" style="display: flex; font-size: 1.4rem"></i></div>
-    <div class"popup-body col" style="padding: 0.8rem 1.2rem; gap: 0.8rem">${editBody}</div>`,
+    <div class="popup-body col" style="padding: 0.8rem 1.2rem; gap: 0.8rem">${editBody}</div>`,
     onDispose: function () {
       if (jsonSkin.CateID != -1) {
         switch (enumCate) {
