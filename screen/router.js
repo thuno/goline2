@@ -7,28 +7,28 @@ if (UserService.token()) {
         document.head.querySelector('title').innerHTML = 'Home'
         let cssTag = document.createElement('link')
         cssTag.rel = "stylesheet"
-        cssTag.href = "https://cdn.jsdelivr.net/gh/thuno/goline2@258e3c6/screen/module/home/home.css"
+        cssTag.href = "https://cdn.jsdelivr.net/gh/thuno/goline2@e7e7c5f/screen/module/home/home.css"
         // cssTag.href = "./screen/module/home/home.css"
         document.head.appendChild(cssTag)
-        $('body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@258e3c6/screen/module/home/home.html')
+        $('body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@e7e7c5f/screen/module/home/home.html')
         // $('body').load('./screen/module/home/home.html')
     } else {
         // window.location.hash = '/file'
         document.head.querySelector('title').innerHTML = 'File'
         let cssTag = document.createElement('link')
         cssTag.rel = "stylesheet"
-        cssTag.href = "https://cdn.jsdelivr.net/gh/thuno/goline2@258e3c6/screen/module/file/design-view.css"
+        cssTag.href = "https://cdn.jsdelivr.net/gh/thuno/goline2@e7e7c5f/screen/module/file/design-view.css"
         // cssTag.href = "./screen/module/file/design-view.css"
         document.head.appendChild(cssTag)
         // $('body').load('./screen/module/file/design-view.html')
-        $('body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@258e3c6/screen/module/file/design-view.html')
+        $('body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@e7e7c5f/screen/module/file/design-view.html')
     }
 } else {
     window.location.hash = '/login'
     document.head.querySelector('title').innerHTML = 'Login'
     let cssTag = document.createElement('link')
     cssTag.rel = "stylesheet"
-    cssTag.href = "https://cdn.jsdelivr.net/gh/thuno/goline2@258e3c6/screen/module/login/login-view.css"
+    cssTag.href = "https://cdn.jsdelivr.net/gh/thuno/goline2@e7e7c5f/screen/module/login/login-view.css"
     document.head.appendChild(cssTag)
-    $('body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@258e3c6/screen/module/login/login-view.html')
+    $('body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@e7e7c5f/screen/module/login/login-view.html')
 }
