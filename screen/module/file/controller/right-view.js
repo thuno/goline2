@@ -1342,11 +1342,8 @@ function EditTypoBlock() {
         showTableSkin({ cate: EnumCate.typography, offset: offset, cssText: typoSkin.Css, selectedSkinId: typoSkin.GID })
       }
     })
-    skin_tile.querySelector('p').style.fontWeight = typoSkin.FontWeight
-    if (editColor) {
-      editColor.style.marginBottom = '0.6rem'
-      editContainer.appendChild(editColor)
-    }
+    if (editColor) editContainer.appendChild(editColor)
+    skin_tile.style.margin = '0.6rem 0'
     editContainer.appendChild(skin_tile)
   } else if (listTypoSkin.some(vl => vl.length === 36)) {
     header.appendChild(btnSelectSkin)
