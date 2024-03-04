@@ -2667,9 +2667,11 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
         returnType: 'string',
         value: jsonSkin.Css,
         onchange: newColor => {
-          editColorSkin(newColor, false)
+          editSkin({ skin: jsonSkin, Css: newColor, onSubmit: false })
         },
-        onsubmit: editColorSkin,
+        onsubmit: newColor => {
+          editSkin({ skin: jsonSkin, Css: newColor })
+        },
       })}`
       break
     case EnumCate.typography:
@@ -2679,7 +2681,7 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
       const splitCssTypoValue = jsonSkin.Css.split(' ')
       let weightValue = splitCssTypoValue.shift()
       let familyValue = splitCssTypoValue.pop()
-      let sizeValue = splitCssTypoValue[0].split('/')[0]
+      let sizeValue = parseFloat(splitCssTypoValue[0].split('/')[0])
       let heightValue = splitCssTypoValue[0].split('/')[1]
       var editBody = `<div class="row semibold1" style="width: 100%; gap: 0.8rem">Skin name ${TextField({
         returnType: 'string',
@@ -2712,13 +2714,15 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
             return { id: e, name: e, style: 'color: #ffffff' }
           }),
           onChange: (vl) => {
-            editTypoSkin({ fontFamily: vl.id })
+            familyValue = vl.id
+            editSkin({ skin: jsonSkin, Css: `${weightValue} ${sizeValue}px/${isNaN(heightValue) ? heightValue : `${heightValue}px`} ${familyValue}` })
           }
         }),
         onBlur: ev => {
           const newValue = list_font_family.find(e => e.toLowerCase() === ev.target.value.trim().toLowerCase())
           if (newValue) {
-            handleEditTypo({ fontFamily: newValue })
+            familyValue = newValue
+            editSkin({ skin: jsonSkin, Css: `${weightValue} ${sizeValue}px/${isNaN(heightValue) ? heightValue : `${heightValue}px`} ${familyValue}` })
           } else {
             ev.target.value = familyValue
           }
@@ -2734,7 +2738,8 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
           return { id: e, name: e, style: 'color: #ffffff' }
         }),
         onChange: (vl) => {
-          editTypoSkin({ fontWeight: vl.id })
+          weightValue = vl.id
+          editSkin({ skin: jsonSkin, Css: `${weightValue} ${sizeValue}px/${isNaN(heightValue) ? heightValue : `${heightValue}px`} ${familyValue}` })
         }
       })}
       ${TextField({
@@ -2754,13 +2759,15 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
             return { id: e, name: e, style: 'color: #ffffff' }
           }),
           onChange: (vl) => {
-            editTypoSkin({ fontSize: vl.id })
+            sizeValue = vl.id
+            editSkin({ skin: jsonSkin, Css: `${weightValue} ${sizeValue}px/${isNaN(heightValue) ? heightValue : `${heightValue}px`} ${familyValue}` })
           }
         }),
         onBlur: ev => {
           const newValue = ev.target.value.trim()
           if (!isNaN(parseFloat(newValue))) {
-            editTypoSkin({ fontSize: parseFloat(newValue) })
+            sizeValue = parseFloat(newValue)
+            editSkin({ skin: jsonSkin, Css: `${weightValue} ${sizeValue}px/${isNaN(heightValue) ? heightValue : `${heightValue}px`} ${familyValue}` })
           } else {
             ev.target.value = sizeValue
           }
@@ -2774,9 +2781,11 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
         value: heightValue,
         onBlur: function (ev) {
           if (ev.target.value.toLowerCase() === 'auto' || ev.target.value.toLowerCase() === 'normal') {
-            editTypoSkin({ height: null })
+            heightValue = 'normal'
+            editSkin({ skin: jsonSkin, Css: `${weightValue} ${sizeValue}px/normal ${familyValue}` })
           } else if (!isNaN(parseFloat(ev.target.value))) {
-            editTypoSkin({ height: parseFloat(ev.target.value) })
+            heightValue = parseFloat(ev.target.value)
+            editSkin({ skin: jsonSkin, Css: `${weightValue} ${sizeValue}px/${heightValue}px ${familyValue}` })
           }
         }
       })}
@@ -2808,10 +2817,11 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
         returnType: 'string',
         value: borderColorValue.startsWith('#') ? borderColorValue : Ultis.rgbToHex(borderColorValue),
         onchange: params => {
-          editBorderSkin({ color: params, onSubmit: false })
+          editSkin({ skin: jsonSkin, Css: `${borderWidthValue}px ${borderStyleValue} ${params}`, onSubmit: false })
         },
         onsubmit: params => {
-          editBorderSkin({ color: params })
+          borderColorValue = params
+          editSkin({ skin: jsonSkin, Css: `${borderWidthValue}px ${borderStyleValue} ${params}` })
         },
       })}
       ${Select1({
@@ -2824,7 +2834,8 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
           return { id: e, name: e, style: 'color: #ffffff' }
         }),
         onChange: vl => {
-          editBorderSkin({ style: vl.id })
+          borderStyleValue = vl.id
+          editSkin({ skin: jsonSkin, Css: `${borderWidthValue}px ${borderStyleValue} ${borderColorValue}` })
         }
       })}
       ${TextField({
@@ -2836,7 +2847,10 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
         onBlur: function (ev) {
           let newValue = parseFloat(ev.target.value)
           if (!isNaN(newValue)) {
-            editBorderSkin({ width: ev.target.value })
+            borderWidthValue = newValue
+            editSkin({ skin: jsonSkin, Css: `${borderWidthValue}px ${borderStyleValue} ${borderColorValue}` })
+          } else {
+            ev.target.value = borderWidthValue
           }
         }
       })}
@@ -2857,7 +2871,8 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
           value: blurValue,
           onChange: (ev) => {
             if (!isNaN(parseFloat(ev.target.value))) {
-              editTypoSkin({ blurRadius: parseFloat(ev.target.value) })
+              blurValue = parseFloat(ev.target.value)
+              editSkin({ skin: jsonSkin, Css: `blur(${blurValue}px)` })
             } else {
               ev.target.value = blurValue
             }
@@ -2879,7 +2894,8 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
           value: xValue,
           onChange: (ev) => {
             if (!isNaN(parseFloat(ev.target.value))) {
-              handleEditEffect({ blurRadius: parseFloat(ev.target.value) })
+              xValue = parseFloat(ev.target.value)
+              editSkin({ skin: jsonSkin, Css: `${xValue}px ${yValue}px ${blurValue}px ${spreadValue}px ${effectColorValue}` })
             } else {
               ev.target.value = xValue
             }
@@ -2895,7 +2911,8 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
           value: yValue,
           onChange: (ev) => {
             if (!isNaN(parseFloat(ev.target.value))) {
-              handleEditEffect({ offY: parseFloat(ev.target.value) })
+              yValue = parseFloat(ev.target.value)
+              editSkin({ skin: jsonSkin, Css: `${xValue}px ${yValue}px ${blurValue}px ${spreadValue}px ${effectColorValue}` })
             } else {
               ev.target.value = yValue
             }
@@ -2911,7 +2928,8 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
           value: blurValue,
           onChange: (ev) => {
             if (!isNaN(parseFloat(ev.target.value))) {
-              handleEditEffect({ blurRadius: parseFloat(ev.target.value) })
+              blurValue = parseFloat(ev.target.value)
+              editSkin({ skin: jsonSkin, Css: `${xValue}px ${yValue}px ${blurValue}px ${spreadValue}px ${effectColorValue}` })
             } else {
               ev.target.value = blurValue
             }
@@ -2927,7 +2945,8 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
           value: spreadValue,
           onChange: (ev) => {
             if (!isNaN(parseFloat(ev.target.value))) {
-              handleEditEffect({ spreadRadius: parseFloat(ev.target.value) })
+              spreadValue = parseFloat(ev.target.value)
+              editSkin({ skin: jsonSkin, Css: `${xValue}px ${yValue}px ${blurValue}px ${spreadValue}px ${effectColorValue}` })
             } else {
               ev.target.value = spreadValue
             }
@@ -2938,10 +2957,11 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
           returnType: 'string',
           value: effectColorValue.startsWith('#') ? effectColorValue : Ultis.rgbToHex(effectColorValue),
           onchange: params => {
-            editEffectSkin({ color: params, onSubmit: false })
+            editSkin({ skin: jsonSkin, Css: `${xValue}px ${yValue}px ${blurValue}px ${spreadValue}px ${params}`, onSubmit: false })
           },
           onsubmit: params => {
-            editEffectSkin({ color: params })
+            effectColorValue = params
+            editSkin({ skin: jsonSkin, Css: `${xValue}px ${yValue}px ${blurValue}px ${spreadValue}px ${params}` })
           }
         })
       }
