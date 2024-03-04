@@ -2525,17 +2525,7 @@ function createCateSkinHTML(cateItem, currentSkinID) {
   let cateContainer = document.createElement('div')
   cateContainer.className = `CateItemID:${cateItem.ID} col cate-skin-tile`
   cateContainer.style.width = '100%'
-  cateContainer.innerHTML = `${cateItem.Name ? `<div class="row semibold cate-title" style="color: #b2b2b2; gap: 0.8rem; padding: 0.6rem 0.8rem"><i class="fa-solid fa-caret-right box24 center" style="display: flex; font-size: 1.4rem"></i>${cateItem.Name}</div>` : ''}<div class="list-skin-tile"></div>`
-  $(cateContainer).on('click', ':scope > .cate-title > .box24.center', function () {
-    let prefixIcon = cateContainer.querySelector(':scope > .cate-title > .box24.center')
-    if (prefixIcon.classList.contains('fa-caret-right')) {
-      prefixIcon.classList.remove('fa-caret-right')
-      prefixIcon.classList.add('fa-caret-down')
-    } else {
-      prefixIcon.classList.remove('fa-caret-down')
-      prefixIcon.classList.add('fa-caret-right')
-    }
-  })
+  cateContainer.innerHTML = `${cateItem.Name ? `<div class="row semibold1 cate-title" style="color: #b2b2b2; gap: 0.8rem; padding: 0.6rem 0.8rem"><i class="fa-solid fa-caret-right box24 center" style="display: flex; font-size: 1.2rem"></i>${cateItem.Name}</div>` : ''}<div class="list-skin-tile"></div>`
   let childrenHTML = []
   let enumCate = cateItem.ParentID ?? cateItem.ID
   let skin_list = StyleDA.listSkin.filter(e => e.Type === enumCate && e.CateID === cateItem.ID && e.ProjectID === ProjectDA.obj.ID)
@@ -2553,6 +2543,17 @@ function createCateSkinHTML(cateItem, currentSkinID) {
     return document.createElement('div')
   return cateContainer
 }
+
+$('body').on('click', '.cate-skin-tile .cate-title > .box24.center', function (ev) {
+  let prefixIcon = ev.target.closest('.box24.center')
+  if (prefixIcon.classList.contains('fa-caret-right')) {
+    prefixIcon.classList.remove('fa-caret-right')
+    prefixIcon.classList.add('fa-caret-down')
+  } else {
+    prefixIcon.classList.remove('fa-caret-down')
+    prefixIcon.classList.add('fa-caret-right')
+  }
+})
 
 function createSkinTileHTML(enumCate, jsonSkin) {
   let skin_tile = document.createElement('button')
