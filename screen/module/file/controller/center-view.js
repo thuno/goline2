@@ -878,7 +878,7 @@ function moveListener(event) {
   let target_view
   let divImgDoc = document.getElementById('popup_img_document')
   // check drag resize left view
-  if (((!instance_drag && left_view.offsetWidth > 0) || left_view.resizing) && !sortLayer && !divImgDoc.getAttribute('offset')) {
+  if (((!instance_drag && left_view.offsetWidth > 0) || left_view.resizing) && !sortLayer && !divImgDoc?.getAttribute('offset')) {
     let pageContainerY = document.getElementById('div_list_page').getBoundingClientRect()
     if (left_view.resizing) {
       if (document.body.style.cursor === 'e-resize') {
