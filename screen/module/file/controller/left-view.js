@@ -296,30 +296,25 @@ function createPageTile(pageItem) {
   if (pageItem.ID !== PageDA.obj.ID) {
     prefixIcon.style.visibility = 'hidden'
   }
-  pageTile.appendChild(prefixIcon)
-  let inputPageName = document.createElement('input')
-  inputPageName.className = 'inputPageName regular1'
-  pageTile.appendChild(inputPageName)
-  inputPageName.readOnly = true
-  inputPageName.value = pageItem.Name
-  if (PageDA.enableEdit) {
-    inputPageName.ondblclick = function () {
-      this.style.cursor = 'text'
-      this.style.outline = '0.2rem solid #1890FF'
-      this.readOnly = false
-      this.setSelectionRange(0, this.value.length)
-      this.focus()
-    }
-    inputPageName.onblur = function () {
-      this.style.cursor = 'context-menu'
-      this.readOnly = true
-      this.style.outline = 'none'
-      this.setSelectionRange(0, 0)
+  let inputPageName = TextField({
+    className: 'inputPageName regular1',
+    readOnly: true,
+    style: 'background-color: transparent !important; border-color: transparent, padding: 0.4rem 0.6rem',
+    value: pageItem.Name,
+    onBlur: function (ev) {
+      ev.target.readOnly = true
       let thisPage = PageDA.list.find(e => e.ID == pageTile.id.replace('pageID:', ''))
-      if (thisPage && thisPage.Name != this.value.trim()) {
-        thisPage.Name = this.value.trim()
+      if (thisPage && thisPage.Name != ev.target.value.trim()) {
+        thisPage.Name = ev.target.value.trim()
         PageDA.edit(thisPage)
       }
+    }
+  })
+  pageTile.appendChild(prefixIcon, inputPageName)
+  if (PageDA.enableEdit) {
+    inputPageName.querySelector('input').ondblclick = function (ev) {
+      ev.target.readOnly = false
+      ev.target.focus()
     }
     pageTile.onauxclick = function (e) {
       e.stopPropagation()

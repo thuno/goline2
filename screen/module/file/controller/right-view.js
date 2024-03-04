@@ -1087,17 +1087,17 @@ function EditBackgroundBlock() {
     } else {
       header.querySelector('.fa-plus').remove()
       let editImgTile = document.createElement('div')
-      editImgTile.className = 'row parameter-form'
-      editImgTile.innerHTML = `<div class="row img-value-tile">
-      <div class="box24" style="background: url(${window.getComputedStyle(selected_list[0].value).backgroundImage.replace(/(url\("|"\))/g, '')}) 0 0 / contain no-repeat;"></div>
+      editImgTile.className = 'row'
+      editImgTile.innerHTML = `<div class="row parameter-form img-value-tile">
+      <div class="box24" style="background: url(${window.getComputedStyle(selected_list[0].value).backgroundImage.replace(/(url\("|"\))/g, '')}) 0 0 / contain no-repeat; background-position: center"></div>
         <p class="regular1 input-color-value">Image</p><input class="regular1 input-opacity-value" value="100%" />
       </div>
       <i class="fa-solid fa-minus box24 center" style="font-size: 1.4rem; display: flex"></i>`
       editContainer.appendChild(editImgTile)
 
-      $(divSelectImg).on('click', '.img-value-tile .box24', function () {
+      $(editImgTile).on('click', '.img-value-tile .box24', function (ev) {
         if (!document.getElementById('popup_img_document')) FileDA.init().then(res => {
-          if (res.Code === 200) showImgDocument()
+          if (res.Code === 200) showImgDocument({ pageX: ev.pageX - 400, pageY: ev.pageY})
         })
       })
       $(editImgTile).on('click', '.fa-minus', function () {
