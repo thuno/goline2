@@ -2589,7 +2589,7 @@ function createCateSkinHTML(cateItem, currentSkinID) {
   return cateContainer
 }
 
-function createSkinTileHTML(enumCate, jsonSkin) {''
+function createSkinTileHTML(enumCate, jsonSkin) {
   let skin_tile = document.createElement('button')
   skin_tile.id = `skinID:${jsonSkin.GID}`
   skin_tile.className = 'skin_tile_option row'
@@ -2690,6 +2690,7 @@ function createSkinTileHTML(enumCate, jsonSkin) {''
 }
 
 function popupEditSkin({ enumCate, jsonSkin, offset }) {
+  let newName = ''
   switch (enumCate) {
     case EnumCate.color:
       const colorCate = jsonSkin.CateID !== EnumCate.color ? CateDA.list_color_cate.find(e => e.ID === jsonSkin.CateID) : null
@@ -2703,13 +2704,9 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
         onBlur: function (ev) {
           ev.target.value = ev.target.value.trim()
           if (ev.target.value !== initColorName) {
-            let nameValue = ev.target.value.replaceAll('\\', '/').split('/').filter(_string => _string.trim() != '')
-            if (nameValue.length > 0) {
-              editColorSkin({ Name: ev.target.value }, jsonSkin)
-              ev.target.value = jsonSkin.Name
-            } else {
-              ev.target.value = jsonSkin.Name
-            }
+            newName = ev.target.value
+          } else {
+            newName = ''
           }
         }
       })}</div>
@@ -2739,13 +2736,9 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
         onBlur: function (ev) {
           ev.target.value = ev.target.value.trim()
           if (ev.target.value !== initTypoName) {
-            let nameValue = ev.target.value.replaceAll('\\', '/').split('/').filter(_string => _string.trim() != '')
-            if (nameValue.length > 0) {
-              editTypoSkin({ Name: ev.target.value }, jsonSkin)
-              ev.target.value = jsonSkin.Name
-            } else {
-              ev.target.value = jsonSkin.Name
-            }
+            newName = ev.target.value
+          } else {
+            newName = ''
           }
         }
       })}</div>
@@ -2840,7 +2833,7 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
       const borderCate = jsonSkin.CateID !== EnumCate.border ? CateDA.list_border_cate.find(e => e.ID === jsonSkin.CateID) : null
       headingTitle = 'Edit border skin'
       const initBorderName = `${borderCate ? `${borderCate.Name}/` : ''}${jsonSkin.Name}`
-      let borderColorValue = jsonSkin.Css.match(rgbRegex)?.[0] || jsonSkin.Css.match(hexRegex)?.[0]
+      let borderColorValue = jsonSkin.Css.match(rgbRegex)?.[0] ?? jsonSkin.Css.match(hexRegex)?.[0]
       let borderWidthValue = jsonSkin.Css.replace(borderColorValue, '').trim().split(' ')[0].replace('px', '')
       let borderStyleValue = jsonSkin.Css.replace(borderColorValue, '').trim().split(' ')[1]
       var editBody = `<div class="row semibold1" style="width: 100%; gap: 0.8rem">Skin name ${TextField({
@@ -2851,13 +2844,9 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
         onBlur: function (ev) {
           ev.target.value = ev.target.value.trim()
           if (ev.target.value !== initBorderName) {
-            let nameValue = ev.target.value.replaceAll('\\', '/').split('/').filter(_string => _string.trim() != '')
-            if (nameValue.length > 0) {
-              editBorderSkin({ Name: ev.target.value }, jsonSkin)
-              ev.target.value = jsonSkin.Name
-            } else {
-              ev.target.value = jsonSkin.Name
-            }
+            newName = ev.target.value
+          } else {
+            newName = ''
           }
         }
       })}</div>
@@ -2911,24 +2900,64 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
     style: `left: ${offset.pageX}px; top: ${offset.pageY}px; width: 26rem; transform: translateX(-180%)`,
     children: `<div class="popup-header heading-9 row" style="justify-content: space-between; padding: 0.8rem 0.8rem 0.8rem 1.6rem;">${headingTitle} <i class="fa-solid fa-xmark box24 center" style="display: flex; font-size: 1.4rem"></i></div>
     <div class="popup-body col" style="padding: 0.8rem 1.2rem; gap: 0.8rem">${editBody}</div>`,
-    onDispose: function () {
-      if (jsonSkin.CateID != -1) {
-        switch (enumCate) {
-          case EnumCate.color:
-            // editColorSkin(jsonSkin)
-            break
-          case EnumCate.typography:
-            // TypoDA.edit(jsonSkin)
-            break
-          case EnumCate.border:
-            // BorderDA.edit(jsonSkin)
-            break
-          case EnumCate.effect:
-            // EffectDA.edit(jsonSkin)
-            break
-          default:
-            break
+    onDispose: async function () {
+      if (newName.length) {
+        let listName = newName.replaceAll('\\', '/').split('/').filter(_string => _string.trim() != '')
+        if (listName.length <= 1) {
+          if (listName.length == 1 && listName[0].trim() != '') {
+            jsonSkin.Name = listName[0]
+          } else {
+            switch (enumCate) {
+              case EnumCate.color:
+                jsonSkin.Name = `#${jsonSkin.Css}`
+                break;
+              case EnumCate.typography:
+                jsonSkin.Name = jsonSkin.Css.split(' ')[1]
+                break;
+              case EnumCate.border:
+                jsonSkin.Name = jsonSkin.Css.split(' ').slice(0, 2).join(' ')
+                break;
+              case EnumCate.effect:
+                jsonSkin.Name = jsonSkin.Css.includes('blur') ? jsonSkin.Css.replace('(', " ").replace(')', '') : ('shadow ' + (jsonSkin.Css.match(rgbRegex)?.[0] ?? jsonSkin.Css.match(hexRegex)?.[0]))
+                break;
+              default:
+                break;
+            }
+          }
+        } else {
+          jsonSkin.Name = listName.pop()
+          let nameCate = listName.join(' ')
+          let cateItem = CateDA.list_color_cate.find(e => e.Name.toLowerCase() == nameCate.toLowerCase())
+          if (cateItem) {
+            jsonSkin.CateID = cateItem.ID
+          } else {
+            let newCate = {
+              ID: 0,
+              Name: nameCate,
+              ParentID: enumCate
+            }
+            const newCateRes = await CateDA.add(newCate)
+            switch (enumCate) {
+              case EnumCate.color:
+                CateDA.list_color_cate.push(newCateRes.Data)
+                break;
+              case EnumCate.typography:
+                CateDA.list_typo_cate.push(newCateRes.Data)
+                break;
+              case EnumCate.border:
+                CateDA.list_border_cate.push(newCateRes.Data)
+                break;
+              case EnumCate.effect:
+                CateDA.list_effect_cate.push(newCateRes.Data)
+                break;
+              default:
+                break;
+            }
+            jsonSkin.CateID = newCateRes.ID
+          }
         }
+        StyleDA.editStyleSheet(jsonSkin)
+        updateTableSkinBody(enumCate, jsonSkin.GID)
       }
     }
   })
@@ -3459,8 +3488,11 @@ function createSelectionSkins() {
 }
 
 function updateUISelectionSkins() {
-  let newSelectionSkins = createSelectionSkins()
-  document.getElementById('selection_skins')?.replaceWith(newSelectionSkins)
+  const oldUI = document.getElementById('selection_skins')
+  if (oldUI) {
+    let newSelectionSkins = createSelectionSkins()
+    oldUI.replaceWith(newSelectionSkins)
+  }
 }
 
 function mergeSkinDialog() {

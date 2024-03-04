@@ -80,7 +80,6 @@ class ProjectDA {
     static async edit(obj) {
         const res = await postData('/view/edit-project', { data: obj })
         if (res.Code === 200) {
-            debugger
             ProjectDA.list[ProjectDA.list.findIndex(e => e.ID === obj.ID)] = obj
         } else {
             toastr["error"](res.Message);
@@ -91,7 +90,6 @@ class ProjectDA {
     static async delete(obj) {
         const res = await postData('/view/delete-project', { data: obj })
         if (res.Code === 200) {
-            debugger
             ProjectDA.list = ProjectDA.list.filter(e => e.ID !== obj.ID)
         } else {
             toastr["error"](res.Message);

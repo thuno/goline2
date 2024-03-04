@@ -2367,6 +2367,7 @@ function upListener(event) {
     } else if (ToolState.resize_type.some(e => tool_state === e)) {
       selected_list.forEach(wb => wb.Css = wb.value.style.cssText)
       WBaseDA.edit(selected_list)
+      updateUIDesignView()
     } else if (event.altKey) {
       dragAltEnd()
     } else {

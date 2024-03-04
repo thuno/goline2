@@ -263,9 +263,14 @@ class CateDA {
   static list_effect_cate = []
   static needInit = false
 
-  static initCate() {
-    let url = this.urlCtr + 'ListItem'
-    WiniIO.emitGet(null, url, EnumObj.cate, EnumEvent.init)
+  static async getAll() {
+    const res = await getData('/view/category-getall')
+    if (res.Code === 200) {
+      CateDA.convertData(res.Data)
+    } else {
+      toastr["error"](res.Message);
+    }
+    return res
   }
 
   static updateUISkin(enumCate, skinID) {
@@ -280,9 +285,7 @@ class CateDA {
     if (jsonData != null) {
       this.list = jsonData
       //
-      this.list_color_cate = StyleDA.listSkin
-        .filter(e => e.Type === EnumCate.color && e.CateID != EnumCate.color)
-        .filterAndMap(e => e.CateID)
+      this.list_color_cate = StyleDA.listSkin.filter(e => e.Type === EnumCate.color && e.CateID != EnumCate.color).filterAndMap(e => e.CateID)
       this.list_color_cate = this.list.filter(e =>
         this.list_color_cate.some(id => {
           if (e.ID == id) {
@@ -293,11 +296,7 @@ class CateDA {
         })
       )
       //
-      this.list_typo_cate = StyleDA.listSkin
-        .filter(
-          e => e.Type === EnumCate.typography && e.CateID != EnumCate.typography
-        )
-        .filterAndMap(e => e.CateID)
+      this.list_typo_cate = StyleDA.listSkin.filter(e => e.Type === EnumCate.typography && e.CateID != EnumCate.typography).filterAndMap(e => e.CateID)
       this.list_typo_cate = this.list.filter(e =>
         this.list_typo_cate.some(id => {
           if (e.ID == id) {
@@ -308,9 +307,7 @@ class CateDA {
         })
       )
       //
-      this.list_border_cate = StyleDA.listSkin
-        .filter(e => e.Type === EnumCate.border && e.CateID != EnumCate.border)
-        .filterAndMap(e => e.CateID)
+      this.list_border_cate = StyleDA.listSkin.filter(e => e.Type === EnumCate.border && e.CateID != EnumCate.border).filterAndMap(e => e.CateID)
       this.list_border_cate = this.list.filter(e =>
         this.list_border_cate.some(id => {
           if (e.ID == id) {
@@ -321,9 +318,7 @@ class CateDA {
         })
       )
       //
-      this.list_effect_cate = StyleDA.listSkin
-        .filter(e => e.Type === EnumCate.effect && e.CateID != EnumCate.effect)
-        .filterAndMap(e => e.CateID)
+      this.list_effect_cate = StyleDA.listSkin.filter(e => e.Type === EnumCate.effect && e.CateID != EnumCate.effect).filterAndMap(e => e.CateID)
       this.list_effect_cate = this.list.filter(e =>
         this.list_effect_cate.some(id => {
           if (e.ID == id) {
@@ -364,11 +359,7 @@ class CateDA {
     } else {
       jsonSkin.Name = listName.pop()
       let nameCate = listName.join(' ')
-      let cateItem = this.list.find(
-        e =>
-          e.ParentID === enumCate &&
-          e.Name.toLowerCase() == nameCate.toLowerCase()
-      )
+      let cateItem = this.list.find(e => e.ParentID === enumCate && e.Name.toLowerCase() == nameCate.toLowerCase())
       if (cateItem) {
         jsonSkin.CateID = cateItem.ID
         await StyleDA.addStyleSheet(jsonSkin)
@@ -380,25 +371,60 @@ class CateDA {
           Name: nameCate,
           ParentID: enumCate
         }
-        CateDA.add(newCate)
-        return null
+        const newCateRes = await CateDA.add(newCate)
+        switch (enumCate) {
+          case EnumCate.color:
+            CateDA.list_color_cate.push(newCateRes.Data)
+            break;
+          case EnumCate.typography:
+            CateDA.list_typo_cate.push(newCateRes.Data)
+            break;
+          case EnumCate.border:
+            CateDA.list_border_cate.push(newCateRes.Data)
+            break;
+          case EnumCate.effect:
+            CateDA.list_effect_cate.push(newCateRes.Data)
+            break;
+          default:
+            break;
+        }
+        jsonSkin.CateID = newCateRes.Data.ID
+        await StyleDA.addStyleSheet(jsonSkin)
+        return jsonSkin
       }
     }
   }
 
-  static add(cateItem) {
-    CateDA.list.push(cateItem)
-    let url = this.urlCtr + 'Add'
-    WiniIO.emitPort(cateItem, url, EnumObj.cate, EnumEvent.add)
+  static async add(cateItem) {
+    const res = await postData('/view/add-category', { data: cateItem })
+    debugger
+    if (res.Code === 200) {
+      this.list.push(res.Data)
+    } else {
+      toastr["error"](res.Message);
+    }
+    return res
   }
 
-  static edit(cateItem) {
-    let url = this.urlCtr + 'Edit'
-    WiniIO.emitPort(cateItem, url, EnumObj.cate, EnumEvent.edit)
+  static async edit(cateItem) {
+    const res = await postData('/view/edit-category', { data: cateItem })
+    debugger
+    if (res.Code === 200) {
+      CateDA.list[CateDA.list.findIndex(e => e.ID === cateItem.ID)] = cateItem
+    } else {
+      toastr["error"](res.Message);
+    }
+    return res
   }
 
-  static delete(cateItem) {
-    let url = this.urlCtr + 'Delete'
-    WiniIO.emitPort(cateItem, url, EnumObj.project, EnumEvent.delete)
+  static async delete(cateItem) {
+    const res = await postData('/view/delete-project', { data: cateItem })
+    debugger
+    if (res.Code === 200) {
+      CateDA.list = CateDA.list.filter(e => e.ID !== cateItem.ID)
+    } else {
+      toastr["error"](res.Message);
+    }
+    return res
   }
 }

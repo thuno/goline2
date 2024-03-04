@@ -6325,40 +6325,35 @@ function editBorderSkin(border_item, thisSkin) {
   }
 }
 
-function editColorSkin(color_item, thisSkin) {
-  if (color_item.Name) {
-    let listName = color_item.Name.replaceAll('\\', '/').split('/')
+function editColorSkin(skin, { Name, Css }) {
+  if (Name !== undefined) {
+    let listName = Name.replaceAll('\\', '/').split('/')
     if (listName.length <= 1) {
       if (listName.length == 1 && listName[0].trim() != '') {
-        thisSkin.Name = listName[0]
+        skin.Name = listName[0]
       } else {
-        thisSkin.Name = `#${thisSkin.Value}`
+        skin.Name = `#${skin.Value}`
       }
     } else {
-      thisSkin.Name = listName.pop()
+      skin.Name = listName.pop()
       let nameCate = listName.join(' ')
-      let cateItem = CateDA.list_color_cate.find(
-        e => e.Name.toLowerCase() == nameCate.toLowerCase()
-      )
+      let cateItem = CateDA.list_color_cate.find(e => e.Name.toLowerCase() == nameCate.toLowerCase())
       if (cateItem) {
-        thisSkin.CateID = cateItem.ID
+        skin.CateID = cateItem.ID
       } else {
         let newCate = {
           ID: 0,
           Name: nameCate,
           ParentID: EnumCate.color
         }
-        thisSkin.CateID = -1
+        skin.CateID = -1
         CateDA.add(newCate)
         return
       }
     }
-  } else if (color_item.Value) {
-    thisSkin.Value = color_item.Value
-    document.documentElement.style.setProperty(
-      `--background-color-${thisSkin.GID}`,
-      `#${thisSkin.Value}`
-    )
+  } else if (Css !== undefined) {
+    skin.CSS = Css
+    document.documentElement.style.setProperty(`--background-color-${skin.GID}`, `#${Css}`)
   }
 }
 
