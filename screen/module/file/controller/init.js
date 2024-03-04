@@ -78,11 +78,10 @@ $('body > #body').load('https://cdn.jsdelivr.net/gh/thuno/goline2@38862ee/projec
             divSection.replaceChildren()
             StyleDA.initSkin(ProjectDA.obj.ID).then(skinResponse => {
                 StyleDA.listSkin = skinResponse
-                CateDA.getAll()
                 StyleDA.listSkin.forEach(skin => {
                     document.documentElement.style.setProperty(`--${skin.GID}`, skin.Css)
                 })
-                updateUISelectionSkins()
+                CateDA.getAll().then(_ => updateUISelectionSkins())
             })
             // PropertyDA.list = skinResponse.Data.WPropertyItems
             console.log('get server done: ', Date.now())
