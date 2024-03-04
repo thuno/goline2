@@ -2389,6 +2389,7 @@ function upListener(event) {
     } else if (!checkpad) {
       downListener(event)
     } else if (ToolState.resize_type.some(e => tool_state === e)) {
+      selected_list.forEach(wb => wb.Css = wb.value.style.cssText)
       WBaseDA.edit(selected_list)
     } else if (event.altKey) {
       dragAltEnd()

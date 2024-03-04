@@ -1088,6 +1088,7 @@ function EditBackgroundBlock() {
       header.querySelector('.fa-plus').remove()
       let editImgTile = document.createElement('div')
       editImgTile.className = 'row'
+      editImgTile.style.justifyContent = "space-between"
       editImgTile.innerHTML = `<div class="row parameter-form img-value-tile">
       <div class="box24" style="background: url(${window.getComputedStyle(selected_list[0].value).backgroundImage.replace(/(url\("|"\))/g, '')}) 0 0 / contain no-repeat; background-position: center"></div>
         <p class="regular1 input-color-value">Image</p><input class="regular1 input-opacity-value" value="100%" />
