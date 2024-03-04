@@ -2525,7 +2525,7 @@ function createCateSkinHTML(cateItem, currentSkinID) {
   let cateContainer = document.createElement('div')
   cateContainer.className = `CateItemID:${cateItem.ID} col cate-skin-tile`
   cateContainer.style.width = '100%'
-  cateContainer.innerHTML = `${cateItem.Name ? `<div class="row semibold1 cate-title" style="color: #b2b2b2; gap: 0.8rem; padding: 0.6rem 0.8rem"><i class="fa-solid fa-caret-right box24 center" style="display: flex; font-size: 1.2rem"></i>${cateItem.Name}</div>` : ''}<div class="list-skin-tile"></div>`
+  cateContainer.innerHTML = `${cateItem.Name ? `<div class="row semibold1 cate-title" style="color: #b2b2b2; gap: 0.4rem; padding: 0.6rem 0.8rem"><i class="fa-solid fa-caret-right box24 center" style="display: flex; font-size: 1.2rem"></i>${cateItem.Name}</div>` : ''}<div class="list-skin-tile"></div>`
   let childrenHTML = []
   let enumCate = cateItem.ParentID ?? cateItem.ID
   let skin_list = StyleDA.listSkin.filter(e => e.Type === enumCate && e.CateID === cateItem.ID && e.ProjectID === ProjectDA.obj.ID)
