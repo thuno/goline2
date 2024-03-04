@@ -2993,14 +2993,14 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
     <div class="popup-body col" style="padding: 0.8rem 1.2rem; gap: 0.8rem">${editBody}</div>`,
     onDispose: async function () {
       if (newName.length) {
-        await editSkin({ skin: jsonSkin, newName: newName })
+        await editSkin({ skin: jsonSkin, newName: newName, enumCate: enumCate })
         updateTableSkinBody(enumCate, jsonSkin.GID)
       }
     }
   })
   $(popupSkinDetails).on('click', '.popup-header .fa-xmark', async function () {
     if (newName.length) {
-      await editSkin({ skin: jsonSkin, newName: newName })
+      await editSkin({ skin: jsonSkin, newName: newName, enumCate: enumCate })
       updateTableSkinBody(enumCate, jsonSkin.GID)
     }
     popupSkinDetails.remove()
