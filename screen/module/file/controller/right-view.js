@@ -2869,7 +2869,7 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
         let yValue = jsonSkin.Css.replace(effectColorValue, '').trim().split(' ')[1].replace('px', '')
         let blurValue = jsonSkin.Css.replace(effectColorValue, '').trim().split(' ')[2].replace('px', '')
         let spreadValue = jsonSkin.Css.replace(effectColorValue, '').trim().split(' ')[3].replace('px', '')
-        var inputX = `<div class="row" style="justify-content: space-between">
+        var inputX = `<div class="row" style="justify-content: space-between; width: 8.8rem">
           <div class="label-5">X</div>
           ${TextField({
           returnType: 'string',
@@ -2885,7 +2885,7 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
           }
         })}
         </div>`
-        var inputY = `<div class="row" style="justify-content: space-between">
+        var inputY = `<div class="row" style="justify-content: space-between; width: 8.8rem">
           <div class="label-5">Y</div>
           ${TextField({
           returnType: 'string',
@@ -2901,7 +2901,7 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
           }
         })}
         </div>`
-        var inputBlur = `<div class="row" style="justify-content: space-between">
+        var inputBlur = `<div class="row" style="justify-content: space-between; width: 12rem">
           <div class="label-5">Blur</div>
           ${TextField({
           returnType: 'string',
@@ -2917,7 +2917,7 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
           }
         })}
         </div>`
-        var inputSpread = `<div class="row" style="justify-content: space-between">
+        var inputSpread = `<div class="row" style="justify-content: space-between; width: 12rem">
           <div class="label-5">Spread</div>
           ${TextField({
           returnType: 'string',
@@ -2935,7 +2935,7 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
         </div>`
         var inputColor = createEditColorForm({
           returnType: 'string',
-          value: effectColorValue,
+          value: effectColorValue.startsWith('#') ? effectColorValue : Ultis.rgbToHex(effectColorValue),
           onchange: params => {
             editEffectSkin({ color: params, onSubmit: false })
           },
@@ -2958,7 +2958,7 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
           }
         }
       })}</div>
-      <div class="row" style="flex-wrap: wrap; width: 100%; gap: 0.6rem; justify-content: space-between">
+      <div class="row" style="flex-wrap: wrap; width: 100%; gap: 0.6rem; justify-content: space-between; padding: 0.4rem 0.8rem">
       ${inputX ?? ''}${inputBlur ?? ''}${inputY ?? ''}${inputSpread ?? ''}${inputColor ?? ''}
       </div>`
       break
