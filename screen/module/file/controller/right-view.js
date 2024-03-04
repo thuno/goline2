@@ -2749,7 +2749,7 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
           }
         }
       })}</div>
-      <div class="row" style="flex-wrap: wrap; width: 100%; padding: 0.4rem 1.2rem; gap: 0.6rem">
+      <div class="row" style="flex-wrap: wrap; width: 100%; gap: 0.6rem">
         ${TextField({
         returnType: 'string',
         className: 'col12 right-view-input regular1',
@@ -2861,7 +2861,7 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
           }
         }
       })}</div>
-      <div class="row" style="flex-wrap: wrap; width: 100%; padding: 0.4rem 1.2rem; gap: 0.6rem">
+      <div class="row" style="flex-wrap: wrap; width: 100%; gap: 0.6rem">
       ${createEditColorForm({
         returnType: 'string',
         value: borderColorValue.startsWith('#') ? borderColorValue : Ultis.rgbToHex(borderColorValue),
@@ -2910,7 +2910,7 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
     hiddenOverlay: true,
     style: `left: ${offset.pageX}px; top: ${offset.pageY}px; width: 26rem`,
     children: `<div class="popup-header heading-9 row" style="justify-content: space-between; padding: 0.8rem 0.8rem 0.8rem 1.6rem">${headingTitle} <i class="fa-solid fa-xmark box24 center" style="display: flex; font-size: 1.4rem"></i></div>
-    <div class"popup-body">${editBody}</div>`,
+    <div class"popup-body col" style="padding: 0.8rem 1.2rem">${editBody}</div>`,
     onDispose: function () {
       if (jsonSkin.CateID != -1) {
         switch (enumCate) {
