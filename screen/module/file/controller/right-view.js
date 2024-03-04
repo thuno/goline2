@@ -2057,7 +2057,7 @@ function EditEffectBlock() {
             window.getComputedStyle(wb.value).filter.replace(/(blur\(|px\))/g, '')
           )
         const blurValue = blurValues.length > 1 ? 'mixed' : blurValues[0]
-        var inputBlur = `<div class="row" style="gap: 0.4rem">
+        var inputBlur = `<div class="row" style="justify-content: space-between">
           <div class="label-5">Blur</div>
           ${TextField({
           returnType: 'string',
@@ -2090,7 +2090,7 @@ function EditEffectBlock() {
           })
         const offXValues = boxShadowList.filterAndMap(vl => vl.x)
         const xValue = offXValues.length > 1 ? 'mixed' : offXValues[0]
-        var inputX = `<div class="row" style="gap: 0.4rem">
+        var inputX = `<div class="row" style="justify-content: space-between">
           <div class="label-5">X</div>
           ${TextField({
           returnType: 'string',
@@ -2108,7 +2108,7 @@ function EditEffectBlock() {
         </div>`
         const offYValues = boxShadowList.filterAndMap(vl => vl.y)
         const yValue = offYValues.length > 1 ? 'mixed' : offYValues[0]
-        var inputY = `<div class="row" style="gap: 0.4rem">
+        var inputY = `<div class="row" style="justify-content: space-between">
           <div class="label-5">Y</div>
           ${TextField({
           returnType: 'string',
@@ -2126,8 +2126,8 @@ function EditEffectBlock() {
         </div>`
         const blurValues = boxShadowList.filterAndMap(vl => vl.blur)
         const blurValue = blurValues.length > 1 ? 'mixed' : blurValues[0]
-        var inputBlur = `<div class="row" style="gap: 0.4rem">
-          <div class="label-5" style="width: 4rem">Blur</div>
+        var inputBlur = `<div class="row" style="justify-content: space-between">
+          <div class="label-5">Blur</div>
           ${TextField({
           returnType: 'string',
           style: 'width: 6.8rem',
@@ -2144,8 +2144,8 @@ function EditEffectBlock() {
         </div>`
         const spreadValues = boxShadowList.filterAndMap(vl => vl.spread)
         const spreadValue = spreadValues.length > 1 ? 'mixed' : spreadValues[0]
-        var inputSpread = `<div class="row" style="gap: 0.4rem">
-          <div class="label-5" style="width: 4rem">Spread</div>
+        var inputSpread = `<div class="row" style="justify-content: space-between">
+          <div class="label-5">Spread</div>
           ${TextField({
           returnType: 'string',
           style: 'width: 6.8rem',
@@ -2525,67 +2525,32 @@ function createCateSkinHTML(cateItem, currentSkinID) {
   let cateContainer = document.createElement('div')
   cateContainer.className = `CateItemID:${cateItem.ID} col cate-skin-tile`
   cateContainer.style.width = '100%'
-  let childrenHTML = []
-  if (cateItem.ParentID || selected_list.length == 0) {
-    let cate_title = document.createElement('p')
-    cate_title.className = 'semibold1'
-    cate_title.style.paddingLeft = '0.8rem'
-    cate_title.style.color = '#b2b2b2'
-    cate_title.innerHTML = `${cateItem.Name}`
-    if (cateItem.ParentID && selected_list.length == 0) {
-      let cateTitleTile = document.createElement('div')
-      cateTitleTile.className = 'row'
-      let prefixIcon = document.createElement('i')
-      prefixIcon.className = 'fa-solid fa-caret-down fa-2xs'
-      prefixIcon.style.color = '#b2b2b2'
-      prefixIcon.style.marginLeft = '0.8rem'
-      prefixIcon.style.padding = '1rem'
-      let isShow = true
-      prefixIcon.onclick = function (e) {
-        e.stopPropagation()
-        isShow = !isShow
-        if (isShow) {
-          prefixIcon.className = 'fa-solid fa-caret-down fa-2xs'
-        } else {
-          prefixIcon.className = 'fa-solid fa-caret-right fa-2xs'
-        }
-      }
-      cateTitleTile.appendChild(prefixIcon)
-      cate_title.style.margin = '0.6rem 0'
-      cateTitleTile.appendChild(cate_title)
-      childrenHTML.push(cateTitleTile)
+  cateContainer.innerHTML = `${cateItem.Name ? `<div class="row semibold cate-title" style="color: #b2b2b2; gap: 0.8rem; padding: 0.6rem 0.8rem"><i class="fa-solid fa-caret-right box24 center" style="display: flex; font-size: 1.4rem"></i>${cateItem.Name}</div>` : ''}<div class="list-skin-tile"></div>`
+  $(cateContainer).on('click', ':scope > .cate-title > .box24.center', function () {
+    let prefixIcon = cateContainer.querySelector(':scope > .cate-title > .box24.center')
+    if (prefixIcon.classList.contains('fa-caret-right')) {
+      prefixIcon.classList.remove('fa-caret-right')
+      prefixIcon.classList.add('fa-caret-down')
     } else {
-      cate_title.style.margin = '0.8rem'
-      childrenHTML.push(cate_title)
+      prefixIcon.classList.remove('fa-caret-down')
+      prefixIcon.classList.add('fa-caret-right')
     }
-  }
+  })
+  let childrenHTML = []
   let enumCate = cateItem.ParentID ?? cateItem.ID
-  let skin_list = StyleDA.listSkin.filter(
-    e =>
-      e.Type === enumCate &&
-      e.CateID === cateItem.ID &&
-      e.ProjectID === ProjectDA.obj.ID
-  )
+  let skin_list = StyleDA.listSkin.filter(e => e.Type === enumCate && e.CateID === cateItem.ID && e.ProjectID === ProjectDA.obj.ID)
   childrenHTML.push(
     ...skin_list.map(skin => {
       let skin_tile = createSkinTileHTML(enumCate, skin)
-      if (skin.GID == currentSkinID) {
+      if (skin.GID === currentSkinID) {
         skin_tile.style.backgroundColor = '#E6F7FF'
       }
       return skin_tile
     })
   )
-  if (
-    cateContainer.querySelectorAll(':scope > .skin_tile_option').length &&
-    [
-      EnumCate.color,
-      EnumCate.typography,
-      EnumCate.border,
-      EnumCate.effect
-    ].every(ct => cateItem.ID !== ct)
-  )
+  cateContainer.querySelector('.list-skin-tile').replaceWith(...childrenHTML)
+  if (!childrenHTML.length && [EnumCate.color, EnumCate.typography, EnumCate.border, EnumCate.effect].every(ct => cateItem.ID !== ct))
     return document.createElement('div')
-  cateContainer.replaceChildren(...childrenHTML)
   return cateContainer
 }
 
@@ -2594,7 +2559,7 @@ function createSkinTileHTML(enumCate, jsonSkin) {
   skin_tile.id = `skinID:${jsonSkin.GID}`
   skin_tile.className = 'skin_tile_option row'
   if (selected_list.length == 0 && jsonSkin.CateID != enumCate) {
-    skin_tile.style.paddingLeft = '36px'
+    skin_tile.style.paddingLeft = '3.6rem'
   }
   if (jsonSkin.ProjectID != ProjectDA.obj.ID) {
     var action_edit = `<i class="fa-regular fa-circle-question box24 center" style="display: flex; font-size: 1.2rem; color: var(--primary-color); pointer-events: none"></i>`
@@ -2661,7 +2626,7 @@ function createSkinTileHTML(enumCate, jsonSkin) {
         }
       }
       const splitCss = jsonSkin.Css.split(';')
-      skin_tile.innerHTML = `<div style="${jsonSkin.Css};font-size: 1.6rem; line-height: normal">Ag</div><div class="skin-name regular1 comp-text">${jsonSkin.Name}</div><p style="font-size: 1.1rem; color: #bfbfbf">${splitCss.find(cssVl => cssVl.includes('font-size'))?.replace('font-size:', "")?.trim()}/${splitCss.find(cssVl => cssVl.includes('line-height'))?.replace('line-height:', "")?.trim() ?? 'normal'}</p>${action_edit}`
+      skin_tile.innerHTML = `<div style="${jsonSkin.Css};font-size: 1.6rem; line-height: normal">Ag</div><div class="skin-name regular1 comp-text">${jsonSkin.Name}</div><p style="font-size: 1.1rem; color: #bfbfbf">${jsonSkin.Css.split(' ')[1]}</p>${action_edit}`
       break
     case EnumCate.border:
       skin_tile.onclick = function () {
@@ -2890,7 +2855,125 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
       </div>`
       break
     case EnumCate.effect:
+      const effectCate = jsonSkin.CateID !== EnumCate.effect ? CateDA.list_effect_cate.find(e => e.ID === jsonSkin.CateID) : null
       headingTitle = 'Edit effect skin'
+      const initEffectName = `${effectCate ? `${effectCate.Name}/` : ''}${jsonSkin.Name}`
+      if (jsonSkin.Css.includes('blur')) {
+        let blurValue = jsonSkin.Css.replace('blur(', '').replace(')', '')
+        var inputBlur = `<div class="row" style="gap: 0.4rem">
+          <div class="label-5">Blur</div>
+          ${TextField({
+          returnType: 'string',
+          style: '--gutter: 0.6rem',
+          className: 'regular1 right-view-input col12',
+          value: blurValue,
+          onChange: (ev) => {
+            if (!isNaN(parseFloat(ev.target.value))) {
+              editTypoSkin({ blurRadius: parseFloat(ev.target.value) })
+            } else {
+              ev.target.value = blurValue
+            }
+          }
+        })}
+        </div>`
+      } else {
+        let effectColorValue = jsonSkin.Css.match(rgbRegex)?.[0] ?? jsonSkin.Css.match(hexRegex)?.[0]
+        let xValue = jsonSkin.Css.replace(effectColorValue, '').trim().split(' ')[0].replace('px', '')
+        let yValue = jsonSkin.Css.replace(effectColorValue, '').trim().split(' ')[1].replace('px', '')
+        let blurValue = jsonSkin.Css.replace(effectColorValue, '').trim().split(' ')[2].replace('px', '')
+        let spreadValue = jsonSkin.Css.replace(effectColorValue, '').trim().split(' ')[3].replace('px', '')
+        var inputX = `<div class="row" style="justify-content: space-between">
+          <div class="label-5">X</div>
+          ${TextField({
+          returnType: 'string',
+          style: 'width: 6.8rem',
+          className: 'regular1 right-view-input',
+          value: xValue,
+          onChange: (ev) => {
+            if (!isNaN(parseFloat(ev.target.value))) {
+              handleEditEffect({ blurRadius: parseFloat(ev.target.value) })
+            } else {
+              ev.target.value = xValue
+            }
+          }
+        })}
+        </div>`
+        var inputY = `<div class="row" style="justify-content: space-between">
+          <div class="label-5">Y</div>
+          ${TextField({
+          returnType: 'string',
+          style: 'width: 6.8rem',
+          className: 'regular1 right-view-input',
+          value: yValue,
+          onChange: (ev) => {
+            if (!isNaN(parseFloat(ev.target.value))) {
+              handleEditEffect({ offY: parseFloat(ev.target.value) })
+            } else {
+              ev.target.value = yValue
+            }
+          }
+        })}
+        </div>`
+        var inputBlur = `<div class="row" style="justify-content: space-between">
+          <div class="label-5">Blur</div>
+          ${TextField({
+          returnType: 'string',
+          style: 'width: 6.8rem',
+          className: 'regular1 right-view-input',
+          value: blurValue,
+          onChange: (ev) => {
+            if (!isNaN(parseFloat(ev.target.value))) {
+              handleEditEffect({ blurRadius: parseFloat(ev.target.value) })
+            } else {
+              ev.target.value = blurValue
+            }
+          }
+        })}
+        </div>`
+        var inputSpread = `<div class="row" style="justify-content: space-between">
+          <div class="label-5">Spread</div>
+          ${TextField({
+          returnType: 'string',
+          style: 'width: 6.8rem',
+          className: 'regular1 right-view-input',
+          value: spreadValue,
+          onChange: (ev) => {
+            if (!isNaN(parseFloat(ev.target.value))) {
+              handleEditEffect({ spreadRadius: parseFloat(ev.target.value) })
+            } else {
+              ev.target.value = spreadValue
+            }
+          }
+        })}
+        </div>`
+        var inputColor = createEditColorForm({
+          returnType: 'string',
+          value: effectColorValue,
+          onchange: params => {
+            editEffectSkin({ color: params, onSubmit: false })
+          },
+          onsubmit: params => {
+            editEffectSkin({ color: params })
+          }
+        })
+      }
+      var editBody = `<div class="row semibold1" style="width: 100%; gap: 0.8rem">Skin name ${TextField({
+        returnType: 'string',
+        style: 'flex: 1; width: 100%',
+        className: 'regular1',
+        value: initEffectName,
+        onBlur: function (ev) {
+          ev.target.value = ev.target.value.trim()
+          if (ev.target.value !== initEffectName) {
+            newName = ev.target.value
+          } else {
+            newName = ''
+          }
+        }
+      })}</div>
+      <div class="row" style="flex-wrap: wrap; width: 100%; gap: 0.6rem; justify-content: space-between">
+      ${inputX ?? ''}${inputBlur ?? ''}${inputY ?? ''}${inputSpread ?? ''}${inputColor ?? ''}
+      </div>`
       break
     default:
       break

@@ -1139,3 +1139,7 @@ i.center[class*="box"].disabled {
     align-items: center;
     justify-content: center;
 }
+
+.cate-skin-tile:has(> .cate-title > .fa-caret-right)> :not(.cate-title:first-child) {
+    display: none !important;
+}
