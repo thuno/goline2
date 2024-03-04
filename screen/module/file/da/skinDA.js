@@ -399,7 +399,8 @@ class CateDA {
     const res = await postData('/view/add-category', { data: cateItem })
     debugger
     if (res.Code === 200) {
-      this.list.push(res.Data)
+      cateItem.ID = res.Data
+      this.list.push(cateItem)
     } else {
       toastr["error"](res.Message);
     }
