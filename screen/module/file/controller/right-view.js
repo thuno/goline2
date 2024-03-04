@@ -2698,7 +2698,7 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
       var editBody = `<div class="row semibold1" style="width: 100%; gap: 0.8rem">Skin name ${TextField({
         returnType: 'string',
         style: 'flex: 1; width: 100%',
-        className: 'right-view-input regular1',
+        className: 'regular1',
         value: initColorName,
         onBlur: function (ev) {
           ev.target.value = ev.target.value.trim()
@@ -2734,7 +2734,7 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
       var editBody = `<div class="row semibold1" style="width: 100%; gap: 0.8rem">Skin name ${TextField({
         returnType: 'string',
         style: 'flex: 1; width: 100%',
-        className: 'right-view-input regular1',
+        className: 'regular1',
         value: initTypoName,
         onBlur: function (ev) {
           ev.target.value = ev.target.value.trim()
@@ -2846,7 +2846,7 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
       var editBody = `<div class="row semibold1" style="width: 100%; gap: 0.8rem">Skin name ${TextField({
         returnType: 'string',
         style: 'flex: 1; width: 100%',
-        className: 'right-view-input regular1',
+        className: 'regular1',
         value: initBorderName,
         onBlur: function (ev) {
           ev.target.value = ev.target.value.trim()
@@ -2909,7 +2909,7 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
   let popupSkinDetails = showPopup({
     hiddenOverlay: true,
     style: `left: ${offset.pageX}px; top: ${offset.pageY}px; width: 26rem; transform: translateX(-180%)`,
-    children: `<div class="popup-header heading-9 row" style="justify-content: space-between; padding: 0.8rem 0.8rem 0.8rem 1.6rem">${headingTitle} <i class="fa-solid fa-xmark box24 center" style="display: flex; font-size: 1.4rem"></i></div>
+    children: `<div class="popup-header heading-9 row" style="justify-content: space-between; padding: 0.8rem 0.8rem 0.8rem 1.6rem; gap: 0.8rem">${headingTitle} <i class="fa-solid fa-xmark box24 center" style="display: flex; font-size: 1.4rem"></i></div>
     <div class"popup-body col" style="padding: 0.8rem 1.2rem">${editBody}</div>`,
     onDispose: function () {
       if (jsonSkin.CateID != -1) {
