@@ -375,6 +375,7 @@ class enumTypeInput {
 const uuid4Regex =
     /[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/g
 const hexRegex = /(#){0,1}[0-9A-Fa-f]{6,8}$/i
+const rgbRegex = /(rgba|rgb)\(.*\)/g
 const svgRegex = /(fill|stroke)(="[^none](\w|\d|#){1,}"|:[^none](\w|\d|#){1,})/g
 const brpRegex = /\(([^)-]+)\)/g
 const spChaRegex = /[!@#\$%\^\&*\)\(+=._-]/g

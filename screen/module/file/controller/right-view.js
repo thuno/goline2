@@ -1098,7 +1098,7 @@ function EditBackgroundBlock() {
 
       $(editImgTile).on('click', '.img-value-tile .box24', function (ev) {
         if (!document.getElementById('popup_img_document')) FileDA.init().then(res => {
-          if (res.Code === 200) showImgDocument({ pageX: ev.pageX - 400, pageY: ev.pageY})
+          if (res.Code === 200) showImgDocument({ pageX: ev.pageX - 400, pageY: ev.pageY })
         })
       })
       $(editImgTile).on('click', '.fa-minus', function () {
@@ -1489,6 +1489,7 @@ function EditTypoBlock() {
         }
       }
     })
+    var fontCssText = `${fWeightValues[0]} ${fSizeValues[0]}px/${isNaN(lineHeightValues[0]) ? 'normal' : `${lineHeightValues[0]}px`} ${fontFamilyValues[0]}`
 
     text_style_attribute.innerHTML = `${selectFontFamily}${selectFontWeight}${selectFontSize}${inputlHeight}${inputlSpacing}`
     editContainer.appendChild(text_style_attribute)
@@ -1599,7 +1600,7 @@ function EditTypoBlock() {
   _row.replaceChildren(group_btn_text_align, group_btn_text_align_vertical)
   $(header).on('click', '.action-button', function () {
     const offset = header.getBoundingClientRect()
-    showTableSkin({ cate: EnumCate.typography, offset: offset })
+    showTableSkin({ cate: EnumCate.typography, offset: offset, cssText: fontCssText })
   })
 
   return editContainer
@@ -1834,7 +1835,7 @@ function EditBorderBlock() {
       const selectBStyle = Select1({
         returnType: 'string',
         className: 'right-view-input regular1',
-        style: '--gutter: 0.6rem; text-align: start',
+        style: '--gutter: 0.6rem',
         value: bStyleValue,
         dropdownStyle: 'background-color: #000000; width: fit-content',
         options: [
@@ -2080,7 +2081,7 @@ function EditEffectBlock() {
           .filter(wb => window.getComputedStyle(wb.value).boxShadow !== 'none')
           .map(wb => {
             let wbShadow = window.getComputedStyle(wb.value).boxShadow
-            let color = wbShadow.match(/(rgba|rgb)\(.*\)/g)[0]
+            let color = wbShadow.match(rgbRegex)[0]
             wbShadow = wbShadow.replace(color, '').trim().split(' ')
             return {
               x: parseFloat(wbShadow[0].replace('px')),
@@ -2353,29 +2354,33 @@ function showTableSkin({ cate, offset, selectedSkinId, cssText }) {
     </div>
     <div class="col tb-skins-popup-body" style="padding: 0.8rem 0"></div>`
   })
-  $(popupTbSkins).on('click', '.popup-header .fa-plus', function () {
-    let popupAddSkin = showPopup({
-      style: 'width: 40%',
-      children: `<div class="popup-header row heading-8">${titleAddSkin}</div>
-      <div class="popup-body row" style="gap: 1.6rem; padding: 0.8rem 1.6rem;">
-      ${prefix}
-      ${TextField({ returnType: 'string', placeholder: 'New skin name', className: 'regular1 input-skin-name', style: 'width:100%; flex: 1', onChange: () => { } })}
-      </div>
-      <div class="popup-footer row">
-        <button type='button' class='popup-action close-popup row button-text-3'>Cancel</button>
-        <button type='button' class='popup-action popup-submit row button-text-3'>Create skin</button>
-      </div>`
+  if (cssText) {
+    $(popupTbSkins).on('click', '.popup-header .fa-plus', function () {
+      let popupAddSkin = showPopup({
+        style: 'width: 40%',
+        children: `<div class="popup-header row heading-8">${titleAddSkin}</div>
+        <div class="popup-body row" style="gap: 1.6rem; padding: 0.8rem 1.6rem;">
+        ${prefix}
+        ${TextField({ returnType: 'string', placeholder: 'New skin name', className: 'regular1 input-skin-name', style: 'width:100%; flex: 1', onChange: () => { } })}
+        </div>
+        <div class="popup-footer row">
+          <button type='button' class='popup-action close-popup row button-text-3'>Cancel</button>
+          <button type='button' class='popup-action popup-submit row button-text-3'>Create skin</button>
+        </div>`
+      })
+      $(popupAddSkin).on('click', '.popup-footer > .close-popup', function () { popupAddSkin.remove() })
+      $(popupAddSkin).on('click', '.popup-footer > .popup-submit', async function () {
+        const res = await createNewSkin({ cate: cate, name: popupAddSkin.querySelector('.input-skin-name input').value.trim(), cssText: cssText })
+        if (res) {
+          popupAddSkin.remove()
+          popupTbSkins.remove()
+        }
+      })
+      popupAddSkin.querySelector('.popup-close-btn').remove()
     })
-    $(popupAddSkin).on('click', '.popup-footer > .close-popup', function () { popupAddSkin.remove() })
-    $(popupAddSkin).on('click', '.popup-footer > .popup-submit', async function () {
-      const res = await createNewSkin({ cate: cate, name: popupAddSkin.querySelector('.input-skin-name input').value.trim(), cssText: cssText })
-      if (res) {
-        popupAddSkin.remove()
-        popupTbSkins.remove()
-      }
-    })
-    popupAddSkin.querySelector('.popup-close-btn').remove()
-  })
+  } else {
+    popupTbSkins.querySelector('.popup-header .fa-plus').remove()
+  }
   updateTableSkinBody(cate, selectedSkinId)
 }
 
@@ -2599,17 +2604,12 @@ function createSkinTileHTML(enumCate, jsonSkin) {
   } else {
     action_edit = `<i class="fa-solid fa-sliders box24 center"></i>`
   }
-  $(skin_tile).on('click', '.fa-sliders', showEditSkin)
-  function showEditSkin(e) {
-    e.stopPropagation()
-    let popupEdit = popupEditSkin(enumCate, jsonSkin)
-    popupEdit.style.top = e.pageY + 'px'
-    popupEdit.style.left = e.pageX + 'px'
-    document.getElementById('body').appendChild(popupEdit)
-    if (popupEdit.getBoundingClientRect().bottom >= document.body.offsetHeight) {
-      popupEdit.style.top = `${document.body.offsetHeight - popupEdit.offsetHeight}px`
-    }
-  }
+  $(skin_tile).on('click', '.fa-sliders', function (ev) {
+    ev.stopPropagation()
+    ev.preventDefault()
+    popupEditSkin({ enumCate: enumCate, jsonSkin: jsonSkin, offset: ev })
+  })
+
   skin_tile.onauxclick = function (e) {
     e.stopPropagation()
     let edit_delete_popup = showPopup({
@@ -2617,8 +2617,10 @@ function createSkinTileHTML(enumCate, jsonSkin) {
       children: `<div class="edit-skin default-option semibold1 row">Edit</div><div class="delete-skin default-option semibold1 row">Delete</div>`,
       style: `left: ${e.pageX}px; top: ${e.pageY}px; background-color: #000000; width: fit-content; height: fit-content; padding: 0.2rem;border-radius: 0.2rem !important`
     })
-    $(edit_delete_popup).on('click', '.edit-skin', function () {
-      showEditSkin()
+    $(edit_delete_popup).on('click', '.edit-skin', function (ev) {
+      ev.stopPropagation()
+      ev.preventDefault()
+      popupEditSkin({ enumCate: enumCate, jsonSkin: jsonSkin, offset: ev })
       edit_delete_popup.remove()
     })
     $(edit_delete_popup).on('click', '.delete-skin', function (ev) {
@@ -2630,8 +2632,7 @@ function createSkinTileHTML(enumCate, jsonSkin) {
   }
   switch (enumCate) {
     case EnumCate.color:
-      skin_tile.onclick = function (e) {
-        e.stopPropagation()
+      skin_tile.onclick = function () {
         if (selected_list.length > 0) {
           const editType = document.body.querySelector('.tb-skins-popup-body').getAttribute('edit-type')
           switch (editType) {
@@ -2655,8 +2656,7 @@ function createSkinTileHTML(enumCate, jsonSkin) {
       skin_tile.innerHTML = `<div class="prefix-tile box20" style="border-radius: 50%; background-color: ${jsonSkin.Css}"></div><div class="skin-name regular1">${jsonSkin.Name}</div>${action_edit}`
       break
     case EnumCate.typography:
-      skin_tile.onclick = function (e) {
-        e.stopPropagation()
+      skin_tile.onclick = function () {
         if (selected_list.length > 0) {
           handleEditTypo({ typoSkin: jsonSkin })
           document.querySelector('.popup-overlay:has(.tb-skins-popup-body)').remove()
@@ -2667,8 +2667,7 @@ function createSkinTileHTML(enumCate, jsonSkin) {
       skin_tile.innerHTML = `<div style="${jsonSkin.Css};font-size: 1.6rem; line-height: normal">Ag</div><div class="skin-name regular1 comp-text">${jsonSkin.Name}</div><p style="font-size: 1.1rem; color: #bfbfbf">${splitCss.find(cssVl => cssVl.includes('font-size'))?.replace('font-size:', "")?.trim()}/${splitCss.find(cssVl => cssVl.includes('line-height'))?.replace('line-height:', "")?.trim() ?? 'normal'}</p>${action_edit}`
       break
     case EnumCate.border:
-      skin_tile.onclick = function (e) {
-        e.stopPropagation()
+      skin_tile.onclick = function () {
         if (selected_list.length > 0) {
           handleEditBorder({ borderSkin: jsonSkin })
           document.querySelector('.popup-overlay:has(.tb-skins-popup-body)').remove()
@@ -2678,8 +2677,7 @@ function createSkinTileHTML(enumCate, jsonSkin) {
       skin_tile.innerHTML = `<div class="box20" style="border-radius: 50%; background-color: #f1f1f1;border: min(0.6rem, ${jsonSkin.Css.split(' ')[0]}) ${jsonSkin.Css.split(' ').slice(1).join(' ')}"></div><div class="skin-name regular1">${jsonSkin.Name}</div>${action_edit}`
       break
     case EnumCate.effect:
-      skin_tile.onclick = function (e) {
-        e.stopPropagation()
+      skin_tile.onclick = function () {
         if (selected_list.length > 0) {
           handleEditEffect({ effectSkin: jsonSkin })
           document.querySelector('.popup-overlay:has(.tb-skins-popup-body)').remove()
@@ -2694,748 +2692,252 @@ function createSkinTileHTML(enumCate, jsonSkin) {
   return skin_tile
 }
 
-function popupEditSkin(enumCate, jsonSkin) {
-  let divEditSkin = document.createElement('div')
-  divEditSkin.id = 'popup_edit_skin'
-  divEditSkin.className = 'wini_popup col popup_remove'
-  handlePopupDispose(divEditSkin, function () {
-    if (jsonSkin.CateID != -1) {
-      switch (enumCate) {
-        case EnumCate.color:
-          ColorDA.edit(jsonSkin)
-          break
-        case EnumCate.typography:
-          TypoDA.edit(jsonSkin)
-          break
-        case EnumCate.border:
-          BorderDA.edit(jsonSkin)
-          break
-        case EnumCate.effect:
-          EffectDA.edit(jsonSkin)
-          break
-        default:
-          break
-      }
-    }
-  })
-  divEditSkin.onkeydown = function (e) {
-    if (e.key == 'Enter' && document.activeElement.localName == 'input') {
-      document.activeElement.blur()
-    }
-  }
-  divEditSkin.onclick = function () {
-    document
-      .getElementById('body')
-      .querySelectorAll(':scope > .popup_select')
-      .forEach(popupSelect => (popupSelect.style.display = 'none'))
-  }
-  let header = document.createElement('div')
-  header.className = 'row header_popup_skin'
-  divEditSkin.appendChild(header)
-  let title = document.createElement('span')
-  title.style.pointerEvents = 'none'
-  title.style.flex = 1
-  title.innerHTML = 'Edit skin'
-  header.appendChild(title)
-  let btn_close = document.createElement('i')
-  btn_close.className = 'fa-solid fa-xmark'
-  btn_close.style.padding = '12px'
-  btn_close.onclick = function (e) {
-    e.stopImmediatePropagation()
-    divEditSkin.remove()
-  }
-  header.appendChild(btn_close)
-  let body = document.createElement('div')
-  body.style.width = '100%'
-  body.style.height = '100%'
-  body.style.flex = 1
-  divEditSkin.appendChild(body)
-  let editName = document.createElement('input')
-  editName.value = jsonSkin.Name
-  editName.className = 'edit_skin_name'
-  editName.onfocus = function () {
-    this.setSelectionRange(0, this.value.length)
-  }
-  body.appendChild(editName)
-  let demoDiv = document.createElement('div')
-  demoDiv.style.height = '122px'
-  demoDiv.style.width = '100%'
-  demoDiv.style.margin = '8px 0'
-  demoDiv.style.boxSizing = 'border-box'
-  demoDiv.style.overflow = 'hidden'
-  demoDiv.style.position = 'relative'
-  demoDiv.style.backgroundImage = `url(${SVGIcon.background_img_default})`
-  body.appendChild(demoDiv)
-  let property_text = document.createElement('p')
-  property_text.innerHTML = 'Properties'
-  property_text.style.fontSize = '12px'
-  property_text.style.fontWeight = '600'
-  property_text.style.margin = '4px 0 4px 8px'
-  body.appendChild(property_text)
+function popupEditSkin({ enumCate, jsonSkin, offset }) {
   switch (enumCate) {
     case EnumCate.color:
-      editName.onblur = function () {
-        if (this.value != jsonSkin.Name) {
-          let nameValue = this.value
-            .replace('\\', '/')
-            .split('/')
-            .filter(_string => _string.trim() != '')
-          if (nameValue.length > 0) {
-            editColorSkin({ Name: this.value }, jsonSkin)
-            this.value = jsonSkin.Name
-          } else {
-            this.value = thisSkin.Name
+      const colorCate = jsonSkin.CateID !== EnumCate.color ? CateDA.list_color_cate.find(e => e.ID === jsonSkin.CateID) : null
+      var headingTitle = 'Edit color skin'
+      const initColorName = `${colorCate ? `${colorCate.Name}/` : ''}${jsonSkin.Name}`
+      var editBody = `<div class="row semibold1" style="width: 100%; gap: 0.8rem">Skin name ${TextField({
+        returnType: 'string',
+        style: 'flex: 1; width: 100%',
+        className: 'right-view-input regular1',
+        value: initColorName,
+        onBlur: function (ev) {
+          ev.target.value = ev.target.value.trim()
+          if (ev.target.value !== initColorName) {
+            let nameValue = ev.target.value.replaceAll('\\', '/').split('/').filter(_string => _string.trim() != '')
+            if (nameValue.length > 0) {
+              editColorSkin({ Name: ev.target.value }, jsonSkin)
+              ev.target.value = jsonSkin.Name
+            } else {
+              ev.target.value = jsonSkin.Name
+            }
           }
         }
-      }
-      demoDiv.style.backgroundImage = 'none'
-      demoDiv.style.backgroundColor = `#${jsonSkin.Value}`
-      function updateColorSkin(newColor, onSubmit = true) {
-        let thisSkin = ColorDA.list.find(e => e.GID == jsonSkin.GID)
-        editColorSkin({ Value: newColor }, thisSkin, onSubmit)
-        demoDiv.style.backgroundColor = `#${thisSkin.Value}`
-      }
-      let editColorValue = createEditColorForm({
-        value: `#${jsonSkin.Value}`,
+      })}</div>
+      ${createEditColorForm({
+        returnType: 'string',
+        value: jsonSkin.Css,
         onchange: newColor => {
           updateColorSkin(newColor, false)
         },
-        onsubmit: updateColorSkin
-      })
-      body.appendChild(editColorValue)
+        onsubmit: updateColorSkin,
+      })}`
       break
     case EnumCate.typography:
-      editName.onblur = function () {
-        if (this.value != jsonSkin.Name) {
-          let nameValue = this.value
-            .replace('\\', '/')
-            .split('/')
-            .filter(_string => _string.trim() != '')
-          if (nameValue.length > 0) {
-            editTypoSkin({ Name: this.value }, jsonSkin)
-            this.value = jsonSkin.Name
-          } else {
-            this.value = thisSkin.Name
-          }
-        }
-      }
-      let demoText = document.createElement('p')
-      demoText.innerHTML = 'Ag 123'
-      demoText.style.position = 'absolute'
-      demoText.style.margin = '0'
-      demoText.style.left = '50%'
-      demoText.style.top = '50%'
-      demoText.style.transform = 'translate(-50%,-50%)'
-      demoText.style.fontSize = `${jsonSkin.FontSize}px`
-      if (jsonSkin.Height) {
-        demoText.style.lineHeight = `${jsonSkin.Height}px`
-      }
-      demoText.style.FontWeight = jsonSkin.FontWeight
-      demoText.style.fontFamily = jsonSkin.FontFamily
-      demoText.style.letterSpacing = jsonSkin.LetterSpacing + 'px'
-      demoText.style.color = `#${jsonSkin.ColorValue}`
-      demoDiv.appendChild(demoText)
-      // edit skin color
-      let inputTextColor = createEditColorForm({
-        value: `#${jsonSkin.ColorValue}`,
-        onchange: newColor => {
-          let thisSkin = TypoDA.list.find(e => e.GID == jsonSkin.GID)
-          editTypoSkin({ ColorValue: newColor }, thisSkin, false)
-          demoText.style.color = `#${thisSkin.ColorValue}`
-        },
-        onsubmit: newColor => {
-          let thisSkin = TypoDA.list.find(e => e.GID == jsonSkin.GID)
-          editTypoSkin({ ColorValue: newColor }, thisSkin)
-          demoText.style.color = `#${thisSkin.ColorValue}`
-        }
-      })
-      body.appendChild(inputTextColor)
-      // select font-family
-      let btn_select_font_family = _btnInputSelect(
-        list_font_family,
-        function (options) {
-          for (let i = 0; i < options.length; i++) {
-            if (jsonSkin.FontFamily == options[i].getAttribute('value')) {
-              options[i].firstChild.style.opacity = 1
-            } else {
-              options[i].firstChild.style.opacity = 0
-            }
-          }
-        },
-        function (option) {
-          let newFontFamily = list_font_family.find(
-            e => e.toLowerCase() == option.toLowerCase()
-          )
-          if (newFontFamily) {
-            let thisSkin = TypoDA.list.find(e => e.GID == jsonSkin.GID)
-            editTypoSkin({ FontFamily: newFontFamily }, thisSkin)
-            demoText.style.fontFamily = newFontFamily
-            btn_select_font_family.firstChild.value = newFontFamily
-          }
-        }
-      )
-      btn_select_font_family.style.marginTop = '8px'
-      btn_select_font_family.style.marginBottom = '8px'
-      btn_select_font_family.firstChild.value = jsonSkin.FontFamily
-      body.appendChild(btn_select_font_family)
-      //
-      let div_font_size_weight = document.createElement('div')
-      div_font_size_weight.className = 'row'
-      div_font_size_weight.style.width = '100%'
-      body.appendChild(div_font_size_weight)
-      // select font-weight
-      let btn_select_font_weight = _btnDropDownSelect(
-        list_font_weight,
-        function (options) {
-          for (let i = 0; i < options.length; i++) {
-            if (options[i].getAttribute('value') == jsonSkin.fontWeight) {
-              options[i].firstChild.style.opacity = 1
-            } else {
-              options[i].firstChild.style.opacity = 0
-            }
-          }
-        },
-        function (value) {
-          let thisSkin = TypoDA.list.find(e => e.GID == jsonSkin.GID)
-          editTypoSkin({ FontWeight: value }, thisSkin)
-          demoText.style.fontWeight = value
-          btn_select_font_weight.firstChild.innerHTML = value
-        }
-      )
-      btn_select_font_weight.firstChild.innerHTML = jsonSkin.FontWeight
-      div_font_size_weight.appendChild(btn_select_font_weight)
-      // select font-size
-      let btn_select_font_size = _btnInputSelect(
-        list_font_size,
-        function (options) {
-          for (let i = 0; i < options.length; i++) {
-            if (jsonSkin.FontSize == options[i].getAttribute('value')) {
-              options[i].firstChild.style.opacity = 1
-            } else {
-              options[i].firstChild.style.opacity = 0
-            }
-          }
-        },
-        function (option) {
-          if (btn_select_font_size.firstChild.value != option) {
-            let thisSkin = TypoDA.list.find(e => e.GID == jsonSkin.GID)
-            editTypoSkin({ FontSize: option }, thisSkin)
-            demoText.style.fontSize = option
-            btn_select_font_size.firstChild.value = option
-          }
-        },
-        true
-      )
-      btn_select_font_size.style.flex = 1
-      btn_select_font_size.firstChild.value = jsonSkin.FontSize
-      div_font_size_weight.appendChild(btn_select_font_size)
-      // row contain edit line-height & letter spacing
-      let div_height_spacing = document.createElement('div')
-      div_height_spacing.className = 'row'
-      div_height_spacing.style.width = '100%'
-      div_height_spacing.style.padding = '0.8rem 0.4rem 0 0'
-      div_height_spacing.style.gap = '0.8rem'
-      body.appendChild(div_height_spacing)
-      // input line-height
-      let input_line_height = TextField({
-        style: 'width: 100%;flex: 1',
+      const typoCate = jsonSkin.CateID !== EnumCate.typography ? CateDA.list_typo_cate.find(e => e.ID === jsonSkin.CateID) : null
+      headingTitle = 'Edit typography skin'
+      const initTypoName = `${typoCate ? `${typoCate.Name}/` : ''}${jsonSkin.Name}`
+      const splitCssTypoValue = jsonSkin.Css.split(' ')
+      let weightValue = splitCssTypoValue.shift()
+      let familyValue = splitCssTypoValue.pop()
+      let sizeValue = splitCssTypoValue[0].split('/')[0]
+      let heightValue = splitCssTypoValue[0].split('/')[1]
+      var editBody = `<div class="row semibold1" style="width: 100%; gap: 0.8rem">Skin name ${TextField({
+        returnType: 'string',
+        style: 'flex: 1; width: 100%',
         className: 'right-view-input regular1',
-        prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/line-height.svg" />`,
-        value: jsonSkin.Height ? jsonSkin.Height : 'Auto',
-        onBlur: function () {
-          let thisSkin = TypoDA.list.find(e => e.GID == jsonSkin.GID)
-          if (this.value.toLowerCase() == 'auto') {
-            editTypoSkin({ Height: this.value }, thisSkin)
-            demoText.style.lineHeight = 'normal'
-          } else if (!isNaN(parseFloat(this.value))) {
-            editTypoSkin({ Height: parseFloat(this.value) }, thisSkin)
-            demoText.style.lineHeight = parseFloat(this.value) + 'px'
-          } else {
-            this.value = thisSkin.Height
+        value: initTypoName,
+        onBlur: function (ev) {
+          ev.target.value = ev.target.value.trim()
+          if (ev.target.value !== initTypoName) {
+            let nameValue = ev.target.value.replaceAll('\\', '/').split('/').filter(_string => _string.trim() != '')
+            if (nameValue.length > 0) {
+              editTypoSkin({ Name: ev.target.value }, jsonSkin)
+              ev.target.value = jsonSkin.Name
+            } else {
+              ev.target.value = jsonSkin.Name
+            }
           }
         }
-      })
-      // input letter spacing
-      let input_letter_spacing = TextField({
-        id: 'input_letter_spacing',
-        className: 'right-view-input regular1',
-        style: 'width: 100%;flex: 1',
-        prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/letter-spacing.svg" />`,
-        value: jsonSkin.LetterSpacing,
-        onBlur: function () {
-          let thisSkin = TypoDA.list.find(e => e.GID == jsonSkin.GID)
-          if (!isNaN(parseFloat(this.value))) {
-            editTypoSkin({ LetterSpacing: parseFloat(this.value) }, thisSkin)
-            demoText.style.letterSpacing = parseFloat(this.value) + 'px'
+      })}</div>
+      <div class="row" style="flex-wrap: wrap; width: 100%; padding: 0.4rem 1.2rem; gap: 0.6rem">
+        ${TextField({
+        returnType: 'string',
+        className: 'col12 right-view-input regular1',
+        value: familyValue,
+        style: '--gutter: 0.6rem',
+        suffix: Select1({
+          returnType: 'string',
+          value: familyValue,
+          iconOnly: true,
+          style: 'border: none',
+          className: 'box24 action-button center',
+          dropdownStyle: 'background-color: #000000; width: 10rem !important',
+          options: list_font_family.map(e => {
+            return { id: e, name: e, style: 'color: #ffffff' }
+          }),
+          onChange: (vl) => {
+            editTypoSkin({ fontFamily: vl.id })
+          }
+        }),
+        onBlur: ev => {
+          const newValue = list_font_family.find(e => e.toLowerCase() === ev.target.value.trim().toLowerCase())
+          if (newValue) {
+            handleEditTypo({ fontFamily: newValue })
           } else {
-            this.value = thisSkin.LetterSpacing
+            ev.target.value = familyValue
           }
         }
-      })
-      div_height_spacing.replaceChildren(input_line_height, input_letter_spacing)
+      })}
+      ${Select1({
+        returnType: 'string',
+        className: 'col12 right-view-input regular1',
+        style: '--gutter: 0.6rem; text-align: start',
+        value: weightValue,
+        dropdownStyle: 'background-color: #000000',
+        options: list_font_weight.map(e => {
+          return { id: e, name: e, style: 'color: #ffffff' }
+        }),
+        onChange: (vl) => {
+          editTypoSkin({ fontWeight: vl.id })
+        }
+      })}
+      ${TextField({
+        returnType: 'string',
+        style: '--gutter: 0.6rem',
+        className: 'col12 right-view-input regular1',
+        type: 'number',
+        value: sizeValue,
+        suffix: Select1({
+          returnType: 'string',
+          iconOnly: true,
+          value: sizeValue,
+          style: 'border: none',
+          className: 'box24 action-button center',
+          dropdownStyle: 'background-color: #000000; width: 8rem !important',
+          options: list_font_size.map(e => {
+            return { id: e, name: e, style: 'color: #ffffff' }
+          }),
+          onChange: (vl) => {
+            editTypoSkin({ fontSize: vl.id })
+          }
+        }),
+        onBlur: ev => {
+          const newValue = ev.target.value.trim()
+          if (!isNaN(parseFloat(newValue))) {
+            editTypoSkin({ fontSize: parseFloat(newValue) })
+          } else {
+            ev.target.value = sizeValue
+          }
+        }
+      })}
+      ${TextField({
+        returnType: 'string',
+        style: '--gutter: 0.6rem',
+        className: 'col12 right-view-input regular1',
+        prefix: '<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/line-height.svg"/>',
+        value: heightValue,
+        onBlur: function (ev) {
+          if (ev.target.value.toLowerCase() === 'auto' || ev.target.value.toLowerCase() === 'normal') {
+            editTypoSkin({ height: null })
+          } else if (!isNaN(parseFloat(ev.target.value))) {
+            editTypoSkin({ height: parseFloat(ev.target.value) })
+          }
+        }
+      })}
+      </div>`
       break
     case EnumCate.border:
-      editName.onblur = function () {
-        if (this.value != jsonSkin.Name) {
-          let nameValue = this.value
-            .replace('\\', '/')
-            .split('/')
-            .filter(_string => _string.trim() != '')
-          if (nameValue.length > 0) {
-            editBorderSkin({ Name: this.value }, jsonSkin)
-            this.value = jsonSkin.Name
-          } else {
-            this.value = thisSkin.Name
-          }
-        }
-      }
-      let list_width = jsonSkin.Width.split(' ')
-      demoDiv.style.borderTopWidth = list_width[0] + 'px'
-      demoDiv.style.borderRightWidth = list_width[1] + 'px'
-      demoDiv.style.borderBottomWidth = list_width[2] + 'px'
-      demoDiv.style.borderLeftWidth = list_width[3] + 'px'
-      demoDiv.style.borderStyle = jsonSkin.BorderStyle
-      demoDiv.style.borderColor = `#${jsonSkin.ColorValue}`
-      let inputBorderColor = createEditColorForm({
-        value: `#${jsonSkin.ColorValue}`,
-        onchange: newColor => {
-          let thisSkin = BorderDA.list.find(e => e.GID == jsonSkin.GID)
-          editBorderSkin({ ColorValue: newColor }, thisSkin, false)
-          demoDiv.style.borderColor = `#${thisSkin.ColorValue}`
-        },
-        ondelete: newColor => {
-          let thisSkin = BorderDA.list.find(e => e.GID == jsonSkin.GID)
-          editBorderSkin({ ColorValue: newColor }, thisSkin)
-          demoDiv.style.borderColor = `#${thisSkin.ColorValue}`
-        }
-      })
-      body.appendChild(inputBorderColor)
-
-      let formEditLine = document.createElement('div')
-      formEditLine.className = 'edit-color-tile'
-      formEditLine.style.paddingLeft = '4px'
-      body.appendChild(formEditLine)
-
-      let btnSelectStyle = _btnDropDownSelect(
-        list_border_style,
-        function (options) {
-          for (let i = 1; i < options.length; i++) {
-            let style = options[i].getAttribute('value')
-            options[i].firstChild.style.opacity =
-              style == jsonSkin.BorderStyle ? 1 : 0
-          }
-        },
-        function (value) {
-          let thisSkin = BorderDA.list.find(e => e.GID == jsonSkin.GID)
-          btnSelectStyle.firstChild.innerHTML = value
-          editBorderSkin({ BorderStyle: value }, thisSkin)
-          demoDiv.style.borderStyle = value
-        }
-      )
-      btnSelectStyle.firstChild.innerHTML = jsonSkin.BorderStyle
-      formEditLine.appendChild(btnSelectStyle)
-
-      let listWidth = jsonSkin.Width.split(' ')
-      let edit_stroke_width = TextField({
-        style: 'width: 6rem',
+      const borderCate = jsonSkin.CateID !== EnumCate.border ? CateDA.list_border_cate.find(e => e.ID === jsonSkin.CateID) : null
+      headingTitle = 'Edit border skin'
+      const initBorderName = `${borderCate ? `${borderCate.Name}/` : ''}${jsonSkin.Name}`
+      let borderColorValue = jsonSkin.Css.match(rgbRegex)?.[0] || jsonSkin.Css.match(hexRegex)?.[0]
+      let borderWidthValue = jsonSkin.Css.replace(borderColorValue, '').trim().split(' ')[0].replace('px', '')
+      let borderStyleValue = jsonSkin.Css.replace(borderColorValue, '').trim().split(' ')[1]
+      var editBody = `<div class="row semibold1" style="width: 100%; gap: 0.8rem">Skin name ${TextField({
+        returnType: 'string',
+        style: 'flex: 1; width: 100%',
         className: 'right-view-input regular1',
-        prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/stroke-width.svg" />`,
-        value: () => {
-          switch (jsonSkin.BorderSide) {
-            case BorderSide.top:
-              return listWidth[0]
-            case BorderSide.right:
-              return listWidth[1]
-            case BorderSide.bottom:
-              return listWidth[2]
-            case BorderSide.left:
-              return listWidth[3]
-            default:
-              if (listWidth.every(value => value == listWidth[0])) return listWidth[0]
-              else return 'mixed'
-          }
-        },
-        onBlur: function () {
-          if (!isNaN(parseFloat(this.value))) {
-            let thisSkin = BorderDA.list.find(e => e.GID == jsonSkin.GID)
-            group_custom_border_side.style.display = 'none'
-            editBorderSkin({ Width: parseFloat(this.value) }, thisSkin)
-            demoDiv.style.borderTopWidth = thisSkin.Width.split(' ')[0] + 'px'
-            demoDiv.style.borderRightWidth = thisSkin.Width.split(' ')[1] + 'px'
-            demoDiv.style.borderBottomWidth = thisSkin.Width.split(' ')[2] + 'px'
-            demoDiv.style.borderLeftWidth = thisSkin.Width.split(' ')[3] + 'px'
-          } else {
-            let listWidth = jsonSkin.Width.split(' ')
-            switch (jsonSkin.BorderSide) {
-              case BorderSide.top:
-                this.value = listWidth[0]
-                break
-              case BorderSide.right:
-                this.value = listWidth[1]
-                break
-              case BorderSide.bottom:
-                this.value = listWidth[2]
-                break
-              case BorderSide.left:
-                this.value = listWidth[3]
-                break
-              default:
-                if (listWidth.every(value => value == listWidth[0])) {
-                  this.value = listWidth[0]
-                } else {
-                  this.value = 'mixed'
-                }
-                break
+        value: initBorderName,
+        onBlur: function (ev) {
+          ev.target.value = ev.target.value.trim()
+          if (ev.target.value !== initBorderName) {
+            let nameValue = ev.target.value.replaceAll('\\', '/').split('/').filter(_string => _string.trim() != '')
+            if (nameValue.length > 0) {
+              editBorderSkin({ Name: ev.target.value }, jsonSkin)
+              ev.target.value = jsonSkin.Name
+            } else {
+              ev.target.value = jsonSkin.Name
             }
           }
         }
-      })
-      formEditLine.appendChild(edit_stroke_width)
-
-      let btnSelectBorderSide = selectBorderSide(
-        jsonSkin.BorderSide,
-        function (value) {
-          let thisSkin = BorderDA.list.find(e => e.GID == jsonSkin.GID)
-          if (value == BorderSide.custom) {
-            group_custom_border_side.style.display = 'flex'
-            edit_stroke_width.lastChild.value =
-              thisSkin.BorderSide == BorderSide.all
-                ? thisSkin.Width.split(' ')[0]
-                : 'mixed'
-            editBorderSkin({ BorderSide: BorderSide.custom }, thisSkin)
-            input_border_top.lastChild.value = thisSkin.Width.split(' ')[0]
-            input_border_right.lastChild.value = thisSkin.Width.split(' ')[1]
-            input_border_bottom.lastChild.value = thisSkin.Width.split(' ')[2]
-            input_border_left.lastChild.value = thisSkin.Width.split(' ')[3]
-          } else {
-            editBorderSkin({ BorderSide: value }, thisSkin)
-            group_custom_border_side.style.display = 'none'
-            demoDiv.style.borderTopWidth = thisSkin.Width.split(' ')[0] + 'px'
-            demoDiv.style.borderRightWidth = thisSkin.Width.split(' ')[1] + 'px'
-            demoDiv.style.borderBottomWidth =
-              thisSkin.Width.split(' ')[2] + 'px'
-            demoDiv.style.borderLeftWidth = thisSkin.Width.split(' ')[3] + 'px'
-          }
+      })}</div>
+      <div class="row" style="flex-wrap: wrap; width: 100%; padding: 0.4rem 1.2rem; gap: 0.6rem">
+      ${createEditColorForm({
+        returnType: 'string',
+        value: borderColorValue.startsWith('#') ? borderColorValue : Ultis.rgbToHex(borderColorValue),
+        onchange: params => {
+          editBorderSkin({ color: params, onSubmit: false })
+        },
+        onsubmit: params => {
+          editBorderSkin({ color: params })
+        },
+      })}
+      ${Select1({
+        returnType: 'string',
+        className: 'right-view-input regular1 col12',
+        style: '--gutter: 0.6rem',
+        value: borderStyleValue,
+        dropdownStyle: 'background-color: #000000; width: fit-content',
+        options: list_border_style.map(e => {
+          return { id: e, name: e, style: 'color: #ffffff' }
+        }),
+        onChange: vl => {
+          editBorderSkin({ style: vl.id })
         }
-      )
-      formEditLine.appendChild(btnSelectBorderSide)
-
-      let group_custom_border_side = document.createElement('div')
-      body.appendChild(group_custom_border_side)
-      group_custom_border_side.className = 'group_input_border_side'
-      group_custom_border_side.style.display =
-        jsonSkin.BorderSide == BorderSide.custom ? 'flex' : 'none'
-      let input_border_left = TextField({
-        style: 'width: 8.8rem; margin-left: 0.8rem',
-        className: 'right-view-input regular1',
-        prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/border-left-black.svg" />`,
-        value: jsonSkin.Width.split(' ')[3],
+      })}
+      ${TextField({
+        returnType: 'string',
+        style: '--gutter: 0.6rem',
+        className: 'col12 right-view-input regular1 col12',
+        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/stroke-width.svg"/>`,
+        value: borderWidthValue,
         onBlur: function (ev) {
-          let left_width_value = parseFloat(ev.target.value)
-          let thisSkin = BorderDA.list.find(e => e.GID == jsonSkin.GID)
-          if (left_width_value) {
-            editBorderSkin({ LeftWidth: left_width_value }, thisSkin)
-            demoDiv.style.borderLeftWidth = left_width_value + 'px'
-          } else {
-            ev.target.value = thisSkin.Width.split(' ')[3]
+          let newValue = parseFloat(ev.target.value)
+          if (!isNaN(newValue)) {
+            editBorderSkin({ width: ev.target.value })
           }
         }
-      })
-      group_custom_border_side.appendChild(input_border_left)
-      let input_border_top = TextField({
-        style: 'width: 8.8rem; margin-right: 0.8rem',
-        className: 'right-view-input regular1',
-        prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/border-top-black.svg" />`,
-        value: jsonSkin.Width.split(' ')[0],
-        onBlur: function (ev) {
-          let top_width_value = parseFloat(ev.target.value)
-          if (top_width_value) {
-            editBorderSkin({ TopWidth: top_width_value }, thisSkin)
-            demoDiv.style.borderTopWidth = top_width_value + 'px'
-          } else {
-            ev.target.value = thisSkin.Width.split(' ')[0]
-          }
-        }
-      })
-      group_custom_border_side.appendChild(input_border_top)
-      let input_border_right = TextField({
-        style: 'width: 8.8rem; margin-left: 0.8rem',
-        className: 'right-view-input regular1',
-        prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/border-right-black.svg" />`,
-        value: jsonSkin.Width.split(' ')[1],
-        onBlur: function (ev) {
-          let right_width_value = parseFloat(ev.target.value)
-          if (right_width_value) {
-            editBorderSkin({ RightWidth: right_width_value }, thisSkin)
-            demoDiv.style.borderRightWidth = right_width_value + 'px'
-          } else {
-            ev.target.value = thisSkin.Width.split(' ')[1]
-          }
-        }
-      })
-      group_custom_border_side.appendChild(input_border_right)
-      let input_border_bottom = TextField({
-        style: 'width: 8.8rem; margin-right: 0.8rem',
-        className: 'right-view-input regular1',
-        prefix: `<img class="box16" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/border-bottom-black.svg" />`,
-        value: jsonSkin.Width.split(' ')[2],
-        onBlur: function (ev) {
-          let bottom_width_value = parseFloat(ev.target.value)
-          if (bottom_width_value) {
-            editBorderSkin({ BottomWidth: bottom_width_value }, thisSkin)
-            demoDiv.style.borderBottomWidth = bottom_width_value + 'px'
-          } else {
-            ev.target.value = thisSkin.Width.split(' ')[2]
-          }
-        }
-      })
-      group_custom_border_side.appendChild(input_border_bottom)
+      })}
+      </div>`
       break
     case EnumCate.effect:
-      editName.onblur = function () {
-        if (this.value != jsonSkin.Name) {
-          let nameValue = this.value
-            .replace('\\', '/')
-            .split('/')
-            .filter(_string => _string.trim() != '')
-          if (nameValue.length > 0) {
-            editEffectSkin({ Name: this.value }, jsonSkin)
-            this.value = jsonSkin.Name
-          } else {
-            this.value = thisSkin.Name
-          }
-        }
-      }
-      let demoShadow = document.createElement('div')
-      demoShadow.style.width = '80px'
-      demoShadow.style.height = '80px'
-      demoShadow.style.borderRadius = '50%'
-      demoShadow.style.left = '50%'
-      demoShadow.style.top = '50%'
-      demoShadow.style.position = 'absolute'
-      demoShadow.style.transform = 'translate(-50%,-50%)'
-      demoShadow.style.backgroundColor = 'white'
-      if (jsonSkin.Type == ShadowType.layer_blur) {
-        demoShadow.style.filter = `blur(${jsonSkin.BlurRadius}px)`
-      } else {
-        let effect_color = jsonSkin.ColorValue
-        /* offset-x | offset-y | blur-radius | spread-radius | color */
-        demoShadow.style.boxShadow = `${jsonSkin.OffsetX}px ${jsonSkin.OffsetY
-          }px ${jsonSkin.BlurRadius}px ${jsonSkin.SpreadRadius
-          }px #${effect_color} 
-          ${jsonSkin.Type == ShadowType.inner ? 'inset' : ''}`
-      }
-      demoDiv.appendChild(demoShadow)
-      //
-      //
-      let div_select_eType = document.createElement('div')
-      div_select_eType.style.width = 'calc(100% - 16px)'
-      div_select_eType.style.display = 'flex'
-      div_select_eType.style.marginLeft = '8px'
-      div_select_eType.style.alignItems = 'center'
-      body.appendChild(div_select_eType)
-      // popup edit effect type attribute
-      let effect_setting = createButtonAction(
-        'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/effect-settings.svg',
-        null,
-        function () {
-          let thisSkin = EffectDA.list.find(e => e.GID == jsonSkin.GID)
-          let popupEditEffect = document.createElement('div')
-          let offset = effect_setting.getBoundingClientRect()
-          popupEditEffect.style.left = offset.x - 8 + 'px'
-          popupEditEffect.style.top = offset.y + 'px'
-          popupEditEffect.style.transform = 'translate(-100%,-80%)'
-          popupEditEffect.className = 'popup-edit-effect wini_popup col'
-          let popup_title = document.createElement('span')
-          popup_title.innerHTML = thisSkin.Type
-          popupEditEffect.appendChild(popup_title)
-          let btn_close = document.createElement('i')
-          btn_close.className = 'fa-solid fa-xmark'
-          btn_close.style.padding = '6px'
-          btn_close.style.float = 'right'
-          btn_close.onclick = function () {
-            popupEditEffect.remove()
-          }
-          popup_title.appendChild(btn_close)
-          let div_attribute = document.createElement('div')
-          popupEditEffect.appendChild(div_attribute)
-          if (thisSkin.Type != ShadowType.layer_blur) {
-            let input_offsetX = _textField({
-              width: '84px',
-              label: 'X',
-              value: thisSkin.OffsetX,
-              onBlur: function (ev) {
-                let thisSkin = EffectDA.list.find(e => e.GID == jsonSkin.GID)
-                if (!isNaN(parseFloat(ev.target.value))) {
-                  editEffectSkin(
-                    { OffsetX: parseFloat(ev.target.value) },
-                    thisSkin
-                  )
-                  demoShadow.style.boxShadow = `${thisSkin.OffsetX}px ${thisSkin.OffsetY
-                    }px ${thisSkin.BlurRadius}px ${thisSkin.SpreadRadius}px #${thisSkin.ColorValue
-                    } 
-                        ${thisSkin.Type == ShadowType.inner ? 'inset' : ''}`
-                } else {
-                  ev.target.value = thisSkin.OffsetX
-                }
-              }
-            })
-            div_attribute.appendChild(input_offsetX)
-          }
-          let input_blur = _textField({
-            width: '84px',
-            label: 'Blur',
-            value: thisSkin.BlurRadius,
-            onBlur: function (ev) {
-              let thisSkin = EffectDA.list.find(e => e.GID == jsonSkin.GID)
-              if (!isNaN(parseFloat(ev.target.value))) {
-                editEffectSkin(
-                  { BlurRadius: parseFloat(ev.target.value) },
-                  thisSkin
-                )
-                if (thisSkin.Type == ShadowType.layer_blur) {
-                  demoShadow.style.filter = `blur(${thisSkin.BlurRadius}px)`
-                } else {
-                  let effect_color = thisSkin.ColorValue
-                  demoShadow.style.boxShadow = `${thisSkin.OffsetX}px ${thisSkin.OffsetY
-                    }px ${thisSkin.BlurRadius}px ${thisSkin.SpreadRadius
-                    }px #${effect_color} 
-                      ${thisSkin.Type == ShadowType.inner ? 'inset' : ''}`
-                }
-              } else {
-                ev.target.value = thisSkin.BlurRadius
-              }
-            }
-          })
-          div_attribute.appendChild(input_blur)
-          if (thisSkin.Type != ShadowType.layer_blur) {
-            let input_offsetY = _textField({
-              width: '84px',
-              label: 'Y',
-              value: thisSkin.OffsetY,
-              onBlur: function (ev) {
-                let thisSkin = EffectDA.list.find(e => e.GID == jsonSkin.GID)
-                if (!isNaN(parseFloat(ev.target.value))) {
-                  editEffectSkin(
-                    { OffsetY: parseFloat(ev.target.value) },
-                    thisSkin
-                  )
-                  demoShadow.style.boxShadow = `${thisSkin.OffsetX}px ${thisSkin.OffsetY
-                    }px ${thisSkin.BlurRadius}px ${thisSkin.SpreadRadius}px #${thisSkin.ColorValue
-                    } 
-                      ${thisSkin.Type == ShadowType.inner ? 'inset' : ''}`
-                } else {
-                  ev.target.value = thisSkin.OffsetY
-                }
-              }
-            })
-            let input_spread = _textField({
-              width: '84px',
-              label: 'Spread',
-              value: thisSkin.SpreadRadius,
-              onBlur: function (ev) {
-                let thisSkin = EffectDA.list.find(e => e.GID == jsonSkin.GID)
-                if (!isNaN(parseFloat(ev.target.value))) {
-                  editEffectSkin(
-                    { SpreadRadius: parseFloat(ev.target.value) },
-                    thisSkin
-                  )
-                  demoShadow.style.boxShadow = `${thisSkin.OffsetX}px ${thisSkin.OffsetY
-                    }px ${thisSkin.BlurRadius}px ${thisSkin.SpreadRadius}px #${thisSkin.ColorValue
-                    } 
-                      ${thisSkin.Type == ShadowType.inner ? 'inset' : ''}`
-                } else {
-                  ev.target.value = thisSkin.OffsetY
-                }
-              }
-            })
-            div_attribute.appendChild(input_offsetY)
-            div_attribute.appendChild(input_spread)
-            let inputEffectColor = createEditColorForm({
-              value: `#${thisSkin.ColorValue}`,
-              onchange: newColor => {
-                let thisSkin = EffectDA.list.find(e => e.GID == jsonSkin.GID)
-                editEffectSkin({ ColorValue: newColor }, thisSkin, false)
-                demoShadow.style.boxShadow = `${thisSkin.OffsetX}px ${thisSkin.OffsetY
-                  }px ${thisSkin.BlurRadius}px ${thisSkin.SpreadRadius
-                  }px #${newColor} 
-                    ${thisSkin.Type == ShadowType.inner ? 'inset' : ''}`
-              },
-              onsubmit: newColor => {
-                let thisSkin = EffectDA.list.find(e => e.GID == jsonSkin.GID)
-                editEffectSkin({ ColorValue: newColor }, thisSkin)
-                demoShadow.style.boxShadow = `${thisSkin.OffsetX}px ${thisSkin.OffsetY
-                  }px ${thisSkin.BlurRadius}px ${thisSkin.SpreadRadius
-                  }px #${newColor} 
-                    ${thisSkin.Type == ShadowType.inner ? 'inset' : ''}`
-              }
-            })
-            inputEffectColor.style.margin = '4px'
-            div_attribute.appendChild(inputEffectColor)
-          }
-          document.getElementById('body').appendChild(popupEditEffect)
-          if (
-            popupEditEffect.getBoundingClientRect().bottom >=
-            document.body.offsetHeight
-          ) {
-            popupEditEffect.style.top = `${document.body.offsetHeight - popupEditEffect.offsetHeight
-              }px`
-          }
-        }
-      )
-      effect_setting.className = 'action-button'
-      div_select_eType.appendChild(effect_setting)
-      // select effect type
-      let btn_select_eType = _btnDropDownSelect(
-        list_effect_type,
-        function (options) {
-          let thisSkin = EffectDA.list.find(e => e.GID == jsonSkin.GID)
-          for (let i = 0; i < options.length; i++) {
-            if (options[i].getAttribute('value') == thisSkin.Type) {
-              options[i].firstChild.style.opacity = 1
-            } else {
-              options[i].firstChild.style.opacity = 0
-            }
-          }
-        },
-        function (option) {
-          let popupEditEffect = [
-            ...document.getElementById('body').childNodes
-          ].find(e => e.className?.includes('popup-edit-effect'))
-          if (popupEditEffect) {
-            popupEditEffect.style.display = 'none'
-          }
-          let thisSkin = EffectDA.list.find(e => e.GID == jsonSkin.GID)
-          editEffectSkin({ Type: option }, thisSkin)
-          btn_select_eType.firstChild.innerHTML = option
-          if (thisSkin.Type == ShadowType.layer_blur) {
-            demoShadow.style.filter = `blur(${thisSkin.BlurRadius}px)`
-          } else {
-            let effect_color = thisSkin.ColorValue
-            /* offset-x | offset-y | blur-radius | spread-radius | color */
-            demoShadow.style.boxShadow = `${thisSkin.OffsetX}px ${thisSkin.OffsetY
-              }px ${thisSkin.BlurRadius}px ${thisSkin.SpreadRadius
-              }px #${effect_color} 
-              ${thisSkin.Type == ShadowType.inner ? 'inset' : ''}`
-          }
-        }
-      )
-      btn_select_eType.firstChild.innerHTML = jsonSkin.Type
-      div_select_eType.appendChild(btn_select_eType)
-
-      let btn_isShow = createButtonAction(
-        'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/eye-outline.svg',
-        'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/eye-close.svg',
-        function () { }
-      )
-      btn_isShow.className = 'action-button'
-      div_select_eType.appendChild(btn_isShow)
-      //
-      //
+      headingTitle = 'Edit effect skin'
       break
     default:
       break
   }
+  let popupSkinDetails = showPopup({
+    hiddenOverlay: true,
+    style: `left: ${offset.pageX}px; top: ${offset.pageY}px; width: 20.8rem`,
+    children: `<div class="popup-header heading-8" style="justify-content: space-between">${headingTitle} <i class="fa-solid fa-xmark box24 center" style="display: flex; font-size: 1.4rem"></i></div>
+    <div class"popup-body">${editBody}</div>`,
+    onDispose: function () {
+      if (jsonSkin.CateID != -1) {
+        switch (enumCate) {
+          case EnumCate.color:
+            ColorDA.edit(jsonSkin)
+            break
+          case EnumCate.typography:
+            TypoDA.edit(jsonSkin)
+            break
+          case EnumCate.border:
+            BorderDA.edit(jsonSkin)
+            break
+          case EnumCate.effect:
+            EffectDA.edit(jsonSkin)
+            break
+          default:
+            break
+        }
+      }
+    }
+  })
+  $(popupSkinDetails).on('click', '.popup-header .fa-xmark', function () {
+    popupSkinDetails.remove()
+  })
   return divEditSkin
 }
 

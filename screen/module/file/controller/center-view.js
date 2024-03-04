@@ -1140,26 +1140,6 @@ function moveListener(event) {
       break
     default:
       if (PageDA.enableEdit) {
-        if (event.target?.className == 'header_popup_skin' && event.buttons == 1) {
-          let popupSkin = event.target.parentElement
-          let startOffset = {
-            x: popupSkin.offsetLeft,
-            y: popupSkin.offsetTop,
-            move: {
-              x: event.pageX,
-              y: event.pageY
-            }
-          }
-          if (popupSkin.getAttribute('startOffset')) {
-            startOffset = JSON.parse(popupSkin.getAttribute('startOffset'))
-          } else {
-            popupSkin.setAttribute('startOffset', JSON.stringify(startOffset))
-          }
-          popupSkin.style.left =
-            startOffset.x + (event.pageX - startOffset.move.x) + 'px'
-          popupSkin.style.top =
-            startOffset.y + (event.pageY - startOffset.move.y) + 'px'
-        }
         idbutton = event.target.id
         minx = event.pageX
         miny = event.pageY
@@ -2266,10 +2246,6 @@ function upListener(event) {
   left_view.resizing = false
   console.log('up ', checkpad, action_list)
   event.preventDefault()
-  if (event.target?.classList?.contains('header_popup_skin')) {
-    event.target.parentElement.removeAttribute('startOffset')
-    return
-  }
   let target_view = event.target.closest('div[id="canvas_view"]')
   if (instance_drag && target_view) {
     if (instance_drag.getAttribute('projectid')) {

@@ -300,7 +300,7 @@ function createPageTile(pageItem) {
   let inputPageName = TextField({
     className: 'inputPageName regular1',
     readOnly: true,
-    style: 'background-color: transparent !important; border-color: transparent, padding: 0.4rem 0.6rem',
+    style: 'background-color: transparent !important; border-color: transparent; padding: 0.6rem; width: 100%; flex: 1',
     value: pageItem.Name,
     onBlur: function (ev) {
       ev.target.readOnly = true

@@ -6327,7 +6327,7 @@ function editBorderSkin(border_item, thisSkin) {
 
 function editColorSkin(color_item, thisSkin) {
   if (color_item.Name) {
-    let listName = color_item.Name.replace('\\', '/').split('/')
+    let listName = color_item.Name.replaceAll('\\', '/').split('/')
     if (listName.length <= 1) {
       if (listName.length == 1 && listName[0].trim() != '') {
         thisSkin.Name = listName[0]
@@ -6363,45 +6363,34 @@ function editColorSkin(color_item, thisSkin) {
 }
 
 function editTypoSkin(text_style_item, thisSkin) {
-  if (text_style_item.ColorValue) {
-    thisSkin.ColorValue = text_style_item.ColorValue
-    document.documentElement.style.setProperty(
-      `--font-color-${thisSkin.GID}`,
-      `#${thisSkin.ColorValue}`
-    )
-  }
   if (text_style_item.FontFamily) {
     thisSkin.FontFamily = text_style_item.FontFamily
     document.documentElement.style.setProperty(
-      `--font-style-${thisSkin.GID}`,
+      `--${thisSkin.GID}`,
       `${thisSkin.FontWeight} ${thisSkin.FontSize}px/${thisSkin.Height != undefined ? thisSkin.Height + 'px' : 'normal'
       } ${thisSkin.FontFamily}`
     )
   }
   if (text_style_item.FontSize != undefined) {
     thisSkin.FontSize = parseFloat(text_style_item.FontSize)
-    document.documentElement.style.setProperty(
-      `--font-style-${thisSkin.GID}`,
-      `${thisSkin.FontWeight} ${thisSkin.FontSize}px/${thisSkin.Height != undefined ? thisSkin.Height + 'px' : 'normal'
-      } ${thisSkin.FontFamily}`
+    document.documentElement.style.setProperty(`--${thisSkin.GID}`,
+      `${thisSkin.FontWeight} ${thisSkin.FontSize}px/${thisSkin.Height != undefined ? thisSkin.Height + 'px' : 'normal'} ${thisSkin.FontFamily}`
     )
   }
   if (text_style_item.FontWeight != undefined) {
     thisSkin.FontWeight = parseFloat(text_style_item.FontWeight)
     document.documentElement.style.setProperty(
-      `--font-style-${thisSkin.GID}`,
+      `--${thisSkin.GID}`,
       `${thisSkin.FontWeight} ${thisSkin.FontSize}px/${thisSkin.Height != undefined ? thisSkin.Height + 'px' : 'normal'
       } ${thisSkin.FontFamily}`
     )
   }
   if (text_style_item.Height != undefined) {
     let lineHeightValue = text_style_item.Height.toString().toLowerCase()
-    thisSkin.Height =
-      lineHeightValue == 'auto' ? null : parseFloat(lineHeightValue)
+    thisSkin.Height = lineHeightValue === 'auto' ? null : parseFloat(lineHeightValue)
     document.documentElement.style.setProperty(
-      `--font-style-${thisSkin.GID}`,
-      `${thisSkin.FontWeight} ${thisSkin.FontSize}px/${thisSkin.Height != undefined ? thisSkin.Height + 'px' : 'normal'
-      } ${thisSkin.FontFamily}`
+      `--${thisSkin.GID}`,
+      `${thisSkin.FontWeight} ${thisSkin.FontSize}px/${thisSkin.Height ? `${thisSkin.Height}px` : 'normal'} ${thisSkin.FontFamily}`
     )
   }
   if (text_style_item.LetterSpacing != undefined) {
@@ -6666,7 +6655,7 @@ function handleEditEffect({
             [...divSection.querySelectorAll(e.selectorText)].includes(wb.value)
           )
           cssRule.style.boxShadow = cssRule.style.boxShadow.replace(
-            /(rgba|rgb)\(.*\)/g,
+            rgbRegex,
             color
           )
           cssItem.Css = cssItem.Css.replace(
@@ -6677,7 +6666,7 @@ function handleEditEffect({
           listUpdate = listUpdate.filter(e => e !== wb)
         } else {
           wb.value.style.boxShadow = wb.value.style.boxShadow.replace(
-            /(rgba|rgb)\(.*\)/g,
+            rgbRegex,
             color
           )
           wb.Css = wb.value.style.cssText
@@ -6692,7 +6681,7 @@ function handleEditEffect({
           [...divSection.querySelectorAll(e.selectorText)].includes(wb.value)
         )
         cssRule.style.boxShadow = cssRule.style.boxShadow.replace(
-          /(rgba|rgb)\(.*\)/g,
+          rgbRegex,
           color
         )
         cssItem.Css = cssItem.Css.replace(
@@ -6706,7 +6695,7 @@ function handleEditEffect({
     if (listUpdate[0].Css || listUpdate[0].IsInstance) {
       for (let wb of [...listUpdate]) {
         let wbShadow = window.getComputedStyle(wb.value).boxShadow
-        let color = wbShadow.match(/(rgba|rgb)\(.*\)/g)[0]
+        let color = wbShadow.match(rgbRegex)[0]
         wbShadow = wbShadow.replace(color, '').trim().split(' ')
         wbShadow[0] = `${offX}px`
         if (wb.IsWini && !wb.value.classList.contains('w-variant')) {
@@ -6732,7 +6721,7 @@ function handleEditEffect({
       let cssItem = StyleDA.cssStyleSheets.find(e => e.GID === pWbComponent.id)
       for (let wb of [...listUpdate]) {
         let wbShadow = window.getComputedStyle(wb.value).boxShadow
-        let color = wbShadow.match(/(rgba|rgb)\(.*\)/g)[0]
+        let color = wbShadow.match(rgbRegex)[0]
         wbShadow = wbShadow.replace(color, '').trim().split(' ')
         wbShadow[0] = `${offX}px`
         let cssRule = StyleDA.docStyleSheets.find(e =>
@@ -6750,7 +6739,7 @@ function handleEditEffect({
     if (listUpdate[0].Css || listUpdate[0].IsInstance) {
       for (let wb of [...listUpdate]) {
         let wbShadow = window.getComputedStyle(wb.value).boxShadow
-        let color = wbShadow.match(/(rgba|rgb)\(.*\)/g)[0]
+        let color = wbShadow.match(rgbRegex)[0]
         wbShadow = wbShadow.replace(color, '').trim().split(' ')
         wbShadow[1] = `${offY}px`
         if (wb.IsWini && !wb.value.classList.contains('w-variant')) {
@@ -6776,7 +6765,7 @@ function handleEditEffect({
       let cssItem = StyleDA.cssStyleSheets.find(e => e.GID === pWbComponent.id)
       for (let wb of [...listUpdate]) {
         let wbShadow = window.getComputedStyle(wb.value).boxShadow
-        let color = wbShadow.match(/(rgba|rgb)\(.*\)/g)[0]
+        let color = wbShadow.match(rgbRegex)[0]
         wbShadow = wbShadow.replace(color, '').trim().split(' ')
         wbShadow[1] = `${offY}px`
         let cssRule = StyleDA.docStyleSheets.find(e =>
@@ -6794,7 +6783,7 @@ function handleEditEffect({
     if (listUpdate[0].Css || listUpdate[0].IsInstance) {
       for (let wb of [...listUpdate]) {
         let wbShadow = window.getComputedStyle(wb.value).boxShadow
-        let color = wbShadow.match(/(rgba|rgb)\(.*\)/g)[0]
+        let color = wbShadow.match(rgbRegex)[0]
         wbShadow = wbShadow.replace(color, '').trim().split(' ')
         wbShadow[3] = `${spreadRadius}px`
         if (wb.IsWini && !wb.value.classList.contains('w-variant')) {
@@ -6820,7 +6809,7 @@ function handleEditEffect({
       let cssItem = StyleDA.cssStyleSheets.find(e => e.GID === pWbComponent.id)
       for (let wb of [...listUpdate]) {
         let wbShadow = window.getComputedStyle(wb.value).boxShadow
-        let color = wbShadow.match(/(rgba|rgb)\(.*\)/g)[0]
+        let color = wbShadow.match(rgbRegex)[0]
         wbShadow = wbShadow.replace(color, '').trim().split(' ')
         wbShadow[3] = `${spreadRadius}px`
         let cssRule = StyleDA.docStyleSheets.find(e =>
@@ -6839,7 +6828,7 @@ function handleEditEffect({
       for (let wb of [...listUpdate]) {
         if (window.getComputedStyle(wb.value).boxShadow !== 'none') {
           var wbShadow = window.getComputedStyle(wb.value).boxShadow
-          var color = wbShadow.match(/(rgba|rgb)\(.*\)/g)[0]
+          var color = wbShadow.match(rgbRegex)[0]
           wbShadow = wbShadow.replace(color, '').trim().split(' ')
           wbShadow[2] = `${blurRadius}px`
         }
@@ -6875,7 +6864,7 @@ function handleEditEffect({
       for (let wb of [...listUpdate]) {
         if (window.getComputedStyle(wb.value).boxShadow !== 'none') {
           var wbShadow = window.getComputedStyle(wb.value).boxShadow
-          var color = wbShadow.match(/(rgba|rgb)\(.*\)/g)[0]
+          var color = wbShadow.match(rgbRegex)[0]
           wbShadow = wbShadow.replace(color, '').trim().split(' ')
           wbShadow[2] = `${blurRadius}px`
         }
@@ -6903,7 +6892,7 @@ function handleEditEffect({
         if (window.getComputedStyle(wb.value).boxShadow !== 'none') {
           let wbShadow = window.getComputedStyle(wb.value).boxShadow
           wbShadow = wbShadow
-            .replace(/(rgba|rgb)\(.*\)/g, '')
+            .replace(rgbRegex, '')
             .trim()
             .split(' ')
           var blurVl = wbShadow[2]
@@ -6949,7 +6938,7 @@ function handleEditEffect({
         if (window.getComputedStyle(wb.value).boxShadow !== 'none') {
           let wbShadow = window.getComputedStyle(wb.value).boxShadow
           wbShadow = wbShadow
-            .replace(/(rgba|rgb)\(.*\)/g, '')
+            .replace(rgbRegex, '')
             .trim()
             .split(' ')
           var blurVl = wbShadow[2]

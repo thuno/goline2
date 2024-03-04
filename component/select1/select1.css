@@ -12,6 +12,7 @@
     position: relative;
     border: 0.5px solid #00358033;
     cursor: context-menu;
+    text-align: start;
 }
 
 .select1-container.disabled {

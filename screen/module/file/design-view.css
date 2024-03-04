@@ -183,6 +183,7 @@ body:has(#history-view) :is(.btn-tool-state:nth-child(1), .btn-history) {
 
 #canvas_view>* {
     position: absolute;
+    cursor: inherit;
 }
 
 #canvas_view>canvas {
