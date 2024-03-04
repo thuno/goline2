@@ -2909,8 +2909,8 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
   let popupSkinDetails = showPopup({
     hiddenOverlay: true,
     style: `left: ${offset.pageX}px; top: ${offset.pageY}px; width: 26rem; transform: translateX(-180%)`,
-    children: `<div class="popup-header heading-9 row" style="justify-content: space-between; padding: 0.8rem 0.8rem 0.8rem 1.6rem; gap: 0.8rem">${headingTitle} <i class="fa-solid fa-xmark box24 center" style="display: flex; font-size: 1.4rem"></i></div>
-    <div class"popup-body col" style="padding: 0.8rem 1.2rem">${editBody}</div>`,
+    children: `<div class="popup-header heading-9 row" style="justify-content: space-between; padding: 0.8rem 0.8rem 0.8rem 1.6rem;">${headingTitle} <i class="fa-solid fa-xmark box24 center" style="display: flex; font-size: 1.4rem"></i></div>
+    <div class"popup-body col" style="padding: 0.8rem 1.2rem; gap: 0.8rem">${editBody}</div>`,
     onDispose: function () {
       if (jsonSkin.CateID != -1) {
         switch (enumCate) {
@@ -2935,7 +2935,6 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
   $(popupSkinDetails).on('click', '.popup-header .fa-xmark', function () {
     popupSkinDetails.remove()
   })
-  return divEditSkin
 }
 
 function wbaseSkinTile({
