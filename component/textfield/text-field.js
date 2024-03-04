@@ -2,8 +2,9 @@ const TextField = ({ id, value = '', maxLength, onChange, onBlur, onFocus, place
     if (returnType === 'string') {
         if (onFocus || focusSelectAll) {
             var dataId = uuidv4()
-            $('body').on('focus', `.text-field-container[txtf-id="${dataId}"] > input:not(*:readonly)`, (ev) => {
-                ev.target.select()
+            $('body').on('focus', `.text-field-container[txtf-id="${dataId}"] > input`, (ev) => {
+                if (!ev.target.readOnly)
+                    ev.target.select()
                 if (onFocus) onFocus(ev)
             })
         }
@@ -13,7 +14,10 @@ const TextField = ({ id, value = '', maxLength, onChange, onBlur, onFocus, place
         }
         if (onBlur) {
             dataId ??= uuidv4()
-            $('body').on('blur', `.text-field-container[txtf-id="${dataId}"] > input`, onBlur)
+            $('body').on('blur', `.text-field-container[txtf-id="${dataId}"] > input`, function (ev) {
+                if (!ev.target.readOnly && onBlur)
+                    onBlur(ev)
+            })
         }
         return `<div ${id?.length ? `id="${id}"` : ''} ${dataId ? `txtf-id="${dataId}"` : ''}  class="text-field-container row ${className ?? 'placeholder-2'} ${helperText?.length && 'helper-text'}" style="--helper-text-color: ${helperTextColor ?? '#e14337'};${style ?? ''}" ${helperText?.length ? `helper-text="${helperText}"` : ''}>
             ${prefix ?? ''}
@@ -47,15 +51,19 @@ const TextField = ({ id, value = '', maxLength, onChange, onBlur, onFocus, place
             newElement.innerHTML = htmlText
         }
         if (onFocus || focusSelectAll) {
-            $('body').on('focus', 'input:not(*:readonly)', (ev) => {
-                ev.target.select()
+            $('body').on('focus', 'input', (ev) => {
+                if (!ev.target.readOnly)
+                    ev.target.select()
                 if (onFocus) onFocus(ev)
             })
         }
         if (onChange)
             $(newElement).on('change', 'input', onChange)
         if (onBlur)
-            $(newElement).on('blur', 'input', onBlur)
+            $(newElement).on('blur', 'input', function (ev) {
+                if (!ev.target.readOnly && onBlur)
+                    onBlur(ev)
+            })
         return newElement
     }
 }
