@@ -6186,11 +6186,69 @@ function handleEditPadding({ top, right, bottom, left }) {
   updateUISelectBox()
 }
 
-function editSkin({ skin, Css, onSubmit = true }) {
+async function editSkin({ skin, Css, newName, onSubmit = true, enumCate }) {
   if (Css !== undefined) {
     skin.CSS = Css
     document.documentElement.style.setProperty(`--${skin.GID}`, Css)
-    if (onSubmit) StyleDA.editStyleSheet(skin)
+    if (onSubmit) {
+      await StyleDA.editStyleSheet(skin)
+    }
+  } else if (newName !== undefined) {
+    let listName = newName.replaceAll('\\', '/').split('/').filter(_string => _string.trim() != '')
+    if (listName.length <= 1) {
+      if (listName.length == 1 && listName[0].trim() != '') {
+        skin.Name = listName[0]
+      } else {
+        switch (enumCate) {
+          case EnumCate.color:
+            skin.Name = `#${skin.Css}`
+            break;
+          case EnumCate.typography:
+            skin.Name = skin.Css.split(' ')[1]
+            break;
+          case EnumCate.border:
+            skin.Name = skin.Css.split(' ').slice(0, 2).join(' ')
+            break;
+          case EnumCate.effect:
+            skin.Name = skin.Css.includes('blur') ? skin.Css.replace('(', " ").replace(')', '') : ('shadow ' + (skin.Css.match(rgbRegex)?.[0] ?? skin.Css.match(hexRegex)?.[0]))
+            break;
+          default:
+            break;
+        }
+      }
+    } else {
+      skin.Name = listName.pop()
+      let nameCate = listName.join(' ')
+      let cateItem = CateDA.list.find(e => e.ParentID === enumCate && e.Name.toLowerCase() == nameCate.toLowerCase())
+      if (cateItem) {
+        skin.CateID = cateItem.ID
+      } else {
+        let newCate = {
+          ID: 0,
+          Name: nameCate,
+          ParentID: enumCate
+        }
+        await CateDA.add(newCate)
+        switch (enumCate) {
+          case EnumCate.color:
+            CateDA.list_color_cate.push(newCate)
+            break;
+          case EnumCate.typography:
+            CateDA.list_typo_cate.push(newCate)
+            break;
+          case EnumCate.border:
+            CateDA.list_border_cate.push(newCate)
+            break;
+          case EnumCate.effect:
+            CateDA.list_effect_cate.push(newCate)
+            break;
+          default:
+            break;
+        }
+        skin.CateID = newCate.ID
+      }
+    }
+    await StyleDA.editStyleSheet(skin)
   }
 }
 

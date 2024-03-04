@@ -371,24 +371,24 @@ class CateDA {
           Name: nameCate,
           ParentID: enumCate
         }
-        const newCateRes = await CateDA.add(newCate)
+        await CateDA.add(newCate)
         switch (enumCate) {
           case EnumCate.color:
-            CateDA.list_color_cate.push(newCateRes.Data)
+            CateDA.list_color_cate.push(newCate)
             break;
           case EnumCate.typography:
-            CateDA.list_typo_cate.push(newCateRes.Data)
+            CateDA.list_typo_cate.push(newCate)
             break;
           case EnumCate.border:
-            CateDA.list_border_cate.push(newCateRes.Data)
+            CateDA.list_border_cate.push(newCate)
             break;
           case EnumCate.effect:
-            CateDA.list_effect_cate.push(newCateRes.Data)
+            CateDA.list_effect_cate.push(newCate)
             break;
           default:
             break;
         }
-        jsonSkin.CateID = newCateRes.Data.ID
+        jsonSkin.CateID = newCate.ID
         await StyleDA.addStyleSheet(jsonSkin)
         return jsonSkin
       }

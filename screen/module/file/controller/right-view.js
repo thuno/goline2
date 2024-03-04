@@ -2993,61 +2993,7 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
     <div class="popup-body col" style="padding: 0.8rem 1.2rem; gap: 0.8rem">${editBody}</div>`,
     onDispose: async function () {
       if (newName.length) {
-        let listName = newName.replaceAll('\\', '/').split('/').filter(_string => _string.trim() != '')
-        if (listName.length <= 1) {
-          if (listName.length == 1 && listName[0].trim() != '') {
-            jsonSkin.Name = listName[0]
-          } else {
-            switch (enumCate) {
-              case EnumCate.color:
-                jsonSkin.Name = `#${jsonSkin.Css}`
-                break;
-              case EnumCate.typography:
-                jsonSkin.Name = jsonSkin.Css.split(' ')[1]
-                break;
-              case EnumCate.border:
-                jsonSkin.Name = jsonSkin.Css.split(' ').slice(0, 2).join(' ')
-                break;
-              case EnumCate.effect:
-                jsonSkin.Name = jsonSkin.Css.includes('blur') ? jsonSkin.Css.replace('(', " ").replace(')', '') : ('shadow ' + (jsonSkin.Css.match(rgbRegex)?.[0] ?? jsonSkin.Css.match(hexRegex)?.[0]))
-                break;
-              default:
-                break;
-            }
-          }
-        } else {
-          jsonSkin.Name = listName.pop()
-          let nameCate = listName.join(' ')
-          let cateItem = CateDA.list_color_cate.find(e => e.Name.toLowerCase() == nameCate.toLowerCase())
-          if (cateItem) {
-            jsonSkin.CateID = cateItem.ID
-          } else {
-            let newCate = {
-              ID: 0,
-              Name: nameCate,
-              ParentID: enumCate
-            }
-            const newCateRes = await CateDA.add(newCate)
-            switch (enumCate) {
-              case EnumCate.color:
-                CateDA.list_color_cate.push(newCateRes.Data)
-                break;
-              case EnumCate.typography:
-                CateDA.list_typo_cate.push(newCateRes.Data)
-                break;
-              case EnumCate.border:
-                CateDA.list_border_cate.push(newCateRes.Data)
-                break;
-              case EnumCate.effect:
-                CateDA.list_effect_cate.push(newCateRes.Data)
-                break;
-              default:
-                break;
-            }
-            jsonSkin.CateID = newCateRes.ID
-          }
-        }
-        StyleDA.editStyleSheet(jsonSkin)
+        editSkin({ skin: jsonSkin, newName: newName })
         updateTableSkinBody(enumCate, jsonSkin.GID)
       }
     }
