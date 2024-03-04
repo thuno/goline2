@@ -2908,23 +2908,23 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
   }
   let popupSkinDetails = showPopup({
     hiddenOverlay: true,
-    style: `left: ${offset.pageX}px; top: ${offset.pageY}px; width: 20.8rem`,
-    children: `<div class="popup-header heading-8" style="justify-content: space-between">${headingTitle} <i class="fa-solid fa-xmark box24 center" style="display: flex; font-size: 1.4rem"></i></div>
+    style: `left: ${offset.pageX}px; top: ${offset.pageY}px; width: 26rem`,
+    children: `<div class="popup-header heading-9 row" style="justify-content: space-between; padding: 0.8rem 0.8rem 0.8rem 1.6rem">${headingTitle} <i class="fa-solid fa-xmark box24 center" style="display: flex; font-size: 1.4rem"></i></div>
     <div class"popup-body">${editBody}</div>`,
     onDispose: function () {
       if (jsonSkin.CateID != -1) {
         switch (enumCate) {
           case EnumCate.color:
-            ColorDA.edit(jsonSkin)
+            // editColorSkin(jsonSkin)
             break
           case EnumCate.typography:
-            TypoDA.edit(jsonSkin)
+            // TypoDA.edit(jsonSkin)
             break
           case EnumCate.border:
-            BorderDA.edit(jsonSkin)
+            // BorderDA.edit(jsonSkin)
             break
           case EnumCate.effect:
-            EffectDA.edit(jsonSkin)
+            // EffectDA.edit(jsonSkin)
             break
           default:
             break
