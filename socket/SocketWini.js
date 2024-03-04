@@ -246,15 +246,11 @@ socket.on('server-get', data => {
           let listAssets = data.data
           listAssets = initDOM(listAssets)
           if (listAssets.length > 0) {
-            assets_list = assets_list.filter(
-              wb => wb.PageID !== listAssets[0].PageID
-            )
+            assets_list = assets_list.filter(wb => wb.PageID !== listAssets[0].PageID)
             if (listAssets[0].PageID === PageDA.obj.ID) {
               listAssets = listAssets.map(e => {
                 if (e.CateID !== EnumCate.variant) {
-                  e.value = divSection
-                    .querySelector(`.wbaseItem-value[id="${e.GID}"]`)
-                    .cloneNode(true)
+                  e.value = divSection.querySelector(`.wbaseItem-value[id="${e.GID}"]`).cloneNode(true)
                   e.value.style = null
                 }
                 return e
@@ -262,9 +258,7 @@ socket.on('server-get', data => {
             }
             assets_list.push(...listAssets)
           }
-          let listTileLoader = assets_view.querySelector(
-            '.list_tile:has(> .data-loader)'
-          )
+          let listTileLoader = assets_view.querySelector('.list-tile:has(> .data-loader)')
           $(listTileLoader).trigger('click')
           break
         default:
