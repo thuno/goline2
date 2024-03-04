@@ -928,7 +928,7 @@ function moveListener(event) {
     } else if ((sortLayer || event.target.closest('.layer_wbase_tile')) && [ToolState.hand_tool, ...ToolState.resize_type].every(ts => tool_state != ts) && drag_start_list.length === 0) {
       target_view = 'left_view'
       sortLayer = document.createElement('div')
-    } else if (sortSkin || nt.target.classList.contains('skin_tile_option')) {
+    } else if (sortSkin || event.target.classList.contains('skin_tile_option')) {
       target_view = 'right_view'
     } else {
       target_view = event.target.closest(`div[id="popup_img_document"], div[id="canvas_view"], div[id="left_view"], div[id="right_view"]`)?.id
