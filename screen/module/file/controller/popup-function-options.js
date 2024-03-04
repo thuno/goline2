@@ -8,7 +8,7 @@ let feature_list = [
     {
         title: 'Image document',
         onclick: function (ev) {
-            if (document.getElementById('popup_img_document') == undefined) {
+            if (!document.getElementById('popup_img_document')) {
                 FileDA.init().then(res => {
                     if (res.Code === 200) showImgDocument(ev)
                 })
@@ -673,15 +673,15 @@ function createImgDocument(ev) {
         ev.stopPropagation()
         let edit_delete_popup = showPopup({
             hiddenOverlay: true,
-            children: `<div class="edit-skin default-option semibold1 row">Edit</div><div class="delete-skin default-option semibold1 row">Delete</div>`,
+            children: `<div class="edit-folder default-option semibold1 row">Edit</div><div class="delete-folder default-option semibold1 row">Delete</div>`,
             style: `left: ${ev.pageX}px; top: ${ev.pageY}px; background-color: #000000; width: fit-content; height: fit-content; padding: 0.2rem;border-radius: 0.2rem !important`
         })
-        $(edit_delete_popup).on('click', '.edit-skin', function () {
+        $(edit_delete_popup).on('click', '.edit-folder', function () {
             edit_delete_popup.remove()
             ev.target.querySelector('input').disabled = false
             ev.target.querySelector('input').focus()
         })
-        $(edit_delete_popup).on('click', '.delete-skin', function (e) {
+        $(edit_delete_popup).on('click', '.delete-folder', function (e) {
             e.stopPropagation()
             edit_delete_popup.remove()
             CollectionDA.deleteDocument(CollectionDA.list.find(docItem => docItem.ID === parseInt(ev.target.id.replace('folder-', ''))))

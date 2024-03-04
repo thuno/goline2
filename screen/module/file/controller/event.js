@@ -2584,7 +2584,7 @@ function handleResizeXYWH({ xp, yp }) {
   switch (tool_state) {
     case ToolState.resize_left:
       for (let wb of selected_list) {
-        let scaleWb = WbClass.scale.some(e => wb.value.classList.contains(e))
+        let scaleWb = window.getComputedStyle(wb.value).aspectRatio !== 'auto'
         if (checkpad < selected_list.length) {
           if (!isInFlex) {
             let thisOffset = getWBaseOffset(wb)
@@ -2623,7 +2623,7 @@ function handleResizeXYWH({ xp, yp }) {
       break
     case ToolState.resize_right:
       for (let wb of selected_list) {
-        let scaleWb = WbClass.scale.some(e => wb.value.classList.contains(e))
+        let scaleWb = window.getComputedStyle(wb.value).aspectRatio !== 'auto'
         if (checkpad < selected_list.length) {
           wb.tmpW = wb.value.offsetWidth
           if (!isInFlex) {
@@ -2659,7 +2659,7 @@ function handleResizeXYWH({ xp, yp }) {
       break
     case ToolState.resize_top:
       for (let wb of selected_list) {
-        let scaleWb = WbClass.scale.some(e => wb.value.classList.contains(e))
+        let scaleWb = window.getComputedStyle(wb.value).aspectRatio !== 'auto'
         if (checkpad < selected_list.length) {
           if (!isInFlex) {
             let thisOffset = getWBaseOffset(wb)
@@ -2697,7 +2697,7 @@ function handleResizeXYWH({ xp, yp }) {
       break
     case ToolState.resize_bot:
       for (let wb of selected_list) {
-        let scaleWb = WbClass.scale.some(e => wb.value.classList.contains(e))
+        let scaleWb = window.getComputedStyle(wb.value).aspectRatio !== 'auto'
         if (checkpad < selected_list.length) {
           wb.tmpH = wb.value.offsetHeight
           if (!isInFlex) {
@@ -2733,7 +2733,7 @@ function handleResizeXYWH({ xp, yp }) {
       break
     case ToolState.resize_top_left:
       for (let wb of selected_list) {
-        let scaleWb = WbClass.scale.some(e => wb.value.classList.contains(e))
+        let scaleWb = window.getComputedStyle(wb.value).aspectRatio !== 'auto'
         if (checkpad < selected_list.length) {
           if (!isInFlex) {
             let thisOffset = getWBaseOffset(wb)
@@ -2776,7 +2776,7 @@ function handleResizeXYWH({ xp, yp }) {
       break
     case ToolState.resize_top_right:
       for (let wb of selected_list) {
-        let scaleWb = WbClass.scale.some(e => wb.value.classList.contains(e))
+        let scaleWb = window.getComputedStyle(wb.value).aspectRatio !== 'auto'
         if (checkpad < selected_list.length) {
           if (!isInFlex) {
             let thisOffset = getWBaseOffset(wb)
@@ -2817,7 +2817,7 @@ function handleResizeXYWH({ xp, yp }) {
       break
     case ToolState.resize_bot_left:
       for (let wb of selected_list) {
-        let scaleWb = WbClass.scale.some(e => wb.value.classList.contains(e))
+        let scaleWb = window.getComputedStyle(wb.value).aspectRatio !== 'auto'
         if (checkpad < selected_list.length) {
           if (!isInFlex) {
             let thisOffset = getWBaseOffset(wb)
@@ -2856,7 +2856,7 @@ function handleResizeXYWH({ xp, yp }) {
       break
     case ToolState.resize_bot_right:
       for (let wb of selected_list) {
-        let scaleWb = WbClass.scale.some(e => wb.value.classList.contains(e))
+        let scaleWb = window.getComputedStyle(wb.value).aspectRatio !== 'auto'
         if (checkpad < selected_list.length) {
           if (!isInFlex) {
             let thisOffset = getWBaseOffset(wb)

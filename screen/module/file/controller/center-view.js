@@ -876,44 +876,29 @@ function moveListener(event) {
     return
   event.preventDefault()
   let target_view
+  let divImgDoc = document.getElementById('popup_img_document')
   // check drag resize left view
-  if (((!instance_drag && left_view.offsetWidth > 0) || left_view.resizing) && !sortLayer) {
+  if (((!instance_drag && left_view.offsetWidth > 0) || left_view.resizing) && !sortLayer && !divImgDoc.getAttribute('offset')) {
     let pageContainerY = document.getElementById('div_list_page').getBoundingClientRect()
     if (left_view.resizing) {
       if (document.body.style.cursor === 'e-resize') {
         left_view.style.width = event.pageX + 'px'
       } else {
-        document.getElementById('div_list_page').style.height =
-          event.pageY - (pageContainerY.bottom - pageContainerY.height) + 'px'
+        document.getElementById('div_list_page').style.height = event.pageY - (pageContainerY.bottom - pageContainerY.height) + 'px'
       }
       return
-    } else if (
-      isInRange(
-        event.pageX,
-        left_view.offsetWidth - 8,
-        left_view.offsetWidth + 8
-      )
-    ) {
+    } else if (isInRange(event.pageX, left_view.offsetWidth - 8, left_view.offsetWidth + 8)) {
       document.body.style.cursor = 'e-resize'
       if (event.buttons == 1) {
         left_view.resizing = true
         left_view.style.width = event.pageX + 'px'
         return
       }
-    } else if (
-      layer_view.offsetWidth > 0 &&
-      isInRange(event.pageX, 0, left_view.offsetWidth) &&
-      isInRange(
-        event.pageY,
-        pageContainerY.bottom - 8,
-        pageContainerY.bottom + 4
-      )
-    ) {
+    } else if (layer_view.offsetWidth > 0 && isInRange(event.pageX, 0, left_view.offsetWidth) && isInRange(event.pageY, pageContainerY.bottom - 8, pageContainerY.bottom + 4)) {
       document.body.style.cursor = 'n-resize'
       if (event.buttons == 1) {
         left_view.resizing = true
-        document.getElementById('div_list_page').style.height =
-          event.pageY - (pageContainerY.bottom - pageContainerY.height) + 'px'
+        document.getElementById('div_list_page').style.height = event.pageY - (pageContainerY.bottom - pageContainerY.height) + 'px'
         return
       }
     } else {
@@ -926,7 +911,6 @@ function moveListener(event) {
   if (event.buttons == 1 && PageDA.enableEdit) {
     dragTime++
     if (dragTime < 4 && design_view_index !== 1) return
-    let divImgDoc = document.getElementById('popup_img_document')
     if (instance_drag) {
       target_view = 'left_view'
     } else if (divImgDoc?.getAttribute('offset')) {
@@ -940,26 +924,14 @@ function moveListener(event) {
 
       if (newTop >= 88) divImgDoc.style.top = newTop + 'px'
 
-      divImgDoc.setAttribute(
-        'offset',
-        JSON.stringify({ x: event.clientX, y: event.clientY })
-      )
-    } else if (
-      (sortLayer || event.target.closest('.layer_wbase_tile')) &&
-      [ToolState.hand_tool, ...ToolState.resize_type].every(ts => tool_state != ts) &&
-      drag_start_list.length === 0
-    ) {
+      divImgDoc.setAttribute('offset', JSON.stringify({ x: event.clientX, y: event.clientY }))
+    } else if ((sortLayer || event.target.closest('.layer_wbase_tile')) && [ToolState.hand_tool, ...ToolState.resize_type].every(ts => tool_state != ts) && drag_start_list.length === 0) {
       target_view = 'left_view'
       sortLayer = document.createElement('div')
-    } else if (
-      sortSkin ||
-      event.target.classList.contains('skin_tile_option')
-    ) {
+    } else if (sortSkin || nt.target.classList.contains('skin_tile_option')) {
       target_view = 'right_view'
     } else {
-      target_view = event.target.closest(
-        `div[id="popup_img_document"], div[id="canvas_view"], div[id="left_view"], div[id="right_view"]`
-      )?.id
+      target_view = event.target.closest(`div[id="popup_img_document"], div[id="canvas_view"], div[id="left_view"], div[id="right_view"]`)?.id
     }
   }
   switch (target_view) {
@@ -1162,7 +1134,7 @@ function moveListener(event) {
         document.body.appendChild(instance_drag)
         let targetComputeStyle = window.getComputedStyle(imgDemoHTML.querySelector('.img-value'))
         let target_rect = imgDemoHTML.querySelector('.img-value').getBoundingClientRect()
-        instance_drag.style.cssText = `background-image: ${targetComputeStyle.backgroundImage}; width: ${targetComputeStyle.width}px; height: ${targetComputeStyle.height}px; position: absolute; left: ${target_rect.x}px; top: ${target_rect.y}px; pointer-events: none`
+        instance_drag.style.cssText = `background-image: ${targetComputeStyle.backgroundImage}; width: ${target_rect.width}; height: ${target_rect.height}; position: absolute; left: ${target_rect.x}px; top: ${target_rect.y}px; pointer-events: none`
         instance_drag.fileid = parseInt(imgDemoHTML.getAttribute('fileid'))
       }
       break
@@ -1192,28 +1164,16 @@ function moveListener(event) {
         minx = event.pageX
         miny = event.pageY
         checkpad = 0
-        if (
-          event.target.id == 'canvas_view' ||
-          (divSection.contains(event.target) &&
-            [ToolState.hand_tool, ...ToolState.create_new_type].every(
-              tool => tool_state != tool
-            ))
-        ) {
+        if (event.target.id === 'canvas_view' || (divSection.contains(event.target) && [ToolState.hand_tool, ...ToolState.create_new_type].every(tool => tool_state != tool))) {
           checkHoverElement(event)
         }
-        if (select_box != undefined) {
-          checkResize(event)
-        }
+        if (select_box != undefined) checkResize(event)
       } else {
         var xp = event.pageX - minx,
           yp = event.pageY - miny
         if (tool_state === ToolState.hand_tool && event.buttons == 1) {
           handToolDrag(event)
-        } else if (
-          (event.target.id == 'canvas_view' ||
-            divSection.contains(event.target)) &&
-          document.body.contains(right_view)
-        ) {
+        } else if ((event.target.id == 'canvas_view' || divSection.contains(event.target)) && document.body.contains(right_view)) {
           if (event.buttons === 1) {
             scanSelectList(event)
           } else {
@@ -1225,10 +1185,7 @@ function moveListener(event) {
       }
       break
   }
-  if (
-    checkpad === 0 &&
-    document.body.querySelector(`.wbaseItem-value[loading="true"]`)
-  ) {
+  if (checkpad === 0 && document.body.querySelector(`.wbaseItem-value[loading="true"]`)) {
     document.body.style.setProperty('--loadingX', event.pageX + 'px')
     document.body.style.setProperty('--loadingY', event.pageY + 'px')
   }
@@ -1375,12 +1332,7 @@ function checkHoverElement(event) {
             is_enable = true
           } else if (event.metaKey || (!isMac && event.ctrlKey)) {
             is_enable = true
-          } else if (
-            target_level <= currentLevel &&
-            currentListPPage.some(
-              pPage => pPage.id === wbHTML.getAttribute('parentid')
-            )
-          ) {
+          } else if (target_level <= currentLevel && currentListPPage.some(pPage => pPage.id === wbHTML.getAttribute('parentid'))) {
             is_enable = true
           }
           break
@@ -2424,17 +2376,9 @@ function upListener(event) {
         paintCanvas(true)
       }
       //keyid = "escape";
-    } else if (
-      ToolState.create_new_type.some(e => e === tool_state) &&
-      checkpad == 0
-    ) {
-      let offset_convert = offsetScale(
-        Math.min(minx, event.pageX),
-        Math.min(miny, event.pageY)
-      )
-      let parentHTML = event.target.closest(
-        '.w-container,.w-textformfield,.w-button,.w-table'
-      )
+    } else if (ToolState.create_new_type.some(e => e === tool_state) && checkpad == 0) {
+      let offset_convert = offsetScale(Math.min(minx, event.pageX), Math.min(miny, event.pageY))
+      let parentHTML = event.target.closest('.w-container,.w-textformfield,.w-button,.w-table')
       createWbaseHTML({
         parentid: parentHTML?.id ?? wbase_parentID,
         x: offset_convert.x,
@@ -2445,195 +2389,13 @@ function upListener(event) {
     } else if (!checkpad) {
       downListener(event)
     } else if (ToolState.resize_type.some(e => tool_state === e)) {
-      debugger
+      WBaseDA.edit(selected_list)
     } else if (event.altKey) {
       dragAltEnd()
     } else {
       dragWbaseEnd()
     }
   }
-  hidePopup(event)
-  //
-  // switch (WBaseDA.enumEvent) {
-  //   case EnumEvent.copy:
-  //     WBaseDA.copy(WBaseDA.listData)
-  //     if (window.getComputedStyle(assets_view).display != 'none') {
-  //       initUIAssetView()
-  //     }
-  //     break
-  //   case EnumEvent.add:
-  //     let list_add = []
-  //     if (WBaseDA.listData.length > 0) {
-  //       list_add = WBaseDA.listData
-  //     } else {
-  //       list_add = selected_list.filter(wb => {
-  //         wb.Css = wb.value.style.cssText
-  //         return !wb.value.classList.contains('w-text')
-  //       })
-  //     }
-  //     // ! add wbase thường
-  //     // action_list[action_index].selected = [
-  //     //   ...list_add
-  //     //     .filter(e => e.ParentID === selected_list[0].ParentID)
-  //     //     .map(wbasItem => JSON.parse(JSON.stringify(wbasItem)))
-  //     // ]
-  //     if (list_add.length > 0) {
-  //       // let isUpdateTable = list_add.some(e => e.CateID === EnumCate.table)
-  //       // WBaseDA.add(
-  //       //   list_add,
-  //       //   undefined,
-  //       //   isUpdateTable ? EnumEvent.edit : EnumEvent.add,
-  //       //   isUpdateTable ? EnumObj.wBaseAttribute : EnumObj.wBase
-  //       // )
-  //       if (
-  //         list_add[0].value.closest(`.w-table[level="${list_add[0].Level}"]`)
-  //       ) {
-  //       } else if (
-  //         list_add[0].value.closest(
-  //           `:is(.w-col, .w-row)[level="${list_add[0].Level}"]`
-  //         )
-  //       ) {
-  //         WBaseDA.parent([
-  //           wbase_list.find(e => e.GID === list_add[0].ParentID),
-  //           ...list_add
-  //         ])
-  //       } else {
-  //         WBaseDA.add({
-  //           listWb: list_add
-  //         })
-  //       }
-  //     }
-  //     break
-  //   case EnumEvent.edit:
-  //     let listUpdate = []
-  //     if (
-  //       !$(selected_list[0].value).parents(`.wbaseItem-value[iswini]`)
-  //         ?.length ||
-  //       selected_list[0].IsInstance ||
-  //       selected_list[0].IsWini
-  //     ) {
-  //       for (let wb of selected_list) {
-  //         if (window.getComputedStyle(wb.value).position === 'absolute')
-  //           updateConstraints(wb.value)
-  //         if (wb.IsWini && !wb.value.classList.contains('w-variant')) {
-  //           let cssItem = StyleDA.cssStyleSheets.find(e => e.GID === wb.GID)
-  //           let cssRule = StyleDA.docStyleSheets.find(rule => {
-  //             let selector = [...divSection.querySelectorAll(rule.selectorText)]
-  //             const check = selector.includes(wb.value)
-  //             if (check)
-  //               selector.forEach(e => {
-  //                 if (wb.value.getAttribute('width-type')) {
-  //                   e.setAttribute(
-  //                     'width-type',
-  //                     wb.value.getAttribute('width-type')
-  //                   )
-  //                 } else {
-  //                   e.removeAttribute('width-type')
-  //                 }
-  //                 if (wb.value.getAttribute('height-type')) {
-  //                   e.setAttribute(
-  //                     'height-type',
-  //                     wb.value.getAttribute('height-type')
-  //                   )
-  //                 } else {
-  //                   e.removeAttribute('height-type')
-  //                 }
-  //               })
-  //             return check
-  //           })
-  //           if (wb.value.style.width && wb.value.style.width !== 'auto') {
-  //             cssRule.style.width = wb.value.style.width
-  //             wb.value.style.width = null
-  //           }
-  //           if (wb.value.style.height && wb.value.style.height !== 'auto') {
-  //             cssRule.style.height = wb.value.style.height
-  //             wb.value.style.height = null
-  //           }
-  //           if (wb.value.style.flex) cssRule.style.flex = wb.value.style.flex
-  //           wb.value.style.flex = null
-  //           cssItem.Css = cssItem.Css.replace(
-  //             new RegExp(`${cssRule.selectorText} {[^}]*}`, 'g'),
-  //             cssRule.cssText
-  //           )
-  //           StyleDA.editStyleSheet(cssItem)
-  //         }
-  //         wb.Css = wb.value.style.cssText
-  //         listUpdate.push(wb)
-  //       }
-  //     } else {
-  //       let pWbComponent = selected_list[0].value.closest(
-  //         `.wbaseItem-value[iswini]`
-  //       )
-  //       let cssItem = StyleDA.cssStyleSheets.find(
-  //         e => e.GID === pWbComponent.id
-  //       )
-  //       for (let wb of selected_list) {
-  //         if (window.getComputedStyle(wb.value).position === 'absolute')
-  //           updateConstraints(wb.value)
-  //         let cssRule = StyleDA.docStyleSheets.find(rule => {
-  //           let selector = [...divSection.querySelectorAll(rule.selectorText)]
-  //           const check = selector.includes(wb.value)
-  //           if (check)
-  //             selector.forEach(e => {
-  //               if (wb.value.getAttribute('width-type')) {
-  //                 e.setAttribute(
-  //                   'width-type',
-  //                   wb.value.getAttribute('width-type')
-  //                 )
-  //               } else {
-  //                 e.removeAttribute('width-type')
-  //               }
-  //               if (wb.value.getAttribute('height-type')) {
-  //                 e.setAttribute(
-  //                   'height-type',
-  //                   wb.value.getAttribute('height-type')
-  //                 )
-  //               } else {
-  //                 e.removeAttribute('height-type')
-  //               }
-  //             })
-  //           return check
-  //         })
-  //         if (wb.value.style.width) cssRule.style.width = wb.value.style.width
-  //         if (wb.value.style.height)
-  //           cssRule.style.height = wb.value.style.height
-  //         if (wb.value.style.flex) cssRule.style.flex = wb.value.style.flex
-  //         if (wb.value.style.top) cssRule.style.top = wb.value.style.top
-  //         if (wb.value.style.right) cssRule.style.right = wb.value.style.right
-  //         if (wb.value.style.bottom)
-  //           cssRule.style.bottom = wb.value.style.bottom
-  //         if (wb.value.style.left) cssRule.style.left = wb.value.style.left
-  //         if (wb.value.style.transform)
-  //           cssRule.style.transform = wb.value.style.transform
-  //         wb.value.style = null
-  //         cssItem.Css = cssItem.Css.replace(
-  //           new RegExp(`${cssRule.selectorText} {[^}]*}`, 'g'),
-  //           cssRule.cssText
-  //         )
-  //         wb.Css = null
-  //       }
-  //       StyleDA.editStyleSheet(cssItem)
-  //     }
-  //     if (listUpdate.length) WBaseDA.edit(listUpdate, EnumObj.wBase)
-  //     reloadEditOffsetBlock()
-  //     break
-  //   case EnumEvent.parent:
-  //     let list_update = []
-  //     if (WBaseDA.listData.length == 0) {
-  //       if (selected_list[0].ParentID != wbase_parentID) {
-  //         list_update.push(
-  //           wbase_list.find(e => e.GID == selected_list[0].ParentID)
-  //         )
-  //       }
-  //       list_update.push(...selected_list)
-  //     } else {
-  //       list_update = WBaseDA.listData
-  //     }
-  //     WBaseDA.parent(list_update)
-  //     break
-  //   default:
-  //     break
-  // }
   WBaseDA.enumEvent = null
   // WBaseDA.listData = []
   // drag_start_list = []

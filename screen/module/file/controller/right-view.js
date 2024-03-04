@@ -1087,29 +1087,23 @@ function EditBackgroundBlock() {
     } else {
       header.querySelector('.fa-plus').remove()
       let editImgTile = document.createElement('div')
-      editImgTile.id = 'select_img_tile'
+      editImgTile.className = 'row parameter-form'
+      editImgTile.innerHTML = `<div class="row img-value-tile">
+      <div class="box24" style="background: url(${window.getComputedStyle(selected_list[0].value).backgroundImage.replace(/(url\("|"\))/g, '')}) 0 0 / contain no-repeat;"></div>
+        <p class="regular1 input-color-value">Image</p><input class="regular1 input-opacity-value" value="100%" />
+      </div>
+      <i class="fa-solid fa-minus box24 center" style="font-size: 1.4rem; display: flex"></i>`
       editContainer.appendChild(editImgTile)
 
-      let divSelectImg = document.createElement('div')
-      divSelectImg.className = 'row'
-      divSelectImg.style.gap = '0.8rem'
-      divSelectImg.innerHTML = `<div style="background: url(${window
-        .getComputedStyle(selected_list[0].value)
-        .backgroundImage.replace(/(url\("|"\))/g, '')}) 0 0 / cover no-repeat; width: 2rem; height: 1rem"></div class="regular1"><p>Image</p><input class="regular1" value="100%" style="width: 4.4rem;padding-left: 0.8rem"/>`
-      editImgTile.appendChild(divSelectImg)
-
-      $(divSelectImg).on('click', 'div', function () {
-        if (!document.getElementById('popup_img_document')) FileDA.init()
+      $(divSelectImg).on('click', '.img-value-tile .box24', function () {
+        if (!document.getElementById('popup_img_document')) FileDA.init().then(res => {
+          if (res.Code === 200) showImgDocument()
+        })
       })
-
-      let btnRemoveBgImg = document.createElement('i')
-      btnRemoveBgImg.className = 'fa-solid fa-minus'
-      btnRemoveBgImg.style.padding = '10px 8px'
-      editImgTile.appendChild(btnRemoveBgImg)
-      btnRemoveBgImg.onclick = function () {
+      $(editImgTile).on('click', '.fa-minus', function () {
         handleEditBackground({ hexCode: null })
         reloadEditBackgroundBlock()
-      }
+      })
     }
   }
   if (wbBg.length > 1) {
@@ -2219,7 +2213,7 @@ function reloadEditEffectBlock() {
 }
 
 function createEditColorForm({ id, value = '#000000ff', onchange, onsubmit, ondelete, suffixAction, returnType = 'object' }) {
-  const children = `<div class="parameter-form">
+  const children = `<div class="parameter-form row">
     <input type="color" value=${value.substring(0, 7)} class="color-picker box20"/>
     <input value="${value.replace('#', '').substring(0, 6).toUpperCase()}" class="input-color-value regular1"/><input value="${Ultis.hexToPercent(value.replace('#', '').substring(6))}%" class="input-opacity-value regular1"/>
   </div>
@@ -3504,33 +3498,6 @@ function wbaseSkinTile({
   if (onRemove)
     $(wbase_skin_tile).on('click', '.fa-minus', onRemove)
   return wbase_skin_tile
-}
-
-function hidePopup(event) {
-  let list_popup = document.getElementsByClassName('wini_popup')
-  let actived_popup = [...list_popup].filter(
-    e => window.getComputedStyle(e).display != 'none'
-  )
-  if (actived_popup.length > 0) {
-    let isOpenImgDoc = false
-    let pop_up = [...event.composedPath()].find(eHTML => {
-      if (eHTML.id === 'popup_img_document') isOpenImgDoc = true
-      return eHTML.classList?.contains('wini_popup')
-    })
-    if (!pop_up) {
-      for (let i = 0; i < actived_popup.length; i++) {
-        if (actived_popup[i].classList.contains('popup_remove')) {
-          if (
-            !isOpenImgDoc ||
-            !actived_popup[i].classList.contains('fake-data-popup')
-          )
-            actived_popup[i].remove()
-        } else {
-          actived_popup[i].style.display = 'none'
-        }
-      }
-    }
-  }
 }
 
 function isHidden(elHTML) {

@@ -315,9 +315,7 @@ function createPageTile(pageItem) {
       this.readOnly = true
       this.style.outline = 'none'
       this.setSelectionRange(0, 0)
-      let thisPage = PageDA.list.find(
-        e => e.ID == pageTile.id.replace('pageID:', '')
-      )
+      let thisPage = PageDA.list.find(e => e.ID == pageTile.id.replace('pageID:', ''))
       if (thisPage && thisPage.Name != this.value.trim()) {
         thisPage.Name = this.value.trim()
         PageDA.edit(thisPage)
@@ -325,46 +323,31 @@ function createPageTile(pageItem) {
     }
     pageTile.onauxclick = function (e) {
       e.stopPropagation()
-      hidePopup(e)
-      let popupPage = document.createElement('div')
-      popupPage.className = 'popupEditOrDelete col wini_popup popup_remove'
-      popupPage.style.left = e.pageX + 'px'
-      popupPage.style.top = e.pageY + 'px'
-      let optionEdit = document.createElement('div')
-      optionEdit.innerHTML = 'Edit'
-      optionEdit.onclick = function (e) {
-        e.stopPropagation()
-        popupPage.remove()
+      let edit_delete_popup = showPopup({
+        hiddenOverlay: true,
+        children: `<div class="edit-page default-option semibold1 row">Edit</div><div class="delete-page default-option semibold1 row" ${PageDA.list.length > 1 ? 'style="pointer-events: none; color: #e5e5e5"' : ''}>Delete</div>`,
+        style: `left: ${ev.pageX}px; top: ${ev.pageY}px; background-color: #000000; width: fit-content; height: fit-content; padding: 0.2rem;border-radius: 0.2rem !important`
+      })
+      $(edit_delete_popup).on('click', '.edit-page', function () {
+        edit_delete_popup.remove()
         inputPageName.style.cursor = 'text'
-        inputPageName.style.outline = '2px solid #1890FF'
+        inputPageName.style.outline = '0.15rem solid #1890FF'
         inputPageName.readOnly = false
         inputPageName.setSelectionRange(0, inputPageName.value.length)
         inputPageName.focus()
-      }
-      popupPage.appendChild(optionEdit)
-      if (PageDA.list.length > 1) {
-        let optionDelete = document.createElement('div')
-        optionDelete.innerHTML = 'Delete'
-        optionDelete.onclick = function (e) {
-          e.stopPropagation()
-          popupPage.remove()
-          let pageItem = PageDA.list.find(
-            e => e.ID == pageTile.id.replace('pageID:', '')
-          )
-          if (pageItem) {
-            PageDA.delete(pageItem)
-          }
-        }
-        popupPage.appendChild(optionDelete)
-      }
-      document.getElementById('body').appendChild(popupPage)
+      })
+      $(edit_delete_popup).on('click', '.delete-page', function (e) {
+        e.stopPropagation()
+        edit_delete_popup.remove()
+        let pageItem = PageDA.list.find(e => e.ID == pageTile.id.replace('pageID:', ''))
+        if (pageItem) PageDA.delete(pageItem)
+        ev.target.remove()
+      })
     }
   }
   pageTile.onclick = function (e) {
     e.stopPropagation()
-    PageDA.selectPage(
-      PageDA.list.find(e => e.ID == this.id.replace('pageID:', ''))
-    )
+    PageDA.selectPage(PageDA.list.find(e => e.ID == this.id.replace('pageID:', '')))
   }
   return pageTile
 }
