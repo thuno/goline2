@@ -2444,15 +2444,7 @@ function updateTableSkinBody(enumCate, currentSkinID) {
         noti_empty_skin.innerHTML = 'No color skins.'
         dropdown.replaceChildren(noti_empty_skin)
       } else {
-        let list_color_cate = [
-          { ID: EnumCate.color },
-          ...CateDA.list_color_cate.sort((a, b) => a.Name - b.Name)
-        ]
-        dropdown.replaceChildren(
-          ...list_color_cate.map(cateItem =>
-            createCateSkinHTML(cateItem, currentSkinID)
-          )
-        )
+        dropdown.replaceChildren(createCateSkinHTML({ ID: EnumCate.color }, currentSkinID))
       }
       break
     case EnumCate.typography:
@@ -2460,15 +2452,7 @@ function updateTableSkinBody(enumCate, currentSkinID) {
         noti_empty_skin.innerHTML = 'No typography skins.'
         dropdown.replaceChildren(noti_empty_skin)
       } else {
-        let list_typo_cate = [
-          { ID: EnumCate.typography },
-          ...CateDA.list_typo_cate.sort((a, b) => a.Name - b.Name)
-        ]
-        dropdown.replaceChildren(
-          ...list_typo_cate.map(cateItem =>
-            createCateSkinHTML(cateItem, currentSkinID)
-          )
-        )
+        dropdown.replaceChildren(createCateSkinHTML({ ID: EnumCate.typography }, currentSkinID))
       }
 
       break
@@ -2477,15 +2461,7 @@ function updateTableSkinBody(enumCate, currentSkinID) {
         noti_empty_skin.innerHTML = 'No border skins.'
         dropdown.replaceChildren(noti_empty_skin)
       } else {
-        let list_border_cate = [
-          { ID: EnumCate.border },
-          ...CateDA.list_border_cate.sort((a, b) => a.Name - b.Name)
-        ]
-        dropdown.replaceChildren(
-          ...list_border_cate.map(cateItem =>
-            createCateSkinHTML(cateItem, currentSkinID)
-          )
-        )
+        dropdown.replaceChildren(createCateSkinHTML({ ID: EnumCate.border }, currentSkinID))
       }
 
       break
@@ -2494,15 +2470,7 @@ function updateTableSkinBody(enumCate, currentSkinID) {
         noti_empty_skin.innerHTML = 'No effect skins.'
         dropdown.replaceChildren(noti_empty_skin)
       } else {
-        let list_effect_cate = [
-          { ID: EnumCate.effect },
-          ...CateDA.list_effect_cate.sort((a, b) => a.Name - b.Name)
-        ]
-        dropdown.replaceChildren(
-          ...list_effect_cate.map(cateItem =>
-            createCateSkinHTML(cateItem, currentSkinID)
-          )
-        )
+        dropdown.replaceChildren(createCateSkinHTML({ ID: EnumCate.effect }, currentSkinID))
       }
 
       break
@@ -2538,7 +2506,25 @@ function createCateSkinHTML(cateItem, currentSkinID) {
       return skin_tile
     })
   )
-  cateContainer.querySelector('.list-skin-tile').replaceWith(...childrenHTML)
+  if (!cateItem.ParentID) {
+    switch (enumCate) {
+      case EnumCate.color:
+        var listCateChildren = CateDA.list_color_cate
+        break;
+      case EnumCate.typography:
+        var listCateChildren = CateDA.list_typo_cate
+        break;
+      case EnumCate.border:
+        var listCateChildren = CateDA.list_border_cate
+        break;
+      case EnumCate.effect:
+        var listCateChildren = CateDA.list_effect_cate
+        break;
+      default:
+        break;
+    }
+  }
+  cateContainer.querySelector('.list-skin-tile').replaceWith(...childrenHTML, ...(listCateChildren ?? []).sort((a, b) => a.Name - b.Name).map(e => createCateSkinHTML(e, currentSkinID)))
   if (!childrenHTML.length && [EnumCate.color, EnumCate.typography, EnumCate.border, EnumCate.effect].every(ct => cateItem.ID !== ct))
     return document.createElement('div')
   return cateContainer
@@ -3556,13 +3542,9 @@ function createSelectionSkins() {
   let body = document.createElement('div')
   let cateItems = [
     { ID: EnumCate.color, Name: 'Color skins' },
-    ...CateDA.list_color_cate,
     { ID: EnumCate.typography, Name: 'Typography skins' },
-    ...CateDA.list_typo_cate,
     { ID: EnumCate.border, Name: 'Border skins' },
-    ...CateDA.list_border_cate,
     { ID: EnumCate.effect, Name: 'Effect skins' },
-    ...CateDA.list_effect_cate
   ]
   body.replaceChildren(
     ...cateItems.map(cateItem => createCateSkinHTML(cateItem))
