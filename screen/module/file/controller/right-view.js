@@ -2717,9 +2717,9 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
         returnType: 'string',
         value: jsonSkin.Css,
         onchange: newColor => {
-          updateColorSkin(newColor, false)
+          editColorSkin(newColor, false)
         },
-        onsubmit: updateColorSkin,
+        onsubmit: editColorSkin,
       })}`
       break
     case EnumCate.typography:
@@ -2908,7 +2908,7 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
   }
   let popupSkinDetails = showPopup({
     hiddenOverlay: true,
-    style: `left: ${offset.pageX}px; top: ${offset.pageY}px; width: 26rem; transform: translateX(-100%)`,
+    style: `left: ${offset.pageX}px; top: ${offset.pageY}px; width: 26rem; transform: translateX(-180%)`,
     children: `<div class="popup-header heading-9 row" style="justify-content: space-between; padding: 0.8rem 0.8rem 0.8rem 1.6rem">${headingTitle} <i class="fa-solid fa-xmark box24 center" style="display: flex; font-size: 1.4rem"></i></div>
     <div class"popup-body col" style="padding: 0.8rem 1.2rem">${editBody}</div>`,
     onDispose: function () {
