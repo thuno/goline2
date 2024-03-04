@@ -994,11 +994,12 @@ i.center[class*="box"].disabled {
 
 .list-img-container {
     flex-wrap: wrap;
-    gap: 0.8rem;
+    gap: 1.2rem 0.8rem;
     flex: 1;
     height: 100%;
     width: 100%;
     align-items: stretch;
+    align-content: start;
 }
 
 .img-option {
@@ -1026,7 +1027,7 @@ i.center[class*="box"].disabled {
     border: 0.1rem solid #e5e5e5;
 }
 
-.img_folder_demo>.img-value.selected {
+.img_folder_demo.selected>.img-value {
     border-color: var(--primary-color);
 }
 

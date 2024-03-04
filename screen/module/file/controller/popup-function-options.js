@@ -726,7 +726,7 @@ function createImgDocument(ev) {
             <div class="row" style="gap: 0.8rem; width: 100%">
                 ${TextField({
         returnType: 'string',
-        style: 'width: 100%; flex: 1; background-color: #d1d1d1; padding: 0.2rem 0.4rem',
+        style: 'width: 100%; flex: 1; padding: 0.2rem 0.4rem',
         className: 'regular1',
         placeholder: 'Search image...',
         prefix: '<i class="fa-solid fa-magnifying-glass box24 center" style="font-size: 1.2rem; pointer-events: none"></i>',
@@ -771,7 +771,7 @@ function selectFolder(collectionItem, search = '') {
             let _img = document.createElement('div')
             _img.setAttribute('fileID', file.ID)
             _img.className = 'img_folder_demo col8 col'
-            _img.innerHTML = `<div class="img-value" style="background-image: url(${ConfigApi.urlFile + file.Url?.replaceAll(' ', '%20')})"></div><p class="comp-text regular1" style="width: 80%">${file.Name}</p>`
+            _img.innerHTML = `<div class="img-value" style="background-image: url(${ConfigApi.urlFile + file.Url?.replaceAll(' ', '%20')})"></div><p class="comp-text regular1" style="width: 100%; text-align: center  ">${file.Name}</p>`
             $(_img).on('focus', '.comp-text', function (e) {
                 e.target.select()
             })
@@ -801,7 +801,7 @@ function selectFolder(collectionItem, search = '') {
                 _img.classList.add('selected')
                 let popupImgOptions = showPopup({
                     hiddenOverlay: true,
-                    style: `left: ${e.pageX}; top: ${e.pageY}px; background-color: #000000; border-radius: 0.2rem; width: fit-content`,
+                    style: `left: ${e.pageX}px; top: ${e.pageY}px; background-color: #000000; border-radius: 0.2rem; width: fit-content`,
                     children: `<div class="img-option edit-img row" style="color: #ffffff">Edit</div><div class="img-option recycle-img row" style="color: #ffffff">Recycle</div><div class="img-option delete-img row" style="color: #ffffff">Delete</div>`
                 })
                 $(popupImgOptions).on('click', '.img-option.edit-img', function (e) {
