@@ -620,7 +620,7 @@ function showImgDocument(ev) {
     })
 }
 
-let imgDocumentOffset = { x: 32, y: 32 }
+let imgDocumentOffset = { x: 30, y: 30 }
 function createImgDocument(ev) {
     let divImgDoc = document.createElement('div')
     divImgDoc.id = 'popup_img_document'
@@ -631,10 +631,6 @@ function createImgDocument(ev) {
         if (e.key == 'Enter' && document.activeElement.localName == 'input') {
             document.activeElement.blur()
         }
-    }
-    divImgDoc.onclick = function () {
-        document.getElementById('popup_img_options')?.remove()
-        FileDA.selectFile()
     }
     $(divImgDoc).on('change', `input[type="file"]`, function (ev) {
         FileDA.add(ev.target.files, CollectionDA.selectedDocument.ID)
@@ -784,6 +780,11 @@ function selectFolder(collectionItem, search = '') {
                 await FileDA.edit(file)
                 e.target.contentEditable = false
             })
+            _img.onclick = function (e) {
+                e.stopPropagation()
+                $('.img_folder_demo').removeClass('selected')
+                _img.classList.add('selected')
+            }
             _img.ondblclick = function (e) {
                 e.stopPropagation()
                 $('.img_folder_demo').removeClass('selected')
