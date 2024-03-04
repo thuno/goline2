@@ -1075,6 +1075,7 @@ function EditBackgroundBlock() {
             },
             onsubmit: vl => {
               handleEditBackground({ hexCode: vl })
+              bgColor = vl
             },
             ondelete: function () {
               handleEditBackground({ hexCode: null })
