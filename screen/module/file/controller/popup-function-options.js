@@ -603,7 +603,7 @@ function createComponent() {
     updateUIDesignView()
 }
 
-function showImgDocument() {
+function showImgDocument(ev) {
     CollectionDA.getListDocument().then(async (res) => {
         if (res.Code === 200) {
             if (CollectionDA.documentList.length === 0) {
