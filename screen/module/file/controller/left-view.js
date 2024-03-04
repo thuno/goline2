@@ -579,15 +579,13 @@ async function initUIAssetView() {
       linkComptAndSkinDialog()
     }
   })
+  const resProjectList = await ProjectDA.init()
+  ProjectDA.list = resProjectList.Data.filter(e => e.ID === ProjectDA.obj.ID || ProjectDA.obj.ListID?.split(',')?.includes(`${e.ID}`))
   let fragment = document.createDocumentFragment()
   fragment.replaceChildren(
     ...[
       { ID: 0 },
-      ...ProjectDA.list.filter(
-        e =>
-          e.ID === ProjectDA.obj.ID ||
-          ProjectDA.obj.ListID?.split(',')?.includes(`${e.ID}`)
-      )
+      ...ProjectDA.list
     ].map(projectItem => createListComponent(projectItem))
   )
   comContainer.querySelector(':scope > .col').replaceChildren(fragment)
@@ -662,7 +660,7 @@ function createListComponent(projectItem, isShowContent) {
             pageTileContainer.replaceChildren(pageTile, listComp)
             pageTile.onclick = function () {
               showPageCom = !showPageCom
-              if (showPageCom) {  
+              if (showPageCom) {
                 pageTile.querySelector('i').className = 'fa-solid fa-caret-down box24 center'
                 listComp.replaceChildren(...listPageComp.map(comItem => createComponentTile(comItem)))
               } else {

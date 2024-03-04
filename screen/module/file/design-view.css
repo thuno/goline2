@@ -1001,8 +1001,15 @@ i.center[class*="box"].disabled {
     align-items: stretch;
 }
 
+.img-option {
+    padding: 0.4rem 0.6rem;
+}
+
+.img-option:hover {
+    background-color: var(--primary-color);
+}
+
 .img_folder_demo {
-    position: relative;
     box-sizing: border-box;
     border-radius: 0.2rem;
     --gutter: 0.8rem;
@@ -1016,7 +1023,11 @@ i.center[class*="box"].disabled {
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    border: 0.1rem solid #292929;
+    border: 0.1rem solid #e5e5e5;
+}
+
+.img_folder_demo>.img-value.selected {
+    border-color: var(--primary-color);
 }
 
 .img_folder_demo>.img-value>svg {

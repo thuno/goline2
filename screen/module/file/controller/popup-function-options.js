@@ -7,10 +7,10 @@ let feature_list = [
     },
     {
         title: 'Image document',
-        onclick: function () {
+        onclick: function (ev) {
             if (document.getElementById('popup_img_document') == undefined) {
                 FileDA.init().then(res => {
-                    if (res.Code === 200) showImgDocument()
+                    if (res.Code === 200) showImgDocument(ev)
                 })
             }
         },
@@ -133,7 +133,7 @@ function popupRightClick(event) {
                     shortKey.innerHTML = element.shortKey ?? ''
                     option.onclick = function (ev) {
                         ev.stopPropagation()
-                        element.onclick()
+                        element.onclick(ev)
                         popup.remove()
                     }
                     option.appendChild(shortKey)
@@ -614,19 +614,19 @@ function showImgDocument() {
                 })
                 if (newDocRes !== 200) return
             }
-            let imgDocument = createImgDocument()
+            let imgDocument = createImgDocument(ev)
             document.body.appendChild(imgDocument)
         }
     })
 }
 
 let imgDocumentOffset = { x: 32, y: 32 }
-function createImgDocument() {
+function createImgDocument(ev) {
     let divImgDoc = document.createElement('div')
     divImgDoc.id = 'popup_img_document'
     divImgDoc.className = 'col elevation7'
-    divImgDoc.style.left = imgDocumentOffset.x + 'rem'
-    divImgDoc.style.top = imgDocumentOffset.y + 'rem'
+    divImgDoc.style.left = (ev?.pageX ?? imgDocumentOffset.x) + 'px'
+    divImgDoc.style.top = (ev?.pageY ?? imgDocumentOffset.y) + 'px'
     divImgDoc.onkeydown = function (e) {
         if (e.key == 'Enter' && document.activeElement.localName == 'input') {
             document.activeElement.blur()
@@ -744,111 +744,13 @@ function createImgDocument() {
         <div class="row list-img-container"><p class="semibold1">Select a folder</p></div>
         </div>
     </div>`
-
-    // divImgs.onauxclick = function (event) {
-    //     event.stopPropagation()
-    //     let popupImgOption = document.getElementById('popup_img_options')
-    //     if (popupImgOption == undefined) {
-    //         popupImgOption = document.createElement('div')
-    //         popupImgOption.id = 'popup_img_options'
-    //         popupImgOption.className = 'wini_popup col popup_remove'
-    //     }
-    //     popupImgOption.style.left = event.pageX + 'px'
-    //     popupImgOption.style.top = event.pageY + 'px'
-    //     let children = []
-    //     if (CollectionDA.selectedDocument.ID != -1) {
-    //         let optionAdd = document.createElement('div')
-    //         optionAdd.className = 'row'
-    //         optionAdd.innerHTML = 'add image'
-    //         optionAdd.onclick = function (e) {
-    //             e.stopPropagation()
-    //             popupImgOption.remove()
-    //             filePicker.showPicker()
-    //         }
-    //         children.push(optionAdd)
-    //         let optionPaste = document.createElement('div')
-    //         optionPaste.className = 'row'
-    //         optionPaste.innerHTML = 'paste here'
-    //         optionPaste.onclick = function (e) { }
-    //         children.push(optionPaste)
-    //     }
-    //     if (event.target.className?.includes('img_folder_demo')) {
-    //         if (
-    //             FileDA.selectedFile.every(
-    //                 e => e.ID != event.target.getAttribute('fileID')
-    //             )
-    //         ) {
-    //             FileDA.selectFile(
-    //                 FileDA.list.filter(e => e.ID == event.target.getAttribute('fileID'))
-    //             )
-    //         }
-    //     }
-    //     if (FileDA.selectedFile.length > 0) {
-    //         if (CollectionDA.selectedDocument.ID == -1) {
-    //             let optionRecycle = document.createElement('div')
-    //             optionRecycle.className = 'row'
-    //             optionRecycle.innerHTML = 'recycle'
-    //             optionRecycle.onclick = function (e) {
-    //                 e.stopPropagation()
-    //                 popupImgOption.remove()
-    //                 FileDA.recycle(FileDA.selectedFile.map(_file => _file.ID))
-    //                 selectFolder(CollectionDA.selectedDocument)
-    //             }
-    //             children.push(optionRecycle)
-    //         }
-    //         let optionDelete = document.createElement('div')
-    //         optionDelete.className = 'row'
-    //         optionDelete.innerHTML = 'delete'
-    //         optionDelete.onclick = function (e) {
-    //             e.stopPropagation()
-    //             popupImgOption.remove()
-    //             if (CollectionDA.selectedDocument.ID == -1) {
-    //                 FileDA.delete(FileDA.selectedFile.map(_file => _file.ID))
-    //             } else {
-    //                 FileDA.recycle(FileDA.selectedFile.map(_file => _file.ID))
-    //             }
-    //             selectFolder(CollectionDA.selectedDocument)
-    //         }
-    //         children.push(optionDelete)
-    //     }
-    //     if (children.length > 0) {
-    //         popupImgOption.replaceChildren(...children)
-    //         document.getElementById('body').appendChild(popupImgOption)
-    //     }
-    // }
-    // divImgs.onclick = function (event) {
-    //     event.stopPropagation()
-    //     document.getElementById('popup_img_options')?.remove()
-    //     if (event.target.className?.includes('img_folder_demo')) {
-    //         if (event.shiftKey) {
-    //             if (
-    //                 FileDA.selectedFile.every(
-    //                     e => e.ID != event.target.getAttribute('fileID')
-    //                 )
-    //             ) {
-    //                 FileDA.selectFile([
-    //                     ...FileDA.selectedFile,
-    //                     ...FileDA.list.filter(
-    //                         e => e.ID == event.target.getAttribute('fileID')
-    //                     )
-    //                 ])
-    //             }
-    //         } else {
-    //             FileDA.selectFile(
-    //                 FileDA.list.filter(e => e.ID == event.target.getAttribute('fileID'))
-    //             )
-    //         }
-    //     } else {
-    //         FileDA.selectFile()
-    //     }
-    // }
     return divImgDoc
 }
 
 function selectFolder(collectionItem, search = '') {
     CollectionDA.selectedDocument = collectionItem
     const oldSelectedTile = document.querySelector('.folder-tile.selected')
-    if(oldSelectedTile) {
+    if (oldSelectedTile) {
         oldSelectedTile.querySelector('i.box24').classList.remove('fa-folder-open')
         oldSelectedTile.querySelector('i.box24').classList.add('fa-folder')
         oldSelectedTile.classList.remove('selected')
@@ -873,14 +775,54 @@ function selectFolder(collectionItem, search = '') {
             let _img = document.createElement('div')
             _img.setAttribute('fileID', file.ID)
             _img.className = 'img_folder_demo col8 col'
-            _img.innerHTML = `<div class="img-value" style="background-image: url(${ConfigApi.urlFile + file.Url?.replaceAll(' ', '%20')})"></div><p class="comp-text regular1" style="width: 80%">${file.Url}</p>`
+            _img.innerHTML = `<div class="img-value" style="background-image: url(${ConfigApi.urlFile + file.Url?.replaceAll(' ', '%20')})"></div><p class="comp-text regular1" style="width: 80%">${file.Name}</p>`
+            $(_img).on('focus', '.comp-text', function (e) {
+                e.target.select()
+            })
+            $(_img).on('blur', '.comp-text', async function (e) {
+                file.Name = e.target.value
+                await FileDA.edit(file)
+                e.target.contentEditable = false
+            })
             _img.ondblclick = function (e) {
                 e.stopPropagation()
+                $('.img_folder_demo').removeClass('selected')
+                _img.classList.add('selected')
                 if (selected_list.length === 1 && selected_list[0].value.classList.contains('w-svg') && file.Url.endsWith('.svg') && file.Size <= 2200) {
                     handleEditIconColor({ iconValue: file.Url })
                 } else {
                     handleEditBackground({ image: file.Url })
                 }
+            }
+            _img.onauxclick = function (e) {
+                e.stopPropagation()
+                $('.img_folder_demo').removeClass('selected')
+                _img.classList.add('selected')
+                let popupImgOptions = showPopup({
+                    hiddenOverlay: true,
+                    style: `left: ${e.pageX}; top: ${e.pageY}px; background-color: #000000; border-radius: 0.2rem; width: fit-content`,
+                    children: `<div class="img-option edit-img row" style="color: #ffffff">Edit</div><div class="img-option recycle-img row" style="color: #ffffff">Recycle</div><div class="img-option delete-img row" style="color: #ffffff">Delete</div>`
+                })
+                $(popupImgOptions).on('click', '.img-option.edit-img', function (e) {
+                    e.stopPropagation()
+                    _img.querySelector('comp-text').contentEditable = true
+                    _img.querySelector('comp-text').focus()
+                    popupImgOptions.remove()
+                })
+                $(popupImgOptions).on('click', '.img-option.delete-img', async function (e) {
+                    e.stopPropagation()
+                    if (CollectionDA.selectedDocument.ID == -1) {
+                        await FileDA.delete(FileDA.selectedFile.map(file => file.ID))
+                    } else {
+                        await FileDA.recycle(FileDA.selectedFile.map(file => file.ID))
+                    }
+                    popupImgOptions.remove()
+                })
+                $(popupImgOptions).on('click', '.img-option.recycle-img', async function (e) {
+                    e.stopPropagation()
+                    await FileDA.recycle(FileDA.selectedFile.map(_file => _file.ID))
+                    popupImgOptions.remove()
+                })
             }
             children.push(_img)
         }

@@ -24,20 +24,8 @@ class FileDA {
     });
   }
 
-  static selectFile(listFile = []) {
-    FileDA.selectedFile = listFile;
-    [...document.getElementsByClassName("img_folder_demo")].forEach((eHTML) => {
-      if (listFile.some((e) => eHTML.getAttribute("fileID") == e.ID)) {
-        eHTML.style.backgroundColor = "#e6f7ff";
-      } else {
-        eHTML.style.backgroundColor = null;
-      }
-    }
-    );
-  }
-
   static async add(listFile, docId) {
-    let result = await uploadFile({listFile: listFile, docId: docId});
+    let result = await uploadFile({ listFile: listFile, docId: docId });
     debugger
     FileDA.list.push(...result);
     if (document.getElementById("popup_img_document")) {
@@ -46,26 +34,43 @@ class FileDA {
     return result;
   }
 
-  static edit(fileItem) {
-    let url = FileDA.urlCtr + 'Edit';
-    WiniIO.emitPort(fileItem, url, EnumObj.file, EnumEvent.edit);
+  static async edit(fileItem) {
+    const res = await postData('/view/edit-file', { data: fileItem })
+    if (res.Code === 200) {
+      debugger
+      FileDA.list[FileDA.list.findIndex(e => e.ID === fileItem.ID)] = fileItem
+    } else {
+      toastr["error"](res.Message);
+    }
+    return res
   }
 
-  static delete(listId) {
-    let url = FileDA.urlCtr + 'Delete';
-    FileDA.list = FileDA.list.filter((e) => listId.every((id) => e.ID != id));
-    FileDA.selectedFile = [];
-    WiniIO.emitPort({ ListID: listId }, url, EnumObj.file, EnumEvent.delete);
+  static async delete(listId) {
+    const res = await postData('/view/delete-file', { data: { ListID: listId } })
+    if (res.Code === 200) {
+      debugger
+      FileDA.list = FileDA.list.filter((e) => listId.every((id) => e.ID != id));
+      FileDA.selectedFile = [];
+    } else {
+      toastr["error"](res.Message);
+    }
+    return res
   }
 
-  static recycle(listId) {
-    let url = FileDA.urlCtr + 'Recycle';
-    FileDA.list.forEach((e) => {
-      if (listId.some((id) => e.ID == id)) {
-        e.IsDeleted = !e.IsDeleted;
-      }
-    });
-    FileDA.selectedFile = [];
+  static async recycle(listId) {
     WiniIO.emitPort({ ListID: listId }, url, EnumObj.file, EnumEvent.recycle);
+    const res = await postData('/view/recycle-file', { data: { ListID: listId } })
+    if (res.Code === 200) {
+      debugger
+      FileDA.list.forEach((e) => {
+        if (listId.some((id) => e.ID == id)) {
+          e.IsDeleted = !e.IsDeleted;
+        }
+      });
+      FileDA.selectedFile = [];
+    } else {
+      toastr["error"](res.Message);
+    }
+    return res
   }
 }

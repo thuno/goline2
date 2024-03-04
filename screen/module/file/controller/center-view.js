@@ -492,7 +492,7 @@ function offsetConvertScale(x, y) {
 
 document.addEventListener('contextmenu', event => event.preventDefault())
 
-var  offsetp = { x: 0, y: 0 },
+var offsetp = { x: 0, y: 0 },
   parent_offset1 = { x: 0, y: 0 }
 let listWbOnScreen = []
 function selectParent(event) {
@@ -1147,7 +1147,6 @@ function moveListener(event) {
         instance_drag.style.pointerEvents = 'none'
         instance_drag.style.left = target_rect.x + target_rect.width + 'px'
         instance_drag.style.top = target_rect.y + target_rect.height + 'px'
-        instance_drag.style.zIndex = 2
       } else if (sortLayer) {
         ondragSortLayer(event)
       }
@@ -1155,32 +1154,21 @@ function moveListener(event) {
     case 'right_view':
       break
     case 'popup_img_document':
-      if (event.target.className?.includes('img_folder_demo')) {
+      const imgDemoHTML = event.target.closest('.img_folder_demo')
+      if (imgDemoHTML) {
         previousX = event.pageX
         previousY = event.pageY
         instance_drag = document.createElement('div')
         document.body.appendChild(instance_drag)
-        let targetComputeStyle = window.getComputedStyle(event.target)
-        let target_rect = event.target.getBoundingClientRect()
-        instance_drag.style.backgroundImage = targetComputeStyle.backgroundImage
-        instance_drag.style.backgroundSize = targetComputeStyle.backgroundSize
-        instance_drag.style.width = targetComputeStyle.width
-        instance_drag.style.height = targetComputeStyle.height
-        instance_drag.style.position = 'absolute'
-        instance_drag.style.pointerEvents = 'none'
-        instance_drag.style.left = target_rect.x + 'px'
-        instance_drag.style.top = target_rect.y + 'px'
-        instance_drag.style.transform = null
-        instance_drag.style.zIndex = 2
-        instance_drag.fileid = parseInt(event.target.getAttribute('fileid'))
+        let targetComputeStyle = window.getComputedStyle(imgDemoHTML.querySelector('.img-value'))
+        let target_rect = imgDemoHTML.querySelector('.img-value').getBoundingClientRect()
+        instance_drag.style.cssText = `background-image: ${targetComputeStyle.backgroundImage}; width: ${targetComputeStyle.width}px; height: ${targetComputeStyle.height}px; position: absolute; left: ${target_rect.x}px; top: ${target_rect.y}px; pointer-events: none`
+        instance_drag.fileid = parseInt(imgDemoHTML.getAttribute('fileid'))
       }
       break
     default:
       if (PageDA.enableEdit) {
-        if (
-          event.target?.className == 'header_popup_skin' &&
-          event.buttons == 1
-        ) {
+        if (event.target?.className == 'header_popup_skin' && event.buttons == 1) {
           let popupSkin = event.target.parentElement
           let startOffset = {
             x: popupSkin.offsetLeft,
