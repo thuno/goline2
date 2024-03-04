@@ -1,3 +1,4 @@
+console.log('left-view')
 function setupLeftView() {
   document.querySelector('#btn_select_page > .comp-text').innerHTML = PageDA.obj.Name
   $('body').on('click', '#btn_select_page', function (ev) {
@@ -310,7 +311,7 @@ function createPageTile(pageItem) {
       }
     }
   })
-  pageTile.appendChild(prefixIcon, inputPageName)
+  pageTile.replaceChildren(prefixIcon, inputPageName)
   if (PageDA.enableEdit) {
     inputPageName.querySelector('input').ondblclick = function (ev) {
       ev.target.readOnly = false
