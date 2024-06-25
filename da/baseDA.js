@@ -17,7 +17,6 @@ class BaseDA {
             } else {
                 const txt = await response.text()
                 console.error("Failed to POST data:", txt);
-                throw error;
             }
         } catch (error) {
             console.error("Failed to POST data:", error);
@@ -42,7 +41,6 @@ class BaseDA {
             } else {
                 const txt = await response.text()
                 console.error("Failed to POST data:", txt);
-                throw error;
             }
         } catch (error) {
             console.error("Failed to POST data:", error);
@@ -63,7 +61,6 @@ class BaseDA {
             } else {
                 const txt = await response.text()
                 console.error("Failed to POST data:", txt);
-                throw error;
             }
         } catch (error) {
             console.error("Failed to POST data:", error);

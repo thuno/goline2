@@ -2,7 +2,8 @@
 
 // const ConfigApi.urlFile = "http://10.15.138.23:86/";
 // const socket = io("ws://10.15.138.23:4000"
-const socket = io(ConfigApi.socketWini, {
+// const socket = io(ConfigApi.socketWini, {
+const socket = io('http://113.190.252.27:8200/', {
   //reconnectionDelayMax: 1000,
   auth: {
     token: '123'

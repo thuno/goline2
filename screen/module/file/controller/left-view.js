@@ -1055,12 +1055,14 @@ function endDragSortLayer() {
 }
 
 function linkComptAndSkinDialog() {
+  var popupLinkCompSkin = showPopup({
+    // children: 
+  })
   let dialogBackground = document.createElement('div')
   dialogBackground.className = 'dialog-background'
   dialogBackground.style.paddingTop = '46px'
   document.getElementById('body').appendChild(dialogBackground)
-  document.getElementById('body').querySelector('#header').style.pointerEvents =
-    'none'
+  document.getElementById('body').querySelector('#header').style.pointerEvents ='none'
   //
   let dialog = document.createElement('div')
   dialog.id = 'dialog_link_component_skin'

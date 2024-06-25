@@ -100,45 +100,27 @@ class StyleDA {
       ColorDA.list = ColorDA.list.filter(skinItem =>
         listMergeColorID.every(id => id != skinItem.GID)
       )
-      wbase_list
-        .filter(wbaseItem =>
-          listMergeColorID.some(
-            id => wbaseItem.StyleItem.DecorationItem?.ColorID == id
-          )
-        )
+      wbase_list.filter(wbaseItem => listMergeColorID.some(id => wbaseItem.StyleItem.DecorationItem?.ColorID == id))
         .forEach(wbaseItem => {
-          let mergeColorSkin = styleInitItem.ColorItems.find(skinItem =>
-            skinItem.ListID.includes(wbaseItem.StyleItem.DecorationItem.ColorID)
-          )
+          let mergeColorSkin = styleInitItem.ColorItems.find(skinItem => skinItem.ListID.includes(wbaseItem.StyleItem.DecorationItem.ColorID))
           wbaseItem.StyleItem.DecorationItem.ColorID = mergeColorSkin.GID
           wbaseItem.StyleItem.DecorationItem.ColorValue = mergeColorSkin.Value
           wbaseItem.value.style.backgroundColor = `#${mergeColorSkin.Value}`
         })
     }
     if (styleInitItem.TextStyleItems?.length > 0) {
-      let listMergeTypoID = styleInitItem.TextStyleItems.map(skinItem =>
-        skinItem.ListID.split(',')
-      ).reduce((a, b) => a.concat(b))
-      TypoDA.list = TypoDA.list.filter(skinItem =>
-        listMergeTypoID.every(id => id != skinItem.GID)
-      )
-      wbase_list
-        .filter(wbaseItem =>
-          listMergeTypoID.some(id => wbaseItem.StyleItem.TextStyleID == id)
-        )
+      let listMergeTypoID = styleInitItem.TextStyleItems.map(skinItem => skinItem.ListID.split(',')).reduce((a, b) => a.concat(b))
+      TypoDA.list = TypoDA.list.filter(skinItem => listMergeTypoID.every(id => id != skinItem.GID))
+      wbase_list.filter(wbaseItem => listMergeTypoID.some(id => wbaseItem.StyleItem.TextStyleID == id))
         .forEach(wbaseItem => {
-          let mergeTypoSkin = styleInitItem.TextStyleItems.find(skinItem =>
-            skinItem.ListID.includes(wbaseItem.StyleItem.TextStyleID)
-          )
+          let mergeTypoSkin = styleInitItem.TextStyleItems.find(skinItem => skinItem.ListID.includes(wbaseItem.StyleItem.TextStyleID))
           wbaseItem.StyleItem.TextStyleID = mergeTypoSkin.GID
           wbaseItem.StyleItem.TextStyleItem = mergeTypoSkin
           initWbaseStyle(wbaseItem)
         })
     }
     if (styleInitItem.BorderItems?.length > 0) {
-      let listMergeBorderID = styleInitItem.BorderItems.map(skinItem =>
-        skinItem.ListID.split(',')
-      ).reduce((a, b) => a.concat(b))
+      let listMergeBorderID = styleInitItem.BorderItems.map(skinItem =>skinItem.ListID.split(',')).reduce((a, b) => a.concat(b))
       BorderDA.list = BorderDA.list.filter(skinItem =>
         listMergeBorderID.every(id => id != skinItem.GID)
       )
