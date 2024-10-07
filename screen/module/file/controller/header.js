@@ -19,14 +19,14 @@ let list_tool = [
     expand: function () {
       console.log('move')
     },
-    src: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/move.svg'
+    src: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/move.svg'
   },
   {
     message: ToolState.container,
     expand: function () {
       console.log('frame')
     },
-    src: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/frame.svg'
+    src: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/frame.svg'
   },
   {
     message: ToolState.rectangle,
@@ -57,7 +57,7 @@ let list_tool = [
         $('body').append(popup)
       }, 200)
     },
-    src: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/rectangle.svg'
+    src: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/rectangle.svg'
   },
   {
     message: ToolState.base_component,
@@ -73,15 +73,15 @@ let list_tool = [
       $('#choose-component-popup').css('display', 'flex')
       $('#choose-component-popup').removeAttr('cateid')
     },
-    src: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/base_component.svg'
+    src: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/base_component.svg'
   },
   {
     message: ToolState.text,
-    src: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/text.svg'
+    src: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/text.svg'
   },
   {
     message: ToolState.hand_tool,
-    src: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/hand.svg'
+    src: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/hand.svg'
   }
 ]
 

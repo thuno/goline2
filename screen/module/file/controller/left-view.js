@@ -100,17 +100,17 @@ function showSearchResult() {
         result.className = 'layer-search-result row'
         let cateImg = document.createElement('img')
         if (wb.IsWini && !wb.value.classList.contains('w-variant')) {
-          cateImg.src = 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/component.svg'
+          cateImg.src = 'https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/component.svg'
         } else if (wb.value.classList.contains('w-container')) {
-          cateImg.src = 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/frame_black.svg'
+          cateImg.src = 'https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/frame_black.svg'
         } else if (wb.value.classList.contains('w-rect')) {
-          cateImg.src = 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/rectangle_black.svg'
+          cateImg.src = 'https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/rectangle_black.svg'
         } else if (wb.value.classList.contains('w-text')) {
-          cateImg.src = 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/text_black.svg'
+          cateImg.src = 'https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/text_black.svg'
         } else if (wb.value.classList.contains('w-variant')) {
-          cateImg.src = 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/multiple_component.svg'
+          cateImg.src = 'https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/multiple_component.svg'
         } else {
-          cateImg.src = 'https://cdn.jsdelivr.net/gh/WiniGit/goline@c6fbab0/lib/assets/base_component_black.svg'
+          cateImg.src = 'https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/base_component_black.svg'
         }
         cateImg.style.width = '16px'
         cateImg.style.height = '16px'
