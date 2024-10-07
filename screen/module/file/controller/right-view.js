@@ -369,7 +369,7 @@ function EditOffsetBlock() {
   const edit_rotate = TextField({
     returnType: 'string',
     className: 'right-view-input regular1',
-    prefix: '<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/rotate_rect.svg"/>',
+    prefix: '<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/rotate_rect.svg"/>',
     value: 0
   })
 
@@ -383,7 +383,7 @@ function EditOffsetBlock() {
       returnType: 'string',
       className: 'right-view-input regular1 radius-all',
       style: isRadiusDetails ? 'visibility: hidden' : '',
-      prefix: '<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/radius_rect.svg"/>',
+      prefix: '<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/radius_rect.svg"/>',
       value: list_radius_value.length == 1 ? list_radius_value[0] : 'mixed',
       onBlur: function (ev) {
         let newValue = parseFloat(ev.target.value)
@@ -453,7 +453,7 @@ function EditOffsetBlock() {
         }
       })
       var editRadiusDetails = `<div class="row radius-details-input" style="gap: 0.4rem">
-      <img class="box12" src ='https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/radius_rect.svg' />
+      <img class="box12" src ='https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/radius_rect.svg' />
       <input class="regular1 br-tl" value="${brtlValue}"/>
       <input class="regular1 br-tr" value="${brtrValue}"/>
       <input class="regular1 br-bl" value="${brblValue}"/>
@@ -552,7 +552,7 @@ function EditLayoutBlock() {
         returnType: 'string',
         className: 'right-view-input regular1',
         style: 'position: absolute; left: 0.4rem; bottom: 0',
-        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/${isVertical ? 'vertical' : 'horizontal'} child spacing.svg"/>`,
+        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/${isVertical ? 'vertical' : 'horizontal'} child spacing.svg"/>`,
         value: childSpaceValues.length == 1 ? childSpaceValues[0] : 'mixed',
         onBlur: function (ev) {
           let newValue = parseFloat(ev.target.value)
@@ -580,7 +580,7 @@ function EditLayoutBlock() {
         const inputRunSpace = TextField({
           returnType: 'string',
           className: 'right-view-input regular1',
-          prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/${isVertical ? 'horizontal' : 'vertical'} child spacing.svg"/>`,
+          prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/${isVertical ? 'horizontal' : 'vertical'} child spacing.svg"/>`,
           value: runSpaceValues.length == 1 ? runSpaceValues[0] : 'mixed',
           onBlur: function (ev) {
             let newValue = parseFloat(ev.target.value)
@@ -628,7 +628,7 @@ function EditLayoutBlock() {
       var inputPadLeft = TextField({
         returnType: 'string',
         className: 'right-view-input regular1',
-        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/padding left.svg" />`,
+        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/padding left.svg" />`,
         value: padLeftValue,
         onBlur: function (ev) {
           let newValue = parseFloat(ev.target.value)
@@ -644,7 +644,7 @@ function EditLayoutBlock() {
       var inputPadTop = TextField({
         returnType: 'string',
         className: 'right-view-input regular1',
-        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/padding top.svg" />`,
+        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/padding top.svg" />`,
         value: padTopValue,
         onBlur: function (ev) {
           let newValue = parseFloat(ev.target.value)
@@ -661,7 +661,7 @@ function EditLayoutBlock() {
         returnType: 'string',
         className: 'right-view-input regular1',
         style: isShowPadDetails ? '' : 'display: none',
-        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/padding right.svg" />`,
+        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/padding right.svg" />`,
         value: padRightValue,
         onBlur: function (ev) {
           let newValue = parseFloat(ev.target.value)
@@ -678,7 +678,7 @@ function EditLayoutBlock() {
         returnType: 'string',
         className: 'right-view-input regular1',
         style: isShowPadDetails ? '' : 'display: none',
-        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/padding bottom.svg" />`,
+        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/padding bottom.svg" />`,
         value: padBotValue,
         onBlur: function (ev) {
           let newValue = parseFloat(ev.target.value)
@@ -695,7 +695,7 @@ function EditLayoutBlock() {
       var inputPadX = TextField({
         returnType: 'string',
         className: 'right-view-input regular1',
-        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/padding horizontal.svg" />`,
+        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/padding horizontal.svg" />`,
         value: padLeftValue == padRightValue ? padLeftValue : 'mixed',
         onBlur: function (ev) {
           let newValue = parseFloat(ev.target.value)
@@ -712,7 +712,7 @@ function EditLayoutBlock() {
       var inputPadY = TextField({
         returnType: 'string',
         className: 'right-view-input regular1',
-        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/padding vertical.svg" />`,
+        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/padding vertical.svg" />`,
         value: padTopValue == padBotValue ? padTopValue : 'mixed',
         onBlur: function (ev) {
           let newValue = parseFloat(ev.target.value)
@@ -1461,7 +1461,7 @@ function EditTypoBlock() {
       returnType: 'string',
       style: '--gutter: 0.6rem',
       className: 'col12 right-view-input regular1',
-      prefix: '<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/line-height.svg"/>',
+      prefix: '<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/line-height.svg"/>',
       value: heightValue,
       onBlur: function (ev) {
         if (ev.target.value.toLowerCase() === 'auto' || ev.target.value.toLowerCase() === 'normal') {
@@ -1477,7 +1477,7 @@ function EditTypoBlock() {
       returnType: 'string',
       style: '--gutter: 0.6rem',
       className: 'col12 right-view-input regular1',
-      prefix: '<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/letter-spacing.svg"/>',
+      prefix: '<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/letter-spacing.svg"/>',
       value: spacingValue,
       onBlur: function (ev) {
         if (ev.target.value.toLowerCase() === 'auto' || ev.target.value.toLowerCase() === 'normal') {
@@ -1556,15 +1556,15 @@ function EditTypoBlock() {
     options: [
       {
         id: TextAlign.left,
-        img: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/text-align-left.svg'
+        img: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/text-align-left.svg'
       },
       {
         id: TextAlign.center,
-        img: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/text-align-center.svg'
+        img: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/text-align-center.svg'
       },
       {
         id: TextAlign.right,
-        img: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/text-align-right.svg'
+        img: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/text-align-right.svg'
       }
     ],
     onselect: vl => {
@@ -1579,15 +1579,15 @@ function EditTypoBlock() {
     options: [
       {
         id: TextAlignVertical.top,
-        img: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/text-align-vertical-top.svg',
+        img: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/text-align-vertical-top.svg',
       },
       {
         id: TextAlignVertical.middle,
-        img: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/text-align-vertical-center.svg'
+        img: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/text-align-vertical-center.svg'
       },
       {
         id: TextAlignVertical.bottom,
-        img: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/text-align-vertical-bottom.svg'
+        img: 'https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/text-align-vertical-bottom.svg'
       }
     ],
     onselect: vl => {
@@ -1857,7 +1857,7 @@ function EditBorderBlock() {
         returnType: 'string',
         style: '--gutter: 0.6rem',
         className: 'col12 right-view-input regular1',
-        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/stroke-width.svg"/>`,
+        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/stroke-width.svg"/>`,
         value: bWidthValue,
         onBlur: function (ev) {
           let newValue = parseFloat(ev.target.value)
@@ -2777,7 +2777,7 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
         returnType: 'string',
         style: '--gutter: 0.6rem',
         className: 'col12 right-view-input regular1',
-        prefix: '<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/line-height.svg"/>',
+        prefix: '<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/line-height.svg"/>',
         value: heightValue,
         onBlur: function (ev) {
           if (ev.target.value.toLowerCase() === 'auto' || ev.target.value.toLowerCase() === 'normal') {
@@ -2842,7 +2842,7 @@ function popupEditSkin({ enumCate, jsonSkin, offset }) {
         returnType: 'string',
         style: '--gutter: 0.6rem',
         className: 'col12 right-view-input regular1 col12',
-        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/stroke-width.svg"/>`,
+        prefix: `<img class="box12" src="https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/stroke-width.svg"/>`,
         value: borderWidthValue,
         onBlur: function (ev) {
           let newValue = parseFloat(ev.target.value)
@@ -3506,7 +3506,7 @@ function createSelectionSkins() {
 
   let header = document.createElement('div')
   header.className = 'ds-block-header semibold1 row'
-  header.innerHTML = `Local Skins <button type="button" class="action-button center box28" style="--icon: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/read.svg)"></button>`
+  header.innerHTML = `Local Skins <button type="button" class="action-button center box28" style="--icon: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/read.svg)"></button>`
 
   $(header).on('click', '.action-button', StyleDA.getListMergeSkin)
 
@@ -4109,7 +4109,7 @@ function mergeSkinTile(enumCate, jsonSkin) {
     case EnumCate.effect:
       var demoDiv1 = document.createElement('div')
       demoDiv1.className = 'demo-div'
-      demoDiv1.style.backgroundImage = `url(${'https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/effect-settings.svg'})`
+      demoDiv1.style.backgroundImage = `url(${'https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/effect-settings.svg'})`
       demoDiv1.style.backgroundSize = `contain`
       var skinTitle = document.createElement('p')
       skinTitle.className = 'regular1'
@@ -4135,7 +4135,7 @@ function mergeSkinTile(enumCate, jsonSkin) {
           demoDiv.style.height = '20px'
           demoDiv.style.borderRadius = '50%'
           demoDiv.style.backgroundColor = '#ffffff'
-          demoDiv.style.backgroundImage = `url(${'https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/effect-settings.svg'})`
+          demoDiv.style.backgroundImage = `url(${'https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/effect-settings.svg'})`
           demoDiv.style.backgroundSize = `contain`
           let cateItem
           if (option.CateID !== EnumCate.effect)
@@ -4152,7 +4152,7 @@ function mergeSkinTile(enumCate, jsonSkin) {
           onSelectLocalSkin(option)
           var demoDiv = document.createElement('div')
           demoDiv.className = 'demo-div'
-          demoDiv.style.backgroundImage = `url(${'https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/effect-settings.svg'})`
+          demoDiv.style.backgroundImage = `url(${'https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/effect-settings.svg'})`
           demoDiv.style.backgroundSize = `contain`
           iconSearch.replaceWith(demoDiv)
         }
@@ -4339,7 +4339,7 @@ function createBreakpoint() {
 
   let header = document.createElement('div')
   header.className = 'ds-block-header semibold1 row'
-  header.innerHTML = `Breakpoint <button type="button" class="action-button center box28" style="--icon: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/filter.svg)"></button>`
+  header.innerHTML = `Breakpoint <button type="button" class="action-button center box28" style="--icon: url(https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/filter.svg)"></button>`
 
   $(header).on('click', '.action-button', function () {
     let brpPopup = document.createElement('div')
@@ -4873,7 +4873,7 @@ function selectionClass() {
   iconAdd.className = 'fa-solid fa-plus fa-sm'
 
   // let btnSelectSkin = createButtonAction(
-  //   'https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/buttonStyle.svg',
+  //   'https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/buttonStyle.svg',
   //   null,
   //   function () {
   //     // let offset = header.getBoundingClientRect();
@@ -4892,8 +4892,8 @@ function selectionClass() {
       let classTile = document.createElement('div')
       classTile.className = 'row style-class-tile'
       classTile.innerHTML = `<p class="regular1">${clName}</p>
-      <img src="https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/unlink-skin.svg"/>
-      <img src="https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/target.svg"/>`
+      <img src="https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/unlink-skin.svg"/>
+      <img src="https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/target.svg"/>`
       return classTile
     })
   )

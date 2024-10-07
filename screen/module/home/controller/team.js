@@ -2,7 +2,7 @@ class TeamView {
     static create_teamNav(item) {
         let team_tile =
             '<div data-id=' + item.ID + ' class="nav_tile team-nav text-body row" data-tab="team">' +
-            '    <div class="box32 center"><img src="https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/logo.svg" alt=""></div>' +
+            '    <div class="box32 center"><img src="https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/logo.svg" alt=""></div>' +
             '    <input value="' + item.Name + '" class="regular1 team-name" type="text" readonly />' +
             '</div>';
         return team_tile;
@@ -41,7 +41,7 @@ class TeamView {
             for (let item of list) {
                 list_project +=
                     `<div data-id=${item.ID} class="project-card center">
-                        <div class="box100"><img src="https://cdn.jsdelivr.net/gh/WiniGit/goline@cda4f66/lib/assets/logo.svg" /></div>
+                        <div class="box100"><img src="https://cdn.jsdelivr.net/gh/WiniGit/goline@0a15f5d/lib/assets/logo.svg" /></div>
                         <div class="project-card-name regular1">${item.Name}</div>
                     </div>`;
             }
